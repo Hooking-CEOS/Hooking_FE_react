@@ -5,6 +5,7 @@ import "swiper/css/effect-coverflow";
 import "swiper/css/navigation";
 
 import { EffectCoverflow, Navigation } from "swiper";
+import { useEffect } from "react";
 
 const Carousel = () => {
   return (
@@ -13,15 +14,18 @@ const Carousel = () => {
         effect={"coverflow"}
         grabCursor={true}
         loop={true}
+        loopedSlides={3}
         centeredSlides={true}
         navigation={true}
+        // allowTouchMove={false}
+        speed={400}
         slidesPerView={"auto"}
         coverflowEffect={{
           rotate: 0,
           stretch: 0,
           depth: 100,
-          modifier: 3,
-          slideShadows: true,
+          modifier: 2,
+          slideShadows: false,
         }}
         modules={[EffectCoverflow, Navigation]}
         className="mySwiper"
@@ -32,7 +36,19 @@ const Carousel = () => {
               src="https://swiperjs.com/demos/images/nature-1.jpg"
               alt="img_src_temp"
             />
-            <div className="swiper-slide-div"> Lorem ipsum dolor sit amet </div>
+            {/* 
+            TODO : ["] 전용 div 하나 생성하기
+            TODO : main_text sub_text css styling
+            */}
+            <div className="swiper-slide-div">
+              <div className="swiper-slide-div-main_text">
+                휴대하기 좋은
+                <br /> 비건 세럼 립 틴트로
+                <br /> 어디서든 촉촉한 입술을
+                <br />
+                가꿔보세요. ”
+              </div>
+            </div>
           </div>
         </SwiperSlide>
         <SwiperSlide>
