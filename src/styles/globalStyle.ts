@@ -11,6 +11,7 @@ html {
    font-size: 10px;
    user-select: none;
    box-sizing: border-box;
+   font-family: 'SUIT Variable', sans-serif;
 }
 
 body {
@@ -20,7 +21,6 @@ body {
    align-items: center;
    -webkit-box-pack: center;
    justify-content: center;
-   font-family: 'NotoSansKRRegular', sans-serif;
    margin: 0px;
  
    -webkit-font-smoothing: antialiased;
@@ -41,4 +41,71 @@ button{
       outline: none;
    }
 }
+
+@font-face {
+  font-family: "SUIT Variable";
+  font-weight: 100 900;
+  src: local("SUIT Variable Regular"),
+    url("/fonts/SUIT-Variable.woff2") format("woff2-variations");
+}
+
+.swiper {
+  width: 100%;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.slide-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.swiper-slide-div {
+  min-width: 300px;
+  height: 300px;
+  padding: 1rem;
+  box-sizing: border-box;
+  transform: translateX(-10px);
+  background-color: white;
+  border-radius: 0 50% 50% 0;
+  box-shadow: 0px 4px 30px 0px rgba(158, 158, 158, 0.5);
+}
+
+.swiper-slide:not(.swiper-slide-active) > .slide-wrapper > .swiper-slide-div {
+  display: none;
+}
+
+.swiper-slide {
+  background-position: center;
+  background-size: cover;
+  width: 300px;
+  height: 300px;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+}
+
+.swiper-slide {
+  opacity: 1;
+}
+
+.swiper-slide:not(.swiper-slide-active) {
+  opacity: 0.3;
+}
+
+.swiper-slide-prev,
+.swiper-slide-next {
+  opacity: 0.7 !important;
+}
+
+.slide-wrapper > img {
+  border-radius: 20px;
+  z-index: 999;
+}
+
+
 `;
