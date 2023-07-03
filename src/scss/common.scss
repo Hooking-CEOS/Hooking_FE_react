@@ -1,0 +1,111 @@
+.input {
+  width: 80%;
+  height: auto;
+  border: none;
+  outline: none;
+
+  &.searchbar {
+    position: absolute;
+    top: 1.9rem;
+    left: 2rem;
+  }
+}
+
+input[type="text"] {
+}
+
+input[type="checkbox"] {
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 0.4rem;
+  border: 1px solid black;
+}
+
+.title {
+  font-size: 1.5em;
+  margin-left: 1rem;
+}
+
+.button {
+  width: auto;
+  height: auto;
+  font-size: 1.8rem;
+  border-radius: 0;
+  border: 0;
+  box-shadow: none;
+  cursor: pointer;
+
+  // size 관련 클래스
+  &-big {
+    width: 15rem;
+    padding: 1.2rem 2.4rem 1.2rem 1.2rem;
+  }
+
+  // 색상별 테마 관련 클래스
+  &-black-1 {
+    color: $color_white;
+    background-color: black;
+    padding: 1.9rem 2.4rem;
+    border-radius: 6rem;
+  }
+
+  &-white {
+    color: $color_black_100;
+    padding: 1.9rem 2.4rem;
+  }
+
+  &-orange {
+    color: $color_white;
+    background-color: orange; //$color_point;
+    padding: 1.4rem 2rem;
+    border-radius: 1rem;
+  }
+}
+
+.icon {
+  display: inline-block;
+
+  &-logo {
+    width: 4rem;
+    height: 4rem;
+    background: url("../assets/images/logo.svg") no-repeat center;
+    cursor: pointer;
+  }
+
+  &-arrow-fold {
+    background: url("../assets/images/icon-arrow-fold.png") no-repeat 90% center;
+  }
+  &-arrow-unfold {
+    background: url("../assets/images/icon-arrow-unfold.png") no-repeat 90%
+      center;
+  }
+
+  &-profile {
+    width: 3.2rem;
+    height: 3.2rem;
+    border-radius: 3.2rem;
+    position: absolute;
+    top: calc(50% - 1.6rem);
+    background: url("../assets/images/icon-profile.svg") no-repeat 50% center;
+  }
+
+  &-search {
+    position: absolute;
+    top: calc(50% - 0.9rem);
+    right: 2.4rem;
+    width: 1.8rem;
+    height: 1.8rem;
+    background: url("../assets/images/icon-search.svg") no-repeat 90% center;
+    cursor: pointer;
+  }
+
+  &-filter {
+    position: absolute;
+    width: 1.4rem;
+    height: 1.6rem;
+    top: calc(50% - 0.8rem);
+    left: 2.2rem;
+
+    background: url("../assets/images/icon-filter.svg") no-repeat 90% center;
+  }
+}

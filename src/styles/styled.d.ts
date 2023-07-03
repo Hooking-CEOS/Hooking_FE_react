@@ -1,11 +1,16 @@
-import 'styled-components';
+import "styled-components";
 
-declare module 'styled-components' {
+declare module "styled-components" {
   export interface DefaultTheme {
     colors: {
-      white: '#ffffff';
-      yellow: '#ebff82';
-      grey: '#e9e9eb';
+      white: "#ffffff";
+      white25: "#FFFFFF40";
+      white40: "#FFFFFF66";
+      black100: "#000235";
+      black30: "#0002354D";
+      black40: "#00023566";
+      black5: "#0002350D";
+      point: "#FF7145";
     };
   }
 }
