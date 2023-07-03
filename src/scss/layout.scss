@@ -1,0 +1,36 @@
+body {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 67.5%; // 10px
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  #root {
+    width: 100%;
+  }
+
+  // 라우팅되는 모든 페이지가 들어감
+  .app {
+    width: 100%;
+    height: auto;
+    height: calc(100vh - $HEADER_HEIGHT_MO);
+    margin-top: $HEADER_HEIGHT_MO;
+    font-family: NotoSansKRRegular;
+    user-select: none;
+    overflow: auto;
+
+    // 좌우 여백 있는 content가 들어감
+    .main {
+      margin-top: 9.2rem;
+      //padding: 0 36.3rem; // TODO: 디자인상 36.3rem인데 개발 편의상 임시로 설정
+      padding: 0 28rem;
+    }
+  }
+}
