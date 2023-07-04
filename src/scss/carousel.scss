@@ -4,7 +4,8 @@
   padding-bottom: 50px;
   --swiper-navigation-size: 3.4rem;
   --swiper-navigation-color: #000;
-  --swiper-navigation-sides-offset: 20px;
+  //   swiper navigation의 양 옆 여백 (10px 기본 + 3rem)
+  --swiper-navigation-sides-offset: 3rem;
 }
 
 .slide-wrapper {
@@ -23,17 +24,14 @@
   background-size: cover;
   width: 23.4vw;
   height: 23.4vw;
+  opacity: 1;
+  position: relative;
 }
 
 .swiper-slide img {
   display: block;
   width: 100%;
   box-shadow: 0px 4px 30px 0px rgba(158, 158, 158, 0.4);
-}
-
-.swiper-slide {
-  opacity: 1;
-  position: relative;
 }
 
 .swiper-slide:not(.swiper-slide-active)::before {
@@ -47,6 +45,9 @@
   z-index: 1000;
 }
 
+.swiper-slide-active {
+  transform: translateX(5px) !important;
+}
 .swiper-slide:not(.swiper-slide-visible) {
   opacity: 0;
 }
@@ -59,22 +60,40 @@
 .swiper-slide-div {
   min-width: 23.4vw;
   height: 23.4vw;
-  padding: 1rem;
+
   box-sizing: border-box;
   transform: translateX(-10px);
   background-color: white;
   border-radius: 0 50% 50% 0;
   box-shadow: 0px 4px 30px 0px rgba(158, 158, 158, 0.4);
-  //   animation: appear 0.1s;
-  &-main_text {
-    font-size: 3rem;
-    font-weight: 800;
+
+  &-main_div {
+    display: flex;
+    flex-direction: row;
+    margin-top: 5.208vw;
+    margin-left: 2.5vw;
+    font-size: 1.563vw;
+    font-weight: 700;
+    line-height: 150%;
+    color: $color_black_100;
   }
+
+  &-main_text {
+    padding-left: 0.8vw;
+    display: flex;
+    flex-direction: column;
+  }
+
   &-sub_text {
-    font-size: 1.6rem;
+    margin-top: 1.458vw;
+    color: $color_black_100;
+    opacity: 0.5;
+    line-height: 140%;
+    font-size: 0.833vw;
     font-weight: 700;
   }
 }
+
 .swiper-button-prev,
 .swiper-button-next {
   font-weight: 600;
