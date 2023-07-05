@@ -2,10 +2,9 @@
   width: 100%;
   padding-top: 50px;
   padding-bottom: 50px;
-  --swiper-navigation-size: 3.4rem;
+  --swiper-navigation-size: 1.7vw;
   --swiper-navigation-color: #000;
   //   swiper navigation의 양 옆 여백 (10px 기본 + 3rem)
-  --swiper-navigation-sides-offset: 3rem;
 }
 
 .slide-wrapper {
@@ -15,6 +14,11 @@
   justify-content: center;
 }
 
+.swiper-wrapper {
+  align-items: center;
+}
+
+// 오른쪽 흰 div 영역은 가운데 슬라이드에서만 적용
 .swiper-slide:not(.swiper-slide-active) > .slide-wrapper > .swiper-slide-div {
   display: none;
 }
@@ -48,13 +52,57 @@
 .swiper-slide-active {
   transform: translateX(5px) !important;
 }
-.swiper-slide:not(.swiper-slide-visible) {
-  opacity: 0;
+
+// .swiper-slide-next,
+// .swiper-slide-prev {
+//   width: 16.8vw;
+//   height: 16.8vw;
+// }
+
+// .swiper-slide:not(.swiper-slide-active):not(.swiper-slide-next):not(
+//     .swiper-slide-prev
+//   ) {
+//   transform: translate3d(300px, 0px, -1010px) rotateX(0deg) rotateY(0deg)
+//     scale(1) !important;
+// }
+
+#prev2 {
+  transform: translate3d(-15vw, 0px, -52vw) rotateX(0deg) rotateY(0deg) scale(1) !important;
 }
 
-.slide-wrapper > img {
-  border-radius: 20px;
-  z-index: 999;
+#prev {
+  transform: translate3d(-10vw, 0px, -24vw) rotateX(0deg) rotateY(0deg) scale(1) !important;
+}
+
+#next {
+  transform: translate3d(10vw, 0px, -24vw) rotateX(0deg) rotateY(0deg) scale(1) !important;
+}
+
+#next2 {
+  transform: translate3d(15vw, 0px, -52vw) rotateX(0deg) rotateY(0deg) scale(1) !important;
+}
+
+// .swiper-slide-prev {
+//   transform: translate3d(-200px, 0px, -464px) rotateX(0deg) rotateY(0deg)
+//     scale(1) !important;
+// }
+
+// .swiper-slide-next {
+//   transform: translate3d(200px, 0px, -464px) rotateX(0deg) rotateY(0deg)
+//     scale(1) !important;
+// }
+
+// .swiper-slide:nth-child(2) {
+//   transform: translate3d(-300px, 0px, -1010px) rotateX(0deg) rotateY(0deg)
+//     scale(1) !important;
+// }
+
+// .swiper-slide:nth-child(6) {
+//   transform: translate3d(300px, 0px, -1010px) rotateX(0deg) rotateY(0deg)
+//     scale(1) !important;
+// }
+.swiper-slide:not(.swiper-slide-visible) {
+  opacity: 0;
 }
 
 .swiper-slide-div {
@@ -76,6 +124,7 @@
     font-weight: 700;
     line-height: 150%;
     color: $color_black_100;
+    white-space: pre-line;
   }
 
   &-main_text {
@@ -97,4 +146,11 @@
 .swiper-button-prev,
 .swiper-button-next {
   font-weight: 600;
+}
+
+.swiper-button-next {
+  right: 2vw;
+}
+.swiper-button-prev {
+  left: 2vw;
 }
