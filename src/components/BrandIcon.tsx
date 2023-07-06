@@ -1,35 +1,41 @@
-import iconSrcSmall from "@images/icon_sprite-small.png";
-import iconSrcMedium from "@images/icon_sprite-medium.png";
-import iconSrcLarge from "@images/icon_sprite-large.png";
+import styled from "styled-components";
+import imgData from "@/assets/datas/imgData.json";
 
-/**
- *
- * @param size small, medium, large
- *
- * space description
- *  -> space betweeh icons
- *  small: 20px
- *  medium: 24px
- *  large: 16px
- *  -> space between icon and text
- *  small: 10px
- *  medium: 14px
- *  large: 16px
- */
+interface BrandIconProps {
+  name: string;
+}
 
-const BrandIcon = (size: string) => {
-  const iconSrc =
-    size === "small"
-      ? iconSrcSmall
-      : size === "medium"
-      ? iconSrcMedium
-      : iconSrcLarge;
+// HELP: 도움!!!!!!!!
+const BrandIcon = ({ name }: BrandIconProps) => {
+  let targetData = imgData.find((item) => item.name_kr === name)!;
+  console.log(targetData);
+
   return (
-    <img
-      src={iconSrc}
-      alt="brand icon"
-    />
+    <BrandIconWrapper>
+      <BrandIconDiv
+        src={
+          require(`../assets/images/brandIcon/brand-${targetData.id}.png`)
+            .default
+        }
+        // alt={targetData.name_kr}
+      />
+    </BrandIconWrapper>
   );
 };
 
 export default BrandIcon;
+
+const BrandIconWrapper = styled.div`
+  width: 7.8vw;
+  height: 2.6vw;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+`;
+
+const BrandIconDiv = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
