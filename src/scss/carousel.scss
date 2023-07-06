@@ -82,6 +82,28 @@
   transform: translate3d(15vw, 0px, -52vw) rotateX(0deg) rotateY(0deg) scale(1) !important;
 }
 
+@media (max-width: 1440px) {
+  #prev2 {
+    transform: translate3d(-10vw, 0px, -52vw) rotateX(0deg) rotateY(0deg)
+      scale(1) !important;
+  }
+
+  #prev {
+    transform: translate3d(-7.5vw, 0px, -24vw) rotateX(0deg) rotateY(0deg)
+      scale(1) !important;
+  }
+
+  #next {
+    transform: translate3d(7.5vw, 0px, -24vw) rotateX(0deg) rotateY(0deg)
+      scale(1) !important;
+  }
+
+  #next2 {
+    transform: translate3d(10vw, 0px, -52vw) rotateX(0deg) rotateY(0deg)
+      scale(1) !important;
+  }
+}
+
 // .swiper-slide-prev {
 //   transform: translate3d(-200px, 0px, -464px) rotateX(0deg) rotateY(0deg)
 //     scale(1) !important;
@@ -124,7 +146,7 @@
     font-weight: 700;
     line-height: 150%;
     color: $color_black_100;
-    white-space: pre-line;
+    white-space: pre-wrap;
   }
 
   &-main_text {
