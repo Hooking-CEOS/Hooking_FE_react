@@ -1,10 +1,9 @@
-import Tab from "@/components/Tab";
+import Header from "@/components/Header";
 
 const MyPage = () => {
   return (
     <>
-      <Tab />
-      MyPage
+      <Header />
     </>
   );
 };
