@@ -1,9 +1,11 @@
 import Header from "@/components/Header";
-// import Slider from "@/components/Slider";
 
 import BrandCard from "@/components/BrandCard";
 import Filter from "@/components/Filter";
+import { Z_INDEX_MODAL } from "@/utils/constants";
 
+import { useRecoilValue } from "recoil";
+import { modalOverlay } from "@/utils/atom";
 import styled from "styled-components";
 import IMG_BRAND_SAMPLE from "@/assets/images/icon-brand-sample.svg";
 import Carousel from "@/components/Carousel";
@@ -82,14 +84,16 @@ const CARD_DATA = [
   },
 ];
 const Home = () => {
+  const searchFocus = useRecoilValue(modalOverlay);
   return (
     <>
       <Header />
+      {searchFocus && <Overlay />}
       <CarouselDiv>
         <Carousel />
       </CarouselDiv>
       <section className="main">
-        {/*<Filter />*/}
+        <Filter />
         <BrandCards>
           {CARD_DATA.map((card) => (
             <BrandCard
@@ -112,6 +116,7 @@ const BrandCards = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 3rem;
+  margin-top: 3rem;
 `;
 
 const CarouselDiv = styled.div`
@@ -123,4 +128,15 @@ const CarouselDiv = styled.div`
     rgba(0, 2, 53, 0) 0%,
     rgba(0, 2, 53, 0.03) 100%
   );
+`;
+
+const Overlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  opacity: 0.5;
+  z-index: ${Z_INDEX_MODAL};
 `;

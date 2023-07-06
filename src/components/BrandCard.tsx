@@ -11,7 +11,6 @@ const BrandCard = ({ text, brandName, brandImg, brandId }: BrandProps) => {
   return (
     <BrandCardWrapper>
       <div className="card-content text-normal-300">{text}</div>
-
       <div className="card-brand">
         <img src={brandImg} />
         <span className="text-normal-700">{brandName}</span>
@@ -40,10 +39,6 @@ const BrandCardWrapper = styled.div`
     font-size: 1.6rem;
     color: ${(props) => props.theme.colors.black100};
     margin-bottom: 2.4rem;
-  }
-
-  .text-normal-700 {
-    font-size: 1.6rem;
   }
 
   .card-brand {

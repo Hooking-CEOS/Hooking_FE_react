@@ -1,11 +1,12 @@
 import Header from "@/components/Header";
 
-const MyPage = () => {
+const BookMark = () => {
   return (
     <>
       <Header />
+      <section className="main"></section>
     </>
   );
 };
 
-export default MyPage;
+export default BookMark;
