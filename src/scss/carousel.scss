@@ -1,7 +1,7 @@
 .swiper {
   width: 100%;
-  padding-top: 50px;
-  padding-bottom: 50px;
+  padding-top: 2.6vw;
+  padding-bottom: 2.6vw;
   --swiper-navigation-size: 1.7vw;
   --swiper-navigation-color: #000;
   //   swiper navigation의 양 옆 여백 (10px 기본 + 3rem)
@@ -35,7 +35,7 @@
 .swiper-slide img {
   display: block;
   width: 100%;
-  box-shadow: 0px 4px 30px 0px rgba(158, 158, 158, 0.4);
+  box-shadow: 0px 0.208vw 1.563vw 0px rgba(158, 158, 158, 0.4);
 }
 
 .swiper-slide:not(.swiper-slide-active)::before {
@@ -50,7 +50,7 @@
 }
 
 .swiper-slide-active {
-  transform: translateX(5px) !important;
+  transform: translateX(0.28vw) !important;
 }
 
 // .swiper-slide-next,
@@ -82,6 +82,28 @@
   transform: translate3d(15vw, 0px, -52vw) rotateX(0deg) rotateY(0deg) scale(1) !important;
 }
 
+@media (max-width: 1440px) {
+  #prev2 {
+    transform: translate3d(-10vw, 0px, -52vw) rotateX(0deg) rotateY(0deg)
+      scale(1) !important;
+  }
+
+  #prev {
+    transform: translate3d(-7.5vw, 0px, -24vw) rotateX(0deg) rotateY(0deg)
+      scale(1) !important;
+  }
+
+  #next {
+    transform: translate3d(7.5vw, 0px, -24vw) rotateX(0deg) rotateY(0deg)
+      scale(1) !important;
+  }
+
+  #next2 {
+    transform: translate3d(10vw, 0px, -52vw) rotateX(0deg) rotateY(0deg)
+      scale(1) !important;
+  }
+}
+
 // .swiper-slide-prev {
 //   transform: translate3d(-200px, 0px, -464px) rotateX(0deg) rotateY(0deg)
 //     scale(1) !important;
@@ -110,10 +132,10 @@
   height: 23.4vw;
 
   box-sizing: border-box;
-  transform: translateX(-10px);
+  transform: translateX(-0.52vw);
   background-color: white;
   border-radius: 0 50% 50% 0;
-  box-shadow: 0px 4px 30px 0px rgba(158, 158, 158, 0.4);
+  box-shadow: 0px 0.208vw 1.563vw 0px rgba(158, 158, 158, 0.4);
 
   &-main_div {
     display: flex;
@@ -124,7 +146,7 @@
     font-weight: 700;
     line-height: 150%;
     color: $color_black_100;
-    white-space: pre-line;
+    white-space: pre-wrap;
   }
 
   &-main_text {
