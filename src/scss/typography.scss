@@ -1,17 +1,26 @@
+// 기본 버튼
 .text-normal-600 {
-  font-style: normal;
+  font-size: 1.8rem;
   font-weight: 600;
   line-height: 100%;
 }
 
+.text-big-600 {
+  font-size: 2.6rem;
+  font-weight: 600;
+  line-height: 140%;
+}
+
+// 키워드 버튼
 .text-normal-700 {
-  font-style: normal;
+  font-size: 1.6rem;
   font-weight: 700;
   line-height: 100%;
 }
 
+// 브랜드 무드 버튼
 .text-normal-300 {
-  font-style: normal;
+  font-size: 2rem;
   font-weight: 300;
   line-height: 150%;
 }
