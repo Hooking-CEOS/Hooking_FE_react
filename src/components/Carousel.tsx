@@ -1,23 +1,37 @@
-import { Swiper, SwiperSlide } from "swiper/react";
+import { useState, useRef, useEffect } from "react";
+import styled, { css } from "styled-components";
+import { EffectCoverflow, Navigation } from "swiper";
+import { Swiper, SwiperSlide, SwiperRef } from "swiper/react";
+
+import CarouselData from "@/assets/datas/carousel.json";
 
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/navigation";
 
-import { EffectCoverflow, Navigation } from "swiper";
-import { useEffect } from "react";
-
 const Carousel = () => {
+  const swiperRef = useRef<SwiperRef>(null);
+  const [currentSlide, setCurrentSlide] = useState<number>(0);
+
+  const handleSlideChange = () => {
+    if (swiperRef.current) {
+      console.log(swiperRef.current.swiper.realIndex);
+      setCurrentSlide(swiperRef.current.swiper.realIndex);
+    }
+  };
+
   return (
     <>
       <Swiper
+        ref={swiperRef}
+        onSlideChange={handleSlideChange}
         effect={"coverflow"}
         grabCursor={true}
         loop={true}
         loopedSlides={3}
         centeredSlides={true}
         navigation={true}
-        // allowTouchMove={false}
+        allowTouchMove={false}
         speed={400}
         slidesPerView={"auto"}
         coverflowEffect={{
@@ -30,102 +44,66 @@ const Carousel = () => {
         modules={[EffectCoverflow, Navigation]}
         className="mySwiper"
       >
-        <SwiperSlide>
-          <div className="slide-wrapper">
-            <img
-              src="https://swiperjs.com/demos/images/nature-1.jpg"
-              alt="img_src_temp"
-            />
-            {/* 
-            TODO : ["] 전용 div 하나 생성하기
-            TODO : main_text sub_text css styling
-            */}
-            <div className="swiper-slide-div">
-              <div className="swiper-slide-div-main_text">
-                휴대하기 좋은
-                <br /> 비건 세럼 립 틴트로
-                <br /> 어디서든 촉촉한 입술을
-                <br />
-                가꿔보세요. ”
+        {CarouselData.map((data, index) => {
+          const slideId = Number(data.id) - 1;
+          const dataLength = CarouselData.length;
+          const tagId =
+            slideId === (currentSlide + dataLength - 1) % dataLength
+              ? "prev"
+              : slideId === (currentSlide + dataLength - 2) % dataLength
+              ? "prev2"
+              : slideId === (currentSlide + dataLength + 1) % dataLength
+              ? "next"
+              : slideId === (currentSlide + dataLength + 2) % dataLength
+              ? "next2"
+              : "";
+
+          return (
+            <SwiperSlide
+              key={data.id}
+              id={tagId}
+            >
+              <div className="slide-wrapper">
+                <CarouselImgDiv imgSrc={data.imgSrc}>
+                  {Number(data.id) - 1}
+                </CarouselImgDiv>
+                <div className="swiper-slide-div">
+                  <div className="swiper-slide-div-main_div">
+                    “
+                    <div className="swiper-slide-div-main_text">
+                      {data.desc_main} ”
+                      <div className="swiper-slide-div-sub_text">
+                        {data.desc_sub}
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="slide-wrapper">
-            <img
-              src="https://swiperjs.com/demos/images/nature-2.jpg"
-              alt="img_src_temp"
-            />
-            <div className="swiper-slide-div"> Lorem ipsum dolor sit amet </div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="slide-wrapper">
-            <img
-              src="https://swiperjs.com/demos/images/nature-3.jpg"
-              alt="img_src_temp"
-            />
-            <div className="swiper-slide-div"> Lorem ipsum dolor sit amet </div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="slide-wrapper">
-            <img
-              src="https://swiperjs.com/demos/images/nature-4.jpg"
-              alt="img_src_temp"
-            />
-            <div className="swiper-slide-div"> Lorem ipsum dolor sit amet </div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="slide-wrapper">
-            <img
-              src="https://swiperjs.com/demos/images/nature-5.jpg"
-              alt="img_src_temp"
-            />
-            <div className="swiper-slide-div"> Lorem ipsum dolor sit amet </div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="slide-wrapper">
-            <img
-              src="https://swiperjs.com/demos/images/nature-6.jpg"
-              alt="img_src_temp"
-            />
-            <div className="swiper-slide-div"> Lorem ipsum dolor sit amet </div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="slide-wrapper">
-            <img
-              src="https://swiperjs.com/demos/images/nature-7.jpg"
-              alt="img_src_temp"
-            />
-            <div className="swiper-slide-div"> Lorem ipsum dolor sit amet </div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="slide-wrapper">
-            <img
-              src="https://swiperjs.com/demos/images/nature-8.jpg"
-              alt="img_src_temp"
-            />
-            <div className="swiper-slide-div"> Lorem ipsum dolor sit amet </div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="slide-wrapper">
-            <img
-              src="https://swiperjs.com/demos/images/nature-9.jpg"
-              alt="img_src_temp"
-            />
-            <div className="swiper-slide-div"> Lorem ipsum dolor sit amet </div>
-          </div>
-        </SwiperSlide>
+            </SwiperSlide>
+          );
+        })}
       </Swiper>
     </>
   );
 };
 
 export default Carousel;
+
+interface CIDProps {
+  imgSrc: string;
+}
+
+const CarouselImgDiv = styled.div<CIDProps>`
+  background-image: url(${(props) => props.imgSrc});
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  min-width: 23.4vw;
+  min-height: 23.4vw;
+  box-shadow: 0px 4px 30px 0px rgba(158, 158, 158, 0.4);
+  z-index: 999;
+  position: relative;
+`;
