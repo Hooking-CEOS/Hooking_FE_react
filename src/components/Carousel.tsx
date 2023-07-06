@@ -69,7 +69,6 @@ const Carousel = () => {
                 <CarouselImgDiv imgSrc={data.imgSrc}>
                   {currentSlide === slideId && (
                     <BrandIcon
-                      size="big"
                       // name={data.name}
                       name={"스킨푸드"}
                     />

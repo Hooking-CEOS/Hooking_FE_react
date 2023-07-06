@@ -2,30 +2,11 @@ import styled from "styled-components";
 import imgData from "@/assets/datas/imgData.json";
 
 interface BrandIconProps {
-  size: string;
   name: string;
 }
 
-/**
- *
- * @param size small, medium, big
- *
- * usage description -> Add when using new component
- * small
- * medium
- * big > main carousel
- * space description
- *  -> space betweeh icons
- *  small: 20px
- *  medium: 24px
- *  big: 16px
- *  -> space between icon and text
- *  small: 10px
- *  medium: 14px
- *  big: 16px
- */
-
-const BrandIcon = ({ size, name }: BrandIconProps) => {
+// HELP: 도움!!!!!!!!
+const BrandIcon = ({ name }: BrandIconProps) => {
   let targetData = imgData.find((item) => item.name_kr === name)!;
   console.log(targetData);
 
