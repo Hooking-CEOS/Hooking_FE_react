@@ -18,6 +18,7 @@ root.render(
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <App />
+        <div id="portal" />
       </ThemeProvider>
     </RecoilRoot>
   </React.StrictMode>
