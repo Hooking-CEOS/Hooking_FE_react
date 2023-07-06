@@ -1,52 +1,54 @@
 import { useState } from "react";
 import Button from "@/components/Button";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { activeMenu, activeChildMenu } from "@/utils/atom";
+import { PROFILE_DATA } from "@/utils/constants";
 
-const PROFILE_DATA = [
-  {
-    idx: 0,
-    text: "내 계정",
-    link: "/profile",
-  },
-  {
-    idx: 1,
-    text: "북마크",
-    link: "/bookmark",
-  },
-  {
-    idx: 2,
-    text: "문의",
-    link: "/question",
-  },
-  {
-    idx: 3,
-    text: "로그아웃",
-    link: "/",
-  },
-];
+interface ProfilePropType {
+  className?: string;
+}
 
-const ProfileDropDown = () => {
+const ProfileDropDown = ({ className }: ProfilePropType) => {
+  const navigate = useNavigate();
   const [hover, setHover] = useState(false);
 
+  const [activeMenuIdx, setActiveMenuIdx] = useRecoilState(activeMenu);
+  const [activeChildMenuIdx, setActiveChildMenuIdx] =
+    useRecoilState(activeChildMenu);
   const handleDropDown = () => setHover((prev) => !prev);
 
   return (
     <div
       onMouseOver={handleDropDown}
       onMouseOut={handleDropDown}
+      style={{ position: "relative" }}
     >
-      <div className="icon-profile" />
       <Button
-        className={`button-white button-big text-normal-600 ${
-          hover ? "icon-arrow-unfold" : "icon-arrow-fold"
-        }`}
+        width="15rem"
+        className={`${
+          activeMenuIdx === 2 ? "button-black small" : "button-white"
+        } text-normal-600 ${className}`}
+        icon="icon-profile"
         text="이후킹"
-      />
+      >
+        <span className={hover ? "icon-arrow-unfold" : "icon-arrow-fold"} />
+      </Button>
       <ProfileToolTip hover={hover}>
         {PROFILE_DATA.map((data) => (
           <div
             key={data.idx}
-            className="tooltip__content text-normal-600"
+            className={`${
+              activeChildMenuIdx === data.idx && data.idx !== 3
+                ? "tooltip__content tooltip__content--active"
+                : "tooltip__content"
+            } text-normal-600`}
+            onClick={() => {
+              setActiveMenuIdx(data.idx === 3 ? 0 : 2);
+              setActiveChildMenuIdx(data.idx);
+              navigate(data.link);
+            }}
           >
             {data.text}
           </div>
@@ -60,6 +62,7 @@ export default ProfileDropDown;
 
 const ProfileToolTip = styled.div<{ hover: Boolean }>`
   position: absolute;
+  left: 1.15rem;
   display: ${({ hover }) => (hover ? "block" : "none")};
   width: 12.5rem;
   border-radius: 2rem;
@@ -73,6 +76,10 @@ const ProfileToolTip = styled.div<{ hover: Boolean }>`
 
   .tooltip__content {
     padding-left: 1.9rem;
+
+    &--active {
+      color: ${(props) => props.theme.colors.black100};
+    }
 
     & + .tooltip__content {
       margin-top: 2rem;
