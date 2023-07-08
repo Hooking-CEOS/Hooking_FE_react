@@ -27,8 +27,10 @@ export default BrandCard;
 const BrandCardWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 37.8rem;
-  max-height: 27.2rem;
+  min-width: 37.8rem;
+  max-width: 100%;
+
+  min-height: 27.2rem;
   padding: 3.8rem 4rem;
 
   border: 0.025rem solid ${(props) => props.theme.colors.black40};
