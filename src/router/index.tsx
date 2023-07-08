@@ -4,6 +4,7 @@ import Profile from "@/pages/Profile";
 import Writing from "@/pages/Writing";
 import BookMark from "@/pages/BookMark";
 import BrandDetail from "@/pages/BrandDetail";
+import ScrollToTop from "@/hooks/scrollToTop";
 import QnA from "@/pages/QnA";
 
 const routes = [
@@ -41,16 +42,19 @@ const routes = [
 
 const HookingRouter = () => {
   return (
-    <Router>
-      {routes.map((route, key) => (
-        <Routes key={key}>
-          <Route
-            path={route.path}
-            element={route.component}
-          />
-        </Routes>
-      ))}
-    </Router>
+    <>
+      <Router>
+        <ScrollToTop />
+        {routes.map((route, key) => (
+          <Routes key={key}>
+            <Route
+              path={route.path}
+              element={route.component}
+            />
+          </Routes>
+        ))}
+      </Router>
+    </>
   );
 };
 
