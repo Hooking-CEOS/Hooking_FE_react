@@ -4,6 +4,7 @@ interface ButtonProps {
   className?: string;
   text: string;
   icon?: string;
+  buttonLabel?: string;
   children?: JSX.Element;
   onClick?: (e?: React.MouseEvent<HTMLElement>) => void;
 }
@@ -16,6 +17,7 @@ const Button = ({
   text,
   onClick,
   children,
+  buttonLabel,
   ...props
 }: ButtonProps) => {
   /** 사용방법
@@ -42,7 +44,7 @@ const Button = ({
       style={{ width: width }}
       onClick={onClick}
       {...props}
-      aria-label={`button`}
+      aria-label={buttonLabel}
     >
       <div className="button__inner">
         <span className={icon}></span>
