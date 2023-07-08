@@ -1,8 +1,9 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { checkedFilterList, checkedListLen } from "@/utils/atom";
+import useOutSideClick from "@/hooks/useOutSideClick";
 
 import styled from "styled-components";
 import {
@@ -15,19 +16,23 @@ const DEFAULT_FILTER_STATE = [[], [], [], []];
 
 const Filter = () => {
   const [openFilter, setOpenFilter] = useState(false);
-  const [selected, setSelected] = useState(false);
 
   // component inner state
   const [innerCheckedList, setInnerCheckedList] =
     useState(DEFAULT_FILTER_STATE);
 
+  const filterRef = useRef(null);
+
   // recoil state
   const [checkedList, setCheckedList] = useRecoilState(checkedFilterList);
   const totalLen = useRecoilValue(checkedListLen);
+  const [selected, setSelected] = useState(false);
 
   const toggleFilter = () => {
     setOpenFilter((prev) => !prev);
   };
+
+  useOutSideClick(filterRef, () => setOpenFilter(false));
 
   const handleSelected = () => {
     if (getFilterLen() === 0) {
@@ -64,7 +69,6 @@ const Filter = () => {
     if (selected) {
       return "button-black";
     }
-
     // CASE3) 디폴트는 흰색 아웃라인 버튼
     return "button-white-outline";
   };
@@ -106,12 +110,16 @@ const Filter = () => {
   };
 
   useEffect(() => {
+    if (totalLen) {
+      setSelected(true);
+      return;
+    }
     const len = getFilterLen();
     if (len === 0) setSelected(false);
   }, [innerCheckedList]);
 
   return (
-    <FilterWrapper>
+    <FilterWrapper ref={filterRef}>
       <div className="button-wrapper">
         <Button
           text="필터"
@@ -204,10 +212,10 @@ export default Filter;
 
 const FilterWrapper = styled.div`
   position: relative;
-  margin-top: 5.6rem;
+  display: inline-flex;
 
   .button-wrapper {
-    display: flex;
+    display: inline-flex;
     flex-wrap: wrap;
     gap: 1.6rem;
 

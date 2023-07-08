@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Button from "@/components/Button";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { activeMenu, activeChildMenu } from "@/utils/atom";
 import { PROFILE_DATA } from "@/utils/constants";
+import useOutSideClick from "@/hooks/useOutSideClick";
 
 interface ProfilePropType {
   className?: string;
@@ -17,23 +18,36 @@ const ProfileDropDown = ({ className }: ProfilePropType) => {
   const [activeMenuIdx, setActiveMenuIdx] = useRecoilState(activeMenu);
   const [activeChildMenuIdx, setActiveChildMenuIdx] =
     useRecoilState(activeChildMenu);
+
   const handleDropDown = () => setHover((prev) => !prev);
+  const dropdonwRef = useRef(null);
+
+  useOutSideClick(dropdonwRef, () => setHover(false));
+
+  const getIconClassName = () => {
+    if (activeMenuIdx === 2) {
+      // TODO: icon-arrow-unfold-light 추가
+      return hover ? "icon-arrow-fold-light" : "icon-arrow-fold-light";
+    } else {
+      return hover ? "icon-arrow-unfold" : "icon-arrow-fold";
+    }
+  };
 
   return (
     <div
-      onMouseOver={handleDropDown}
-      onMouseOut={handleDropDown}
+      onClick={handleDropDown}
       style={{ position: "relative" }}
+      ref={dropdonwRef}
     >
       <Button
         width="15rem"
         className={`${
-          activeMenuIdx === 2 ? "button-black small" : "button-white"
-        } text-normal-600 ${className}`}
+          activeMenuIdx === 2 ? "button-black small" : "button-white small"
+        } text-subtitle-1 ${className}`}
         icon="icon-profile"
         text="이후킹"
       >
-        <span className={hover ? "icon-arrow-unfold" : "icon-arrow-fold"} />
+        <span className={getIconClassName()} />
       </Button>
       <ProfileToolTip hover={hover}>
         {PROFILE_DATA.map((data) => (
@@ -43,7 +57,7 @@ const ProfileDropDown = ({ className }: ProfilePropType) => {
               activeChildMenuIdx === data.idx && data.idx !== 3
                 ? "tooltip__content tooltip__content--active"
                 : "tooltip__content"
-            } text-normal-600`}
+            } text-subtitle-1`}
             onClick={() => {
               setActiveMenuIdx(data.idx === 3 ? 0 : 2);
               setActiveChildMenuIdx(data.idx);
@@ -62,6 +76,8 @@ export default ProfileDropDown;
 
 const ProfileToolTip = styled.div<{ hover: Boolean }>`
   position: absolute;
+  margin-top: 1.2rem;
+
   left: 1.15rem;
   display: ${({ hover }) => (hover ? "block" : "none")};
   width: 12.5rem;
@@ -76,11 +92,12 @@ const ProfileToolTip = styled.div<{ hover: Boolean }>`
 
   .tooltip__content {
     padding-left: 1.9rem;
-
     &--active {
       color: ${(props) => props.theme.colors.black100};
     }
-
+    &:hover {
+      color: ${(props) => props.theme.colors.black100};
+    }
     & + .tooltip__content {
       margin-top: 2rem;
     }
