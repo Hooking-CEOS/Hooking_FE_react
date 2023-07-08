@@ -4,6 +4,7 @@ import Input from "@/components/Input";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { checkedFilterList, checkedListLen } from "@/utils/atom";
 import useOutSideClick from "@/hooks/useOutSideClick";
+import useScrollIntoView from "@/hooks/useScrollIntoView";
 import { flexColumnCenter } from "@/styles/theme";
 import styled from "styled-components";
 import {
@@ -19,6 +20,8 @@ const Filter = () => {
 
   const filterRef = useRef(null);
 
+  const { element, onScrollToElement } = useScrollIntoView();
+
   // recoil state
   const [checkedList, setCheckedList] = useRecoilState(checkedFilterList);
   const totalLen = useRecoilValue(checkedListLen);
@@ -28,6 +31,7 @@ const Filter = () => {
   const [innerCheckedList, setInnerCheckedList] = useState(checkedList);
 
   const toggleFilter = () => {
+    onScrollToElement();
     setOpenFilter((prev) => !prev);
   };
 
@@ -70,10 +74,8 @@ const Filter = () => {
     selected || openFilter ? "icon-filter-white" : "icon-filter-outline";
 
   const getFilterLengthText = () => {
-    console.log("getFilterLen", getFilterLen());
-    return getFilterLen() === 0
-      ? `필터 적용하기`
-      : `필터 적용하기 (${getFilterLen()})`;
+    const len = getFilterLen();
+    return len === 0 ? `필터 적용하기` : `필터 적용하기 (${len})`;
   };
 
   const handleKeywordRemove = (item: string) => {
@@ -98,7 +100,10 @@ const Filter = () => {
 
   return (
     <FilterWrapper ref={filterRef}>
-      <div className="button-wrapper">
+      <div
+        className="button-wrapper"
+        ref={element}
+      >
         <Button
           text="필터"
           icon={`icon-filter ${getIconFilterClass()}`}
@@ -163,11 +168,8 @@ const Filter = () => {
                         id={data.name}
                         name={filter.idx.toString()}
                         onChange={(e) => {
-                          handleCheckedKeyword(
-                            e.target.checked,
-                            e.target.id,
-                            e.target.name
-                          );
+                          const { checked, id, name } = e.target;
+                          handleCheckedKeyword(checked, id, name);
                         }}
                       />
                       <label
@@ -207,7 +209,6 @@ const FilterWrapper = styled.div`
 
     position: sticky;
     top: ${HEADER_HEIGHT_MO};
-    //height: 16.4rem;
   }
 `;
 
