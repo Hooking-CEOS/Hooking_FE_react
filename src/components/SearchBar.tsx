@@ -5,6 +5,8 @@ import { Z_INDEX_MODAL, Z_INDEX_FILTER } from "@/utils/constants";
 import { useSetRecoilState } from "recoil";
 import { modalOverlay } from "@/utils/atom";
 import Button from "@/components/Button";
+import { useNavigate } from "react-router-dom";
+import useOutSideClick from "@/hooks/useOutSideClick";
 
 const SearchBar = () => {
   const initialSearch = {
@@ -12,6 +14,7 @@ const SearchBar = () => {
     searchFocus: false,
   };
 
+  const navigate = useNavigate();
   const setFocus = useSetRecoilState(modalOverlay);
 
   const [searchState, setSearchState] = useState(initialSearch);
@@ -29,22 +32,12 @@ const SearchBar = () => {
     setFocus(true);
   };
 
-  const clickWrap = (e: any) => {
-    // 인풋 클릭한 것도 아니고, searchWrap안에 이벤트가 발생한 경우가 아닐 경우
-    if (
-      searchWrap &&
-      searchWrap.current &&
-      document.activeElement !== searchRef.current &&
-      !searchWrap.current.contains(e.target)
-    ) {
-      setSearchState({ ...searchState, searchFocus: false });
-      setFocus(false);
-    }
+  const handleFocusOut = () => {
+    setSearchState({ ...searchState, searchFocus: false });
+    setFocus(false);
   };
 
-  useEffect(() => {
-    document.addEventListener("click", clickWrap);
-  }, []);
+  useOutSideClick(searchWrap, handleFocusOut);
 
   const BRAND = [
     {
@@ -69,11 +62,25 @@ const SearchBar = () => {
   return (
     <>
       <SearchBarWrapper ref={searchWrap}>
-        <div className="searchbar__wrap">
-          <span className="icon icon-search" />
+        <div
+          className={`${
+            searchState.searchFocus
+              ? "searchbar__wrap active"
+              : "searchbar__wrap"
+          }`}
+        >
+          <span
+            className={`${
+              searchState.searchFocus ? "icon icon-hooking" : "icon icon-search"
+            }`}
+          />
           <Input
             placeholder="브랜드 이름, 분위기 등으로 검색해보세요"
-            className="text-subtitle-1 searchbar"
+            className={`${
+              searchState.searchFocus
+                ? "searchbar searchbar--active"
+                : "searchbar"
+            } text-subtitle-1`}
             onChange={handleSearch}
             onFocus={handleFocusOn}
             type="text"
@@ -112,7 +119,8 @@ const SearchBar = () => {
                   </div>
                   <Button
                     text="내 북마크"
-                    className="button-orange text-subtitle-1"
+                    onClick={() => navigate("/bookmark")}
+                    className="button-orange-outline text-subtitle-1"
                   />
                 </div>
               </div>
@@ -143,6 +151,12 @@ const SearchBarWrapper = styled.div`
     border-radius: 6rem;
     border: 0.05rem solid ${(props) => props.theme.colors.black40};
     background: ${(props) => props.theme.colors.black5};
+
+    &.active {
+      border-radius: 1.8rem 1.8rem 0 0;
+      border-bottom: 0.25px solid var(--black-40, rgba(0, 2, 53, 0.4));
+      background: #fff;
+    }
   }
 `;
 
@@ -152,17 +166,16 @@ const SearchHistory = styled.div`
   width: 100%;
   min-width: 55.5rem;
   max-width: 100.9rem;
-  background-color: ${(props) => props.theme.colors.white};
 
-  padding: 3.2rem 5.8rem 4.5rem 5.8rem;
-  border-bottom-left-radius: 2rem;
-  border-bottom-right-radius: 2rem;
-  
+  border-radius: 0 0 2rem 2rem;
+  border: 0.5px solid ${(props) => props.theme.colors.black30};
+  background: linear-gradient(0deg, rgba(242, 242, 242, 0.70) 0%, rgba(242, 242, 242, 0.70) 100%), #FFF;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
+
+  padding: 4rem 5.8rem 2.5rem 5.8rem;  
   z-index: ${Z_INDEX_FILTER};
 
   .search-history__wrap{
-    font-size: 1.8rem;
-
     .search-brand{
       display: flex;
       flex-direction: column;
@@ -206,7 +219,7 @@ const BrandCard = styled.div`
   }
 
   .brand-name {
-    min-width: 13rem;
+    min-width: 17.6rem;
     max-width: 17.6rem; // TODO: searchbar 1280 너비 조절
     border-top-right-radius: 1.6rem;
     border-bottom-right-radius: 1.6rem;
