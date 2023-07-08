@@ -15,7 +15,7 @@ const Carousel = () => {
 
   const handleSlideChange = () => {
     if (swiperRef.current) {
-      console.log(swiperRef.current.swiper.realIndex);
+      //console.log(swiperRef.current.swiper.realIndex);
       setCurrentSlide(swiperRef.current.swiper.realIndex);
     }
   };
