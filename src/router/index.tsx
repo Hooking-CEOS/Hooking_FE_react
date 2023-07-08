@@ -3,6 +3,7 @@ import Home from "@/pages/Home";
 import Profile from "@/pages/Profile";
 import Writing from "@/pages/Writing";
 import BookMark from "@/pages/BookMark";
+import BrandDetail from "@/pages/BrandDetail";
 import QnA from "@/pages/QnA";
 
 const routes = [
@@ -30,6 +31,11 @@ const routes = [
     path: "/qna",
     name: "QnA",
     component: <QnA />,
+  },
+  {
+    path: "/brand/:brandId",
+    name: "Brand",
+    component: <BrandDetail />,
   },
 ];
 
