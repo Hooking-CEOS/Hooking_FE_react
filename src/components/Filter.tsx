@@ -17,16 +17,15 @@ const DEFAULT_FILTER_STATE = [[], [], [], []];
 const Filter = () => {
   const [openFilter, setOpenFilter] = useState(false);
 
-  // component inner state
-  const [innerCheckedList, setInnerCheckedList] =
-    useState(DEFAULT_FILTER_STATE);
-
   const filterRef = useRef(null);
 
   // recoil state
   const [checkedList, setCheckedList] = useRecoilState(checkedFilterList);
   const totalLen = useRecoilValue(checkedListLen);
   const [selected, setSelected] = useState(false);
+
+  // component inner state
+  const [innerCheckedList, setInnerCheckedList] = useState(checkedList);
 
   const toggleFilter = () => {
     setOpenFilter((prev) => !prev);
