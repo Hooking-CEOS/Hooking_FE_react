@@ -213,6 +213,7 @@ input[type="checkbox"] {
     width: 2.4rem;
     height: 2.4rem;
     background: url("../assets/images/icon-hooking.svg") no-repeat center;
+    transition: background ease-in-out 0.2s 0s;
   }
 
   &-arrow-fold {
