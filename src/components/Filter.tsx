@@ -4,7 +4,7 @@ import Input from "@/components/Input";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { checkedFilterList, checkedListLen } from "@/utils/atom";
 import useOutSideClick from "@/hooks/useOutSideClick";
-
+import { flexColumnCenter } from "@/styles/theme";
 import styled from "styled-components";
 import {
   FILTER_DATA,
@@ -31,14 +31,16 @@ const Filter = () => {
     setOpenFilter((prev) => !prev);
   };
 
-  useOutSideClick(filterRef, () => setOpenFilter(false));
+  const handleOutSideclick = () => {
+    setOpenFilter(false);
+
+    // 창 닫을 때 키워드 눌렀던거 초기화
+    setInnerCheckedList(checkedList); // 마지막 리코일에 저장된 상태로 초기화
+  };
+  useOutSideClick(filterRef, handleOutSideclick);
 
   const handleSelected = () => {
-    if (getFilterLen() === 0) {
-      setSelected(false);
-    } else {
-      setSelected(true);
-    }
+    getFilterLen() === 0 ? setSelected(false) : setSelected(true);
     setOpenFilter(false);
     setCheckedList(innerCheckedList);
   };
@@ -46,53 +48,32 @@ const Filter = () => {
   const handleCheckedKeyword = useCallback(
     (checked: boolean, item: string, idx: string) => {
       let numIdx = Number.parseInt(idx);
+      let newList: any = [...innerCheckedList];
       if (checked) {
-        let newList: any = [...innerCheckedList];
         newList[numIdx] = [...newList[numIdx], item];
-        setInnerCheckedList(newList);
       } else if (!checked) {
-        let newList: any = [...innerCheckedList];
         newList[numIdx] = newList[numIdx].filter((el: any) => el !== item);
-        setInnerCheckedList(newList);
       }
+      setInnerCheckedList(newList);
     },
     [innerCheckedList]
   );
 
-  const getFilterBtnClass = () => {
-    // CASE1) 필터 창이 열려있는 경우 주황색 버튼
-    if (openFilter) {
-      return "button-orange";
-    }
-    // CASE2) 필터가 선택된 경우 검정 버튼
-    if (selected) {
-      return "button-black";
-    }
-    // CASE3) 디폴트는 흰색 아웃라인 버튼
-    return "button-white-outline";
-  };
+  const getFilterBtnClass = () =>
+    openFilter
+      ? "button-orange"
+      : selected
+      ? "button-black"
+      : "button-white-outline";
 
-  const getIconFilterClass = () => {
-    if (selected || openFilter) {
-      return "icon-filter-white";
-    }
-    return "icon-filter-outline";
-  };
-
-  const handleReset = () => {
-    // recoil state 초기화
-    setSelected(false);
-    setCheckedList(DEFAULT_FILTER_STATE);
-    setInnerCheckedList(DEFAULT_FILTER_STATE);
-  };
+  const getIconFilterClass = () =>
+    selected || openFilter ? "icon-filter-white" : "icon-filter-outline";
 
   const getFilterLengthText = () => {
-    const totalLen = getFilterLen();
-    if (totalLen === 0) {
-      return `필터 적용하기`;
-    } else {
-      return `필터 적용하기 (${totalLen})`;
-    }
+    console.log("getFilterLen", getFilterLen());
+    return getFilterLen() === 0
+      ? `필터 적용하기`
+      : `필터 적용하기 (${getFilterLen()})`;
   };
 
   const handleKeywordRemove = (item: string) => {
@@ -103,10 +84,8 @@ const Filter = () => {
     setInnerCheckedList(newList);
   };
 
-  const getFilterLen = () => {
-    const len = innerCheckedList.reduce((acc, val) => acc + val.length, 0);
-    return len;
-  };
+  const getFilterLen = () =>
+    innerCheckedList.reduce((acc, val) => acc + val.length, 0);
 
   useEffect(() => {
     if (totalLen) {
@@ -131,13 +110,17 @@ const Filter = () => {
             <Button
               text="초기화"
               icon="icon-reset"
-              className="button-br-10 button-white-outline text-subtitle-1 reset"
-              onClick={handleReset}
+              className="button-br-10 button-white-outline reset text-subtitle-1"
+              onClick={() => {
+                setSelected(false);
+                setCheckedList(DEFAULT_FILTER_STATE);
+                setInnerCheckedList(DEFAULT_FILTER_STATE);
+              }}
             />
             {checkedList.map((list) =>
               list.map((item, key) => (
                 <Button
-                  key={key}
+                  key={`button-check-${key}`}
                   text={item}
                   className="button-br-10 button-grey text-subtitle-1"
                   data-item={item}
@@ -150,25 +133,30 @@ const Filter = () => {
           </>
         )}
       </div>
-
       {openFilter && (
         <FilterContent>
           <div className="filter__wrap">
             {FILTER_DATA.map((filter) => (
               <div
-                key={filter.idx}
+                key={`filter-${filter.idx}`}
                 className="filter-content"
               >
-                <div className="text-subtitle-1">{filter.filter}</div>
-                <div
+                <h2
+                  className="text-subtitle-1"
+                  id="filter-label"
+                >
+                  {filter.filter}
+                </h2>
+                <ul
                   className={`${
                     filter.idx === 0 ? "filter-keyword-grid" : "filter-keyword"
                   }`}
                 >
                   {filter.data.map((data) => (
-                    <div
-                      key={data.idx}
+                    <li
+                      key={`filter-data-${data.idx}`}
                       className="filter-keyword-row"
+                      aria-labelledby="filter-label"
                     >
                       <Input
                         type="checkbox"
@@ -185,21 +173,20 @@ const Filter = () => {
                       <label
                         className="filter-keyword-row-text text-normal-300"
                         htmlFor={data.name}
-                        // name={}
                       >
                         {data.name}
                       </label>
-                    </div>
+                    </li>
                   ))}
-                </div>
+                </ul>
               </div>
             ))}
           </div>
           <Button
             text={getFilterLengthText()}
-            className="button-orange long component-small"
-            onClick={handleSelected}
             width="37.6rem"
+            className="component-small button-orange long"
+            onClick={handleSelected}
           />
         </FilterContent>
       )}
@@ -225,6 +212,7 @@ const FilterWrapper = styled.div`
 `;
 
 const FilterContent = styled.div`
+  ${flexColumnCenter}
   position: absolute;
   top: 5.4rem;
 
@@ -233,10 +221,6 @@ const FilterContent = styled.div`
   background: ${(props) => props.theme.colors.white};
   box-shadow: 0px 0px 40px 0px rgba(158, 158, 158, 0.12);
   z-index: ${Z_INDEX_FILTER};
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   padding: 5.6rem 4.8rem;
 
   .button-orange {
@@ -247,9 +231,6 @@ const FilterContent = styled.div`
     display: flex;
 
     .filter-content {
-      display: flex;
-      flex-direction: column;
-
       & + .filter-content {
         margin-left: 5.6rem;
       }
@@ -258,31 +239,26 @@ const FilterContent = styled.div`
         margin-right: 4.2rem;
       }
 
-      .text-subtitle-1 {
+      h2 {
         margin-bottom: 2.4rem;
       }
 
       .filter-keyword {
-        display: flex;
-        flex-direction: column;
-
-        gap: 1rem;
+        ${flexColumnCenter}
         width: 14.8rem;
         flex-wrap: wrap;
+        gap: 1rem;
 
         &-grid {
           display: grid;
           grid-template-rows: repeat(6, 2.4rem);
           grid-row-gap: 1rem;
-
           grid-auto-flow: column;
-          align-self: center;
         }
         &-row {
           display: flex;
           align-items: center;
           width: 14.8rem;
-
           &-text {
             font-size: 1.6rem;
             margin-left: 1rem;

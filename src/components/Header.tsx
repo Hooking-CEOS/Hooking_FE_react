@@ -1,15 +1,19 @@
+import Login from "@/pages/Login";
 import SearchBar from "@/components/SearchBar";
 import Button from "@/components/Button";
 import ProfileDropDown from "@/components/ProfileDropDown";
 
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { activeMenu, activeChildMenu, loginModalOverlay } from "@/utils/atom";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { HEADER_HEIGHT_MO, Z_INDEX_HEADER } from "@/utils/constants";
-import { useState } from "react";
+
+import {
+  HEADER_HEIGHT_MO,
+  Z_INDEX_HEADER,
+  HEADER_LEFT_MENU,
+} from "@/utils/constants";
+import { activeMenu, activeChildMenu, loginModalOverlay } from "@/utils/atom";
 import Portal from "@/utils/portal";
-import Login from "@/pages/Login";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -18,34 +22,8 @@ const Header = () => {
   const [loginModal, setLoginModal] = useRecoilState(loginModalOverlay);
   const setActiveChildMenuIdx = useSetRecoilState(activeChildMenu);
 
-  const HEADER_LEFT_MENU = [
-    {
-      idx: 0,
-      path: "/",
-      name: "홈",
-    },
-    {
-      idx: 1,
-      path: "/writing",
-      name: "글쓰기",
-    },
-  ];
-
-  /**
-   * Home: 0,
-   * Writing: 1,
-   * 그외 Prifle: 2
-   * (내계정, 북마크, 문의)
-   *
-   */
-
-  const handleLogin = () => {
-    setLoginModal(true);
-  };
-
-  const handleClose = () => {
-    setLoginModal(false);
-  };
+  const handleLogin = () => setLoginModal(true);
+  const handleClose = () => setLoginModal(false);
 
   return (
     <HeaderWrapper>
@@ -61,28 +39,20 @@ const Header = () => {
               <Login onClose={handleClose} />
             </Portal>
           )}
-          <Button
-            className={`${
-              activeMenuIdx === 0 ? "button-black" : "button-white"
-            } component-small`}
-            onClick={() => {
-              setActiveMenuIdx(0);
-              setActiveChildMenuIdx(-1);
-              navigate("/");
-            }}
-            text="홈"
-          />
-          <Button
-            className={`${
-              activeMenuIdx === 1 ? "button-black" : "button-white"
-            } component-small`}
-            onClick={() => {
-              setActiveMenuIdx(1);
-              setActiveChildMenuIdx(-1);
-              navigate("/writing");
-            }}
-            text="글쓰기"
-          />
+          {HEADER_LEFT_MENU.map((menu) => (
+            <Button
+              key={menu.idx}
+              className={`component-small ${
+                activeMenuIdx === menu.idx ? "button-black" : "button-white"
+              }`}
+              onClick={() => {
+                setActiveMenuIdx(menu.idx);
+                setActiveChildMenuIdx(-1);
+                navigate(menu.path);
+              }}
+              text={menu.name}
+            />
+          ))}
         </div>
         <div className="header__content--center">
           <SearchBar />
