@@ -1,12 +1,34 @@
-import Input from "@/components/Input";
-import styled from "styled-components";
-import { useState, useEffect, useRef } from "react";
-import { Z_INDEX_MODAL, Z_INDEX_FILTER } from "@/utils/constants";
-import { useSetRecoilState } from "recoil";
-import { modalOverlay } from "@/utils/atom";
+import { useState, useRef, useEffect } from "react";
 import Button from "@/components/Button";
-import { useNavigate } from "react-router-dom";
+import Input from "@/components/Input";
 import useOutSideClick from "@/hooks/useOutSideClick";
+
+import styled from "styled-components";
+import { useSetRecoilState } from "recoil";
+import { useNavigate } from "react-router-dom";
+
+import { modalOverlay } from "@/utils/atom";
+import { Z_INDEX_FILTER } from "@/utils/constants";
+
+const BRAND = [
+  {
+    idx: 0,
+    name: "롱테이크",
+    img: require("../assets/images/img-brand-sample.png"),
+  },
+  {
+    idx: 1,
+    name: "애프터블로우",
+    img: require("../assets/images/img-brand-sample.png"),
+  },
+  /*
+  {
+    idx: 2,
+    name: "려",
+    img: require("../assets/images/img-brand-sample.png"),
+  },
+  */
+];
 
 const SearchBar = () => {
   const initialSearch = {
@@ -22,7 +44,7 @@ const SearchBar = () => {
   const searchRef = useRef<HTMLInputElement>(null);
   const searchWrap = useRef<HTMLInputElement>(null);
 
-  const handleSearch = (e: any) => {
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     setSearchState({ ...searchState, searchKeyword: e.target.value });
   };
@@ -30,6 +52,7 @@ const SearchBar = () => {
   const handleFocusOn = () => {
     setSearchState({ ...searchState, searchFocus: true });
     setFocus(true);
+    searchRef.current?.focus();
   };
 
   const handleFocusOut = () => {
@@ -39,30 +62,18 @@ const SearchBar = () => {
 
   useOutSideClick(searchWrap, handleFocusOut);
 
-  const BRAND = [
-    {
-      idx: 0,
-      name: "롱테이크",
-      img: require("../assets/images/img-brand-sample.png"),
-    },
-    {
-      idx: 1,
-      name: "애프터블로우",
-      img: require("../assets/images/img-brand-sample.png"),
-    },
-    /*
-    {
-      idx: 2,
-      name: "려",
-      img: require("../assets/images/img-brand-sample.png"),
-    },
-    */
-  ];
+  const onSearchSubmit = () => {
+    console.log("[search keyword]", searchState.searchKeyword);
+  };
 
   return (
     <>
-      <SearchBarWrapper ref={searchWrap}>
-        <div
+      <SearchBarWrapper
+        ref={searchWrap}
+        onClick={handleFocusOn}
+      >
+        <form
+          onSubmit={onSearchSubmit}
           className={`${
             searchState.searchFocus
               ? "searchbar__wrap active"
@@ -70,12 +81,18 @@ const SearchBar = () => {
           }`}
         >
           <span
-            className={`${
-              searchState.searchFocus ? "icon icon-hooking" : "icon icon-search"
+            onClick={() => window.location.reload()}
+            className={`icon icon-${
+              searchState.searchFocus ? "hooking" : "search"
             }`}
           />
           <Input
-            placeholder="브랜드 이름, 분위기 등으로 검색해보세요"
+            type="text"
+            placeholder={`${
+              searchState.searchFocus
+                ? ""
+                : "브랜드 이름, 분위기 등으로 검색해보세요"
+            }`}
             className={`${
               searchState.searchFocus
                 ? "searchbar searchbar--active"
@@ -83,10 +100,17 @@ const SearchBar = () => {
             } text-subtitle-1`}
             onChange={handleSearch}
             onFocus={handleFocusOn}
-            type="text"
             ref={searchRef}
           />
-        </div>
+          {searchState.searchFocus && (
+            <Button
+              type="submit"
+              width="1.9rem"
+              text=""
+              className="icon icon-search"
+            />
+          )}
+        </form>
 
         {searchState.searchFocus && (
           <>
@@ -96,7 +120,7 @@ const SearchBar = () => {
                   <div className="text-subtitle-1">이달의 브랜드 모아보기</div>
                   <div className="search-brand-content">
                     {BRAND.map((brand) => (
-                      <BrandCard key={brand.idx}>
+                      <BrandCard key={`brand-card-${brand.idx}`}>
                         <img
                           className="brand-img"
                           src={brand.img}
@@ -109,7 +133,7 @@ const SearchBar = () => {
                     ))}
                   </div>
                 </div>
-                <hr className="hr" />
+                <hr />
                 <div className="search-copy">
                   <div
                     className="text-headline text-subtitle-1"
@@ -141,6 +165,7 @@ const SearchBarWrapper = styled.div`
   min-width: 55.5rem;
   max-width: 100.9rem;
   height: 5.4rem;
+  cursor: text;
 
   .searchbar__wrap {
     display: flex;
@@ -149,13 +174,17 @@ const SearchBarWrapper = styled.div`
 
     padding: 1.8rem 2rem;
     border-radius: 6rem;
-    border: 0.05rem solid ${(props) => props.theme.colors.black40};
-    background: ${(props) => props.theme.colors.black5};
+    border: 0.05rem solid ${({ theme }) => theme.colors.black40};
+    background: ${({ theme }) => theme.colors.black5};
+
+    .icon-search {
+      padding-left: 2rem;
+    }
 
     &.active {
       border-radius: 1.8rem 1.8rem 0 0;
-      border-bottom: 0.25px solid var(--black-40, rgba(0, 2, 53, 0.4));
-      background: #fff;
+      border-bottom: ${({ theme }) => theme.colors.black40};
+      background: ${({ theme }) => theme.colors.white};
     }
   }
 `;
@@ -166,12 +195,12 @@ const SearchHistory = styled.div`
   width: 100%;
   min-width: 55.5rem;
   max-width: 100.9rem;
+  cursor: default;
 
+  border: 0.5px solid ${({ theme }) => theme.colors.black30};
   border-radius: 0 0 2rem 2rem;
-  border: 0.5px solid ${(props) => props.theme.colors.black30};
   background: linear-gradient(0deg, rgba(242, 242, 242, 0.70) 0%, rgba(242, 242, 242, 0.70) 100%), #FFF;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
-
   padding: 4rem 5.8rem 2.5rem 5.8rem;  
   z-index: ${Z_INDEX_FILTER};
 
@@ -186,24 +215,19 @@ const SearchHistory = styled.div`
         gap: 3.75rem;
       }
     }
-
-    .hr{
+    hr{
       width: 100%;
       background-color: ${(props) => props.theme.colors.black5};
       opacity: 0.3;
       margin-top: 3.1rem;
-      
     }
-
     .search-copy{
-      margin-top: 3.1rem;
       display: flex;
       align-items: center;
-
+      margin-top: 3.1rem;
       .text-headline{
         flex:1;
       }
-     
     }
   }
 `;
