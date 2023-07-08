@@ -3,13 +3,6 @@ import { recoilPersist } from "recoil-persist";
 
 const { persistAtom } = recoilPersist();
 
-export const AtomTest = atom({
-  key: "atomTest",
-  default: {
-    num: 0,
-  },
-});
-
 export const checkedFilterList = atom({
   key: "checkedFilterList",
   default: [[], [], [], []], // product, age, price, mood
