@@ -45,7 +45,7 @@ input[type="checkbox"] {
     justify-content: center;
     flex: 1 0 auto; //
     padding: 1.5rem 2rem;
-    border-radius: 6rem; // 기본이 60px
+    border-radius: 6rem;
 
     // icon position
     & > span {
@@ -106,7 +106,7 @@ input[type="checkbox"] {
   &-white-outline {
     .button__inner {
       color: $color_black_40;
-      border: 0.25px solid $color_black_40;
+      border: 0.025rem solid $color_black_40;
       background: $color_white;
 
       &.margin-left {
@@ -128,14 +128,29 @@ input[type="checkbox"] {
         }
       }
     }
+    &:active {
+      &:not(.reset) {
+        // 초기화 버튼은 active 적용하지 않음
+        .button__inner {
+          background: $color_point;
+          border: none;
+          color: $color_white;
+
+          .icon-filter {
+            background: url("../assets/images/icon-filter-white.svg") no-repeat
+              90% center;
+          }
+        }
+      }
+    }
   }
 
   &-orange-outline {
     .button__inner {
       border: 1px solid $color_point;
       background: $color_white;
+      color: $color_point;
     }
-
     &:hover {
       .button__inner {
         background: linear-gradient(
@@ -146,7 +161,6 @@ input[type="checkbox"] {
           #fff;
       }
     }
-
     &:active {
       .button__inner {
         background: $color_point;
