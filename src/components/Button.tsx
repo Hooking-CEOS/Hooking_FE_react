@@ -1,14 +1,16 @@
 interface ButtonProps {
   width?: string;
+  type?: "button" | "submit" | "reset" | undefined;
   className?: string;
   text: string;
   icon?: string;
   children?: JSX.Element;
-  onClick?: (e?: any) => void;
+  onClick?: (e?: React.MouseEvent<HTMLElement>) => void;
 }
 
 const Button = ({
   width = "fit-content",
+  type = "button",
   className,
   icon,
   text,
@@ -35,11 +37,12 @@ const Button = ({
 
   return (
     <button
-      type="button"
+      type={type}
       className={`button ${className}`}
       style={{ width: width }}
       onClick={onClick}
       {...props}
+      aria-label={`button`}
     >
       <div className="button__inner">
         <span className={icon}></span>
