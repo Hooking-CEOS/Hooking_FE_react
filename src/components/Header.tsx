@@ -1,8 +1,8 @@
 import SearchBar from "@/components/SearchBar";
 import Button from "@/components/Button";
 import ProfileDropDown from "@/components/ProfileDropDown";
-import Input from "@/components/Input";
-import { useNavigate, useLocation } from "react-router-dom";
+
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { activeMenu, activeChildMenu, loginModalOverlay } from "@/utils/atom";
 import { useRecoilState, useSetRecoilState } from "recoil";
@@ -13,21 +13,10 @@ import Login from "@/pages/Login";
 
 const Header = () => {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const [activeMenuIdx, setActiveMenuIdx] = useRecoilState(activeMenu);
   const [loginModal, setLoginModal] = useRecoilState(loginModalOverlay);
   const setActiveChildMenuIdx = useSetRecoilState(activeChildMenu);
-
-  console.log("activeMenuIdx", activeMenuIdx);
-
-  /*
-  1. 디폴트는 홈페이지
-  2. 클릭하면 recoil에 저장 + 값 reset
-  3. 새로고침해도 날라가지 않게 recoil-persist
-  4. 
-  
-  */
 
   const HEADER_LEFT_MENU = [
     {
@@ -75,7 +64,7 @@ const Header = () => {
           <Button
             className={`${
               activeMenuIdx === 0 ? "button-black" : "button-white"
-            } text-normal-700`}
+            } component-small`}
             onClick={() => {
               setActiveMenuIdx(0);
               setActiveChildMenuIdx(-1);
@@ -86,7 +75,7 @@ const Header = () => {
           <Button
             className={`${
               activeMenuIdx === 1 ? "button-black" : "button-white"
-            } text-normal-700`}
+            } component-small`}
             onClick={() => {
               setActiveMenuIdx(1);
               setActiveChildMenuIdx(-1);
