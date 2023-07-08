@@ -5,6 +5,7 @@ import { Z_INDEX_MODAL, Z_INDEX_FILTER } from "@/utils/constants";
 import { useSetRecoilState } from "recoil";
 import { modalOverlay } from "@/utils/atom";
 import Button from "@/components/Button";
+
 const SearchBar = () => {
   const initialSearch = {
     searchKeyword: "",
@@ -72,7 +73,7 @@ const SearchBar = () => {
           <span className="icon icon-search" />
           <Input
             placeholder="브랜드 이름, 분위기 등으로 검색해보세요"
-            className="text-normal-600 searchbar"
+            className="text-subtitle-1 searchbar"
             onChange={handleSearch}
             onFocus={handleFocusOn}
             type="text"
@@ -85,7 +86,7 @@ const SearchBar = () => {
             <SearchHistory>
               <div className="search-history__wrap">
                 <div className="search-brand">
-                  <div className="text-normal-600">이달의 브랜드 모아보기</div>
+                  <div className="text-subtitle-1">이달의 브랜드 모아보기</div>
                   <div className="search-brand-content">
                     {BRAND.map((brand) => (
                       <BrandCard key={brand.idx}>
@@ -94,7 +95,7 @@ const SearchBar = () => {
                           src={brand.img}
                           alt="brand-img"
                         />
-                        <div className="brand-name text-normal-600">
+                        <div className="brand-name text-subtitle-1">
                           {brand.name}
                         </div>
                       </BrandCard>
@@ -104,14 +105,14 @@ const SearchBar = () => {
                 <hr className="hr" />
                 <div className="search-copy">
                   <div
-                    className="text-headline text-normal-600"
+                    className="text-headline text-subtitle-1"
                     style={{ display: "inline-flex" }}
                   >
                     이전에 저장한 카피를 찾고 싶으신가요?
                   </div>
                   <Button
                     text="내 북마크"
-                    className="button-orange text-normal-600"
+                    className="button-orange text-subtitle-1"
                   />
                 </div>
               </div>

@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
-
 import { useRecoilState, useRecoilValue } from "recoil";
 import { checkedFilterList, checkedListLen } from "@/utils/atom";
 
@@ -36,9 +35,8 @@ const Filter = () => {
     } else {
       setSelected(true);
     }
-
     setOpenFilter(false);
-    setCheckedList(innerCheckedList); // 1-1.
+    setCheckedList(innerCheckedList);
   };
 
   const handleCheckedKeyword = useCallback(
@@ -98,7 +96,7 @@ const Filter = () => {
     const newList: any = checkedList.map((arr) =>
       arr.filter((el) => el !== item)
     );
-    setCheckedList(newList); // TODO: 불변성 유지
+    setCheckedList(newList);
     setInnerCheckedList(newList);
   };
 
@@ -118,7 +116,7 @@ const Filter = () => {
         <Button
           text="필터"
           icon={`icon-filter ${getIconFilterClass()}`}
-          className={`button-br-10 ${getFilterBtnClass()} text-normal-600`}
+          className={`button-br-10 ${getFilterBtnClass()} text-subtitle-1`}
           onClick={toggleFilter}
         />
         {totalLen > 0 && (
@@ -126,7 +124,7 @@ const Filter = () => {
             <Button
               text="초기화"
               icon="icon-reset"
-              className="button-br-10 button-white-outline text-normal-600"
+              className="button-br-10 button-white-outline text-subtitle-1 reset"
               onClick={handleReset}
             />
             {checkedList.map((list) =>
@@ -134,7 +132,7 @@ const Filter = () => {
                 <Button
                   key={key}
                   text={item}
-                  className="button-br-10 button-grey text-normal-600"
+                  className="button-br-10 button-grey text-subtitle-1"
                   data-item={item}
                   onClick={() => handleKeywordRemove(item)}
                 >
@@ -154,7 +152,7 @@ const Filter = () => {
                 key={filter.idx}
                 className="filter-content"
               >
-                <div className="text-big-600">{filter.filter}</div>
+                <div className="text-subtitle-1">{filter.filter}</div>
                 <div
                   className={`${
                     filter.idx === 0 ? "filter-keyword-grid" : "filter-keyword"
@@ -192,7 +190,7 @@ const Filter = () => {
           </div>
           <Button
             text={getFilterLengthText()}
-            className=" button-orange text-normal-700"
+            className="button-orange long component-small"
             onClick={handleSelected}
             width="37.6rem"
           />
@@ -212,8 +210,9 @@ const FilterWrapper = styled.div`
     display: flex;
     flex-wrap: wrap;
     gap: 1.6rem;
-    //position: sticky;
-    //top: ${HEADER_HEIGHT_MO};
+
+    position: sticky;
+    top: ${HEADER_HEIGHT_MO};
     //height: 16.4rem;
   }
 `;
@@ -231,9 +230,12 @@ const FilterContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 5.6rem 4rem;
+  padding: 5.6rem 4.8rem;
 
-  // 필터창 레이아웃
+  .button-orange {
+    margin-top: 8.8rem;
+  }
+
   .filter__wrap {
     display: flex;
 
@@ -242,33 +244,41 @@ const FilterContent = styled.div`
       flex-direction: column;
 
       & + .filter-content {
-        margin-left: 7.2rem;
+        margin-left: 5.6rem;
       }
 
-      .text-big-600 {
-        margin-bottom: 2.8rem;
+      &:nth-last-child(1) {
+        margin-right: 4.2rem;
+      }
+
+      .text-subtitle-1 {
+        margin-bottom: 2.4rem;
       }
 
       .filter-keyword {
         display: flex;
         flex-direction: column;
-        gap: 1.6rem;
-        width: 16.8rem;
-        flex-wrap: wrap;
-        height: 31.2rem;
 
-        // 첫번째 컬럼
+        gap: 1rem;
+        width: 14.8rem;
+        flex-wrap: wrap;
+
         &-grid {
           display: grid;
-          grid-template-columns: 1fr 1fr;
-          grid-gap: 1.6rem;
+          grid-template-rows: repeat(6, 2.4rem);
+          grid-row-gap: 1rem;
+
+          grid-auto-flow: column;
+          align-self: center;
         }
         &-row {
-          width: 16.8rem;
+          display: flex;
+          align-items: center;
+          width: 14.8rem;
 
           &-text {
-            font-size: 2rem;
-            margin-left: 1.4rem;
+            font-size: 1.6rem;
+            margin-left: 1rem;
             cursor: pointer;
           }
         }
