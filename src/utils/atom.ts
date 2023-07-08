@@ -38,6 +38,12 @@ export const isChecked = selectorFamily({
     },
 });
 
+// login modal overlay
+export const loginModalOverlay = atom({
+  key: "loginModalOverlay",
+  default: false,
+});
+
 // search modal overlay
 export const modalOverlay = atom({
   key: "modalOverlay",

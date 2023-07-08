@@ -4,14 +4,18 @@ import ProfileDropDown from "@/components/ProfileDropDown";
 
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { activeMenu, activeChildMenu } from "@/utils/atom";
+import { activeMenu, activeChildMenu, loginModalOverlay } from "@/utils/atom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { HEADER_HEIGHT_MO, Z_INDEX_HEADER } from "@/utils/constants";
+import { useState } from "react";
+import Portal from "@/utils/portal";
+import Login from "@/pages/Login";
 
 const Header = () => {
   const navigate = useNavigate();
 
   const [activeMenuIdx, setActiveMenuIdx] = useRecoilState(activeMenu);
+  const [loginModal, setLoginModal] = useRecoilState(loginModalOverlay);
   const setActiveChildMenuIdx = useSetRecoilState(activeChildMenu);
 
   const HEADER_LEFT_MENU = [
@@ -35,14 +39,28 @@ const Header = () => {
    *
    */
 
+  const handleLogin = () => {
+    setLoginModal(true);
+  };
+
+  const handleClose = () => {
+    setLoginModal(false);
+  };
+
   return (
     <HeaderWrapper>
       <div className="header__wrap">
         <div className="header__content--left">
           <Button
             icon="icon-logo"
+            onClick={handleLogin}
             text=""
           />
+          {loginModal && (
+            <Portal selector="#portal">
+              <Login onClose={handleClose} />
+            </Portal>
+          )}
           <Button
             className={`${
               activeMenuIdx === 0 ? "button-black" : "button-white"

@@ -1,7 +1,9 @@
 import { useState, useRef, useEffect } from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { EffectCoverflow, Navigation } from "swiper";
 import { Swiper, SwiperSlide, SwiperRef } from "swiper/react";
+
+import BrandIcon from "@/components/BrandIcon";
 
 import CarouselData from "@/assets/datas/carousel.json";
 
@@ -65,7 +67,12 @@ const Carousel = () => {
             >
               <div className="slide-wrapper">
                 <CarouselImgDiv imgSrc={data.imgSrc}>
-                  {Number(data.id) - 1}
+                  {currentSlide === slideId && (
+                    <BrandIcon
+                      // name={data.name}
+                      name={"스킨푸드"}
+                    />
+                  )}
                 </CarouselImgDiv>
                 <div className="swiper-slide-div">
                   <div className="swiper-slide-div-main_div">
@@ -98,6 +105,7 @@ const CarouselImgDiv = styled.div<CIDProps>`
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  box-sizing: border-box;
   border-radius: 20px;
   display: flex;
   justify-content: center;

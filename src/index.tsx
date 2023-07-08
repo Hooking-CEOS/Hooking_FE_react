@@ -12,12 +12,14 @@ import { theme } from "@/styles/theme";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+
 root.render(
   <React.StrictMode>
     <RecoilRoot>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <App />
+        <div id="portal" />
       </ThemeProvider>
     </RecoilRoot>
   </React.StrictMode>
