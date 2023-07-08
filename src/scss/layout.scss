@@ -26,10 +26,27 @@ body {
     overflow: auto;
 
     .main {
-      padding: 0 5rem;
-      max-width: 119.4rem;
-      margin: auto;
-      margin-top: 5.6rem;
+      &:not(.bookmark) {
+        padding: 0 5rem;
+        max-width: 119.4rem;
+        margin: auto;
+        margin-top: 5.6rem;
+      }
+
+      &.bookmark {
+        padding: 0 36.3rem;
+        margin: auto;
+        padding-top: 5.6rem;
+        .text-heading-2 {
+          color: $color_point;
+        }
+        background: linear-gradient(
+            0deg,
+            rgba(0, 2, 53, 0.03) 0%,
+            rgba(0, 2, 53, 0.03) 100%
+          ),
+          #fff;
+      }
     }
   }
 }
