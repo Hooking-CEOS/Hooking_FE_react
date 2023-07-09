@@ -3,17 +3,25 @@ import styled from "styled-components";
 interface BrandProps {
   text: string;
   brandName: string;
-  brandId: number;
+  brandId?: number;
   brandImg?: string;
+  onClick?: () => void;
 }
 
-const BrandCard = ({ text, brandName, brandImg, brandId }: BrandProps) => {
+const BrandCard = ({
+  text,
+  brandName,
+  brandImg,
+  brandId,
+  onClick,
+}: BrandProps) => {
   return (
     <BrandCardWrapper>
       <div className="card-content text-normal-300">
         {text}
         <span className="more-content">...더 보기</span>
       </div>
+
       <div className="card-brand">
         <img src={brandImg} />
         <span className="component-small">{brandName}</span>
@@ -36,6 +44,7 @@ const BrandCardWrapper = styled.div`
   border: 0.025rem solid ${(props) => props.theme.colors.black40};
   border-radius: 2rem;
   background: ${(props) => props.theme.colors.white};
+  cursor: pointer;
 
   .card-content {
     position: relative;
@@ -43,10 +52,9 @@ const BrandCardWrapper = styled.div`
     display: -webkit-box;
     -webkit-box-orient: vertical;
     width: 100%;
-
+    // white-space: pre-wrap;
     overflow: hidden;
     -webkit-line-clamp: 5;
-
     max-height: 12rem;
     font-size: 1.6rem;
     color: ${(props) => props.theme.colors.black100};
@@ -62,6 +70,7 @@ const BrandCardWrapper = styled.div`
       //background: white;
       background: linear-gradient(to left, #fff 50%, #fff 60%, transparent);
     }
+
   }
 
   .card-brand {
