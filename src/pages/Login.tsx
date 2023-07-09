@@ -57,11 +57,10 @@ const LoginContainer = styled.div`
 `;
 const CircleDiv = styled.div`
   position: fixed;
-  top: -2785px;
-  width: 3086px;
-  height: 3086px;
   flex-shrink: 0;
-  border-radius: 3086px;
+  width: 100%;
+  height: 50%;
+  border-radius: 2rem;
   box-shadow: 0px 0px 50px 0px rgba(0, 2, 53, 0.06);
 `;
 const CloseIcon = styled.img`
