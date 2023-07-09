@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { flexCenter } from "@/styles/theme";
 import { forwardRef } from "react";
 import { useRecoilValue } from "recoil";
 import { isChecked } from "@/utils/atom";
@@ -11,20 +10,19 @@ interface InputProps {
   id?: string;
   name?: string;
   checked?: boolean | undefined;
-  onChange?: (e: any) => void; // TODO: 이벤트 타입 수정
-  onFocus?: (e: any) => void;
-  ref?: any; // TODO: 타입 수정
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onFocus?: (e: React.FocusEvent<HTMLElement>) => void;
+  ref?: React.LegacyRef<HTMLInputElement> | undefined;
 }
 
 const Input = (
   { type = "text", id, className, name, ...props }: InputProps,
-  ref: any
+  ref: React.LegacyRef<HTMLInputElement> | undefined
 ) => {
   // checkbox 초기 체크 상태
   let check = useRecoilValue(isChecked(id));
 
   return (
-    // type="text"면 width:100%
     <InputWrapper className={type === "text" ? "long" : ""}>
       <input
         type={type}
@@ -46,12 +44,10 @@ const InputWrapper = styled.div<{ className: string }>`
   display: inline-flex;
   align-items: center;
   position: relative;
-
   height: 100%;
   &.long {
-    width: 100%;
+    width: 95%;
   }
-
   font-size: 1.8rem;
   color: ${(props) => props.theme.colors.black30};
 `;

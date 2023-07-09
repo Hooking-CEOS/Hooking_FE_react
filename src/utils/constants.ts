@@ -59,6 +59,19 @@ export const FILTER_DATA = [
   },
 ];
 
+export const HEADER_LEFT_MENU = [
+  {
+    idx: 0,
+    path: "/",
+    name: "홈",
+  },
+  {
+    idx: 1,
+    path: "/writing",
+    name: "글쓰기",
+  },
+];
+
 export const PROFILE_DATA = [
   {
     idx: 0,

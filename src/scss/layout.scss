@@ -26,10 +26,62 @@ body {
     overflow: auto;
 
     .main {
-      padding: 0 5rem;
-      max-width: 119.4rem;
-      margin: auto;
-      margin-top: 5.6rem;
+      &:not(.bookmark, .qna) {
+        padding: 0 5rem;
+        max-width: 119.4rem;
+        margin: auto;
+        margin-top: 5.6rem;
+      }
+
+      &.bookmark {
+        padding: 0 36.3rem;
+        margin: auto;
+        padding-top: 5.6rem;
+        .text-heading-2 {
+          color: $color_point;
+        }
+        background: linear-gradient(
+            0deg,
+            rgba(0, 2, 53, 0.03) 0%,
+            rgba(0, 2, 53, 0.03) 100%
+          ),
+          #fff;
+      }
+
+      &.qna {
+        .qna-search-result {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin: 11.5rem 0;
+          &__wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            h1 > span.text-orange {
+              color: $color_point;
+            }
+          }
+          &-content {
+            color: $color_black_40;
+            text-align: center;
+          }
+          .button-orange {
+            margin-top: 4.8rem;
+          }
+        }
+        .qna-copy {
+          display: flex;
+          justify-content: center;
+          background: rgba(0, 2, 53, 0.03);
+          h1 {
+            padding-top: 4.2rem;
+          }
+          &__wrap {
+            max-width: 119.4rem;
+          }
+        }
+      }
     }
   }
 }

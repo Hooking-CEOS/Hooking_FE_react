@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Button from "@/components/Button";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { activeMenu, activeChildMenu } from "@/utils/atom";
 import { PROFILE_DATA } from "@/utils/constants";
+import useOutSideClick from "@/hooks/useOutSideClick";
 
 interface ProfilePropType {
   className?: string;
@@ -17,33 +18,42 @@ const ProfileDropDown = ({ className }: ProfilePropType) => {
   const [activeMenuIdx, setActiveMenuIdx] = useRecoilState(activeMenu);
   const [activeChildMenuIdx, setActiveChildMenuIdx] =
     useRecoilState(activeChildMenu);
-  const handleDropDown = () => setHover((prev) => !prev);
+
+  const dropdonwRef = useRef(null);
+  useOutSideClick(dropdonwRef, () => setHover(false));
+
+  // TODO: icon-arrow-unfold-light 추가
+  const getIconClassName = () =>
+    activeMenuIdx === 2
+      ? `icon-arrow-${hover ? "fold" : "fold"}-light`
+      : `icon-arrow-${hover ? "unfold" : "fold"}`;
 
   return (
     <div
-      onMouseOver={handleDropDown}
-      onMouseOut={handleDropDown}
+      onClick={() => setHover((prev) => !prev)}
       style={{ position: "relative" }}
+      ref={dropdonwRef}
     >
       <Button
         width="15rem"
-        className={`${
-          activeMenuIdx === 2 ? "button-black small" : "button-white"
-        } text-normal-600 ${className}`}
+        className={`${`button-${
+          activeMenuIdx === 2 ? "black" : "white"
+        } small`} text-subtitle-1 ${className}`}
         icon="icon-profile"
         text="이후킹"
       >
-        <span className={hover ? "icon-arrow-unfold" : "icon-arrow-fold"} />
+        <span className={getIconClassName()} />
       </Button>
-      <ProfileToolTip hover={hover}>
+      <DropdownMenu hover={hover}>
         {PROFILE_DATA.map((data) => (
           <div
+            aria-label="profile-dropdown"
             key={data.idx}
-            className={`${
+            className={`dropdown__content ${
               activeChildMenuIdx === data.idx && data.idx !== 3
-                ? "tooltip__content tooltip__content--active"
-                : "tooltip__content"
-            } text-normal-600`}
+                ? "dropdown__content--active"
+                : "dropdown__content"
+            } text-subtitle-1`}
             onClick={() => {
               setActiveMenuIdx(data.idx === 3 ? 0 : 2);
               setActiveChildMenuIdx(data.idx);
@@ -53,40 +63,41 @@ const ProfileDropDown = ({ className }: ProfilePropType) => {
             {data.text}
           </div>
         ))}
-      </ProfileToolTip>
+      </DropdownMenu>
     </div>
   );
 };
 
 export default ProfileDropDown;
 
-const ProfileToolTip = styled.div<{ hover: Boolean }>`
+const DropdownMenu = styled.div<{ hover: Boolean }>`
   position: absolute;
+  margin-top: 1.2rem;
   left: 1.15rem;
   display: ${({ hover }) => (hover ? "block" : "none")};
   width: 12.5rem;
   border-radius: 2rem;
-  border: 0.1rem solid ${(props) => props.theme.colors.black40};
-  background: ${(props) => props.theme.colors.white};
+  border: 0.1rem solid ${({ theme }) => theme.colors.black40};
+  background: ${({ theme }) => theme.colors.white};
 
-  font-size: 1.8rem;
-  color: ${(props) => props.theme.colors.black30};
+  color: ${({ theme }) => theme.colors.black30};
   padding: 2rem 0;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.05);
 
-  .tooltip__content {
+  .dropdown__content {
     padding-left: 1.9rem;
-
     &--active {
-      color: ${(props) => props.theme.colors.black100};
+      color: ${({ theme }) => theme.colors.black100};
     }
-
-    & + .tooltip__content {
+    &:hover {
+      color: ${({ theme }) => theme.colors.black100};
+    }
+    & + .dropdown__content {
       margin-top: 2rem;
     }
     &:nth-last-child(1) {
       padding-top: 2rem;
-      border-top: 0.1rem solid ${(props) => props.theme.colors.black40};
+      border-top: 0.1rem solid ${({ theme }) => theme.colors.black40};
     }
     cursor: pointer;
   }

@@ -18,3 +18,9 @@ export const flexCenter = css`
   justify-content: center;
   align-items: center;
 `;
+
+export const flexColumnCenter = css`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;

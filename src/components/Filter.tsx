@@ -1,10 +1,11 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
-
 import { useRecoilState, useRecoilValue } from "recoil";
 import { checkedFilterList, checkedListLen } from "@/utils/atom";
-
+import useOutSideClick from "@/hooks/useOutSideClick";
+import useScrollIntoView from "@/hooks/useScrollIntoView";
+import { flexColumnCenter } from "@/styles/theme";
 import styled from "styled-components";
 import {
   FILTER_DATA,
@@ -16,109 +17,97 @@ const DEFAULT_FILTER_STATE = [[], [], [], []];
 
 const Filter = () => {
   const [openFilter, setOpenFilter] = useState(false);
-  const [selected, setSelected] = useState(false);
 
-  // component inner state
-  const [innerCheckedList, setInnerCheckedList] =
-    useState(DEFAULT_FILTER_STATE);
+  const filterRef = useRef(null);
+
+  const { element, onScrollToElement } = useScrollIntoView();
 
   // recoil state
   const [checkedList, setCheckedList] = useRecoilState(checkedFilterList);
   const totalLen = useRecoilValue(checkedListLen);
+  const [selected, setSelected] = useState(false);
+
+  // component inner state
+  const [innerCheckedList, setInnerCheckedList] = useState(checkedList);
 
   const toggleFilter = () => {
+    onScrollToElement();
     setOpenFilter((prev) => !prev);
   };
 
-  const handleSelected = () => {
-    if (getFilterLen() === 0) {
-      setSelected(false);
-    } else {
-      setSelected(true);
-    }
-
+  const handleOutSideclick = () => {
     setOpenFilter(false);
-    setCheckedList(innerCheckedList); // 1-1.
+
+    // 창 닫을 때 키워드 눌렀던거 초기화
+    setInnerCheckedList(checkedList); // 마지막 리코일에 저장된 상태로 초기화
+  };
+  useOutSideClick(filterRef, handleOutSideclick);
+
+  const handleSelected = () => {
+    getFilterLen() === 0 ? setSelected(false) : setSelected(true);
+    setOpenFilter(false);
+    setCheckedList(innerCheckedList);
   };
 
   const handleCheckedKeyword = useCallback(
     (checked: boolean, item: string, idx: string) => {
       let numIdx = Number.parseInt(idx);
+      let newList: any = [...innerCheckedList];
       if (checked) {
-        let newList: any = [...innerCheckedList];
         newList[numIdx] = [...newList[numIdx], item];
-        setInnerCheckedList(newList);
       } else if (!checked) {
-        let newList: any = [...innerCheckedList];
         newList[numIdx] = newList[numIdx].filter((el: any) => el !== item);
-        setInnerCheckedList(newList);
       }
+      setInnerCheckedList(newList);
     },
     [innerCheckedList]
   );
 
-  const getFilterBtnClass = () => {
-    // CASE1) 필터 창이 열려있는 경우 주황색 버튼
-    if (openFilter) {
-      return "button-orange";
-    }
-    // CASE2) 필터가 선택된 경우 검정 버튼
-    if (selected) {
-      return "button-black";
-    }
+  const getFilterBtnClass = () =>
+    openFilter
+      ? "button-orange"
+      : selected
+      ? "button-black"
+      : "button-white-outline";
 
-    // CASE3) 디폴트는 흰색 아웃라인 버튼
-    return "button-white-outline";
-  };
-
-  const getIconFilterClass = () => {
-    if (selected || openFilter) {
-      return "icon-filter-white";
-    }
-    return "icon-filter-outline";
-  };
-
-  const handleReset = () => {
-    // recoil state 초기화
-    setSelected(false);
-    setCheckedList(DEFAULT_FILTER_STATE);
-    setInnerCheckedList(DEFAULT_FILTER_STATE);
-  };
+  const getIconFilterClass = () =>
+    selected || openFilter ? "icon-filter-white" : "icon-filter-outline";
 
   const getFilterLengthText = () => {
-    const totalLen = getFilterLen();
-    if (totalLen === 0) {
-      return `필터 적용하기`;
-    } else {
-      return `필터 적용하기 (${totalLen})`;
-    }
+    const len = getFilterLen();
+    return len === 0 ? `필터 적용하기` : `필터 적용하기 (${len})`;
   };
 
   const handleKeywordRemove = (item: string) => {
     const newList: any = checkedList.map((arr) =>
       arr.filter((el) => el !== item)
     );
-    setCheckedList(newList); // TODO: 불변성 유지
+    setCheckedList(newList);
     setInnerCheckedList(newList);
   };
 
-  const getFilterLen = () => {
-    const len = innerCheckedList.reduce((acc, val) => acc + val.length, 0);
-    return len;
-  };
+  const getFilterLen = () =>
+    innerCheckedList.reduce((acc, val) => acc + val.length, 0);
 
   useEffect(() => {
+    if (totalLen) {
+      setSelected(true);
+      return;
+    }
     const len = getFilterLen();
     if (len === 0) setSelected(false);
   }, [innerCheckedList]);
 
   return (
-    <FilterWrapper>
-      <div className="button-wrapper">
+    <FilterWrapper ref={filterRef}>
+      <div
+        className="button-wrapper"
+        ref={element}
+      >
         <Button
           text="필터"
           icon={`icon-filter ${getIconFilterClass()}`}
-          className={`button-br-10 ${getFilterBtnClass()} text-normal-600`}
+          className={`button-br-10 ${getFilterBtnClass()} text-subtitle-1`}
           onClick={toggleFilter}
         />
         {totalLen > 0 && (
@@ -126,15 +115,19 @@ const Filter = () => {
             <Button
               text="초기화"
               icon="icon-reset"
-              className="button-br-10 button-white-outline text-normal-600"
-              onClick={handleReset}
+              className="button-br-10 button-white-outline reset text-subtitle-1"
+              onClick={() => {
+                setSelected(false);
+                setCheckedList(DEFAULT_FILTER_STATE);
+                setInnerCheckedList(DEFAULT_FILTER_STATE);
+              }}
             />
             {checkedList.map((list) =>
               list.map((item, key) => (
                 <Button
-                  key={key}
+                  key={`button-check-${key}`}
                   text={item}
-                  className="button-br-10 button-grey text-normal-600"
+                  className="button-br-10 button-grey text-subtitle-1"
                   data-item={item}
                   onClick={() => handleKeywordRemove(item)}
                 >
@@ -145,56 +138,57 @@ const Filter = () => {
           </>
         )}
       </div>
-
       {openFilter && (
         <FilterContent>
           <div className="filter__wrap">
             {FILTER_DATA.map((filter) => (
               <div
-                key={filter.idx}
+                key={`filter-${filter.idx}`}
                 className="filter-content"
               >
-                <div className="text-big-600">{filter.filter}</div>
-                <div
+                <h2
+                  className="text-subtitle-1"
+                  id="filter-label"
+                >
+                  {filter.filter}
+                </h2>
+                <ul
                   className={`${
                     filter.idx === 0 ? "filter-keyword-grid" : "filter-keyword"
                   }`}
                 >
                   {filter.data.map((data) => (
-                    <div
-                      key={data.idx}
+                    <li
+                      key={`filter-data-${data.idx}`}
                       className="filter-keyword-row"
+                      aria-labelledby="filter-label"
                     >
                       <Input
                         type="checkbox"
                         id={data.name}
                         name={filter.idx.toString()}
                         onChange={(e) => {
-                          handleCheckedKeyword(
-                            e.target.checked,
-                            e.target.id,
-                            e.target.name
-                          );
+                          const { checked, id, name } = e.target;
+                          handleCheckedKeyword(checked, id, name);
                         }}
                       />
                       <label
                         className="filter-keyword-row-text text-normal-300"
                         htmlFor={data.name}
-                        // name={}
                       >
                         {data.name}
                       </label>
-                    </div>
+                    </li>
                   ))}
-                </div>
+                </ul>
               </div>
             ))}
           </div>
           <Button
             text={getFilterLengthText()}
-            className=" button-orange text-normal-700"
-            onClick={handleSelected}
             width="37.6rem"
+            className="component-small button-orange long"
+            onClick={handleSelected}
           />
         </FilterContent>
       )}
@@ -206,19 +200,20 @@ export default Filter;
 
 const FilterWrapper = styled.div`
   position: relative;
-  margin-top: 5.6rem;
+  display: inline-flex;
 
   .button-wrapper {
-    display: flex;
+    display: inline-flex;
     flex-wrap: wrap;
     gap: 1.6rem;
-    //position: sticky;
-    //top: ${HEADER_HEIGHT_MO};
-    //height: 16.4rem;
+
+    position: sticky;
+    top: ${HEADER_HEIGHT_MO};
   }
 `;
 
 const FilterContent = styled.div`
+  ${flexColumnCenter}
   position: absolute;
   top: 5.4rem;
 
@@ -227,48 +222,47 @@ const FilterContent = styled.div`
   background: ${(props) => props.theme.colors.white};
   box-shadow: 0px 0px 40px 0px rgba(158, 158, 158, 0.12);
   z-index: ${Z_INDEX_FILTER};
+  padding: 5.6rem 4.8rem;
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 5.6rem 4rem;
+  .button-orange {
+    margin-top: 8.8rem;
+  }
 
-  // 필터창 레이아웃
   .filter__wrap {
     display: flex;
 
     .filter-content {
-      display: flex;
-      flex-direction: column;
-
       & + .filter-content {
-        margin-left: 7.2rem;
+        margin-left: 5.6rem;
       }
 
-      .text-big-600 {
-        margin-bottom: 2.8rem;
+      &:nth-last-child(1) {
+        margin-right: 4.2rem;
+      }
+
+      h2 {
+        margin-bottom: 2.4rem;
       }
 
       .filter-keyword {
-        display: flex;
-        flex-direction: column;
-        gap: 1.6rem;
-        width: 16.8rem;
+        ${flexColumnCenter}
+        width: 14.8rem;
         flex-wrap: wrap;
-        height: 31.2rem;
+        gap: 1rem;
 
-        // 첫번째 컬럼
         &-grid {
           display: grid;
-          grid-template-columns: 1fr 1fr;
-          grid-gap: 1.6rem;
+          grid-template-rows: repeat(6, 2.4rem);
+          grid-row-gap: 1rem;
+          grid-auto-flow: column;
         }
         &-row {
-          width: 16.8rem;
-
+          display: flex;
+          align-items: center;
+          width: 14.8rem;
           &-text {
-            font-size: 2rem;
-            margin-left: 1.4rem;
+            font-size: 1.6rem;
+            margin-left: 1rem;
             cursor: pointer;
           }
         }

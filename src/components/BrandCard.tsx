@@ -16,11 +16,15 @@ const BrandCard = ({
   onClick,
 }: BrandProps) => {
   return (
-    <BrandCardWrapper onClick={onClick}>
-      <div className="card-content text-normal-300">{text}</div>
+    <BrandCardWrapper>
+      <div className="card-content text-normal-300">
+        {text}
+        <span className="more-content">...더 보기</span>
+      </div>
+
       <div className="card-brand">
         <img src={brandImg} />
-        <span className="text-normal-700">{brandName}</span>
+        <span className="component-small">{brandName}</span>
       </div>
     </BrandCardWrapper>
   );
@@ -31,8 +35,10 @@ export default BrandCard;
 const BrandCardWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 37.8rem;
-  max-height: 27.2rem;
+  min-width: 37.8rem;
+  max-width: 100%;
+
+  min-height: 27.2rem;
   padding: 3.8rem 4rem;
 
   border: 0.025rem solid ${(props) => props.theme.colors.black40};
@@ -41,14 +47,30 @@ const BrandCardWrapper = styled.div`
   cursor: pointer;
 
   .card-content {
+    position: relative;
+    // 여러 줄 말줄임 표시
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
     width: 100%;
-    white-space: pre-wrap;
+    // white-space: pre-wrap;
+    overflow: hidden;
+    -webkit-line-clamp: 5;
     max-height: 12rem;
     font-size: 1.6rem;
     color: ${(props) => props.theme.colors.black100};
     margin-bottom: 2.4rem;
-    -webkit-line-clamp: 5;
-    overflow: hidden;
+
+    // 더보기
+    .more-content {
+      width: 100px;
+      position: absolute;
+      bottom: -3px;
+      text-align: right;
+      right: 0;
+      //background: white;
+      background: linear-gradient(to left, #fff 50%, #fff 60%, transparent);
+    }
+
   }
 
   .card-brand {

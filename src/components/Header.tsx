@@ -1,62 +1,29 @@
+import Login from "@/pages/Login";
 import SearchBar from "@/components/SearchBar";
 import Button from "@/components/Button";
 import ProfileDropDown from "@/components/ProfileDropDown";
-import Input from "@/components/Input";
-import { useNavigate, useLocation } from "react-router-dom";
+
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { activeMenu, activeChildMenu, loginModalOverlay } from "@/utils/atom";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { HEADER_HEIGHT_MO, Z_INDEX_HEADER } from "@/utils/constants";
-import { useState } from "react";
+
+import {
+  HEADER_HEIGHT_MO,
+  Z_INDEX_HEADER,
+  HEADER_LEFT_MENU,
+} from "@/utils/constants";
+import { activeMenu, activeChildMenu, loginModalOverlay } from "@/utils/atom";
 import Portal from "@/utils/portal";
-import Login from "@/pages/Login";
 
 const Header = () => {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const [activeMenuIdx, setActiveMenuIdx] = useRecoilState(activeMenu);
   const [loginModal, setLoginModal] = useRecoilState(loginModalOverlay);
   const setActiveChildMenuIdx = useSetRecoilState(activeChildMenu);
 
-  console.log("activeMenuIdx", activeMenuIdx);
-
-  /*
-  1. 디폴트는 홈페이지
-  2. 클릭하면 recoil에 저장 + 값 reset
-  3. 새로고침해도 날라가지 않게 recoil-persist
-  4. 
-  
-  */
-
-  const HEADER_LEFT_MENU = [
-    {
-      idx: 0,
-      path: "/",
-      name: "홈",
-    },
-    {
-      idx: 1,
-      path: "/writing",
-      name: "글쓰기",
-    },
-  ];
-
-  /**
-   * Home: 0,
-   * Writing: 1,
-   * 그외 Prifle: 2
-   * (내계정, 북마크, 문의)
-   *
-   */
-
-  const handleLogin = () => {
-    setLoginModal(true);
-  };
-
-  const handleClose = () => {
-    setLoginModal(false);
-  };
+  const handleLogin = () => setLoginModal(true);
+  const handleClose = () => setLoginModal(false);
 
   return (
     <HeaderWrapper>
@@ -72,28 +39,20 @@ const Header = () => {
               <Login onClose={handleClose} />
             </Portal>
           )}
-          <Button
-            className={`${
-              activeMenuIdx === 0 ? "button-black" : "button-white"
-            } text-normal-700`}
-            onClick={() => {
-              setActiveMenuIdx(0);
-              setActiveChildMenuIdx(-1);
-              navigate("/");
-            }}
-            text="홈"
-          />
-          <Button
-            className={`${
-              activeMenuIdx === 1 ? "button-black" : "button-white"
-            } text-normal-700`}
-            onClick={() => {
-              setActiveMenuIdx(1);
-              setActiveChildMenuIdx(-1);
-              navigate("/writing");
-            }}
-            text="글쓰기"
-          />
+          {HEADER_LEFT_MENU.map((menu) => (
+            <Button
+              key={menu.idx}
+              className={`component-small ${
+                activeMenuIdx === menu.idx ? "button-black" : "button-white"
+              }`}
+              onClick={() => {
+                setActiveMenuIdx(menu.idx);
+                setActiveChildMenuIdx(-1);
+                navigate(menu.path);
+              }}
+              text={menu.name}
+            />
+          ))}
         </div>
         <div className="header__content--center">
           <SearchBar />

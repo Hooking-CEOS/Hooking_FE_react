@@ -1,6 +1,6 @@
 import Header from "@/components/Header";
 
-const MyPage = () => {
+const BrandDetail = () => {
   return (
     <>
       <Header />
@@ -8,4 +8,4 @@ const MyPage = () => {
   );
 };
 
-export default MyPage;
+export default BrandDetail;

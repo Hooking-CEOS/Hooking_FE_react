@@ -8,6 +8,9 @@
     height: 1.8rem;
     margin-left: 2rem;
   }
+  &.searchbar--active {
+    margin-left: 1.53rem;
+  }
 }
 
 input[type="checkbox"] {
@@ -45,7 +48,7 @@ input[type="checkbox"] {
     justify-content: center;
     flex: 1 0 auto; //
     padding: 1.5rem 2rem;
-    border-radius: 6rem; // 기본이 60px
+    border-radius: 6rem;
 
     // icon position
     & > span {
@@ -64,8 +67,8 @@ input[type="checkbox"] {
 
     &.small {
       .button__inner {
-        padding: 1.2rem;
-        margin: 0.4rem 0.8rem;
+        background-color: $color_black_100;
+        padding: 1.1rem 2.1rem 1.1rem 1.1rem;
       }
     }
   }
@@ -75,12 +78,24 @@ input[type="checkbox"] {
       color: $color_black_100;
       padding: 1.6rem 2rem;
     }
+
+    &.small {
+      .button__inner {
+        padding: 1.1rem 2.1rem 1.1rem 1.1rem;
+      }
+    }
   }
 
   &-orange {
     .button__inner {
       color: $color_white;
       background-color: $color_point;
+    }
+
+    &.long {
+      .button__inner {
+        padding: 2rem 2.9rem;
+      }
     }
   }
 
@@ -94,11 +109,65 @@ input[type="checkbox"] {
   &-white-outline {
     .button__inner {
       color: $color_black_40;
-      border: 0.25px solid $color_black_40;
+      border: 0.025rem solid $color_black_40;
       background: $color_white;
 
       &.margin-left {
         margin-left: 1.6rem;
+      }
+    }
+
+    &:hover {
+      &:not(.reset) {
+        // 초기화 버튼은 hover 적용하지 않음
+        .button__inner {
+          background: $color_black_100;
+          color: $color_white;
+
+          .icon-filter {
+            background: url("../assets/images/icon-filter-white.svg") no-repeat
+              90% center;
+          }
+        }
+      }
+    }
+    &:active {
+      &:not(.reset) {
+        // 초기화 버튼은 active 적용하지 않음
+        .button__inner {
+          background: $color_point;
+          border: none;
+          color: $color_white;
+
+          .icon-filter {
+            background: url("../assets/images/icon-filter-white.svg") no-repeat
+              90% center;
+          }
+        }
+      }
+    }
+  }
+
+  &-orange-outline {
+    .button__inner {
+      border: 1px solid $color_point;
+      background: $color_white;
+      color: $color_point;
+    }
+    &:hover {
+      .button__inner {
+        background: linear-gradient(
+            0deg,
+            rgba(255, 113, 69, 0.2) 0%,
+            rgba(255, 113, 69, 0.2) 100%
+          ),
+          #fff;
+      }
+    }
+    &:active {
+      .button__inner {
+        background: $color_point;
+        color: $color_white;
       }
     }
   }
@@ -140,11 +209,26 @@ input[type="checkbox"] {
     background: url("../assets/images/icon-logo.svg") no-repeat center;
   }
 
+  &-hooking {
+    width: 2.4rem;
+    height: 2.4rem;
+    background: url("../assets/images/icon-hooking.svg") no-repeat center;
+    transition: background ease-in-out 0.2s 0s;
+  }
+
   &-arrow-fold {
     width: 1.2rem; // figma 사이즈로하면 잘려서 수정
     height: 0.7rem;
     background: url("../assets/images/icon-arrow-fold.svg") no-repeat 90% center;
     margin-left: 1.2rem;
+
+    &-light {
+      width: 1.2rem; // figma 사이즈로하면 잘려서 수정
+      height: 0.7rem;
+      background: url("../assets/images/icon-arrow-fold-light.svg") no-repeat
+        90% center;
+      margin-left: 1.2rem;
+    }
   }
 
   &-arrow-unfold {
@@ -198,8 +282,8 @@ input[type="checkbox"] {
   }
 
   &-search {
-    width: 1.8rem;
-    height: 1.8rem;
+    width: 1.9rem;
+    height: 1.9rem;
     background: url("../assets/images/icon-search.svg") no-repeat 90% center;
     cursor: pointer;
   }
