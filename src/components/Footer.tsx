@@ -19,11 +19,23 @@ const Footer = () => {
             </span>
             <span className="footer-grey-text text-body-2">
               {/* TODO: 링크 삽입 */}
-              <a>이용약관</a>
+              <a
+                href="https://www.google.com/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                이용약관
+              </a>
             </span>
             <span className="footer-grey-text text-body-2">
               {/* TODO: 링크 삽입 */}
-              <a>개인정보처리방침</a>
+              <a
+                href="https://www.google.com/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                개인정보처리방침
+              </a>
             </span>
           </div>
         </div>
