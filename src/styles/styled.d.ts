@@ -10,6 +10,7 @@ declare module "styled-components" {
       black30: "#0002354D";
       black40: "#00023566";
       black5: "#0002350D";
+      black3: "#00023508";
       point: "#FF7145";
     };
   }
