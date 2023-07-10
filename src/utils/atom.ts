@@ -55,6 +55,12 @@ export const loginModalOverlay = atom({
   default: false,
 });
 
+// brand specific modal overlay
+export const brandModalOverlay = atom({
+  key: "brandModalOverlay",
+  default: false,
+});
+
 // search modal overlay
 export const modalOverlay = atom({
   key: "modalOverlay",
