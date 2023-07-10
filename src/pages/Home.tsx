@@ -115,7 +115,7 @@ const Home = () => {
       <section className="main">
         <Filter />
         <BrandCards>
-          {/* {CARD_DATA.map((card) => (
+          {CARD_DATA.map((card) => (
             <BrandCard
               key={card.idx}
               brandId={card.idx}
@@ -124,7 +124,9 @@ const Home = () => {
               brandName={card.brand}
               onClick={handleBrandOpen}
             />
-          ))} */}
+          ))}
+
+          {/*
           {cardData.map((card) => (
             <BrandCard
               key={card.id}
@@ -134,6 +136,7 @@ const Home = () => {
               onClick={handleBrandOpen}
             />
           ))}
+          */}
         </BrandCards>
       </section>
     </>
