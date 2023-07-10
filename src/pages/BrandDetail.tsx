@@ -1,11 +1,7 @@
 import Header from "@/components/Header";
 
 const BrandDetail = () => {
-  return (
-    <>
-      <Header />
-    </>
-  );
+  return <>BrandDetail</>;
 };
 
 export default BrandDetail;

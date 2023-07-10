@@ -81,10 +81,9 @@ const BookMark = () => {
 
   return (
     <>
-      <Header />
       <section className="main bookmark">
-        <h1 className="text-heading-2">북마크</h1>
         <div className="bookmark-copy">
+          <h1 className="text-heading-2">북마크</h1>
           <BrandCards>
             {CARD_DATA.map((card) => (
               <BrandCard

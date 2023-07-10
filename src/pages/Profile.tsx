@@ -1,11 +1,7 @@
 import Header from "@/components/Header";
 
 const Profile = () => {
-  return (
-    <>
-      <Header />
-    </>
-  );
+  return <>Profile</>;
 };
 
 export default Profile;
