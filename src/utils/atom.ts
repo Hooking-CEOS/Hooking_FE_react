@@ -1,5 +1,6 @@
 import { atom, selectorFamily, selector } from "recoil";
 import { recoilPersist } from "recoil-persist";
+import { getSearchResult } from "@/api/get";
 
 const { persistAtom } = recoilPersist();
 
@@ -29,6 +30,23 @@ export const isChecked = selectorFamily({
 
       return isCheck;
     },
+});
+
+export const search = atom({
+  key: "search",
+  default: {
+    searchKeyword: "",
+    searchFocus: false,
+  },
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const searchResult = selectorFamily({
+  key: "searchResult",
+  get: (keyword: string) => async () => {
+    if (keyword === "") return null;
+    return await getSearchResult(keyword);
+  },
 });
 
 // login modal overlay
