@@ -71,6 +71,15 @@ input[type="checkbox"] {
         padding: 1.1rem 2.1rem 1.1rem 1.1rem;
       }
     }
+
+    &-small {
+      .button__inner {
+        color: $color_white;
+        background-color: $color_black_100;
+        padding: 0.6rem 1.2rem;
+        border-radius: 0.6rem;
+      }
+    }
   }
 
   &-white {
@@ -207,6 +216,12 @@ input[type="checkbox"] {
     width: 11.3rem;
     height: 3.5rem;
     background: url("../assets/images/icon-logo.svg") no-repeat center;
+
+    &-big {
+      width: 15.2rem;
+      height: 4.8rem;
+      background: url("../assets/images/icon-logo-big.svg") no-repeat center;
+    }
   }
 
   &-hooking {
@@ -235,6 +250,14 @@ input[type="checkbox"] {
     width: 1.2rem;
     height: 0.7rem;
     background: url("../assets/images/icon-arrow-unfold.svg") no-repeat 90%
+      center;
+    margin-left: 1.2rem;
+  }
+
+  &-arrow-right {
+    width: 0.7rem;
+    height: 1rem;
+    background: url("../assets/images/icon-arrow-right.svg") no-repeat 90%
       center;
     margin-left: 1.2rem;
   }

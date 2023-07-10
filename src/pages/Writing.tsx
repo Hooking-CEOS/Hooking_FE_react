@@ -1,11 +1,5 @@
-import Header from "@/components/Header";
-
 const Writing = () => {
-  return (
-    <>
-      <Header />
-    </>
-  );
+  return <>Writing</>;
 };
 
 export default Writing;
