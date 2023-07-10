@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import useOutSideClick from "@/hooks/useOutSideClick";

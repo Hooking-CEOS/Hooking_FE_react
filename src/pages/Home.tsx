@@ -1,16 +1,12 @@
-import Header from "@/components/Header";
-
 import BrandCard from "@/components/BrandCard";
 import Filter from "@/components/Filter";
 import { Z_INDEX_MODAL } from "@/utils/constants";
-import { useEffect } from "react";
 
 import { useRecoilValue } from "recoil";
 import { modalOverlay } from "@/utils/atom";
 import styled from "styled-components";
 import IMG_BRAND_SAMPLE from "@/assets/images/icon-brand-sample.svg";
 import Carousel from "@/components/Carousel";
-import { getAllCopy } from "@/api/post";
 
 const CARD_DATA = [
   {
@@ -89,16 +85,6 @@ const CARD_DATA = [
 
 const Home = () => {
   const searchFocus = useRecoilValue(modalOverlay);
-
-  const getCopyData = async () => {
-    //const data = await getAllCopy();
-    //if (data) {
-    // }
-  };
-
-  useEffect(() => {
-    getCopyData();
-  }, []);
 
   return (
     <>

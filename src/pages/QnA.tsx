@@ -1,5 +1,3 @@
-import { useState } from "react";
-import Header from "@/components/Header";
 import styled from "styled-components";
 import IMG_BRAND_SAMPLE from "@/assets/images/icon-brand-sample.svg";
 import BrandCard from "@/components/BrandCard";

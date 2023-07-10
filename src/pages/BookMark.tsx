@@ -1,4 +1,3 @@
-import Header from "@/components/Header";
 import IMG_BRAND_SAMPLE from "@/assets/images/icon-brand-sample.svg";
 import BrandCard from "@/components/BrandCard";
 import styled from "styled-components";
