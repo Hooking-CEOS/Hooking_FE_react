@@ -1,13 +1,13 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import useOutSideClick from "@/hooks/useOutSideClick";
 
 import styled from "styled-components";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 
-import { modalOverlay } from "@/utils/atom";
+import { modalOverlay, search } from "@/utils/atom";
 import { Z_INDEX_FILTER } from "@/utils/constants";
 
 const BRAND = [
@@ -31,15 +31,10 @@ const BRAND = [
 ];
 
 const SearchBar = () => {
-  const initialSearch = {
-    searchKeyword: "",
-    searchFocus: false,
-  };
-
   const navigate = useNavigate();
   const setFocus = useSetRecoilState(modalOverlay);
 
-  const [searchState, setSearchState] = useState(initialSearch);
+  const [searchState, setSearchState] = useRecoilState(search);
 
   const searchRef = useRef<HTMLInputElement>(null);
   const searchWrap = useRef<HTMLInputElement>(null);
@@ -49,12 +44,14 @@ const SearchBar = () => {
     setSearchState({ ...searchState, searchKeyword: e.target.value });
   };
 
+  // 검색창 focus in
   const handleFocusOn = () => {
     setSearchState({ ...searchState, searchFocus: true });
     setFocus(true);
     searchRef.current?.focus();
   };
 
+  // 검색창 focus out
   const handleFocusOut = () => {
     setSearchState({ ...searchState, searchFocus: false });
     setFocus(false);
@@ -63,7 +60,8 @@ const SearchBar = () => {
   useOutSideClick(searchWrap, handleFocusOut);
 
   const onSearchSubmit = () => {
-    console.log("[search keyword]", searchState.searchKeyword);
+    setSearchState({ ...searchState, searchFocus: false });
+    navigate(`/search?keyword=${searchState.searchKeyword}`);
   };
 
   return (
@@ -100,6 +98,7 @@ const SearchBar = () => {
             } text-subtitle-1`}
             onChange={handleSearch}
             onFocus={handleFocusOn}
+            value={searchState.searchKeyword}
             ref={searchRef}
           />
           {searchState.searchFocus && (
@@ -143,7 +142,10 @@ const SearchBar = () => {
                   </div>
                   <Button
                     text="내 북마크"
-                    onClick={() => navigate("/bookmark")}
+                    onClick={() => {
+                      handleFocusOut();
+                      navigate("/bookmark");
+                    }}
                     className="button-orange-outline text-subtitle-1"
                   />
                 </div>
