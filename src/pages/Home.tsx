@@ -24,13 +24,13 @@ const CARD_DATA = [
   },
   {
     idx: 2,
-    text: "휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum 휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum",
+    text: "휴대하기 좋은 비건 세럼 립틴트로\n어디서든 촉촉한 입술을 가꿔보세요\n\nGet moist lips\nwith the portable vegan serum... ",
     brand: "이니스프리",
     img: IMG_BRAND_SAMPLE,
   },
   {
     idx: 3,
-    text: "휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum 휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum",
+    text: "휴대하기 좋은 #비건_세럼_립틴트로 \n어디서든 촉촉한 입술을 가꿔보세요\n\nGet moist lips\nwith the portable @vegan_serum...",
     brand: "이니스프리",
     img: IMG_BRAND_SAMPLE,
   },
@@ -82,6 +82,7 @@ const CARD_DATA = [
     brand: "이니스프리",
     img: IMG_BRAND_SAMPLE,
   },
+  
 ];
 interface ICardData {
   id: number;
@@ -96,11 +97,11 @@ const Home = () => {
   const [cardData, setCardData] = useState<ICardData[]>([]);
 
   //test api 연결용
-  useEffect(() => {
-    axios.get("https://hooking.shop/copy").then((res) => {
-      setCardData(res.data);
-    });
-  }, []);
+  // useEffect(() => {
+  //   axios.get("https://hooking.shop/copy").then((res) => {
+  //     setCardData(res.data);
+  //   });
+  // }, []);
 
   const handleBrandOpen = () => {
     setBrandModal(true);
@@ -126,6 +127,7 @@ const Home = () => {
             />
           ))}
 
+
           {/*
           {cardData.map((card) => (
             <BrandCard
@@ -135,6 +137,9 @@ const Home = () => {
               brandImg={IMG_BRAND_SAMPLE}
               onClick={handleBrandOpen}
             />
+
+
+
           ))}
           */}
         </BrandCards>
