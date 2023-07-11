@@ -30,7 +30,7 @@ const CARD_DATA = [
   },
   {
     idx: 3,
-    text: "휴대하기 좋은 #비건_세럼_립틴트로 \n어디서든 촉촉한 입술을 가꿔보세요\n\nGet moist lips\nwith the portable @vegan_serum...",
+    text: "휴대하기 좋은 #비건_세럼_립틴트로\n어디서든 촉촉한 입술을 가꿔보세요\n\nGet moist lips\nwith the portable @vegan_serum...",
     brand: "이니스프리",
     img: IMG_BRAND_SAMPLE,
   },
@@ -82,7 +82,6 @@ const CARD_DATA = [
     brand: "이니스프리",
     img: IMG_BRAND_SAMPLE,
   },
-  
 ];
 interface ICardData {
   id: number;
@@ -126,7 +125,6 @@ const Home = () => {
               onClick={handleBrandOpen}
             />
           ))}
-
 
           {/*
           {cardData.map((card) => (
