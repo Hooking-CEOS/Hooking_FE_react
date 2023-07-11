@@ -8,6 +8,30 @@ interface BrandProps {
   onClick?: () => void;
 }
 
+// 단어 단위로 쪼개서 단어가 # 또는 @로 시작하면 밑줄
+
+const WordWrap = (word: string) => {
+  console.log(word);
+  const words = word.split(" ");
+  console.log(words);
+  let res = [];
+  return (
+    <>
+      {words.map((word, index) => {
+        if (word.startsWith("@") || word.startsWith("#")) {
+          return (
+            <>
+              <u key={index}>{word}</u>{" "}
+            </>
+          );
+        } else {
+          return word + " ";
+        }
+      })}
+    </>
+  );
+};
+
 const BrandCard = ({
   text,
   brandName,
@@ -18,12 +42,15 @@ const BrandCard = ({
   return (
     <BrandCardWrapper>
       <div className="card-content text-normal-300">
-        {text}
+        {WordWrap(text)}
         <span className="more-content">...더 보기</span>
       </div>
 
       <div className="card-brand">
-        <img src={brandImg} />
+        <img
+          src={brandImg}
+          alt="brandImg"
+        />
         <span className="component-small">{brandName}</span>
       </div>
     </BrandCardWrapper>
@@ -52,7 +79,7 @@ const BrandCardWrapper = styled.div`
     display: -webkit-box;
     -webkit-box-orient: vertical;
     width: 100%;
-    // white-space: pre-wrap;
+    white-space: pre-wrap;
     overflow: hidden;
     -webkit-line-clamp: 5;
     max-height: 12rem;
@@ -70,7 +97,6 @@ const BrandCardWrapper = styled.div`
       //background: white;
       background: linear-gradient(to left, #fff 50%, #fff 60%, transparent);
     }
-
   }
 
   .card-brand {
