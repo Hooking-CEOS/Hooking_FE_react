@@ -9,6 +9,7 @@ interface InputProps {
   placeholder?: string;
   id?: string;
   name?: string;
+  value?: string;
   checked?: boolean | undefined;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onFocus?: (e: React.FocusEvent<HTMLElement>) => void;

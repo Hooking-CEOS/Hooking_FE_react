@@ -1,10 +1,13 @@
-import styled from "styled-components";
-import IMG_BRAND_SAMPLE from "@/assets/images/icon-brand-sample.svg";
-import BrandCard from "@/components/BrandCard";
-import Button from "@/components/Button";
+// import { useSearchParams } from "react-router-dom";
+// import { useEffect } from "react";
+//import { useNavigate } from "react-router-dom";
 
-import { search } from "@/utils/atom";
-import { useRecoilValue } from "recoil";
+import styled from "styled-components";
+//import { useRecoilState } from "recoil";
+//import { search } from "@/utils/atom";
+import BrandCard from "@/components/BrandCard";
+import Filter from "@/components/Filter";
+import IMG_BRAND_SAMPLE from "@/assets/images/icon-brand-sample.svg";
 
 const CARD_DATA = [
   {
@@ -81,32 +84,29 @@ const CARD_DATA = [
   },
 ];
 
-const QnA = () => {
-  const searchState = useRecoilValue(search);
+const Search = () => {
+  // const [searchState, setSearchState] = useRecoilState(search);
+  //const [searchParams, setSearchParams] = useSearchParams();
+
+  //console.log("keyword", searchParams.get("keyword"));
+  //const navigate = useNavigate();
+
+  /*
+  useEffect(() => {
+    navigate(`/search?keyword=${searchState.searchKeyword}`);
+  }, [searchState.searchKeyword]);
+*/
+
+  /* TODO: 검색한 키워드 "분위기, 키워드, 브랜드, 검색결과 없음 중 하나" => 다른 UI */
+  /* TODO: qna 말고, copy로 빼기 */
 
   return (
     <section className="main qna">
-      <div className="qna-search-result">
-        <div className="qna-search-result__wrap">
-          <h1 className="text-heading-2">
-            <span className="text-orange">'{searchState.searchKeyword}'</span>에
-            대한 검색 결과가 없습니다.
-          </h1>
-          <p className="qna-search-result-content text-body-1">
-            새로운 뷰티 브랜드의 SNS 홍보 문구를 찾으셨나요?
-            <br /> 후킹에서 지속적으로 만나보고 싶은 브랜드가 있다면 아래 버튼을
-            눌러 건의해주세요.
-          </p>
-          <Button
-            text="후킹에게 건의하기"
-            className="button-orange long component-small"
-          ></Button>
-        </div>
-      </div>
-
       <div className="qna-copy">
         <div className="qna-copy__wrap">
-          <h1 className="text-heading-2">다른 카피 살펴보기</h1>
+          <div className="filter">
+            <Filter />
+          </div>
           <BrandCards>
             {CARD_DATA.map((card) => (
               <BrandCard
@@ -124,7 +124,7 @@ const QnA = () => {
   );
 };
 
-export default QnA;
+export default Search;
 
 const BrandCards = styled.div`
   display: grid;
