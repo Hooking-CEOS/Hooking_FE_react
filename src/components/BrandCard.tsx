@@ -11,10 +11,9 @@ interface BrandProps {
 // 단어 단위로 쪼개서 단어가 # 또는 @로 시작하면 밑줄
 
 const WordWrap = (word: string) => {
-  console.log(word);
+  // console.log(word);
+  word = word.replaceAll("\n", " \n ");
   const words = word.split(" ");
-  console.log(words);
-  let res = [];
   return (
     <>
       {words.map((word, index) => {
