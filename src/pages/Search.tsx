@@ -1,10 +1,9 @@
-// import { useSearchParams } from "react-router-dom";
-// import { useEffect } from "react";
-//import { useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
 
 import styled from "styled-components";
-//import { useRecoilState } from "recoil";
-//import { search } from "@/utils/atom";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { searchResult, search } from "@/utils/atom";
 import BrandCard from "@/components/BrandCard";
 import Filter from "@/components/Filter";
 import IMG_BRAND_SAMPLE from "@/assets/images/icon-brand-sample.svg";
@@ -85,17 +84,23 @@ const CARD_DATA = [
 ];
 
 const Search = () => {
-  // const [searchState, setSearchState] = useRecoilState(search);
-  //const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  //console.log("keyword", searchParams.get("keyword"));
-  //const navigate = useNavigate();
+  const keyword = searchParams.get("keyword");
+
+  //const getSearch = useRecoilValue(searchResult(keyword));
 
   /*
+  const getSearchResult = () => {
+    //const data = getSearch;
+    if (data) {
+      //console.log("data", data);
+    }
+  };
+  */
   useEffect(() => {
-    navigate(`/search?keyword=${searchState.searchKeyword}`);
-  }, [searchState.searchKeyword]);
-*/
+    //getSearchResult();
+  }, [keyword]);
 
   /* TODO: 검색한 키워드 "분위기, 키워드, 브랜드, 검색결과 없음 중 하나" => 다른 UI */
   /* TODO: qna 말고, copy로 빼기 */

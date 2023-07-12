@@ -12,7 +12,7 @@ export const getAllCopy = async () => {
 
 // 카피라이팅 검색 조회
 export const getCopySearch = async (keyword: string) => {
-  return await GET("/copy/search", { keyword: keyword });
+  return await GET(`/copy/search?keyword=${encodeURIComponent(keyword)}`);
 };
 
 // 카피라이팅 스크랩
