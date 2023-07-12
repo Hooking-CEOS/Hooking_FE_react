@@ -7,7 +7,7 @@ import styled from "styled-components";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 
-import { modalOverlay, search } from "@/utils/atom";
+import { searchModalOverlay, search } from "@/utils/atom";
 import { Z_INDEX_FILTER } from "@/utils/constants";
 
 const BRAND = [
@@ -32,7 +32,7 @@ const BRAND = [
 
 const SearchBar = () => {
   const navigate = useNavigate();
-  const setFocus = useSetRecoilState(modalOverlay);
+  const setOverlay = useSetRecoilState(searchModalOverlay);
 
   const [searchState, setSearchState] = useRecoilState(search);
 
@@ -47,20 +47,21 @@ const SearchBar = () => {
   // 검색창 focus in
   const handleFocusOn = () => {
     setSearchState({ ...searchState, searchFocus: true });
-    setFocus(true);
+    setOverlay(true);
     searchRef.current?.focus();
   };
 
   // 검색창 focus out
   const handleFocusOut = () => {
     setSearchState({ ...searchState, searchFocus: false });
-    setFocus(false);
+    setOverlay(false);
   };
 
   useOutSideClick(searchWrap, handleFocusOut);
 
-  const onSearchSubmit = () => {
-    setSearchState({ ...searchState, searchFocus: false });
+  const onSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    handleFocusOut();
     navigate(`/search?keyword=${searchState.searchKeyword}`);
   };
 
