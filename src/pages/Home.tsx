@@ -3,7 +3,7 @@ import Filter from "@/components/Filter";
 import { Z_INDEX_MODAL } from "@/utils/constants";
 
 import { useRecoilState, useRecoilValue } from "recoil";
-import { brandModalOverlay, modalOverlay } from "@/utils/atom";
+import { brandModalOverlay } from "@/utils/atom";
 import styled from "styled-components";
 import IMG_BRAND_SAMPLE from "@/assets/images/icon-brand-sample.svg";
 import Carousel from "@/components/Carousel";
@@ -91,7 +91,6 @@ interface ICardData {
   createdAt: string;
 }
 const Home = () => {
-  const searchFocus = useRecoilValue(modalOverlay);
   const [brandModal, setBrandModal] = useRecoilState(brandModalOverlay);
   const [cardData, setCardData] = useState<ICardData[]>([]);
 
@@ -108,7 +107,6 @@ const Home = () => {
 
   return (
     <>
-      {searchFocus && <Overlay />}
       <CarouselDiv>
         <Carousel />
       </CarouselDiv>
@@ -158,15 +156,4 @@ const CarouselDiv = styled.div`
     rgba(0, 2, 53, 0) 0%,
     rgba(0, 2, 53, 0.03) 100%
   );
-`;
-
-const Overlay = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: black;
-  opacity: 0.6;
-  z-index: ${Z_INDEX_MODAL};
 `;
