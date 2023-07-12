@@ -1,6 +1,6 @@
 import { atom, selectorFamily, selector } from "recoil";
 import { recoilPersist } from "recoil-persist";
-import { getSearchResult } from "@/api/get";
+import { getCopySearch } from "@/api/copywriting";
 
 const { persistAtom } = recoilPersist();
 
@@ -43,9 +43,9 @@ export const search = atom({
 
 export const searchResult = selectorFamily({
   key: "searchResult",
-  get: (keyword: string) => async () => {
-    if (keyword === "") return null;
-    return await getSearchResult(keyword);
+  get: (keyword: string | null) => async () => {
+    if (keyword === "" || keyword === null) return null;
+    return await getCopySearch(keyword);
   },
 });
 
@@ -62,8 +62,8 @@ export const brandModalOverlay = atom({
 });
 
 // search modal overlay
-export const modalOverlay = atom({
-  key: "modalOverlay",
+export const searchModalOverlay = atom({
+  key: "searchModalOverlay",
   default: false,
 });
 
