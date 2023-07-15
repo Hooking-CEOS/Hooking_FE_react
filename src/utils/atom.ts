@@ -44,7 +44,6 @@ export const search = atom({
 export const searchResult = selectorFamily({
   key: "searchResult",
   get: (keyword: string | null) => async () => {
-    if (keyword === "" || keyword === null) return null;
     return await getCopySearch(keyword);
   },
 });
