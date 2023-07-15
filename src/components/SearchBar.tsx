@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 import { searchModalOverlay, search } from "@/utils/atom";
 import { Z_INDEX_FILTER } from "@/utils/constants";
+import BrandLogoCard from "./BrandLogoCard";
 
 const BRAND = [
   {
@@ -120,20 +121,14 @@ const SearchBar = () => {
                   <div className="text-subtitle-1">이달의 브랜드 모아보기</div>
                   <div className="search-brand-content">
                     {BRAND.map((brand) => (
-                      <BrandCard key={`brand-card-${brand.idx}`}>
-                        <img
-                          className="brand-img"
-                          src={brand.img}
-                          alt="brand-img"
-                        />
-                        <div className="brand-name text-subtitle-1">
-                          {brand.name}
-                        </div>
-                      </BrandCard>
+                      <BrandLogoCard
+                        key={`brand-card-${brand.idx}`}
+                        brand={brand}
+                      />
                     ))}
                   </div>
                 </div>
-                <hr />
+                <hr className="hr" />
                 <div className="search-copy">
                   <div
                     className="text-headline text-subtitle-1"
@@ -215,46 +210,17 @@ const SearchHistory = styled.div`
       
       .search-brand-content{
         display: flex;
-        gap: 3.75rem;
+        //gap: 3.75rem;
       }
     }
-    hr{
-      width: 100%;
-      background-color: ${(props) => props.theme.colors.black5};
-      opacity: 0.3;
-      margin-top: 3.1rem;
-    }
+
     .search-copy{
       display: flex;
       align-items: center;
-      margin-top: 3.1rem;
+      //margin-top: 3.1rem;
       .text-headline{
         flex:1;
       }
     }
-  }
-`;
-
-const BrandCard = styled.div`
-  display: flex;
-
-  .brand-img {
-    max-width: 9.6rem; // TODO: searchbar 1280 너비 조절
-    height: 9.6rem;
-    border-top-left-radius: 1.6rem;
-    border-bottom-left-radius: 1.6rem;
-  }
-
-  .brand-name {
-    min-width: 17.6rem;
-    max-width: 17.6rem; // TODO: searchbar 1280 너비 조절
-    border-top-right-radius: 1.6rem;
-    border-bottom-right-radius: 1.6rem;
-    font-size: 1.8rem;
-    background: ${(props) => props.theme.colors.black5};
-
-    display: flex;
-    align-items: center;
-    padding-left: 2.2rem;
   }
 `;
