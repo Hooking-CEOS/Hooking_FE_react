@@ -26,9 +26,11 @@ input[type="checkbox"] {
   }
 }
 
-.title {
-  font-size: 1.5em;
-  margin-left: 1rem;
+.hr {
+  width: 100%;
+  background-color: $color_black_5;
+  opacity: 0.3;
+  margin: 3.1rem 0 1.6rem;
 }
 
 .button {
@@ -112,6 +114,21 @@ input[type="checkbox"] {
     .button__inner {
       border: 0.025rem solid $color_black_40;
       background: $color_black_5;
+    }
+  }
+
+  &-text {
+    &-orange {
+      .button__inner {
+        padding: 0;
+        color: $color_point;
+      }
+    }
+    &-grey {
+      .button__inner {
+        padding: 0;
+        color: $color_black_15;
+      }
     }
   }
 
