@@ -32,7 +32,7 @@ const BrandIconWrapper = styled.div<{ big: number }>`
     // TODO: Fix url path
     props.big === 1 &&
     `
-    &:after {
+    &::after {
       content: '';
       background: url("src/assets/images/instagram.png") no-repeat center;
       position: absolute;

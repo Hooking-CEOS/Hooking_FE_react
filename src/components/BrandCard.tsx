@@ -61,10 +61,11 @@ const BrandCardWrapper = styled.div`
   min-width: 37.8rem;
   max-width: 100%;
 
-  min-height: 27.2rem;
+  min-height: 27.8rem;
   padding: 3.8rem 4rem;
 
-  border: 0.025rem solid ${(props) => props.theme.colors.black40};
+  /* border: 0.025rem solid ${(props) => props.theme.colors.black40}; */
+  border: 0.01rem solid #0002351f;
   border-radius: 2rem;
   background: ${(props) => props.theme.colors.white};
   position: relative;
@@ -83,6 +84,7 @@ const BrandCardWrapper = styled.div`
     font-size: 1.6rem;
     color: ${(props) => props.theme.colors.black100};
     margin-bottom: 2.4rem;
+    word-break: keep-all;
 
     // 더보기
     .more-content {

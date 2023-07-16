@@ -199,8 +199,11 @@ const Filter = () => {
 export default Filter;
 
 const FilterWrapper = styled.div`
-  position: relative;
+  position: sticky;
   display: inline-flex;
+  top: 60px;
+  z-index: 10;
+  background: white;
 
   .button-wrapper {
     display: inline-flex;

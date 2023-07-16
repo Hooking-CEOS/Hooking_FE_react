@@ -32,7 +32,6 @@ const Header = () => {
         <div className="header__content--left">
           <Button
             icon="icon-logo"
-            onClick={handleLogin}
             text=""
           />
           {loginModal && (
