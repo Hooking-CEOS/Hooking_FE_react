@@ -11,6 +11,10 @@ import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/navigation";
 
+interface BrandIconProps {
+  name: string;
+}
+
 const Carousel = () => {
   const swiperRef = useRef<SwiperRef>(null);
   const [currentSlide, setCurrentSlide] = useState<number>(0);
@@ -20,6 +24,10 @@ const Carousel = () => {
       //console.log(swiperRef.current.swiper.realIndex);
       setCurrentSlide(swiperRef.current.swiper.realIndex);
     }
+  };
+
+  const CarouselBrandIcon = ({ name }: BrandIconProps) => {
+    return <BrandIcon name={name} />;
   };
 
   return (
@@ -68,9 +76,9 @@ const Carousel = () => {
               <div className="slide-wrapper">
                 <CarouselImgDiv imgSrc={data.imgSrc}>
                   {currentSlide === slideId && (
-                    <BrandIcon
+                    <CarouselBrandIcon
                       // name={data.name}
-                      name={"스킨푸드"}
+                      name={"피지오겔"}
                     />
                   )}
                 </CarouselImgDiv>
