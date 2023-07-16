@@ -10,6 +10,7 @@ import CarouselData from "@/assets/datas/carousel.json";
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/navigation";
+import BrandMoodButton from "@/components/BrandMoodButton";
 
 interface BrandIconProps {
   name: string;
@@ -76,13 +77,20 @@ const Carousel = () => {
               <div className="slide-wrapper">
                 <CarouselImgDiv imgSrc={data.imgSrc}>
                   {currentSlide === slideId && (
-                    <CarouselIconDiv>
-                      <CarouselBrandIcon
-                        // name={data.name}
-                        name={"피지오겔"}
-                      />
-                      <CarouselIconText>피지오겔</CarouselIconText>
-                    </CarouselIconDiv>
+                    <>
+                      <CarouselIconDiv>
+                        <CarouselBrandIcon
+                          // name={data.name}
+                          name={"피지오겔"}
+                        />
+                        <CarouselIconText>피지오겔</CarouselIconText>
+                      </CarouselIconDiv>
+                      <CarouselBrandMoodDiv>
+                        <BrandMoodButton name="퓨어한" />
+                        <BrandMoodButton name="자연의" />
+                        <BrandMoodButton name="감각적인" />
+                      </CarouselBrandMoodDiv>
+                    </>
                   )}
                 </CarouselImgDiv>
                 <div className="swiper-slide-div">
@@ -142,4 +150,13 @@ const CarouselIconText = styled.div`
   color: ${(props) => props.theme.colors.white80};
   display: flex;
   align-items: center;
+`;
+
+const CarouselBrandMoodDiv = styled.div`
+  position: absolute;
+  bottom: 1.667vw;
+  left: 1.667vw;
+  gap: 0.521vw;
+  display: flex;
+  flex-dirction: row;
 `;
