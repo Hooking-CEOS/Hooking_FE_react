@@ -1,13 +1,14 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 
 const fetchWrapper = async ({ method, url, body, params }: any) => {
-  const config = {
-    baseUrl: process.env.REACT_APP_API_URL,
-    withCredentials: "true",
+  const config: AxiosRequestConfig = {
+    baseURL: process.env.REACT_APP_API_URL,
+    withCredentials: true,
     ...params,
   };
+
   try {
-    const data =
+    const { data } =
       (method === "get" && (await axios.get(url, config))) ||
       (method === "post" && (await axios.post(url, body, config))) ||
       (method === "put" && (await axios.put(url, body, config))) ||

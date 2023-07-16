@@ -89,8 +89,44 @@ body {
           &__wrap {
             max-width: 119.4rem;
 
-            .filter {
-              margin: 3rem 0;
+            .search-result-tab {
+              padding: 5.6rem 0 2.4rem;
+              display: flex;
+              align-items: center;
+
+              .tab-wrap {
+                display: inline-flex;
+                align-items: center;
+
+                .tab-content {
+                  color: $color_white;
+                  background-color: $color_point;
+                  padding: 0.5rem 0.8rem;
+                  border-radius: 0.5rem;
+                  height: fit-content;
+                  margin-left: 1rem;
+                  cursor: pointer;
+                  &-orange {
+                    color: $color_white;
+                    background-color: $color_point;
+                  }
+                  &-grey {
+                    color: $color_white;
+                    background-color: $color_black_15;
+                  }
+                }
+              }
+
+              .dot {
+                display: inline-flex;
+                width: 0.8rem;
+                height: 0.8rem;
+                opacity: 90%;
+                margin: 2rem;
+
+                border-radius: 50%;
+                background-color: $color_black_15;
+              }
             }
           }
         }

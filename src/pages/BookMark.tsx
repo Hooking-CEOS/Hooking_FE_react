@@ -1,6 +1,9 @@
 import IMG_BRAND_SAMPLE from "@/assets/images/icon-brand-sample.svg";
 import BrandCard from "@/components/BrandCard";
+import { useEffect } from "react";
 import styled from "styled-components";
+import { searchModalOverlay, search } from "@/utils/atom";
+import { useRecoilState, useSetRecoilState } from "recoil";
 
 const BookMark = () => {
   const CARD_DATA = [
@@ -77,6 +80,15 @@ const BookMark = () => {
       img: IMG_BRAND_SAMPLE,
     },
   ];
+
+  const setOverlay = useSetRecoilState(searchModalOverlay);
+  const [searchState, setSearchState] = useRecoilState(search);
+
+  useEffect(() => {
+    // 검색창 창닫기
+    setSearchState({ ...searchState, searchFocus: false });
+    setOverlay(false);
+  }, []);
 
   return (
     <>

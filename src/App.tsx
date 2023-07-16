@@ -1,18 +1,33 @@
 import HookingRouter from "@/router";
-import { loginModalOverlay } from "@/utils/atom";
+import { loginModalOverlay, searchModalOverlay } from "@/utils/atom";
 import { useRecoilValue } from "recoil";
 import { Suspense } from "react";
+import { Z_INDEX_MODAL } from "@/utils/constants";
+import styled from "styled-components";
 
 const App = () => {
   const mounted = useRecoilValue(loginModalOverlay);
+  const searchFocus = useRecoilValue(searchModalOverlay);
 
   return (
     <Suspense fallback={<div>Loading ...</div>}>
       <main className="app">
         {mounted && <div className="hovered" />}
+        {searchFocus && <Overlay />}
         <HookingRouter />
       </main>
     </Suspense>
   );
 };
 export default App;
+
+const Overlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  opacity: 0.6;
+  z-index: ${Z_INDEX_MODAL};
+`;

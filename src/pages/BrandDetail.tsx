@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import BrandBanner from "@/components/BrandBanner";
 
 const BrandDetail = () => {
+
   const { brandId } = useParams<{ brandId: string }>();
 
   return (
@@ -11,6 +12,7 @@ const BrandDetail = () => {
       BrandDetail {brandId}
     </>
   );
+
 };
 
 export default BrandDetail;

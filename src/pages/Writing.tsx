@@ -1,5 +1,5 @@
 const Writing = () => {
-  return <>Writing</>;
+  return <></>;
 };
 
 export default Writing;
