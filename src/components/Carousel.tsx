@@ -76,10 +76,13 @@ const Carousel = () => {
               <div className="slide-wrapper">
                 <CarouselImgDiv imgSrc={data.imgSrc}>
                   {currentSlide === slideId && (
-                    <CarouselBrandIcon
-                      // name={data.name}
-                      name={"피지오겔"}
-                    />
+                    <CarouselIconDiv>
+                      <CarouselBrandIcon
+                        // name={data.name}
+                        name={"피지오겔"}
+                      />
+                      <CarouselIconText>피지오겔</CarouselIconText>
+                    </CarouselIconDiv>
                   )}
                 </CarouselImgDiv>
                 <div className="swiper-slide-div">
@@ -122,4 +125,21 @@ const CarouselImgDiv = styled.div<CIDProps>`
   box-shadow: 0px 4px 30px 0px rgba(158, 158, 158, 0.4);
   z-index: 999;
   position: relative;
+`;
+
+const CarouselIconDiv = styled.div`
+  position: absolute;
+  top: 1.667vw;
+  left: 1.667vw;
+  gap: 0.833vw;
+  display: flex;
+  flex-direction: row;
+`;
+
+const CarouselIconText = styled.div`
+  font-size: 1.25vw;
+  font-weight: 700;
+  color: ${(props) => props.theme.colors.white80};
+  display: flex;
+  align-items: center;
 `;
