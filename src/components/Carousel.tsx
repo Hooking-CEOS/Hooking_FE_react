@@ -11,12 +11,14 @@ import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/navigation";
 import BrandMoodButton from "@/components/BrandMoodButton";
+import { useNavigate } from "react-router-dom";
 
 interface BrandIconProps {
   name: string;
 }
 
 const Carousel = () => {
+  const navigate = useNavigate();
   const swiperRef = useRef<SwiperRef>(null);
   const [currentSlide, setCurrentSlide] = useState<number>(0);
 
@@ -29,6 +31,10 @@ const Carousel = () => {
 
   const CarouselBrandIcon = ({ name }: BrandIconProps) => {
     return <BrandIcon name={name} />;
+  };
+
+  const handleSlideClick = () => {
+    navigate("/brand/1");
   };
 
   return (
@@ -75,7 +81,10 @@ const Carousel = () => {
               id={tagId}
             >
               <div className="slide-wrapper">
-                <CarouselImgDiv imgSrc={data.imgSrc}>
+                <CarouselImgDiv
+                  imgSrc={data.imgSrc}
+                  onClick={handleSlideClick}
+                >
                   {currentSlide === slideId && (
                     <>
                       <CarouselIconDiv>
@@ -158,5 +167,5 @@ const CarouselBrandMoodDiv = styled.div`
   left: 1.667vw;
   gap: 0.521vw;
   display: flex;
-  flex-dirction: row;
+  flex-direction: row;
 `;
