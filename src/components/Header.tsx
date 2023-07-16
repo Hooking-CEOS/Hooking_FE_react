@@ -25,6 +25,7 @@ const Header = () => {
   const handleLogin = () => setLoginModal(true);
   const handleClose = () => setLoginModal(false);
 
+  // TODO: 랜딩페이지 > 로그인 헤더 만들기
   return (
     <HeaderWrapper>
       <div className="header__wrap">
