@@ -62,7 +62,7 @@ export const FILTER_DATA = [
 export const HEADER_LEFT_MENU = [
   {
     idx: 0,
-    path: "/",
+    path: "/home",
     name: "홈",
   },
   {

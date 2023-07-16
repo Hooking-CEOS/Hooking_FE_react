@@ -9,10 +9,16 @@ import ScrollToTop from "@/hooks/scrollToTop";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import QnA from "@/pages/QnA";
+import Landing from "@/pages/Landing";
 
 const routes = [
   {
     path: "/",
+    name: "Landing",
+    component: <Landing />,
+  },
+  {
+    path: "/home",
     name: "Home",
     component: <Home />,
   },
