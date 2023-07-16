@@ -5,14 +5,14 @@ interface BrandIconProps {
   name: string;
 }
 
-// HELP: 도움!!!!!!!!
 const BrandIcon = ({ name }: BrandIconProps) => {
   let targetData = imgData.find((item) => item.name_kr === name)!;
 
   return (
     <BrandIconWrapper>
       <BrandIconDiv
-        src={require(`../assets/images/brandIcon/brand-${targetData.id}.png`)}
+        src={require(`../assets/images/brandIcon/brand-${targetData.name_kr}.png`)}
+        alt="brandIcon"
       />
     </BrandIconWrapper>
   );

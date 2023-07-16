@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import { search } from "@/utils/atom";
+import { useRecoilValue } from "recoil";
 
 interface BrandProps {
   text: string;
@@ -11,21 +13,16 @@ interface BrandProps {
 // 단어 단위로 쪼개서 단어가 # 또는 @로 시작하면 밑줄
 
 const WordWrap = (word: string) => {
-  // console.log(word);
+  const searchState = useRecoilValue(search);
+  // TODO: searchState값이 있다면 index값에 따라 주황글씨 처리
   word = word.replaceAll("\n", " \n ");
   const words = word.split(" ");
+  //  TODO: 문장 맨 앞의 줄바꿈 제거
+
   return (
     <>
       {words.map((word, index) => {
-        if (word.startsWith("@") || word.startsWith("#")) {
-          return (
-            <>
-              <u key={index}>{word}</u>{" "}
-            </>
-          );
-        } else {
-          return word + " ";
-        }
+        return word + " ";
       })}
     </>
   );
@@ -70,6 +67,7 @@ const BrandCardWrapper = styled.div`
   border: 0.025rem solid ${(props) => props.theme.colors.black40};
   border-radius: 2rem;
   background: ${(props) => props.theme.colors.white};
+  position: relative;
   cursor: pointer;
 
   .card-content {
@@ -103,6 +101,9 @@ const BrandCardWrapper = styled.div`
     align-items: center;
     margin-top: 1.2rem;
     padding-top: 1.2rem;
+    position: absolute;
+    bottom: 3.8rem;
+    width: calc(100% - 8rem);
     border-top: 1px solid ${(props) => props.theme.colors.black30};
     gap: 1rem;
   }

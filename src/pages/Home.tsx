@@ -94,12 +94,12 @@ const Home = () => {
   const [brandModal, setBrandModal] = useRecoilState(brandModalOverlay);
   const [cardData, setCardData] = useState<ICardData[]>([]);
 
-  //test api 연결용
-  // useEffect(() => {
-  //   axios.get("https://hooking.shop/copy").then((res) => {
-  //     setCardData(res.data);
-  //   });
-  // }, []);
+  // test api 연결용
+  useEffect(() => {
+    axios.get("https://hooking.shop/copy").then((res) => {
+      setCardData(res.data.data);
+    });
+  }, []);
 
   const handleBrandOpen = () => {
     setBrandModal(true);
@@ -113,7 +113,7 @@ const Home = () => {
       <section className="main">
         <Filter />
         <BrandCards>
-          {CARD_DATA.map((card) => (
+          {/* {CARD_DATA.map((card) => (
             <BrandCard
               key={card.idx}
               brandId={card.idx}
@@ -122,22 +122,18 @@ const Home = () => {
               brandName={card.brand}
               onClick={handleBrandOpen}
             />
-          ))}
+          ))} */}
 
-          {/*
-          {cardData.map((card) => (
-            <BrandCard
-              key={card.id}
-              text={card.text}
-              brandName={card.brandName}
-              brandImg={IMG_BRAND_SAMPLE}
-              onClick={handleBrandOpen}
-            />
-
-
-
-          ))}
-          */}
+          {cardData.length > 1 &&
+            cardData.map((card) => (
+              <BrandCard
+                key={card.id}
+                text={card.text}
+                brandName={card.brandName}
+                brandImg={IMG_BRAND_SAMPLE}
+                onClick={handleBrandOpen}
+              />
+            ))}
         </BrandCards>
       </section>
     </>

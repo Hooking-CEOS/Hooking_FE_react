@@ -1,5 +1,18 @@
+import { useParams } from "react-router-dom";
+
+import BrandBanner from "@/components/BrandBanner";
+
 const BrandDetail = () => {
-  return <></>;
+
+  const { brandId } = useParams<{ brandId: string }>();
+
+  return (
+    <>
+      <BrandBanner name="이니스프리" />
+      BrandDetail {brandId}
+    </>
+  );
+
 };
 
 export default BrandDetail;
