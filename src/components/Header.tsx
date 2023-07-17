@@ -33,6 +33,7 @@ const Header = () => {
           <Button
             icon="icon-logo"
             text=""
+            onClick={() => navigate("/home")}
           />
           {loginModal && (
             <Portal selector="#portal">

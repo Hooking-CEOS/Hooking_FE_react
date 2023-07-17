@@ -39,7 +39,7 @@ const BrandCard = ({
     <BrandCardWrapper>
       <div className="card-content text-normal-300">
         {WordWrap(text)}
-        <span className="more-content">...더 보기</span>
+        <span className="more-content" />
       </div>
 
       <div className="card-brand">
@@ -61,15 +61,30 @@ const BrandCardWrapper = styled.div`
   min-width: 37.8rem;
   max-width: 100%;
 
-  min-height: 27.8rem;
+  min-height: 27.2rem;
   padding: 3.8rem 4rem;
 
-  /* border: 0.025rem solid ${(props) => props.theme.colors.black40}; */
-  border: 0.01rem solid #0002351f;
+  border: 0.025rem solid ${(props) => props.theme.colors.black40};
   border-radius: 2rem;
   background: ${(props) => props.theme.colors.white};
   position: relative;
   cursor: pointer;
+  &:hover {
+    background: linear-gradient(
+        0deg,
+        rgba(255, 113, 69, 0.05) 0%,
+        rgba(255, 113, 69, 0.05) 100%
+      ),
+      #fff;
+    border: 0.025rem solid ${(props) => props.theme.colors.point};
+    .more-content {
+      background: linear-gradient(
+        180deg,
+        rgba(255, 248, 246, 0) 0%,
+        #fff8f6 72.4%
+      ) !important;
+    }
+  }
 
   .card-content {
     position: relative;
@@ -79,8 +94,8 @@ const BrandCardWrapper = styled.div`
     width: 100%;
     white-space: pre-wrap;
     overflow: hidden;
-    -webkit-line-clamp: 5;
     max-height: 12rem;
+    min-height: 12rem;
     font-size: 1.6rem;
     color: ${(props) => props.theme.colors.black100};
     margin-bottom: 2.4rem;
@@ -88,25 +103,30 @@ const BrandCardWrapper = styled.div`
 
     // 더보기
     .more-content {
-      width: 100px;
+      width: 100%;
+      height: 2.4rem;
       position: absolute;
-      bottom: -3px;
+      bottom: 0px;
       text-align: right;
       right: 0;
       //background: white;
-      background: linear-gradient(to left, #fff 50%, #fff 60%, transparent);
+      background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0) 0%,
+        #fff 72.4%
+      );
     }
   }
 
   .card-brand {
     display: flex;
     align-items: center;
-    margin-top: 1.2rem;
-    padding-top: 1.2rem;
+    margin-top: 2.4rem;
+    padding-top: 2.4rem;
     position: absolute;
     bottom: 3.8rem;
     width: calc(100% - 8rem);
-    border-top: 1px solid ${(props) => props.theme.colors.black30};
+    border-top: 1px solid #0002351f;
     gap: 1rem;
   }
 `;
