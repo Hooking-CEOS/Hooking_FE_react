@@ -43,10 +43,7 @@ const BrandCard = ({
       </div>
 
       <div className="card-brand">
-        <img
-          src={brandImg}
-          alt="brandImg"
-        />
+        <img src={brandImg} alt="brandImg" />
         <span className="component-small">{brandName}</span>
       </div>
     </BrandCardWrapper>
@@ -106,5 +103,10 @@ const BrandCardWrapper = styled.div`
     width: calc(100% - 8rem);
     border-top: 1px solid ${(props) => props.theme.colors.black30};
     gap: 1rem;
+
+    img {
+      width: 2.8rem;
+      height: 2.8rem;
+    }
   }
 `;
