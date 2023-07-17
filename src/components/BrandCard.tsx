@@ -51,6 +51,7 @@ const BrandCard = ({
         {WordWrap(text)}
         <span className="more-content" />
       </div>
+      <Overlay hover={hover} />
 
       <div className="card-brand">
         <span className="brandIcon">
@@ -80,6 +81,28 @@ const BrandCard = ({
 
 export default BrandCard;
 
+const Overlay = styled.div<{ hover: boolean }>`
+  position: absolute;
+  top: 10.2rem;
+  left: 0;
+  width: 100%; // 부모
+  height: 8rem;
+  background: ${(props) =>
+    props.hover
+      ? `linear-gradient(
+    180deg,
+    rgba(255, 248, 246, 0) 0%,
+    rgba(255, 248, 246, 0.8) 52.08%,
+    #fff8f6 100%
+  )`
+      : `linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.8) 45.31%,
+    #fff 100%
+  )`};
+`;
+
 const BrandCardWrapper = styled.div<{ saved: boolean | undefined }>`
   display: flex;
   flex-direction: column;
@@ -94,6 +117,7 @@ const BrandCardWrapper = styled.div<{ saved: boolean | undefined }>`
   background: ${(props) => props.theme.colors.white};
   position: relative;
   cursor: pointer;
+
   &:hover {
     background: linear-gradient(
         0deg,
@@ -136,11 +160,13 @@ const BrandCardWrapper = styled.div<{ saved: boolean | undefined }>`
       text-align: right;
       right: 0;
       //background: white;
+      *
       background: linear-gradient(
         180deg,
         rgba(255, 255, 255, 0) 0%,
         #fff 72.4%
       );
+      */
     }
   }
 
@@ -153,6 +179,7 @@ const BrandCardWrapper = styled.div<{ saved: boolean | undefined }>`
     width: calc(100% - 8rem);
     border-top: 1px solid #0002351f;
     justify-content: space-between;
+
     .brandIcon {
       min-height: 4.8rem;
       gap: 1rem;
