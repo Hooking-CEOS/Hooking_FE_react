@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useRecoilState } from "recoil";
+import { useInView } from "react-intersection-observer";
 
 import iconVector from "@/assets/images/landing/icon-vector.png";
 import landing1 from "@/assets/images/landing/landing1.png";
@@ -9,9 +10,11 @@ import landing4 from "@/assets/images/landing/landing4.png";
 import LandingLoginBtn from "@/components/LandingLoginBtn";
 
 import { loginModalOverlay } from "@/utils/atom";
+import { useEffect } from "react";
 const Landing = () => {
   const [loginModal, setLoginModal] = useRecoilState(loginModalOverlay);
   const handleLogin = () => setLoginModal(true);
+  const { ref, inView, entry } = useInView();
 
   const handleScroll = () => {
     const target = document.getElementById("target");
@@ -80,6 +83,14 @@ const Landing = () => {
           className="page4Img"
         />
       </LandingPage4>
+      <OberserveDiv ref={ref} />
+      {inView && (
+        <>
+          <LoginDeriveSpan onClick={handleLogin}>
+            <LoginDeriveBtn>3초만에 원하는 카피 발견하러 가기</LoginDeriveBtn>
+          </LoginDeriveSpan>
+        </>
+      )}
     </LandingPageWrapper>
   );
 };
@@ -184,4 +195,51 @@ const LandingPage4 = styled.div`
   .page4Img {
     width: 119.4rem;
   }
+`;
+
+const LoginDeriveBtn = styled.div`
+  position: sticky;
+  bottom: 3rem;
+  margin-bottom: 3rem;
+  width: 119.5rem;
+  height: 10.4rem;
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 104px;
+  background: linear-gradient(90deg, #ff3c00 0%, #ff7145 59.38%, #ff8845 100%);
+  box-shadow: 0px 0px 40px 0px rgba(255, 255, 255, 0.12);
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 100%;
+  color: white;
+  cursor: pointer;
+  animation: appear 1s ease-in-out;
+  @keyframes appear {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+`;
+
+const LoginDeriveSpan = styled.span`
+  position: sticky;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  bottom: 0rem;
+  width: 100vw;
+  height: 329px;
+  flex-shrink: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #fff 100%);
+`;
+
+const OberserveDiv = styled.div`
+  width: 100%;
+  height: 10px;
 `;
