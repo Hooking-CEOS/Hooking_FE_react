@@ -5,6 +5,37 @@ export const Z_INDEX_HEADER = 100;
 export const Z_INDEX_FILTER = 50;
 export const Z_INDEX_MODAL = 30;
 
+export const BRAND_TO_BRANDID = [
+  { name_kr: "이니스프리", api_id: "7" },
+  { name_kr: "설화수", api_id: "8" },
+  { name_kr: "헤라", api_id: "3" },
+  { name_kr: "에뛰드", api_id: "9" },
+  { name_kr: "미샤", api_id: "10" },
+  { name_kr: "아비브", api_id: "11" },
+  { name_kr: "에스트라", api_id: "12" },
+  { name_kr: "베네피트", api_id: "13" },
+  { name_kr: "숨37도", api_id: "14" },
+  { name_kr: "오휘", api_id: "15" },
+  { name_kr: "fmgt", api_id: "16" },
+  { name_kr: "프레시안", api_id: "1" },
+  { name_kr: "네이밍", api_id: "17" },
+  { name_kr: "키스미", api_id: "18" },
+  { name_kr: "힌스", api_id: "19" },
+  { name_kr: "멜릭서", api_id: "5" },
+  { name_kr: "데이지크", api_id: "20" },
+  { name_kr: "애프터블로우", api_id: "21" },
+  { name_kr: "려", api_id: "6" },
+  { name_kr: "더바디샵", api_id: "22" },
+  { name_kr: "롱테이크", api_id: "23" },
+  { name_kr: "피지오겔", api_id: "4" },
+  { name_kr: "어뮤즈", api_id: "24" },
+  { name_kr: "에스쁘아", api_id: "27" },
+  { name_kr: "롬앤", api_id: "2" },
+  { name_kr: "논픽션", api_id: "26" },
+  { name_kr: "탬버린즈", api_id: "25" },
+  { name_kr: "스킨푸드", api_id: "28" },
+];
+
 export const FILTER_DATA = [
   {
     idx: 0,
@@ -86,7 +117,7 @@ export const PROFILE_DATA = [
   {
     idx: 2,
     text: "문의",
-    link: "/qna",
+    link: "/home",
   },
   {
     idx: 3,

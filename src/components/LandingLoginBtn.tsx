@@ -29,4 +29,5 @@ const LandingLoginBtnWrapper = styled.div`
   }
   position: absolute;
   left: 38.3rem;
+  cursor: pointer;
 `;

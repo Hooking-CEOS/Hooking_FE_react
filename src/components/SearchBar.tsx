@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import useOutSideClick from "@/hooks/useOutSideClick";
@@ -8,28 +8,14 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 
 import { searchModalOverlay, search } from "@/utils/atom";
-import { Z_INDEX_FILTER } from "@/utils/constants";
+import { BRAND_TO_BRANDID, Z_INDEX_FILTER } from "@/utils/constants";
 import BrandLogoCard from "./BrandLogoCard";
-
-const BRAND = [
-  {
-    idx: 0,
-    name: "롱테이크",
-    img: require("../assets/images/img-brand-sample.png"),
-  },
-  {
-    idx: 1,
-    name: "애프터블로우",
-    img: require("../assets/images/img-brand-sample.png"),
-  },
-  /*
-  {
-    idx: 2,
-    name: "려",
-    img: require("../assets/images/img-brand-sample.png"),
-  },
-  */
-];
+import { useLocation } from "react-router-dom";
+/*
+generate random number between 0 to 27
+1~28
+api_id -> name
+*/
 
 const SearchBar = () => {
   const navigate = useNavigate();
@@ -39,6 +25,14 @@ const SearchBar = () => {
 
   const searchRef = useRef<HTMLInputElement>(null);
   const searchWrap = useRef<HTMLInputElement>(null);
+
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname === "/" || location.pathname === "/home") {
+      setSearchState({ ...searchState, searchKeyword: "" });
+    }
+  }, [location.pathname]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -66,12 +60,51 @@ const SearchBar = () => {
     navigate(`/search?keyword=${searchState.searchKeyword}`);
   };
 
+  //TODO: randNum
+  const BRAND = [
+    {
+      idx: 0,
+      name: "에뛰드",
+      img: require("../assets/images/brandSearch/brand-search-에뛰드.png"),
+    },
+    {
+      idx: 1,
+      name: "애프터블로우",
+      img: require("../assets/images/brandSearch/brand-search-애프터블로우.png"),
+    },
+    /*
+    {
+      idx: 2,
+      name: "려",
+      img: require("../assets/images/img-brand-sample.png"),
+    },
+    */
+  ];
+
+  const getRandomBrand = (min: number, max: number) => {
+    const randNum = Math.floor(Math.random() * (max - min + 1)) + min;
+    console.log("randNum", randNum);
+
+    const brand = BRAND_TO_BRANDID.find(
+      (brandObj) => brandObj.api_id === randNum.toString()
+    );
+    return brand?.name_kr;
+  };
+
+  // 원하는 개수 만큼의 브랜드 리턴
+  const getRandNumBrand = (num: number) => {
+    const brandNameArr: Array<string | null> = [];
+    while (num) {
+      //const randBrand = getRandomBrand(1, 28); // innisfree
+      // if (!brandNameArr.find(randBrand)) {
+    }
+  };
+
+  //getRandomBrand(1, 28);
+
   return (
     <>
-      <SearchBarWrapper
-        ref={searchWrap}
-        onClick={handleFocusOn}
-      >
+      <SearchBarWrapper ref={searchWrap} onClick={handleFocusOn}>
         <form
           onSubmit={onSearchSubmit}
           className={`${

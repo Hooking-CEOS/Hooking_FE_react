@@ -3,7 +3,7 @@ import { search } from "@/utils/atom";
 import { useRecoilValue } from "recoil";
 import { useState } from "react";
 import Button from "@/components/Button";
-
+import { useNavigate } from "react-router-dom";
 interface BrandProps {
   text: string;
   brandName: string;
@@ -39,23 +39,22 @@ const BrandCard = ({
   onClick,
 }: BrandProps) => {
   const [hover, setHover] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <BrandCardWrapper
+      saved={saved}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
-      <div className="card-content text-normal-300">
+      <div className={`card-content text-normal-300`}>
         {WordWrap(text)}
         <span className="more-content" />
       </div>
 
       <div className="card-brand">
         <span className="brandIcon">
-          <img
-            src={brandImg}
-            alt="brandImg"
-          />
+          <img src={brandImg} alt="brandImg" />
           <span className="component-small">{brandName}</span>
         </span>
         {saved ? (
@@ -69,6 +68,7 @@ const BrandCard = ({
             icon="icon-saved-white-large"
             className="button-orange component-small"
             text="저장"
+            onClick={() => navigate("/bookmark")}
           />
         ) : (
           <></>
@@ -80,13 +80,13 @@ const BrandCard = ({
 
 export default BrandCard;
 
-const BrandCardWrapper = styled.div`
+const BrandCardWrapper = styled.div<{ saved: boolean | undefined }>`
   display: flex;
   flex-direction: column;
   min-width: 37.8rem;
   max-width: 100%;
 
-  min-height: 27.8rem;
+  min-height: ${(props) => (props.saved ? "auto" : "27.8rem")};
   padding: 3.8rem 4rem;
 
   border: 0.025rem solid ${(props) => props.theme.colors.black40};
@@ -119,9 +119,10 @@ const BrandCardWrapper = styled.div`
     width: 100%;
     white-space: pre-wrap;
     overflow: hidden;
-    max-height: 12rem;
+    max-height: ${(props) => (props.saved ? "auto" : "12rem")};
     min-height: 12rem;
     font-size: 1.6rem;
+    padding-bottom: ${(props) => (props.saved ? "10rem" : "0")};
     color: ${(props) => props.theme.colors.black100};
     margin-bottom: 2.4rem;
     word-break: keep-all;
@@ -158,6 +159,11 @@ const BrandCardWrapper = styled.div`
       display: flex;
       flex-direction: row;
       align-items: center;
+
+      img {
+        width: 2.8rem;
+        height: 2.8rem;
+      }
     }
   }
 `;
