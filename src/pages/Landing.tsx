@@ -8,13 +8,15 @@ import landing3 from "@/assets/images/landing/landing3.png";
 import landing4 from "@/assets/images/landing/landing4.png";
 import LandingLoginBtn from "@/components/LandingLoginBtn";
 
-import Portal from "@/utils/portal";
-import Login from "@/pages/Login";
 import { loginModalOverlay } from "@/utils/atom";
 const Landing = () => {
   const [loginModal, setLoginModal] = useRecoilState(loginModalOverlay);
   const handleLogin = () => setLoginModal(true);
-  const handleClose = () => setLoginModal(false);
+
+  const handleScroll = () => {
+    const target = document.getElementById("target");
+    target?.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
     <LandingPageWrapper>
@@ -25,13 +27,15 @@ const Landing = () => {
           alt="landingpage"
         />
         <LandingLoginBtn onClick={handleLogin} />
+
         <img
           src={iconVector}
           alt="vector facing down"
           className="iconVector"
+          onClick={handleScroll}
         />
       </LandingPage1>
-      <LandingPage2>
+      <LandingPage2 id="target">
         <div className="textDiv">
           <span className="mainText">
             원하는 무드를
@@ -138,6 +142,7 @@ const LandingPage1 = styled.div`
     width: 9rem;
     -webkit-animation: bounce 1s infinite;
     animation: bounce 1s infinite;
+    cursor: pointer;
   }
 `;
 
