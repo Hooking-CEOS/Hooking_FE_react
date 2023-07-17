@@ -6,6 +6,7 @@ import { useRecoilState } from "recoil";
 import { activeMenu, activeChildMenu } from "@/utils/atom";
 import { PROFILE_DATA } from "@/utils/constants";
 import useOutSideClick from "@/hooks/useOutSideClick";
+import { openKaKaoPlus } from "@/utils/util";
 
 interface ProfilePropType {
   className?: string;
@@ -50,12 +51,16 @@ const ProfileDropDown = ({ className }: ProfilePropType) => {
             aria-label="profile-dropdown"
             key={data.idx}
             className={`dropdown__content ${
-              activeChildMenuIdx === data.idx && data.idx !== 3
+              activeChildMenuIdx === data.idx &&
+              data.idx !== 3 &&
+              data.idx !== 2
                 ? "dropdown__content--active"
                 : "dropdown__content"
             } text-subtitle-1`}
             onClick={() => {
-              setActiveMenuIdx(data.idx === 3 ? 0 : 2);
+              if (data.idx === 2) openKaKaoPlus();
+
+              setActiveMenuIdx(data.idx === 3 || data.idx === 2 ? 0 : 2);
               setActiveChildMenuIdx(data.idx);
               navigate(data.link);
             }}

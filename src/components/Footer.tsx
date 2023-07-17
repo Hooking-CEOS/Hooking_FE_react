@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Button from "@/components/Button";
+import { openKaKaoPlus } from "@/utils/util";
 
 const Footer = () => {
   return (
@@ -18,9 +19,8 @@ const Footer = () => {
               © 2023. HOOKING. ALL RIGHTS RESERVED.
             </span>
             <span className="footer-grey-text text-body-2">
-              {/* TODO: 링크 삽입 */}
               <a
-                href="https://www.google.com/"
+                href="https://www.notion.so/143ff06c36e941869574b2ce0685166f?pvs=4"
                 target="_blank"
                 rel="noreferrer"
               >
@@ -28,9 +28,8 @@ const Footer = () => {
               </a>
             </span>
             <span className="footer-grey-text text-body-2">
-              {/* TODO: 링크 삽입 */}
               <a
-                href="https://www.google.com/"
+                href="https://www.notion.so/d6d255c513ad414aafc4ebfda445ee84?pvs=4"
                 target="_blank"
                 rel="noreferrer"
               >
@@ -52,6 +51,7 @@ const Footer = () => {
           <Button
             className="button-black-small text-body-3"
             text="1:1 문의"
+            onClick={openKaKaoPlus}
           >
             <span className="icon-arrow-right" />
           </Button>
@@ -68,6 +68,7 @@ const FooterWrapper = styled.footer`
   height: 35.1rem;
   display: flex;
   margin: auto;
+  border-top: 0.25px solid ${({ theme }) => theme.colors.black40};
 
   .footer__wrap {
     display: flex;
