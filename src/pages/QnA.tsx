@@ -5,7 +5,7 @@ import Button from "@/components/Button";
 
 import { search } from "@/utils/atom";
 import { useRecoilValue } from "recoil";
-
+import { openKaKaoPlus } from "@/utils/util";
 const CARD_DATA = [
   {
     idx: 0,
@@ -100,6 +100,7 @@ const QnA = () => {
           <Button
             text="후킹에게 건의하기"
             className="button-orange long component-small"
+            onClick={openKaKaoPlus}
           ></Button>
         </div>
       </div>
