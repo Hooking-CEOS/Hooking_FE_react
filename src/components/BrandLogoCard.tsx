@@ -3,11 +3,7 @@ import styled from "styled-components";
 const BrandLogoCard = ({ brand }: any) => {
   return (
     <BrandCard className="brand-card">
-      <img
-        className="brand-img"
-        src={brand.img}
-        alt="brand-img"
-      />
+      <img className="brand-img" src={brand.img} alt="brand-img" />
       <div className="brand-name text-subtitle-1">{brand.name}</div>
     </BrandCard>
   );
