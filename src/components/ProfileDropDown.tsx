@@ -3,7 +3,7 @@ import Button from "@/components/Button";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { activeMenu, activeChildMenu } from "@/utils/atom";
+import { activeMenu, activeChildMenu, isLogined } from "@/utils/atom";
 import { PROFILE_DATA } from "@/utils/constants";
 import useOutSideClick from "@/hooks/useOutSideClick";
 
@@ -14,6 +14,7 @@ interface ProfilePropType {
 const ProfileDropDown = ({ className }: ProfilePropType) => {
   const navigate = useNavigate();
   const [hover, setHover] = useState(false);
+  const [isLogin, setIsLogin] = useRecoilState(isLogined);
 
   const [activeMenuIdx, setActiveMenuIdx] = useRecoilState(activeMenu);
   const [activeChildMenuIdx, setActiveChildMenuIdx] =
@@ -55,9 +56,12 @@ const ProfileDropDown = ({ className }: ProfilePropType) => {
                 : "dropdown__content"
             } text-subtitle-1`}
             onClick={() => {
-              setActiveMenuIdx(data.idx === 3 ? 0 : 2);
+              setActiveMenuIdx(data.idx === 3 ? -1 : 2);
               setActiveChildMenuIdx(data.idx);
               navigate(data.link);
+              if (data.idx === 3) {
+                setIsLogin(false);
+              }
             }}
           >
             {data.text}

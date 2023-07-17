@@ -4,195 +4,615 @@
     "name_kr": "이니스프리",
     "name_en": "innisfree",
     "api_id": "7",
-    "brandDesc": "이니스프리는 무한한 자연의 에너지를 탐구해 건강한 아름다움을 전하는\n고효능 자연주의 브랜드입니다."
+    "brandDesc": "이니스프리는 무한한 자연의 에너지를 탐구해 건강한 아름다움을 전하는\n고효능 자연주의 브랜드입니다.",
+    "mood": ["발랄한", "자연의", "퓨어한"],
+    "descText": [
+      {
+        "main": "여기에 들어가는\n내용이 캐러셀에\n들어갑니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "줄바꿈을 하고싶으면\n이렇게 하면 됩니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "main은 최대 4줄\nsub는 최대 2줄",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      }
+    ]
   },
   {
     "id": 2,
     "name_kr": "에뛰드",
     "name_en": "etude",
     "api_id": "9",
-    "brandDesc": "에뛰드는 즐거운 화장놀이 문화를 전파하는\n글로벌 메이크업 브랜드입니다."
+    "brandDesc": "에뛰드는 즐거운 화장놀이 문화를 전파하는\n글로벌 메이크업 브랜드입니다.",
+    "mood": ["키치한", "발랄한", "친근한"],
+    "descText": [
+      {
+        "main": "여기에 들어가는\n내용이 캐러셀에\n들어갑니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "줄바꿈을 하고싶으면\n이렇게 하면 됩니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "main은 최대 4줄\nsub는 최대 2줄",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      }
+    ]
   },
   {
     "id": 3,
     "name_kr": "설화수",
     "name_en": "sulwhasoo",
     "api_id": "8",
-    "brandDesc": "설화수는 우리의 고유한 헤리티지와 독자적인 피부 과학을 동력으로\n시간과 세대를 초월하는 예술 작품과도 같은 제품을 만들어 내는 브랜드입니다."
+    "brandDesc": "설화수는 우리의 고유한 헤리티지와 독자적인 피부 과학을 동력으로\n시간과 세대를 초월하는 예술 작품과도 같은 제품을 만들어 내는 브랜드입니다.",
+    "mood": ["전통적인", "고급스러운", "감각적인"],
+    "descText": [
+      {
+        "main": "여기에 들어가는\n내용이 캐러셀에\n들어갑니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "줄바꿈을 하고싶으면\n이렇게 하면 됩니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "main은 최대 4줄\nsub는 최대 2줄",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      }
+    ]
   },
   {
     "id": 4,
     "name_kr": "미샤",
     "name_en": "missha",
     "api_id": "10",
-    "brandDesc": "미샤의 아름다움은 특별한 누군가를 위한 것이 아닌,\n모두의 일상 그 안에 있습니다."
+    "brandDesc": "미샤의 아름다움은 특별한 누군가를 위한 것이 아닌,\n모두의 일상 그 안에 있습니다.",
+    "mood": ["심플한", "비비드한", "첨단의"],
+    "descText": [
+      {
+        "main": "여기에 들어가는\n내용이 캐러셀에\n들어갑니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "줄바꿈을 하고싶으면\n이렇게 하면 됩니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "main은 최대 4줄\nsub는 최대 2줄",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      }
+    ]
   },
   {
     "id": 5,
     "name_kr": "아비브",
     "name_en": "abib",
     "api_id": "11",
-    "brandDesc": "'첫번째 달'이라는 뜻의 아비브는, 미의 순환과정의 출발점에서\n가장 완벽하고 순수한 제품을 완성 시키고자 합니다."
+    "brandDesc": "'첫번째 달'이라는 뜻의 아비브는, 미의 순환과정의 출발점에서\n가장 완벽하고 순수한 제품을 완성 시키고자 합니다.",
+    "mood": ["퓨어한", "심플한", "네추럴한"],
+    "descText": [
+      {
+        "main": "여기에 들어가는\n내용이 캐러셀에\n들어갑니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "줄바꿈을 하고싶으면\n이렇게 하면 됩니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "main은 최대 4줄\nsub는 최대 2줄",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      }
+    ]
   },
   {
     "id": 6,
     "name_kr": "에스트라",
     "name_en": "aestura",
     "api_id": "12",
-    "brandDesc": "피부 타입에 맞는 올바른 케어를 통해 피부 건강과 아름다움을 찾으세요.\n의약학적 경험을 바탕으로 피부 본연의 건강한 아름다움을 되찾아줄 에스트라입니다."
+    "brandDesc": "피부 타입에 맞는 올바른 케어를 통해 피부 건강과 아름다움을 찾으세요.\n의약학적 경험을 바탕으로 피부 본연의 건강한 아름다움을 되찾아줄 에스트라입니다.",
+    "mood": ["첨단의", "도시적인", "심플한"],
+    "descText": [
+      {
+        "main": "여기에 들어가는\n내용이 캐러셀에\n들어갑니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "줄바꿈을 하고싶으면\n이렇게 하면 됩니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "main은 최대 4줄\nsub는 최대 2줄",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      }
+    ]
   },
   {
     "id": 7,
     "name_kr": "베네피트",
     "name_en": "benefit",
     "api_id": "13",
-    "brandDesc": "베네피트는 샌프란시스코의 감성과 위트를 담은\n글로벌 메이크업 브랜드입니다."
+    "brandDesc": "베네피트는 샌프란시스코의 감성과 위트를 담은\n글로벌 메이크업 브랜드입니다.",
+    "mood": ["비비드한", "키치한", "발랄한"],
+    "descText": [
+      {
+        "main": "여기에 들어가는\n내용이 캐러셀에\n들어갑니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "줄바꿈을 하고싶으면\n이렇게 하면 됩니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "main은 최대 4줄\nsub는 최대 2줄",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      }
+    ]
   },
   {
     "id": 8,
     "name_kr": "숨37도",
     "name_en": "sum37",
     "api_id": "14",
-    "brandDesc": "숨37도는 오랜 연구와 진보된 발효과학을 통해 건강한 피부를 약속하는\n자연·발효 화장품 브랜드입니다."
+    "brandDesc": "숨37도는 오랜 연구와 진보된 발효과학을 통해 건강한 피부를 약속하는\n자연·발효 화장품 브랜드입니다.",
+    "mood": ["퓨어한", "자연의", "네추럴한"],
+    "descText": [
+      {
+        "main": "여기에 들어가는\n내용이 캐러셀에\n들어갑니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "줄바꿈을 하고싶으면\n이렇게 하면 됩니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "main은 최대 4줄\nsub는 최대 2줄",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      }
+    ]
   },
   {
     "id": 9,
     "name_kr": "오휘",
     "name_en": "ohui",
     "api_id": "15",
-    "brandDesc": "오휘는 완벽한 아름다움의 실현을 위한\n감성적 피부 과학 브랜드입니다."
+    "brandDesc": "오휘는 완벽한 아름다움의 실현을 위한\n감성적 피부 과학 브랜드입니다.",
+    "mood": ["고급스러운", "첨단의", "화려한"],
+    "descText": [
+      {
+        "main": "여기에 들어가는\n내용이 캐러셀에\n들어갑니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "줄바꿈을 하고싶으면\n이렇게 하면 됩니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "main은 최대 4줄\nsub는 최대 2줄",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      }
+    ]
   },
   {
     "id": 10,
     "name_kr": "fmgt",
     "name_en": "fmgt",
     "api_id": "16",
-    "brandDesc": "fmgt는 외적인 아름다움에 대한 획일화된 기준이 아닌, 스스로 발견한 진정한 매력을 표현하기 위한\n자유롭고도 다채로운 메이크업으로 아름다움에 대한 새로운 기준을 제시합니다. "
+    "brandDesc": "fmgt는 외적인 아름다움에 대한 획일화된 기준이 아닌, 스스로 발견한 진정한 매력을 표현하기 위한\n자유롭고도 다채로운 메이크업으로 아름다움에 대한 새로운 기준을 제시합니다. ",
+    "mood": ["발랄한", "친근한", "키치한"],
+    "descText": [
+      {
+        "main": "여기에 들어가는\n내용이 캐러셀에\n들어갑니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "줄바꿈을 하고싶으면\n이렇게 하면 됩니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "main은 최대 4줄\nsub는 최대 2줄",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      }
+    ]
   },
   {
     "id": 11,
     "name_kr": "프레시안",
     "name_en": "freshian",
     "api_id": "1",
-    "brandDesc": "프레시안은 무뎌지기 쉬운 일상 속, 새롭고 신선한 순간을 찾고 있는 모든 이들에게 감각적인 컬러와 \n풍부한 텍스처로 영감을 선사하는 비건 메이크업 브랜드입니다."
+    "brandDesc": "프레시안은 무뎌지기 쉬운 일상 속, 새롭고 신선한 순간을 찾고 있는 모든 이들에게 감각적인 컬러와 \n풍부한 텍스처로 영감을 선사하는 비건 메이크업 브랜드입니다.",
+    "mood": ["자연의", "감각적인", "퓨어한"],
+    "descText": [
+      {
+        "main": "여기에 들어가는\n내용이 캐러셀에\n들어갑니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "줄바꿈을 하고싶으면\n이렇게 하면 됩니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "main은 최대 4줄\nsub는 최대 2줄",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      }
+    ]
   },
   {
     "id": 12,
     "name_kr": "네이밍",
     "name_en": "naming",
     "api_id": "17",
-    "brandDesc": "네이밍이 정의하는 내추럴이란 개인의 개성과 취향을 선명하게 드러내는 것입니다. 우리는 내추럴을 정형화된 이미지로\n정의할 수 없다고 생각했고, 그래서 우리는 네이밍만의 다양한 모습이 담긴 내추럴함을 제안하고자 합니다."
+    "brandDesc": "네이밍이 정의하는 내추럴이란 개인의 개성과 취향을 선명하게 드러내는 것입니다. 우리는 내추럴을 정형화된 이미지로\n정의할 수 없다고 생각했고, 그래서 우리는 네이밍만의 다양한 모습이 담긴 내추럴함을 제안하고자 합니다.",
+    "mood": ["심플한", "네추럴한", "독특한"],
+    "descText": [
+      {
+        "main": "여기에 들어가는\n내용이 캐러셀에\n들어갑니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "줄바꿈을 하고싶으면\n이렇게 하면 됩니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "main은 최대 4줄\nsub는 최대 2줄",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      }
+    ]
   },
   {
     "id": 13,
     "name_kr": "키스미",
     "name_en": "kissme",
     "api_id": "18",
-    "brandDesc": "키스미는 ‘연지’를 만들던 작은 공방에서 시작된 브랜드로\n약 200년의 역사를 가진 가장 오래된 뷰티 브랜드 중 하나입니다."
+    "brandDesc": "키스미는 ‘연지’를 만들던 작은 공방에서 시작된 브랜드로\n약 200년의 역사를 가진 가장 오래된 뷰티 브랜드 중 하나입니다.",
+    "mood": ["화려한", "비비드한", "키치한"],
+    "descText": [
+      {
+        "main": "여기에 들어가는\n내용이 캐러셀에\n들어갑니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "줄바꿈을 하고싶으면\n이렇게 하면 됩니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "main은 최대 4줄\nsub는 최대 2줄",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      }
+    ]
   },
   {
     "id": 14,
     "name_kr": "힌스",
     "name_en": "hince",
     "api_id": "19",
-    "brandDesc": "힌스는 밀도있고 풍부한 컬러를 통해 당신의 고유한 분위기를 쌓아 올려\n잠재되어있는 본연의 아름다움을 발현시키는 무드 내러티브 메이크업 브랜드입니다."
+    "brandDesc": "힌스는 밀도있고 풍부한 컬러를 통해 당신의 고유한 분위기를 쌓아 올려\n잠재되어있는 본연의 아름다움을 발현시키는 무드 내러티브 메이크업 브랜드입니다.",
+    "mood": ["감각적인", "퓨어한", "네추럴한"],
+    "descText": [
+      {
+        "main": "여기에 들어가는\n내용이 캐러셀에\n들어갑니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "줄바꿈을 하고싶으면\n이렇게 하면 됩니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "main은 최대 4줄\nsub는 최대 2줄",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      }
+    ]
   },
   {
     "id": 15,
     "name_kr": "멜릭서",
     "name_en": "melixir",
     "api_id": "5",
-    "brandDesc": "멜릭서는 건강하지 않은 화장품 산업을 바꾸기 위해 채식주의(VEGAN) 개념을\n화장품으로 확장한 한국 최초의 비건 스킨케어 브랜드입니다."
+    "brandDesc": "멜릭서는 건강하지 않은 화장품 산업을 바꾸기 위해 채식주의(VEGAN) 개념을\n화장품으로 확장한 한국 최초의 비건 스킨케어 브랜드입니다.",
+    "mood": ["네추럴한", "자연의", "심플한"],
+    "descText": [
+      {
+        "main": "여기에 들어가는\n내용이 캐러셀에\n들어갑니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "줄바꿈을 하고싶으면\n이렇게 하면 됩니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "main은 최대 4줄\nsub는 최대 2줄",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      }
+    ]
   },
   {
     "id": 16,
     "name_kr": "데이지크",
     "name_en": "dasique",
     "api_id": "20",
-    "brandDesc": "데이지크는 같은 꽃이어도 컬러와 향기가 모두 다른 한송이의 꽃처럼 당신만의 무드를 꽃피워줄\nBlooming - Mood 메이크업 브랜드입니다."
+    "brandDesc": "데이지크는 같은 꽃이어도 컬러와 향기가 모두 다른 한송이의 꽃처럼 당신만의 무드를 꽃피워줄\nBlooming - Mood 메이크업 브랜드입니다.",
+    "mood": ["감각적인", "독특한", "수즙은"],
+    "descText": [
+      {
+        "main": "여기에 들어가는\n내용이 캐러셀에\n들어갑니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "줄바꿈을 하고싶으면\n이렇게 하면 됩니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "main은 최대 4줄\nsub는 최대 2줄",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      }
+    ]
   },
   {
     "id": 17,
     "name_kr": "애프터블로우",
     "name_en": "afterblow",
     "api_id": "21",
-    "brandDesc": "애프터 블로우는 자연을 모티브로 한 브랜드로 가장 편하고\n내추럴한 상태 그대로를 추구합니다."
+    "brandDesc": "애프터 블로우는 자연을 모티브로 한 브랜드로 가장 편하고\n내추럴한 상태 그대로를 추구합니다.",
+    "mood": ["감각적인", "네추럴한", "자연의"],
+    "descText": [
+      {
+        "main": "여기에 들어가는\n내용이 캐러셀에\n들어갑니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "줄바꿈을 하고싶으면\n이렇게 하면 됩니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "main은 최대 4줄\nsub는 최대 2줄",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      }
+    ]
   },
   {
     "id": 18,
     "name_kr": "려",
     "name_en": "ryo",
     "api_id": "6",
-    "brandDesc": "려는 젊고, 풍성하며, 윤기와 생기가 넘쳐 흐르고 그리하여 아름다운 모발을 위해\n두피부터 가꾸는 헤어 케어 브랜드입니다."
+    "brandDesc": "려는 젊고, 풍성하며, 윤기와 생기가 넘쳐 흐르고 그리하여 아름다운 모발을 위해\n두피부터 가꾸는 헤어 케어 브랜드입니다.",
+    "mood": ["자연의", "고급스러운", "전통적인"],
+    "descText": [
+      {
+        "main": "여기에 들어가는\n내용이 캐러셀에\n들어갑니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "줄바꿈을 하고싶으면\n이렇게 하면 됩니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "main은 최대 4줄\nsub는 최대 2줄",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      }
+    ]
   },
   {
     "id": 19,
     "name_kr": "더바디샵",
     "name_en": "thebodyshop",
     "api_id": "22",
-    "brandDesc": "더바디샵은 1976년 영국 브라이턴에서 기업이 선(善)을 위한 힘이 될 수 있다는\n설립자 아니타 로딕(Anita Roddick)의 믿음으로부터 시작되었습니다."
+    "brandDesc": "더바디샵은 1976년 영국 브라이턴에서 기업이 선(善)을 위한 힘이 될 수 있다는\n설립자 아니타 로딕(Anita Roddick)의 믿음으로부터 시작되었습니다.",
+    "mood": ["자연의", "친근한", "비비드한"],
+    "descText": [
+      {
+        "main": "여기에 들어가는\n내용이 캐러셀에\n들어갑니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "줄바꿈을 하고싶으면\n이렇게 하면 됩니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "main은 최대 4줄\nsub는 최대 2줄",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      }
+    ]
   },
   {
     "id": 20,
     "name_kr": "롱테이크",
     "name_en": "longtake",
     "api_id": "23",
-    "brandDesc": "롱테이크는 오래 지속되는 감각적인 향과 세심하게 고안된 고효능을 갖춘\n지속가능 라이프 스타일 브랜드입니다."
+    "brandDesc": "롱테이크는 오래 지속되는 감각적인 향과 세심하게 고안된 고효능을 갖춘\n지속가능 라이프 스타일 브랜드입니다.",
+    "mood": ["고급스러운", "자연의", "감각적인"],
+    "descText": [
+      {
+        "main": "여기에 들어가는\n내용이 캐러셀에\n들어갑니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "줄바꿈을 하고싶으면\n이렇게 하면 됩니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "main은 최대 4줄\nsub는 최대 2줄",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      }
+    ]
   },
   {
     "id": 21,
     "name_kr": "피지오겔",
     "name_en": "physiogel",
     "api_id": "4",
-    "brandDesc": "피지오겔은 세계 각국의 피부 전문가가 추천하는\n더모 코스메틱 브랜드입니다."
+    "brandDesc": "피지오겔은 세계 각국의 피부 전문가가 추천하는\n더모 코스메틱 브랜드입니다.",
+    "mood": ["첨단의", "도시적인", "심플한"],
+    "descText": [
+      {
+        "main": "여기에 들어가는\n내용이 캐러셀에\n들어갑니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "줄바꿈을 하고싶으면\n이렇게 하면 됩니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "main은 최대 4줄\nsub는 최대 2줄",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      }
+    ]
   },
   {
     "id": 22,
     "name_kr": "어뮤즈",
     "name_en": "amuse",
     "api_id": "24",
-    "brandDesc": "어뮤즈는 클린&비건을 어뮤즈 만의 컬러로 일상에 기분 좋은 바이브를 전달하는\n서울 베이스의 라이프 스타일 비건 & 웰니스 뷰티 브랜드입니다."
+    "brandDesc": "어뮤즈는 클린&비건을 어뮤즈 만의 컬러로 일상에 기분 좋은 바이브를 전달하는\n서울 베이스의 라이프 스타일 비건 & 웰니스 뷰티 브랜드입니다.",
+    "mood": ["키치한", "발랄한", "자연의"],
+    "descText": [
+      {
+        "main": "여기에 들어가는\n내용이 캐러셀에\n들어갑니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "줄바꿈을 하고싶으면\n이렇게 하면 됩니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "main은 최대 4줄\nsub는 최대 2줄",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      }
+    ]
   },
   {
     "id": 23,
     "name_kr": "에스쁘아",
     "name_en": "espoir",
     "api_id": "27",
-    "brandDesc": "에스쁘아는 독보적이고 생동감 있는 메이크업으로 모두를 기대하게 하는\n프리미엄 메이크업 전문 브랜드입니다."
+    "brandDesc": "에스쁘아는 독보적이고 생동감 있는 메이크업으로 모두를 기대하게 하는\n프리미엄 메이크업 전문 브랜드입니다.",
+    "mood": ["감각적인", "심플한", "비비드한"],
+    "descText": [
+      {
+        "main": "여기에 들어가는\n내용이 캐러셀에\n들어갑니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "줄바꿈을 하고싶으면\n이렇게 하면 됩니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "main은 최대 4줄\nsub는 최대 2줄",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      }
+    ]
   },
   {
     "id": 24,
     "name_kr": "롬앤",
     "name_en": "romand",
     "api_id": "2",
-    "brandDesc": "롬앤은 2016년 9월 메이크업아티스트이자 브랜드 대표 민새롬의 `롬(ROM)`과\n함께 만들어가는 소통의 의미 `앤드(AND)`를 결합하여 이름 지은 색조 전문 브랜드입니다."
+    "brandDesc": "롬앤은 2016년 9월 메이크업아티스트이자 브랜드 대표 민새롬의 `롬(ROM)`과\n함께 만들어가는 소통의 의미 `앤드(AND)`를 결합하여 이름 지은 색조 전문 브랜드입니다.",
+    "mood": ["친근한", "키치한", "수줍은"],
+    "descText": [
+      {
+        "main": "여기에 들어가는\n내용이 캐러셀에\n들어갑니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "줄바꿈을 하고싶으면\n이렇게 하면 됩니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "main은 최대 4줄\nsub는 최대 2줄",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      }
+    ]
   },
   {
     "id": 25,
     "name_kr": "논픽션",
     "name_en": "nonfiction",
     "api_id": "26",
-    "brandDesc": "논픽션은 자신의 가장 솔직한 모습과 마주하는 시간을 위해 탄생한\n라이프스타일 뷰티 브랜드입니다."
+    "brandDesc": "논픽션은 자신의 가장 솔직한 모습과 마주하는 시간을 위해 탄생한\n라이프스타일 뷰티 브랜드입니다.",
+    "mood": ["심플한", "고급스러운", "감각적인"],
+    "descText": [
+      {
+        "main": "여기에 들어가는\n내용이 캐러셀에\n들어갑니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "줄바꿈을 하고싶으면\n이렇게 하면 됩니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "main은 최대 4줄\nsub는 최대 2줄",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      }
+    ]
   },
   {
     "id": 26,
     "name_kr": "탬버린즈",
     "name_en": "tamburins",
     "api_id": "25",
-    "brandDesc": "탬버린즈는 감각적 아트와 아름다움을 지향하는\n코스메틱 브랜드입니다."
+    "brandDesc": "탬버린즈는 감각적 아트와 아름다움을 지향하는\n코스메틱 브랜드입니다.",
+    "mood": ["고급스러운", "감각적인", "독특한"],
+    "descText": [
+      {
+        "main": "여기에 들어가는\n내용이 캐러셀에\n들어갑니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "줄바꿈을 하고싶으면\n이렇게 하면 됩니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "main은 최대 4줄\nsub는 최대 2줄",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      }
+    ]
   },
   {
     "id": 27,
     "name_kr": "스킨푸드",
     "name_en": "skinfood",
     "api_id": "28",
-    "brandDesc": "스킨푸드는 ‘먹어서 좋은 음식은 피부에도 좋다'라는 모토와 함께 건강한 ‘푸드'의 영양을\n그대로 담아낸 오리지널 푸드 코스메틱 브랜드입니다."
+    "brandDesc": "스킨푸드는 ‘먹어서 좋은 음식은 피부에도 좋다'라는 모토와 함께 건강한 ‘푸드'의 영양을\n그대로 담아낸 오리지널 푸드 코스메틱 브랜드입니다.",
+    "mood": ["자연의", "친근한", "네추럴한"],
+    "descText": [
+      {
+        "main": "여기에 들어가는\n내용이 캐러셀에\n들어갑니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "줄바꿈을 하고싶으면\n이렇게 하면 됩니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "main은 최대 4줄\nsub는 최대 2줄",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      }
+    ]
   },
   {
     "id": 28,
     "name_kr": "헤라",
     "name_en": "hera",
     "api_id": "3",
-    "brandDesc": "헤라는 가장 최신의 아름다움을 정의하고 창조해나가는 브랜드로\n한국의 아름다움과 가치를 세계 속에 전파하는 컨템포러리 서울 뷰티 브랜드입니다."
+    "brandDesc": "헤라는 가장 최신의 아름다움을 정의하고 창조해나가는 브랜드로\n한국의 아름다움과 가치를 세계 속에 전파하는 컨템포러리 서울 뷰티 브랜드입니다.",
+    "mood": ["독특한", "심플한", "도시적인"],
+    "descText": [
+      {
+        "main": "여기에 들어가는\n내용이 캐러셀에\n들어갑니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "줄바꿈을 하고싶으면\n이렇게 하면 됩니다.",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      },
+      {
+        "main": "main은 최대 4줄\nsub는 최대 2줄",
+        "sub": "Get moist lips with the portable\nvegan serum lip tint."
+      }
+    ]
   }
 ]

@@ -201,9 +201,14 @@ export default Filter;
 const FilterWrapper = styled.div`
   position: sticky;
   display: inline-flex;
-  top: 60px;
+  top: 1.6rem;
   z-index: 10;
-  background: white;
+  background: linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 1) 49%,
+    rgba(255, 255, 255, 1) 100%
+  );
 
   .button-wrapper {
     display: inline-flex;

@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useRecoilState } from "recoil";
+import { useInView } from "react-intersection-observer";
 
 import iconVector from "@/assets/images/landing/icon-vector.png";
 import landing1 from "@/assets/images/landing/landing1.png";
@@ -8,13 +9,17 @@ import landing3 from "@/assets/images/landing/landing3.png";
 import landing4 from "@/assets/images/landing/landing4.png";
 import LandingLoginBtn from "@/components/LandingLoginBtn";
 
-import Portal from "@/utils/portal";
-import Login from "@/pages/Login";
 import { loginModalOverlay } from "@/utils/atom";
+import { useEffect } from "react";
 const Landing = () => {
   const [loginModal, setLoginModal] = useRecoilState(loginModalOverlay);
   const handleLogin = () => setLoginModal(true);
-  const handleClose = () => setLoginModal(false);
+  const { ref, inView, entry } = useInView();
+
+  const handleScroll = () => {
+    const target = document.getElementById("target");
+    target?.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
     <LandingPageWrapper>
@@ -25,13 +30,15 @@ const Landing = () => {
           alt="landingpage"
         />
         <LandingLoginBtn onClick={handleLogin} />
+
         <img
           src={iconVector}
           alt="vector facing down"
           className="iconVector"
+          onClick={handleScroll}
         />
       </LandingPage1>
-      <LandingPage2>
+      <LandingPage2 id="target">
         <div className="textDiv">
           <span className="mainText">
             원하는 무드를
@@ -76,6 +83,14 @@ const Landing = () => {
           className="page4Img"
         />
       </LandingPage4>
+      <OberserveDiv ref={ref} />
+      {inView && (
+        <>
+          <LoginDeriveSpan onClick={handleLogin}>
+            <LoginDeriveBtn>3초만에 원하는 카피 발견하러 가기</LoginDeriveBtn>
+          </LoginDeriveSpan>
+        </>
+      )}
     </LandingPageWrapper>
   );
 };
@@ -85,6 +100,7 @@ export default Landing;
 const LandingPageWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   .textDiv {
     display: flex;
     flex-direction: column;
@@ -107,7 +123,7 @@ const LandingPageWrapper = styled.div`
 `;
 
 const LandingPage1 = styled.div`
-  width: 100%;
+  width: 192rem;
   height: 100rem;
   display: flex;
   flex-direction: column;
@@ -117,8 +133,27 @@ const LandingPage1 = styled.div`
   .page1Img {
     width: 115.4rem;
   }
+  @keyframes bounce {
+    0%,
+    100% {
+      -webkit-transform: translateY(-25%);
+      transform: translateY(-25%);
+      -webkit-animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+      animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    }
+    50% {
+      -webkit-transform: none;
+      transform: none;
+      -webkit-animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+      animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    }
+  }
+
   .iconVector {
     width: 9rem;
+    -webkit-animation: bounce 1s infinite;
+    animation: bounce 1s infinite;
+    cursor: pointer;
   }
 `;
 
@@ -160,4 +195,51 @@ const LandingPage4 = styled.div`
   .page4Img {
     width: 119.4rem;
   }
+`;
+
+const LoginDeriveBtn = styled.div`
+  position: sticky;
+  bottom: 3rem;
+  margin-bottom: 3rem;
+  width: 119.5rem;
+  height: 10.4rem;
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 104px;
+  background: linear-gradient(90deg, #ff3c00 0%, #ff7145 59.38%, #ff8845 100%);
+  box-shadow: 0px 0px 40px 0px rgba(255, 255, 255, 0.12);
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 100%;
+  color: white;
+  cursor: pointer;
+  animation: appear 1s ease-in-out;
+  @keyframes appear {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+`;
+
+const LoginDeriveSpan = styled.span`
+  position: sticky;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  bottom: 0rem;
+  width: 100vw;
+  height: 329px;
+  flex-shrink: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #fff 100%);
+`;
+
+const OberserveDiv = styled.div`
+  width: 100%;
+  height: 10px;
 `;
