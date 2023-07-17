@@ -77,3 +77,8 @@ export const activeChildMenu = atom({
   default: -1,
   effects_UNSTABLE: [persistAtom],
 });
+
+export const isLogined = atom({
+  key: "isLogin",
+  default: false,
+});
