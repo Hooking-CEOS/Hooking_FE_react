@@ -113,7 +113,12 @@ input[type="checkbox"] {
   &-grey {
     .button__inner {
       border: 0.025rem solid $color_black_40;
-      background: $color_black_5;
+      background: linear-gradient(
+          0deg,
+          rgba(0, 2, 53, 0.05) 0%,
+          rgba(0, 2, 53, 0.05) 100%
+        ),
+        #fff;
     }
   }
 
@@ -195,6 +200,19 @@ input[type="checkbox"] {
         background: $color_point;
         color: $color_white;
       }
+    }
+  }
+
+  &-orange-outline-saved {
+    .button__inner {
+      color: $color_point;
+      border: 1px solid $color_point;
+      background: linear-gradient(
+          0deg,
+          rgba(255, 113, 69, 0.2) 0%,
+          rgba(255, 113, 69, 0.2) 100%
+        ),
+        #fff;
     }
   }
 
@@ -304,6 +322,14 @@ input[type="checkbox"] {
       height: 3rem;
       background: url("../assets/images/icon-saved.svg") no-repeat center;
     }
+    &-outline {
+      width: 1.8rem;
+      height: 1.8rem;
+      background: url("../assets/images/icon-saved-outline.svg") no-repeat
+        center;
+      margin-right: 0.8rem;
+      stroke-width: 2px;
+    }
 
     &-white {
       &-small {
@@ -317,6 +343,7 @@ input[type="checkbox"] {
         height: 1.8rem;
         background: url("../assets/images/icon-saved-white-large.svg") no-repeat
           center;
+        margin-right: 0.8rem;
       }
     }
   }
