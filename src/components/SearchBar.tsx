@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import useOutSideClick from "@/hooks/useOutSideClick";
@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { searchModalOverlay, search } from "@/utils/atom";
 import { BRAND_TO_BRANDID, Z_INDEX_FILTER } from "@/utils/constants";
 import BrandLogoCard from "./BrandLogoCard";
-
+import { useLocation } from "react-router-dom";
 /*
 generate random number between 0 to 27
 1~28
@@ -25,6 +25,14 @@ const SearchBar = () => {
 
   const searchRef = useRef<HTMLInputElement>(null);
   const searchWrap = useRef<HTMLInputElement>(null);
+
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname === "/" || location.pathname === "/home") {
+      setSearchState({ ...searchState, searchKeyword: "" });
+    }
+  }, [location.pathname]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
