@@ -85,6 +85,7 @@ export default Landing;
 const LandingPageWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   .textDiv {
     display: flex;
     flex-direction: column;
@@ -107,7 +108,7 @@ const LandingPageWrapper = styled.div`
 `;
 
 const LandingPage1 = styled.div`
-  width: 100%;
+  width: 192rem;
   height: 100rem;
   display: flex;
   flex-direction: column;
@@ -117,8 +118,26 @@ const LandingPage1 = styled.div`
   .page1Img {
     width: 115.4rem;
   }
+  @keyframes bounce {
+    0%,
+    100% {
+      -webkit-transform: translateY(-25%);
+      transform: translateY(-25%);
+      -webkit-animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+      animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    }
+    50% {
+      -webkit-transform: none;
+      transform: none;
+      -webkit-animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+      animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    }
+  }
+
   .iconVector {
     width: 9rem;
+    -webkit-animation: bounce 1s infinite;
+    animation: bounce 1s infinite;
   }
 `;
 
