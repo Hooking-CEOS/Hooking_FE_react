@@ -5,14 +5,19 @@ import ProfileDropDown from "@/components/ProfileDropDown";
 
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
 import {
   HEADER_HEIGHT_MO,
   Z_INDEX_HEADER,
   HEADER_LEFT_MENU,
 } from "@/utils/constants";
-import { activeMenu, activeChildMenu, loginModalOverlay } from "@/utils/atom";
+import {
+  activeMenu,
+  activeChildMenu,
+  loginModalOverlay,
+  isLogined,
+} from "@/utils/atom";
 import Portal from "@/utils/portal";
 
 const Header = () => {
@@ -21,6 +26,7 @@ const Header = () => {
   const [activeMenuIdx, setActiveMenuIdx] = useRecoilState(activeMenu);
   const [loginModal, setLoginModal] = useRecoilState(loginModalOverlay);
   const setActiveChildMenuIdx = useSetRecoilState(activeChildMenu);
+  const isLogin = useRecoilValue(isLogined);
 
   const handleLogin = () => setLoginModal(true);
   const handleClose = () => setLoginModal(false);
@@ -33,7 +39,16 @@ const Header = () => {
           <Button
             icon="icon-logo"
             text=""
-            onClick={() => navigate("/home")}
+            onClick={() => {
+              setActiveChildMenuIdx(-1);
+              if (!isLogin) {
+                setActiveMenuIdx(-1);
+                navigate("/");
+              } else {
+                setActiveMenuIdx(0);
+                navigate("/home");
+              }
+            }}
           />
           {loginModal && (
             <Portal selector="#portal">
@@ -59,7 +74,15 @@ const Header = () => {
           <SearchBar />
         </div>
         <div className="header__content--right">
-          <ProfileDropDown className="" />
+          {isLogin ? (
+            <ProfileDropDown className="" />
+          ) : (
+            <Button
+              text="로그인"
+              className="button-orange-outline text-subtitle-1"
+              onClick={handleLogin}
+            />
+          )}
         </div>
       </div>
     </HeaderWrapper>
