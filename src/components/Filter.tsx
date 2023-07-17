@@ -99,7 +99,10 @@ const Filter = () => {
   }, [innerCheckedList]);
 
   return (
-    <FilterWrapper ref={filterRef}>
+    <FilterWrapper
+      ref={filterRef}
+      selected={selected}
+    >
       <div
         className="button-wrapper"
         ref={element}
@@ -198,9 +201,11 @@ const Filter = () => {
 
 export default Filter;
 
-const FilterWrapper = styled.div`
-  position: relative;
+const FilterWrapper = styled.div<{ selected: boolean }>`
+  position: ${(props) => (props.selected ? "sticky" : "relative")};
   display: inline-flex;
+  top: 1.6rem;
+  z-index: 10;
 
   .button-wrapper {
     display: inline-flex;

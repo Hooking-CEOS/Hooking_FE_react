@@ -3,7 +3,7 @@ import Button from "@/components/Button";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { activeMenu, activeChildMenu } from "@/utils/atom";
+import { activeMenu, activeChildMenu, isLogined } from "@/utils/atom";
 import { PROFILE_DATA } from "@/utils/constants";
 import useOutSideClick from "@/hooks/useOutSideClick";
 import { openKaKaoPlus } from "@/utils/util";
@@ -15,6 +15,7 @@ interface ProfilePropType {
 const ProfileDropDown = ({ className }: ProfilePropType) => {
   const navigate = useNavigate();
   const [hover, setHover] = useState(false);
+  const [isLogin, setIsLogin] = useRecoilState(isLogined);
 
   const [activeMenuIdx, setActiveMenuIdx] = useRecoilState(activeMenu);
   const [activeChildMenuIdx, setActiveChildMenuIdx] =
@@ -59,10 +60,12 @@ const ProfileDropDown = ({ className }: ProfilePropType) => {
             } text-subtitle-1`}
             onClick={() => {
               if (data.idx === 2) openKaKaoPlus();
-
-              setActiveMenuIdx(data.idx === 3 || data.idx === 2 ? 0 : 2);
+              setActiveMenuIdx(data.idx === 3 ? -1 : data.idx === 2 ? 0 : 2);
               setActiveChildMenuIdx(data.idx);
               navigate(data.link);
+              if (data.idx === 3) {
+                setIsLogin(false);
+              }
             }}
           >
             {data.text}
