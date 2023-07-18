@@ -4,6 +4,10 @@ import { useRecoilValue } from "recoil";
 import { useState } from "react";
 import Button from "@/components/Button";
 import { useNavigate } from "react-router-dom";
+
+import { useSetRecoilState } from "recoil";
+import { toastPopup } from "@/utils/atom";
+
 interface BrandProps {
   text: string;
   brandName: string;
@@ -20,6 +24,9 @@ const WordWrap = (word: string) => {
   // TODO: searchState값이 있다면 index값에 따라 주황글씨 처리
   word = word.replaceAll("\n", " \n ");
   const words = word.split(" ");
+
+  const setToast = useSetRecoilState(toastPopup);
+  const handleToastOpen = () => setToast(true);
 
   return (
     <>
@@ -41,6 +48,9 @@ const BrandCard = ({
   const [hover, setHover] = useState(false);
   const navigate = useNavigate();
 
+  const searchState = useRecoilValue(search);
+  const setToast = useSetRecoilState(toastPopup);
+
   return (
     <BrandCardWrapper
       saved={saved}
@@ -51,7 +61,7 @@ const BrandCard = ({
         {WordWrap(text)}
         <span className="more-content" />
       </div>
-      <Overlay hover={hover} />
+      {!saved && <Overlay hover={hover} />}
 
       <div className="card-brand">
         <span className="brandIcon">
@@ -69,7 +79,7 @@ const BrandCard = ({
             icon="icon-saved-white-large"
             className="button-orange component-small"
             text="저장"
-            onClick={() => navigate("/bookmark")}
+            onClick={() => setToast(true)}
           />
         ) : (
           <></>
