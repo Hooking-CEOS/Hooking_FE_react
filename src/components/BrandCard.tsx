@@ -1,19 +1,21 @@
 import styled from "styled-components";
 import { search } from "@/utils/atom";
-import { useRecoilValue } from "recoil";
+
 import { useState } from "react";
 import Button from "@/components/Button";
 import { useNavigate } from "react-router-dom";
 
-import { useSetRecoilState } from "recoil";
-import { toastPopup } from "@/utils/atom";
+import { useSetRecoilState, useRecoilValue } from "recoil";
+import { toastPopup, isLogined, loginModalOverlay } from "@/utils/atom";
+import { scrapCopy } from "@/api/copywriting";
 
 interface BrandProps {
   text: string;
   brandName: string;
-  brandId?: number;
+  brandId: number;
   brandImg?: string;
   saved?: boolean;
+  scrapCnt?: number;
   onClick?: () => void;
 }
 
@@ -41,6 +43,7 @@ const BrandCard = ({
   text,
   brandName,
   brandImg,
+  scrapCnt,
   brandId,
   saved,
   onClick,
@@ -49,7 +52,29 @@ const BrandCard = ({
   const navigate = useNavigate();
 
   const searchState = useRecoilValue(search);
+  const isLogin = useRecoilValue(isLogined);
   const setToast = useSetRecoilState(toastPopup);
+  const setLogin = useSetRecoilState(loginModalOverlay);
+
+  // api로 저장한거 북마크 저장됨 표시
+  const [isSaved, setIsSaved] = useState(false);
+
+  const handleCopyScrap = async () => {
+    // 로그인 안된 상태면 로그인 팝업 출력
+
+    if (!isLogin) {
+      setLogin(true);
+      return;
+    }
+    const data = await scrapCopy({ cardId: brandId });
+    if (data.code === 200) {
+      console.log("스크랩 결과", data);
+      setIsSaved(true);
+      setToast(true);
+    } else if (data.code === 400) {
+      alert(data.message);
+    }
+  };
 
   return (
     <BrandCardWrapper
@@ -69,18 +94,30 @@ const BrandCard = ({
           <span className="component-small">{brandName}</span>
         </span>
         {saved ? (
+          // 북마크 카드
           <Button
             icon="icon-saved-outline"
             className="button-orange-outline-saved component-small "
             text="저장됨"
           />
-        ) : hover ? (
-          <Button
-            icon="icon-saved-white-large"
-            className="button-orange component-small"
-            text="저장"
-            onClick={() => setToast(true)}
-          />
+        ) : // 홈카드
+        hover ? (
+          // 호버했을 때 저장된 상태
+          isSaved ? (
+            <Button
+              icon="icon-saved-outline"
+              className="button-orange-outline-saved component-small "
+              text="저장됨"
+            />
+          ) : (
+            // 호버했을 때 저장안된 상태
+            <Button
+              icon="icon-saved-white-large"
+              className="button-orange component-small"
+              text="저장"
+              onClick={handleCopyScrap}
+            />
+          )
         ) : (
           <></>
         )}
