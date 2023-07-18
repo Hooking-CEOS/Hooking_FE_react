@@ -1,21 +1,17 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import useOutSideClick from "@/hooks/useOutSideClick";
 
 import styled from "styled-components";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 
 import { searchModalOverlay, search } from "@/utils/atom";
 import { BRAND_TO_BRANDID, Z_INDEX_FILTER } from "@/utils/constants";
 import BrandLogoCard from "./BrandLogoCard";
 import { useLocation } from "react-router-dom";
-/*
-generate random number between 0 to 27
-1~28
-api_id -> name
-*/
+import { isBigWindow } from "@/utils/atom";
 
 const SearchBar = () => {
   const navigate = useNavigate();
@@ -26,7 +22,10 @@ const SearchBar = () => {
   const searchRef = useRef<HTMLInputElement>(null);
   const searchWrap = useRef<HTMLInputElement>(null);
 
+  const [nameArr, setNameArr] = useState<any>();
+
   const location = useLocation();
+  const bigWindow = useRecoilValue(isBigWindow);
 
   useEffect(() => {
     if (location.pathname === "/" || location.pathname === "/home") {
@@ -60,47 +59,42 @@ const SearchBar = () => {
     navigate(`/search?keyword=${searchState.searchKeyword}`);
   };
 
-  //TODO: randNum
-  const BRAND = [
-    {
-      idx: 0,
-      name: "에뛰드",
-      img: require("../assets/images/brandSearch/brand-search-에뛰드.png"),
-    },
-    {
-      idx: 1,
-      name: "애프터블로우",
-      img: require("../assets/images/brandSearch/brand-search-애프터블로우.png"),
-    },
-    /*
-    {
-      idx: 2,
-      name: "려",
-      img: require("../assets/images/img-brand-sample.png"),
-    },
-    */
-  ];
-
-  const getRandomBrand = (min: number, max: number) => {
-    const randNum = Math.floor(Math.random() * (max - min + 1)) + min;
-    console.log("randNum", randNum);
-
+  const getBrandNameById = (id: number): string | undefined => {
     const brand = BRAND_TO_BRANDID.find(
-      (brandObj) => brandObj.api_id === randNum.toString()
+      (brandObj) => brandObj.api_id === id.toString()
     );
     return brand?.name_kr;
   };
 
-  // 원하는 개수 만큼의 브랜드 리턴
-  const getRandNumBrand = (num: number) => {
-    const brandNameArr: Array<string | null> = [];
-    while (num) {
-      //const randBrand = getRandomBrand(1, 28); // innisfree
-      // if (!brandNameArr.find(randBrand)) {
-    }
+  const handleBookMark = () => {
+    if (location.pathname === "/bookmark") window?.location.reload();
+    else navigate("/bookmark");
   };
 
-  //getRandomBrand(1, 28);
+  const getRandomNum = (min: number, max: number) => {
+    const randNum: number = Math.floor(Math.random() * (max - min + 1)) + min;
+    return randNum;
+  };
+
+  // num 개수 만큼의 브랜드 리턴
+  const getRandNumBrand = (num: number) => {
+    const brandRandomIdArr: number[] = [];
+    while (num) {
+      const randNum = getRandomNum(1, 28);
+      // 배열에 없다면 추가하고 하나 줄이기
+      if (brandRandomIdArr.indexOf(randNum) === -1) {
+        brandRandomIdArr.push(randNum);
+        num--;
+      }
+    }
+    const nameArr = brandRandomIdArr.map((arr) => getBrandNameById(arr));
+    setNameArr(nameArr);
+  };
+
+  useEffect(() => {
+    // 큰 화면 (1320) 이상에서는 3개 브랜드 생성, 작은 화면은 2개 생성
+    getRandNumBrand(bigWindow ? 3 : 2);
+  }, [bigWindow]);
 
   return (
     <>
@@ -153,12 +147,18 @@ const SearchBar = () => {
                 <div className="search-brand">
                   <div className="text-subtitle-1">이달의 브랜드 모아보기</div>
                   <div className="search-brand-content">
-                    {BRAND.map((brand) => (
-                      <BrandLogoCard
-                        key={`brand-card-${brand.idx}`}
-                        brand={brand}
-                      />
-                    ))}
+                    {nameArr &&
+                      nameArr.length > 0 &&
+                      nameArr.map((brandName: any, idx: any) => (
+                        <BrandLogoCard
+                          key={`brand-card-${brandName}-${idx}}`}
+                          brand={{
+                            idx: idx,
+                            name: brandName,
+                            img: require(`../assets/images/brandSearch/brand-search-${brandName}.png`),
+                          }}
+                        />
+                      ))}
                   </div>
                 </div>
                 <hr className="hr" />
@@ -171,10 +171,7 @@ const SearchBar = () => {
                   </div>
                   <Button
                     text="내 북마크"
-                    onClick={() => {
-                      handleFocusOut();
-                      navigate("/bookmark");
-                    }}
+                    onClick={handleBookMark}
                     className="button-orange-outline text-subtitle-1"
                   />
                 </div>
