@@ -5,8 +5,10 @@ const ScrollToTop = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    const main = document.querySelector(".main");
-    if (main) main.scrollTop = 0;
+    const app = document.querySelector(".app");
+    if (app) {
+      app.scrollTop = 0;
+    }
   }, [pathname]);
 
   return null;

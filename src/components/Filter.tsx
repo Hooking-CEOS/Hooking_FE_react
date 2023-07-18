@@ -99,14 +99,8 @@ const Filter = () => {
   }, [innerCheckedList]);
 
   return (
-    <FilterWrapper
-      ref={filterRef}
-      selected={selected}
-    >
-      <div
-        className="button-wrapper"
-        ref={element}
-      >
+    <FilterWrapper ref={filterRef} selected={selected}>
+      <div className="button-wrapper" ref={element}>
         <Button
           text="필터"
           icon={`icon-filter ${getIconFilterClass()}`}
@@ -145,14 +139,8 @@ const Filter = () => {
         <FilterContent>
           <div className="filter__wrap">
             {FILTER_DATA.map((filter) => (
-              <div
-                key={`filter-${filter.idx}`}
-                className="filter-content"
-              >
-                <h2
-                  className="text-subtitle-1"
-                  id="filter-label"
-                >
+              <div key={`filter-${filter.idx}`} className="filter-content">
+                <h2 className="text-subtitle-1" id="filter-label">
                   {filter.filter}
                 </h2>
                 <ul
@@ -203,16 +191,22 @@ export default Filter;
 
 const FilterWrapper = styled.div<{ selected: boolean }>`
   position: ${(props) => (props.selected ? "sticky" : "relative")};
-  display: inline-flex;
-  top: 1.6rem;
+  width: 100%;
+  padding: 1.6rem 0;
+  display: flex;
+  top: 0;
   z-index: 10;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.9) 63.02%,
+    rgba(255, 255, 255, 0) 100%
+  );
 
   .button-wrapper {
     display: inline-flex;
     flex-wrap: wrap;
     gap: 1.6rem;
 
-    position: sticky;
     top: ${HEADER_HEIGHT_MO};
   }
 `;
@@ -220,7 +214,7 @@ const FilterWrapper = styled.div<{ selected: boolean }>`
 const FilterContent = styled.div`
   ${flexColumnCenter}
   position: absolute;
-  top: 5.4rem;
+  top: 7rem;
 
   border-radius: 2rem;
   border: 0.25px solid ${(props) => props.theme.colors.black30};

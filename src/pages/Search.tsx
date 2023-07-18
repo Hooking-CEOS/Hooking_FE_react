@@ -6,82 +6,72 @@ import { useRecoilValue } from "recoil";
 import { searchResult } from "@/utils/atom";
 import BrandCard from "@/components/BrandCard";
 
-import IMG_BRAND_SAMPLE from "@/assets/images/icon-brand-sample.svg";
+import IMG_BRAND_SAMPLE from "@/assets/images/brandSearch/brand-search-logo.png";
 import Button from "@/components/Button";
 import QnA from "@/pages/QnA";
 import BrandLogoCard from "@/components/BrandLogoCard";
 
 const CARD_DATA = [
   {
-    idx: 0,
+    id: 0,
     text: "휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum 휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum",
-    brand: "이니스프리",
+    brandName: "이니스프리",
     img: IMG_BRAND_SAMPLE,
   },
+
   {
-    idx: 1,
+    id: 1,
     text: "휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum 휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum",
-    brand: "이니스프리",
+    brandName: "이니스프리",
     img: IMG_BRAND_SAMPLE,
   },
+
   {
-    idx: 2,
+    id: 2,
     text: "휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum 휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum",
-    brand: "이니스프리",
+    brandName: "이니스프리",
     img: IMG_BRAND_SAMPLE,
   },
+
   {
-    idx: 3,
+    id: 3,
     text: "휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum 휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum",
-    brand: "이니스프리",
+    brandName: "이니스프리",
     img: IMG_BRAND_SAMPLE,
   },
+
   {
-    idx: 4,
+    id: 4,
     text: "휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum 휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum",
-    brand: "이니스프리",
+    brandName: "이니스프리",
     img: IMG_BRAND_SAMPLE,
   },
+
   {
-    idx: 5,
+    id: 5,
     text: "휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum 휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum",
-    brand: "이니스프리",
+    brandName: "이니스프리",
     img: IMG_BRAND_SAMPLE,
   },
+
   {
-    idx: 6,
+    id: 6,
     text: "휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum 휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum",
-    brand: "이니스프리",
+    brandName: "이니스프리",
     img: IMG_BRAND_SAMPLE,
   },
+
   {
-    idx: 7,
-    text: "휴대하기 좋은 비건 세럼 립틴트로 어디서",
-    brand: "이니스프리",
+    id: 7,
+    text: "휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum 휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum",
+    brandName: "이니스프리",
     img: IMG_BRAND_SAMPLE,
   },
+
   {
-    idx: 8,
-    text: "휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum... 더 보기",
-    brand: "이니스프리",
-    img: IMG_BRAND_SAMPLE,
-  },
-  {
-    idx: 9,
-    text: "휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum... 더 보기",
-    brand: "이니스프리",
-    img: IMG_BRAND_SAMPLE,
-  },
-  {
-    idx: 10,
-    text: "휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum... 더 보기",
-    brand: "이니스프리",
-    img: IMG_BRAND_SAMPLE,
-  },
-  {
-    idx: 11,
-    text: "휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum... 더 보기",
-    brand: "이니스프리",
+    id: 8,
+    text: "휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum 휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum",
+    brandName: "이니스프리",
     img: IMG_BRAND_SAMPLE,
   },
 ];
@@ -96,6 +86,10 @@ const Search = () => {
   const [searchParams, _] = useSearchParams();
   const [tab, setTab] = useState(0); // 키워드탭: 0, 카피무드탭: 1
   const [searchCnt, setSearchCnt] = useState(INITIAL_SEARCH_CNT);
+  const [noResult, setNoResult] = useState(false);
+  const [type, setType] = useState("copy");
+
+  const [card, setCard] = useState(CARD_DATA);
 
   const keyword = searchParams.get("keyword");
   const getSearch = useRecoilValue(searchResult(keyword));
@@ -105,8 +99,22 @@ const Search = () => {
       .map((keyword) => keywordObj[keyword])
       .reduce((acc, val) => acc + val, 0);
 
+  // curType을 설정하는 함수
+  const onSetType = (cur: any) => {
+    // cur: { copy: 0, brand: 0, mood: 0 };
+    const { copy, brand, mood } = cur;
+    let type = "mood"; // default
+    if (brand > 0) {
+      type = "brand";
+    } else if (copy > 0) {
+      type = "copy";
+    }
+    setType(type);
+    return type;
+  };
+
   // 각 타입별 결과 데이터 개수를 반환하는 함수
-  const getTypeSearchCnt = ({ data }: any) => {
+  const getTypeSearchCnt = ({ data }: any): string => {
     const cur: any = { ...INITIAL_SEARCH_CNT };
     data.map((obj: any) => {
       if (obj.data !== null && obj.data !== undefined) {
@@ -114,6 +122,7 @@ const Search = () => {
       }
     });
     setSearchCnt(cur);
+    return onSetType(cur);
   };
 
   interface commonAPIResponseType {
@@ -124,13 +133,17 @@ const Search = () => {
   // TODO: 공통 res type 만들기
   interface searchAPIResponseType extends commonAPIResponseType {
     data: {
-      [key: string]: Array<null | string>;
+      [key: string]: Array<null | string | object>;
     };
   }
+
   const getSearchResult = () => {
     const data: searchAPIResponseType = getSearch;
-    if (data.code === 200) {
-      getTypeSearchCnt(data);
+    // 400: no search result
+    if (data.code === 200 || data.code === 400) {
+      const type = getTypeSearchCnt(data);
+      //console.log("respresentative type", type);
+      getTypeData(data, type); // 데이터들의 대표 타입을 통해 카드 데이터 렌더링
     }
   };
 
@@ -138,27 +151,25 @@ const Search = () => {
     getSearchResult();
   }, [keyword]);
 
+  console.log("getSearch", getSearch);
+  console.log("searchCnt", searchCnt);
+
+  const getTypeData = ({ data }: any, findType: string) => {
+    data?.map((obj: any) => {
+      const { type } = obj;
+      //console.log("type", type);
+      if (type === findType) {
+        setCard(obj.data);
+        console.log("[obj.data]", obj.data);
+      }
+    });
+  };
+
   /* TODO: qna 말고, copy로 빼기 */
 
-  const BRAND = [
-    {
-      idx: 0,
-      name: "롱테이크",
-      img: require("../assets/images/img-brand-sample.png"),
-    },
-    {
-      idx: 1,
-      name: "애프터블로우",
-      img: require("../assets/images/img-brand-sample.png"),
-    },
-    /*
-    {
-      idx: 2,
-      name: "려",
-      img: require("../assets/images/img-brand-sample.png"),
-    },
-    */
-  ];
+  useEffect(() => {
+    getTypeData(getSearch, type);
+  }, [type]);
 
   return (
     <>
@@ -169,78 +180,82 @@ const Search = () => {
           <div className="qna-copy">
             <div className="qna-copy__wrap">
               <div className="search-result-tab">
-                <div
-                  className="tab-wrap"
-                  onClick={() => setTab(0)}
-                >
-                  <Button
-                    text="키워드"
-                    className={`button-text button-text-${
-                      tab === 0 ? "orange" : "grey"
-                    } text-heading-2`}
-                  />
-                  <span
-                    className={`tab-content tab-content-${
-                      tab === 0 ? "orange" : "grey"
-                    } component-small`}
+                {(searchCnt.copy || searchCnt.brand) && (
+                  <div
+                    className="tab-wrap"
+                    onClick={() =>
+                      setType(searchCnt.brand > 0 ? "brand" : "copy")
+                    }
                   >
-                    {searchCnt.copy}
-                  </span>
-                </div>
-                <div className="dot" />
-                <div
-                  className="tab-wrap"
-                  onClick={() => setTab(1)}
-                >
-                  <Button
-                    text="카피 무드"
-                    className={`button-text button-text-${
-                      tab === 1 ? "orange" : "grey"
-                    } text-heading-2`}
-                  />
-                  {/* 카피 무드 없는 경우는 0, 있으면 해시태그 */}
-                  {searchCnt.mood === 0 ? (
+                    <Button
+                      text="키워드"
+                      className={`button-text button-text-${
+                        type === "copy" || type === "brand" ? "orange" : "grey"
+                      } text-heading-2`}
+                    />
                     <span
                       className={`tab-content tab-content-${
-                        tab === 1 ? "orange" : "grey"
+                        type === "copy" || type === "brand" ? "orange" : "grey"
                       } component-small`}
                     >
-                      {searchCnt.mood}
+                      {searchCnt.copy || searchCnt.brand}
                     </span>
-                  ) : (
-                    <span
-                      className={`tab-content tab-content-${
-                        tab === 1 ? "orange" : "grey"
-                      } component-small`}
-                    >
-                      #퓨어한
-                      {/** TODO: mood 어떻게 오는지 보고 뿌리기 */}
-                    </span>
-                  )}
-                </div>
+                  </div>
+                )}
+                {searchCnt.mood > 0 && (
+                  <>
+                    <div className="dot" />
+                    <div className="tab-wrap" onClick={() => setType("mood")}>
+                      <Button
+                        text="카피 무드"
+                        className={`button-text button-text-${
+                          type === "mood" ? "orange" : "grey"
+                        } text-heading-2`}
+                      />
+                      {searchCnt.mood === 0 ? (
+                        <span
+                          className={`tab-content tab-content-${
+                            type === "mood" ? "orange" : "grey"
+                          } component-small`}
+                        >
+                          {searchCnt.mood}
+                        </span>
+                      ) : (
+                        <span
+                          className={`tab-content tab-content-${
+                            type === "mood" ? "orange" : "grey"
+                          } component-small`}
+                        >
+                          #{keyword}
+                        </span>
+                      )}
+                    </div>
+                  </>
+                )}
               </div>
+
               {searchCnt.brand > 0 && (
                 <>
-                  {BRAND.map((brand) => (
-                    <BrandLogoCard
-                      key={`brand-card-${brand.idx}`}
-                      brand={brand}
-                    />
-                  ))}
-                  <hr
-                    className="hr"
-                    style={{ marginBottom: "3rem" }}
+                  <BrandLogoCard
+                    brand={{
+                      idx: 0,
+                      name: keyword,
+                      img: require(`../assets/images/brandSearch/brand-search-미샤.png`),
+                    }}
                   />
+                  <hr className="hr" style={{ marginBottom: "3rem" }} />
                 </>
               )}
+
               <BrandCards>
-                {CARD_DATA.map((card) => (
+                {/* 데이터만 갈아끼우기 */}
+                {card.map((card) => (
                   <BrandCard
-                    key={`brand-text-card-${card.idx}`}
-                    brandId={card.idx}
+                    key={`brand-text-card-${card.id}`}
+                    brandId={card.id}
                     text={card.text}
-                    brandImg={card.img}
-                    brandName={card.brand}
+                    brandImg={require(`../assets/images/brandIcon/brand-${card.brandName}.png`)}
+                    brandName={card.brandName}
                   />
                 ))}
               </BrandCards>

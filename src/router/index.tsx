@@ -15,7 +15,14 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import QnA from "@/pages/QnA";
 import Landing from "@/pages/Landing";
+
 import OathProcessor from "@/pages/OathProcessor";
+
+import Toast from "@/components/Toast";
+
+import { toastPopup } from "@/utils/atom";
+import { useRecoilValue } from "recoil";
+
 
 const routes = [
   {
@@ -66,6 +73,10 @@ const routes = [
 ];
 
 const HookingRouter = () => {
+  const toastOpen = useRecoilValue(toastPopup);
+
+  console.log("toastOpen", toastOpen);
+
   return (
     <>
       <Router>
@@ -80,6 +91,7 @@ const HookingRouter = () => {
             />
           ))}
         </Routes>
+        {toastOpen && <Toast />}
         <Footer />
       </Router>
     </>

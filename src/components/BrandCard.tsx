@@ -3,6 +3,10 @@ import { search } from "@/utils/atom";
 import { useRecoilValue } from "recoil";
 import { useState } from "react";
 import Button from "@/components/Button";
+import { useNavigate } from "react-router-dom";
+
+import { useSetRecoilState } from "recoil";
+import { toastPopup } from "@/utils/atom";
 
 interface BrandProps {
   text: string;
@@ -20,6 +24,9 @@ const WordWrap = (word: string) => {
   // TODO: searchState값이 있다면 index값에 따라 주황글씨 처리
   word = word.replaceAll("\n", " \n ");
   const words = word.split(" ");
+
+  const setToast = useSetRecoilState(toastPopup);
+  const handleToastOpen = () => setToast(true);
 
   return (
     <>
@@ -39,23 +46,26 @@ const BrandCard = ({
   onClick,
 }: BrandProps) => {
   const [hover, setHover] = useState(false);
+  const navigate = useNavigate();
+
+  const searchState = useRecoilValue(search);
+  const setToast = useSetRecoilState(toastPopup);
 
   return (
     <BrandCardWrapper
+      saved={saved}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
-      <div className="card-content text-normal-300">
+      <div className={`card-content text-normal-300`}>
         {WordWrap(text)}
         <span className="more-content" />
       </div>
+      {!saved && <Overlay hover={hover} />}
 
       <div className="card-brand">
         <span className="brandIcon">
-          <img
-            src={brandImg}
-            alt="brandImg"
-          />
+          <img src={brandImg} alt="brandImg" />
           <span className="component-small">{brandName}</span>
         </span>
         {saved ? (
@@ -69,6 +79,7 @@ const BrandCard = ({
             icon="icon-saved-white-large"
             className="button-orange component-small"
             text="저장"
+            onClick={() => setToast(true)}
           />
         ) : (
           <></>
@@ -80,13 +91,35 @@ const BrandCard = ({
 
 export default BrandCard;
 
-const BrandCardWrapper = styled.div`
+const Overlay = styled.div<{ hover: boolean }>`
+  position: absolute;
+  top: 10.2rem;
+  left: 0;
+  width: 100%; // 부모
+  height: 8rem;
+  background: ${(props) =>
+    props.hover
+      ? `linear-gradient(
+    180deg,
+    rgba(255, 248, 246, 0) 0%,
+    rgba(255, 248, 246, 0.8) 52.08%,
+    #fff8f6 100%
+  )`
+      : `linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.8) 45.31%,
+    #fff 100%
+  )`};
+`;
+
+const BrandCardWrapper = styled.div<{ saved: boolean | undefined }>`
   display: flex;
   flex-direction: column;
   min-width: 37.8rem;
   max-width: 100%;
 
-  min-height: 27.8rem;
+  min-height: ${(props) => (props.saved ? "auto" : "27.8rem")};
   padding: 3.8rem 4rem;
 
   border: 0.025rem solid ${(props) => props.theme.colors.black40};
@@ -94,6 +127,7 @@ const BrandCardWrapper = styled.div`
   background: ${(props) => props.theme.colors.white};
   position: relative;
   cursor: pointer;
+
   &:hover {
     background: linear-gradient(
         0deg,
@@ -119,9 +153,10 @@ const BrandCardWrapper = styled.div`
     width: 100%;
     white-space: pre-wrap;
     overflow: hidden;
-    max-height: 12rem;
+    max-height: ${(props) => (props.saved ? "auto" : "12rem")};
     min-height: 12rem;
     font-size: 1.6rem;
+    padding-bottom: ${(props) => (props.saved ? "10rem" : "0")};
     color: ${(props) => props.theme.colors.black100};
     margin-bottom: 2.4rem;
     word-break: keep-all;
@@ -135,11 +170,13 @@ const BrandCardWrapper = styled.div`
       text-align: right;
       right: 0;
       //background: white;
+      *
       background: linear-gradient(
         180deg,
         rgba(255, 255, 255, 0) 0%,
         #fff 72.4%
       );
+      */
     }
   }
 
@@ -152,12 +189,18 @@ const BrandCardWrapper = styled.div`
     width: calc(100% - 8rem);
     border-top: 1px solid #0002351f;
     justify-content: space-between;
+
     .brandIcon {
       min-height: 4.8rem;
       gap: 1rem;
       display: flex;
       flex-direction: row;
       align-items: center;
+
+      img {
+        width: 2.8rem;
+        height: 2.8rem;
+      }
     }
   }
 `;
