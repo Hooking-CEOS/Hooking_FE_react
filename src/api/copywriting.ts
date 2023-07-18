@@ -1,8 +1,10 @@
 import { GET, POST } from "@/utils/axios";
 
 // 카피라이팅 필터
-export const getCopyFilter = async () => {
-  return await POST("/copy/filter", {});
+export const getCopyFilter = async (params: any) => {
+  return await GET("/copy/filter", {
+    params: params,
+  });
 };
 
 // 전체 카피라이팅 조회
@@ -16,11 +18,11 @@ export const getCopySearch = async (keyword: string | null) => {
 };
 
 // 카피라이팅 스크랩
-export const scrapCopy = async (body: any) => {
-  return await POST("/scrap", body);
+export const scrapCopy = async (body: { cardId: number }) => {
+  return await POST("/copy/scrap", body);
 };
 
 // 스크랩한 카피라이팅 조회
-export const userReview = async () => {
+export const getScrapCopy = async () => {
   return await GET("/copy/scrap");
 };
