@@ -14,8 +14,6 @@ interface LoginProps {
 const Login = ({ onClose }: LoginProps) => {
   const Navigate = useNavigate();
   const modalRef = useRef<HTMLDivElement>(null);
-  const [islogin, setIsLogin] = useRecoilState(isLogined);
-  const [activeMenuIdx, setActiveMenuIdx] = useRecoilState(activeMenu);
 
   const handleClose = () => {
     onClose?.();
@@ -23,12 +21,12 @@ const Login = ({ onClose }: LoginProps) => {
 
   const handleLogin = () => {
     console.log("login");
-    // window.location.href = `${process.env.REACT_APP_API_URL}/oauth2/authorization/kakao`;
-    setIsLogin(true);
+    window.location.href = `${process.env.REACT_APP_API_URL}/oauth2/authorization/kakao`;
+
     handleClose();
     // TODO : onSuccess
-    Navigate("/home");
-    setActiveMenuIdx(0);
+    // Navigate("/home");
+    // setActiveMenuIdx(0);
   };
 
   useOutSideClick(modalRef, handleClose);
