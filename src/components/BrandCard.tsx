@@ -4,6 +4,10 @@ import { useRecoilValue } from "recoil";
 import { useState } from "react";
 import Button from "@/components/Button";
 import { useNavigate } from "react-router-dom";
+
+import { useSetRecoilState } from "recoil";
+import { toastPopup } from "@/utils/atom";
+
 interface BrandProps {
   text: string;
   brandName: string;
@@ -20,6 +24,9 @@ const WordWrap = (word: string) => {
   // TODO: searchState값이 있다면 index값에 따라 주황글씨 처리
   word = word.replaceAll("\n", " \n ");
   const words = word.split(" ");
+
+  const setToast = useSetRecoilState(toastPopup);
+  const handleToastOpen = () => setToast(true);
 
   return (
     <>
@@ -41,6 +48,9 @@ const BrandCard = ({
   const [hover, setHover] = useState(false);
   const navigate = useNavigate();
 
+  const searchState = useRecoilValue(search);
+  const setToast = useSetRecoilState(toastPopup);
+
   return (
     <BrandCardWrapper
       saved={saved}
@@ -51,6 +61,7 @@ const BrandCard = ({
         {WordWrap(text)}
         <span className="more-content" />
       </div>
+      {!saved && <Overlay hover={hover} />}
 
       <div className="card-brand">
         <span className="brandIcon">
@@ -68,7 +79,7 @@ const BrandCard = ({
             icon="icon-saved-white-large"
             className="button-orange component-small"
             text="저장"
-            onClick={() => navigate("/bookmark")}
+            onClick={() => setToast(true)}
           />
         ) : (
           <></>
@@ -79,6 +90,28 @@ const BrandCard = ({
 };
 
 export default BrandCard;
+
+const Overlay = styled.div<{ hover: boolean }>`
+  position: absolute;
+  top: 10.2rem;
+  left: 0;
+  width: 100%; // 부모
+  height: 8rem;
+  background: ${(props) =>
+    props.hover
+      ? `linear-gradient(
+    180deg,
+    rgba(255, 248, 246, 0) 0%,
+    rgba(255, 248, 246, 0.8) 52.08%,
+    #fff8f6 100%
+  )`
+      : `linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.8) 45.31%,
+    #fff 100%
+  )`};
+`;
 
 const BrandCardWrapper = styled.div<{ saved: boolean | undefined }>`
   display: flex;
@@ -94,6 +127,7 @@ const BrandCardWrapper = styled.div<{ saved: boolean | undefined }>`
   background: ${(props) => props.theme.colors.white};
   position: relative;
   cursor: pointer;
+
   &:hover {
     background: linear-gradient(
         0deg,
@@ -136,11 +170,13 @@ const BrandCardWrapper = styled.div<{ saved: boolean | undefined }>`
       text-align: right;
       right: 0;
       //background: white;
+      *
       background: linear-gradient(
         180deg,
         rgba(255, 255, 255, 0) 0%,
         #fff 72.4%
       );
+      */
     }
   }
 
@@ -153,6 +189,7 @@ const BrandCardWrapper = styled.div<{ saved: boolean | undefined }>`
     width: calc(100% - 8rem);
     border-top: 1px solid #0002351f;
     justify-content: space-between;
+
     .brandIcon {
       min-height: 4.8rem;
       gap: 1rem;

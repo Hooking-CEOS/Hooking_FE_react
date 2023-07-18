@@ -258,6 +258,11 @@ input[type="checkbox"] {
       background: url("../assets/images/icon-logo-big.svg") no-repeat center;
     }
   }
+  &-check-circle {
+    width: 2.4rem;
+    height: 2.4rem;
+    background: url("../assets/images/icon-check-circle.svg") no-repeat center;
+  }
 
   &-hooking {
     width: 2.4rem;

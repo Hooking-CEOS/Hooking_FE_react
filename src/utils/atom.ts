@@ -17,6 +17,11 @@ export const checkedListLen = selector({
   },
 });
 
+export const toastPopup = atom({
+  key: "toastPopup",
+  default: false,
+});
+
 export const isChecked = selectorFamily({
   key: "isChecked",
   get:
