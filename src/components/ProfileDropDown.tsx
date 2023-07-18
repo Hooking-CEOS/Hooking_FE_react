@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import Button from "@/components/Button";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { activeMenu, activeChildMenu, isLogined } from "@/utils/atom";
 import { PROFILE_DATA } from "@/utils/constants";
 import useOutSideClick from "@/hooks/useOutSideClick";
@@ -14,7 +14,7 @@ interface ProfilePropType {
 const ProfileDropDown = ({ className }: ProfilePropType) => {
   const navigate = useNavigate();
   const [hover, setHover] = useState(false);
-  const [isLogin, setIsLogin] = useRecoilState(isLogined);
+  const setIsLogin = useSetRecoilState(isLogined);
 
   const [activeMenuIdx, setActiveMenuIdx] = useRecoilState(activeMenu);
   const [activeChildMenuIdx, setActiveChildMenuIdx] =
