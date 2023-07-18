@@ -2,7 +2,7 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  useNavigate,
+  Navigate,
 } from "react-router-dom";
 import Home from "@/pages/Home";
 import Search from "@/pages/Search";
@@ -15,67 +15,63 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import QnA from "@/pages/QnA";
 import Landing from "@/pages/Landing";
-
 import OathProcessor from "@/pages/OathProcessor";
-
 import Toast from "@/components/Toast";
 
-import { toastPopup } from "@/utils/atom";
+import { isLogined, toastPopup } from "@/utils/atom";
 import { useRecoilValue } from "recoil";
-
-
-const routes = [
-  {
-    path: "/",
-    name: "Landing",
-    component: <Landing />,
-  },
-  {
-    path: "/home",
-    name: "Home",
-    component: <Home />,
-  },
-  {
-    path: "/search",
-    name: "Search",
-    component: <Search />,
-  },
-  {
-    path: "/profile",
-    name: "Profile",
-    component: <Profile />,
-  },
-  {
-    path: "/bookmark",
-    name: "BookMark",
-    component: <BookMark />,
-  },
-  {
-    path: "/writing",
-    name: "Writing",
-    component: <Writing />,
-  },
-  {
-    path: "/qna",
-    name: "QnA",
-    component: <QnA />,
-  },
-  {
-    path: "/brand/:brandId",
-    name: "Brand",
-    component: <BrandDetail />,
-  },
-  {
-    path: "/oath-processor",
-    name: "fetchData",
-    component: <OathProcessor />,
-  },
-];
 
 const HookingRouter = () => {
   const toastOpen = useRecoilValue(toastPopup);
+  const isLogin = useRecoilValue(isLogined);
 
-  console.log("toastOpen", toastOpen);
+  const routes = [
+    {
+      path: "/",
+      name: "Landing",
+      component: <Landing />,
+    },
+    {
+      path: "/home",
+      name: "Home",
+      component: <Home />,
+    },
+    {
+      path: "/search",
+      name: "Search",
+      component: <Search />,
+    },
+    {
+      path: "/profile",
+      name: "Profile",
+      component: isLogin ? <Profile /> : <Navigate to="/home" />,
+    },
+    {
+      path: "/bookmark",
+      name: "BookMark",
+      component: isLogin ? <BookMark /> : <Navigate to="/home" />,
+    },
+    {
+      path: "/writing",
+      name: "Writing",
+      component: <Writing />,
+    },
+    {
+      path: "/qna",
+      name: "QnA",
+      component: <QnA />,
+    },
+    {
+      path: "/brand/:brandId",
+      name: "Brand",
+      component: <BrandDetail />,
+    },
+    {
+      path: "/oath-processor",
+      name: "fetchData",
+      component: <OathProcessor />,
+    },
+  ];
 
   return (
     <>
