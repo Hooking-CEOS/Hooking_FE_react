@@ -93,11 +93,15 @@ const Search = () => {
 
   const keyword = searchParams.get("keyword");
   const getSearch = useRecoilValue(searchResult(keyword));
+  const [totalLen, setTotalLen] = useState(0);
 
-  const getTotalLen = (keywordObj: SearchCnt): number =>
-    Object.keys(keywordObj)
+  const getTotalLen = (keywordObj: SearchCnt) => {
+    const totalLen = Object.keys(keywordObj)
       .map((keyword) => keywordObj[keyword])
       .reduce((acc, val) => acc + val, 0);
+
+    setTotalLen(totalLen);
+  };
 
   // curType을 설정하는 함수
   const onSetType = (cur: any) => {
@@ -116,12 +120,13 @@ const Search = () => {
   // 각 타입별 결과 데이터 개수를 반환하는 함수
   const getTypeSearchCnt = ({ data }: any): string => {
     const cur: any = { ...INITIAL_SEARCH_CNT };
-    data.map((obj: any) => {
+    data.forEach((obj: any) => {
       if (obj.data !== null && obj.data !== undefined) {
         cur[obj.type] = obj.data.length;
       }
     });
     setSearchCnt(cur);
+    getTotalLen(cur); // 총 개수 설정
     return onSetType(cur);
   };
 
@@ -130,20 +135,36 @@ const Search = () => {
     messages: string;
   }
 
+  interface ICardData {
+    id: number;
+    text: string;
+    brandName: string;
+    scrapCnt: number;
+    createdAt: string;
+  }
+
+  interface KeywordType {
+    type: string;
+    data: ICardData[];
+  }
+
   // TODO: 공통 res type 만들기
   interface searchAPIResponseType extends commonAPIResponseType {
-    data: {
-      [key: string]: Array<null | string | object>;
-    };
+    data: KeywordType[];
   }
 
   const getSearchResult = () => {
     const data: searchAPIResponseType = getSearch;
     // 400: no search result
-    if (data.code === 200 || data.code === 400) {
+    if (data.code === 200) {
+      setNoResult(false);
       const type = getTypeSearchCnt(data);
-      //console.log("respresentative type", type);
+      if (data.data && data.data.length > 0) {
+        setType(data.data[0].type);
+      }
       getTypeData(data, type); // 데이터들의 대표 타입을 통해 카드 데이터 렌더링
+    } else if (data.code === 400) {
+      setNoResult(true);
     }
   };
 
@@ -154,6 +175,7 @@ const Search = () => {
   console.log("getSearch", getSearch);
   console.log("searchCnt", searchCnt);
 
+  // 탭이 여러 개일 경우 현재 누른 탭에 따라 카드 데이터 갈아끼움
   const getTypeData = ({ data }: any, findType: string) => {
     data?.map((obj: any) => {
       const { type } = obj;
@@ -173,7 +195,8 @@ const Search = () => {
 
   return (
     <>
-      {getTotalLen(searchCnt) === 0 ? (
+      {/* || totalLen === 0  */}
+      {noResult || totalLen === 0 ? (
         <QnA />
       ) : (
         <section className="main qna">
@@ -234,7 +257,7 @@ const Search = () => {
                 )}
               </div>
 
-              {searchCnt.brand > 0 && (
+              {type === "brand" && (
                 <>
                   <BrandLogoCard
                     brand={{
