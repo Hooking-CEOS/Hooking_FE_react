@@ -180,7 +180,7 @@ const Search = () => {
           <div className="qna-copy">
             <div className="qna-copy__wrap">
               <div className="search-result-tab">
-                {(searchCnt.copy || searchCnt.brand) && (
+                {(searchCnt.copy > 0 || searchCnt.brand > 0) && (
                   <div
                     className="tab-wrap"
                     onClick={() =>
@@ -202,9 +202,12 @@ const Search = () => {
                     </span>
                   </div>
                 )}
-                {searchCnt.mood > 0 && (
-                  <>
+
+                <>
+                  {searchCnt.mood > 0 && searchCnt.copy > 0 && (
                     <div className="dot" />
+                  )}
+                  {searchCnt.mood > 0 && (
                     <div className="tab-wrap" onClick={() => setType("mood")}>
                       <Button
                         text="카피 무드"
@@ -230,8 +233,8 @@ const Search = () => {
                         </span>
                       )}
                     </div>
-                  </>
-                )}
+                  )}
+                </>
               </div>
 
               {searchCnt.brand > 0 && (
