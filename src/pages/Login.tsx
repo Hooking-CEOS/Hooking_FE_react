@@ -4,31 +4,21 @@ import useOutSideClick from "@/hooks/useOutSideClick";
 import closeIcon from "@/assets/images/icon-delete.svg";
 import hookingIcon from "@/assets/images/icon-logo-text.svg";
 import kakaoBtn from "@/assets/images/icon-kakao.png";
-import { useRecoilState } from "recoil";
-import { isLogined, activeMenu } from "@/utils/atom";
-import { useNavigate } from "react-router-dom";
 
 interface LoginProps {
   onClose: () => void;
 }
 const Login = ({ onClose }: LoginProps) => {
-  const Navigate = useNavigate();
   const modalRef = useRef<HTMLDivElement>(null);
-  const [islogin, setIsLogin] = useRecoilState(isLogined);
-  const [activeMenuIdx, setActiveMenuIdx] = useRecoilState(activeMenu);
 
   const handleClose = () => {
     onClose?.();
   };
 
   const handleLogin = () => {
-    console.log("login");
-    // window.location.href = `${process.env.REACT_APP_API_URL}/oauth2/authorization/kakao`;
-    setIsLogin(true);
+    window.location.href = `${process.env.REACT_APP_API_URL}/oauth2/authorization/kakao`;
+
     handleClose();
-    // TODO : onSuccess
-    Navigate("/home");
-    setActiveMenuIdx(0);
   };
 
   useOutSideClick(modalRef, handleClose);

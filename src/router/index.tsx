@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+} from "react-router-dom";
 import Home from "@/pages/Home";
 import Search from "@/pages/Search";
 import Profile from "@/pages/Profile";
@@ -10,10 +15,14 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import QnA from "@/pages/QnA";
 import Landing from "@/pages/Landing";
+
+import OathProcessor from "@/pages/OathProcessor";
+
 import Toast from "@/components/Toast";
 
 import { toastPopup } from "@/utils/atom";
 import { useRecoilValue } from "recoil";
+
 
 const routes = [
   {
@@ -55,6 +64,11 @@ const routes = [
     path: "/brand/:brandId",
     name: "Brand",
     component: <BrandDetail />,
+  },
+  {
+    path: "/oath-processor",
+    name: "fetchData",
+    component: <OathProcessor />,
   },
 ];
 
