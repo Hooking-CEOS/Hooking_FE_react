@@ -4,8 +4,12 @@ import BrandCard from "@/components/BrandCard";
 import Button from "@/components/Button";
 
 import { search } from "@/utils/atom";
-import { useRecoilValue } from "recoil";
 import { openKaKaoPlus } from "@/utils/util";
+import { getAllCopy } from "@/api/copywriting";
+import { useEffect, useState } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { brandModalOverlay } from "@/utils/atom";
+
 const CARD_DATA = [
   {
     idx: 0,
@@ -81,8 +85,31 @@ const CARD_DATA = [
   },
 ];
 
+interface ICardData {
+  id: number;
+  text: string;
+  brandName: string;
+  scrapCnt: number;
+  createdAt: string;
+}
+
 const QnA = () => {
   const searchState = useRecoilValue(search);
+  const [brandModal, setBrandModal] = useRecoilState(brandModalOverlay);
+
+  const [cardData, setCardData] = useState<ICardData[]>([]);
+
+  const getRandomCopy = async () => {
+    const { data } = await getAllCopy();
+    console.log("qna data", data);
+    setCardData(data);
+  };
+
+  useEffect(() => {
+    getRandomCopy();
+  }, []);
+
+  const handleBrandOpen = () => setBrandModal(true);
 
   return (
     <section className="main qna">
@@ -109,15 +136,18 @@ const QnA = () => {
         <div className="qna-copy__wrap">
           <h1 className="text-heading-2">다른 카피 살펴보기</h1>
           <BrandCards>
-            {CARD_DATA.map((card) => (
-              <BrandCard
-                key={card.idx}
-                brandId={card.idx}
-                text={card.text}
-                brandImg={card.img}
-                brandName={card.brand}
-              />
-            ))}
+            {cardData.length > 0 &&
+              cardData.map((card) => (
+                <BrandCard
+                  key={card.id}
+                  text={card.text}
+                  brandId={card.id}
+                  brandName={card.brandName}
+                  brandImg={require(`../assets/images/brandIcon/brand-${card.brandName}.png`)}
+                  onClick={handleBrandOpen}
+                  scrapCnt={card.scrapCnt}
+                />
+              ))}
           </BrandCards>
         </div>
       </div>

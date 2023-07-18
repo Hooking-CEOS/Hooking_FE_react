@@ -10,15 +10,15 @@ interface MasonryType {
 // React.ChildrenAPI
 
 const Masonry = ({ children, colCount }) => {
-  console.log("[React.children]", React.Children);
+  //console.log("[React.children]", React.Children);
   // map, forEach, count, toArray, only
 
   // 자식 여러개, 1개
   const childrenArray = React.Children.toArray(children);
-  console.log("[childrenArray]", childrenArray);
+  //console.log("[childrenArray]", childrenArray);
 
   const childrenComponent = childrenArray.reduce((acc, child, idx) => {
-    console.log("[acc]", acc, "[idx]", idx);
+    //console.log("[acc]", acc, "[idx]", idx);
     const column = idx % colCount;
     let currentArray;
 
@@ -34,7 +34,7 @@ const Masonry = ({ children, colCount }) => {
     return currentArray;
   });
 
-  console.log("[childrenComponent]", childrenComponent);
+  //console.log("[childrenComponent]", childrenComponent);
 
   const childColumns = childrenComponent.map((column, index) => {
     return <Column key={index}>{column}</Column>;
@@ -56,4 +56,5 @@ const Column = styled.div`
   display: flex;
   flex-direction: column;
   gap: 3rem;
+  flex: 1;
 `;

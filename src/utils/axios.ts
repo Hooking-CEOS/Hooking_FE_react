@@ -1,9 +1,12 @@
 import axios, { AxiosRequestConfig } from "axios";
-
+import { getCookie } from "@/hooks/cookies";
 const fetchWrapper = async ({ method, url, body, params }: any) => {
   const config: AxiosRequestConfig = {
     baseURL: process.env.REACT_APP_API_URL,
     withCredentials: true,
+    headers: {
+      "X-AUTH-TOKEN": getCookie("userToken"),
+    },
     ...params,
   };
 
