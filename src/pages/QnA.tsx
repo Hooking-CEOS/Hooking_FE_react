@@ -2,6 +2,7 @@ import styled from "styled-components";
 import IMG_BRAND_SAMPLE from "@/assets/images/icon-brand-sample.svg";
 import BrandCard from "@/components/BrandCard";
 import Button from "@/components/Button";
+import { Card as SkeletonCard } from "@/components/Skeleton/Card";
 
 import { search } from "@/utils/atom";
 import { openKaKaoPlus } from "@/utils/util";
@@ -136,18 +137,21 @@ const QnA = () => {
         <div className="qna-copy__wrap">
           <h1 className="text-heading-2">다른 카피 살펴보기</h1>
           <BrandCards>
-            {cardData.length > 0 &&
-              cardData.map((card) => (
-                <BrandCard
-                  key={card.id}
-                  text={card.text}
-                  brandId={card.id}
-                  brandName={card.brandName}
-                  brandImg={require(`../assets/images/brandIcon/brand-${card.brandName}.png`)}
-                  onClick={handleBrandOpen}
-                  scrapCnt={card.scrapCnt}
-                />
-              ))}
+            {cardData.length > 0
+              ? cardData.map((card) => (
+                  <BrandCard
+                    key={card.id}
+                    text={card.text}
+                    brandId={card.id}
+                    brandName={card.brandName}
+                    brandImg={require(`../assets/images/brandIcon/brand-${card.brandName}.png`)}
+                    onClick={handleBrandOpen}
+                    scrapCnt={card.scrapCnt}
+                  />
+                ))
+              : Array.from({ length: 9 }, () => Array(0).fill(0)).map(
+                  (el, idx) => <SkeletonCard key={idx} />
+                )}
           </BrandCards>
         </div>
       </div>
