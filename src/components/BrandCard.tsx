@@ -103,7 +103,7 @@ const BrandCard = ({
         ) : // 홈카드
         hover ? (
           // 호버했을 때 저장된 상태
-          isSaved ? (
+          isSaved || (scrapCnt && scrapCnt > 0) ? (
             <Button
               icon="icon-saved-outline"
               className="button-orange-outline-saved component-small "
@@ -132,16 +132,11 @@ const Overlay = styled.div<{ hover: boolean }>`
   position: absolute;
   top: 10.2rem;
   left: 0;
-  width: 100%; // 부모
+  width: 100%;
   height: 8rem;
   background: ${(props) =>
     props.hover
-      ? `linear-gradient(
-    180deg,
-    rgba(255, 248, 246, 0) 0%,
-    rgba(255, 248, 246, 0.8) 52.08%,
-    #fff8f6 100%
-  )`
+      ? `linear-gradient(180deg, rgba(255, 248, 246, 0.00) 0%, rgba(255, 248, 246, 0.80) 52.08%, #FFF8F6 100%)`
       : `linear-gradient(
     180deg,
     rgba(255, 255, 255, 0) 0%,
@@ -150,7 +145,9 @@ const Overlay = styled.div<{ hover: boolean }>`
   )`};
 `;
 
-const BrandCardWrapper = styled.div<{ saved: boolean | undefined }>`
+export const BrandCardWrapper = styled.div<{
+  saved: boolean | undefined;
+}>`
   display: flex;
   flex-direction: column;
   min-width: 37.8rem;
