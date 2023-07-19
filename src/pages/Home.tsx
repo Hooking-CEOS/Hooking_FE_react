@@ -1,6 +1,7 @@
 import BrandCard from "@/components/BrandCard";
+import React, { Suspense } from "react";
 import Filter from "@/components/Filter";
-import { Z_INDEX_MODAL } from "@/utils/constants";
+import { Card as SkeletonCard } from "@/components/Skeleton/Card";
 
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
@@ -12,6 +13,9 @@ import styled from "styled-components";
 import Carousel from "@/components/Carousel";
 import { useState, useEffect } from "react";
 import { getAllCopy } from "@/api/copywriting";
+
+// 미리 불러오는게 아니라 데이터 패칭이 완료되어서 렌더링할 필요가 있을 때 불러옴
+//const BrandCard = React.lazy(() => import("@/components/BrandCard"));
 
 interface ICardData {
   id: number;
@@ -29,7 +33,6 @@ const Home = () => {
 
   const getHomecopy = async () => {
     const { data } = await getAllCopy();
-    //console.log("home data", data);
     setCardData(data);
   };
 
@@ -48,21 +51,26 @@ const Home = () => {
         <Carousel />
       </CarouselDiv>
       <section className="main">
-        <Filter />
-        <BrandCards>
-          {cardData.length > 1 &&
-            cardData.map((card) => (
-              <BrandCard
-                key={card.id}
-                text={card.text}
-                brandId={card.id}
-                brandName={card.brandName}
-                brandImg={require(`../assets/images/brandIcon/brand-${card.brandName}.png`)}
-                onClick={handleBrandOpen}
-                scrapCnt={card.scrapCnt}
-              />
-            ))}
-        </BrandCards>
+        <Suspense fallback={<div>Loading ...</div>}>
+          <Filter />
+          <BrandCards>
+            {cardData.length > 1
+              ? cardData.map((card) => (
+                  <BrandCard
+                    key={card.id}
+                    text={card.text}
+                    brandId={card.id}
+                    brandName={card.brandName}
+                    brandImg={require(`../assets/images/brandIcon/brand-${card.brandName}.png`)}
+                    onClick={handleBrandOpen}
+                    scrapCnt={card.scrapCnt}
+                  />
+                ))
+              : Array.from({ length: 9 }, () => Array(0).fill(0)).map(
+                  (el, idx) => <SkeletonCard key={idx} />
+                )}
+          </BrandCards>
+        </Suspense>
       </section>
     </>
   );
