@@ -125,15 +125,18 @@ const Home = () => {
           ))} */}
 
           {cardData.length > 1 &&
-            cardData.map((card) => (
-              <BrandCard
-                key={card.id}
-                text={card.text}
-                brandName={card.brandName}
-                brandImg={IMG_BRAND_SAMPLE}
-                onClick={handleBrandOpen}
-              />
-            ))}
+            cardData.map((card) => {
+              // TODO : brandImg를 이미 구현된 brandIcon 컴포넌트로 대체
+              return (
+                <BrandCard
+                  key={card.id}
+                  text={card.text}
+                  brandName={card.brandName}
+                  brandImg={IMG_BRAND_SAMPLE}
+                  onClick={handleBrandOpen}
+                />
+              );
+            })}
         </BrandCards>
       </section>
     </>

@@ -19,24 +19,6 @@ interface BrandProps {
 
 // 단어 단위로 쪼개서 단어가 # 또는 @로 시작하면 밑줄
 
-const WordWrap = (word: string) => {
-  const searchState = useRecoilValue(search);
-  // TODO: searchState값이 있다면 index값에 따라 주황글씨 처리
-  word = word.replaceAll("\n", " \n ");
-  const words = word.split(" ");
-
-  const setToast = useSetRecoilState(toastPopup);
-  const handleToastOpen = () => setToast(true);
-
-  return (
-    <>
-      {words.map((word, index) => {
-        return word + " ";
-      })}
-    </>
-  );
-};
-
 const BrandCard = ({
   text,
   brandName,
@@ -45,11 +27,27 @@ const BrandCard = ({
   saved,
   onClick,
 }: BrandProps) => {
+  const searchState = useRecoilValue(search);
   const [hover, setHover] = useState(false);
   const navigate = useNavigate();
 
-  const searchState = useRecoilValue(search);
   const setToast = useSetRecoilState(toastPopup);
+
+  const WordWrap = (word: string) => {
+    // TODO: searchState값이 있다면 index값에 따라 주황글씨 처리
+    word = word.replaceAll("\n", " \n");
+    const words = word.split(" ");
+    const setToast = useSetRecoilState(toastPopup);
+    const handleToastOpen = () => setToast(true);
+
+    return (
+      <>
+        {words.map((word, index) => {
+          return word + " ";
+        })}
+      </>
+    );
+  };
 
   return (
     <BrandCardWrapper
@@ -65,7 +63,10 @@ const BrandCard = ({
 
       <div className="card-brand">
         <span className="brandIcon">
-          <img src={brandImg} alt="brandImg" />
+          <img
+            src={brandImg}
+            alt="brandImg"
+          />
           <span className="component-small">{brandName}</span>
         </span>
         {saved ? (
