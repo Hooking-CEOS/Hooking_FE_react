@@ -7,6 +7,7 @@ import { activeMenu, activeChildMenu, isLogined } from "@/utils/atom";
 import { PROFILE_DATA } from "@/utils/constants";
 import useOutSideClick from "@/hooks/useOutSideClick";
 import { openKaKaoPlus } from "@/utils/util";
+import { removeCookie } from "@/hooks/cookies";
 
 interface ProfilePropType {
   className?: string;
@@ -65,6 +66,7 @@ const ProfileDropDown = ({ className }: ProfilePropType) => {
               navigate(data.link);
               if (data.idx === 3) {
                 setIsLogin(false);
+                removeCookie("userToken");
               }
             }}
           >

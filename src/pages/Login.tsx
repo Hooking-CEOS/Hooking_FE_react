@@ -4,6 +4,7 @@ import useOutSideClick from "@/hooks/useOutSideClick";
 import closeIcon from "@/assets/images/icon-delete.svg";
 import hookingIcon from "@/assets/images/icon-logo-text.svg";
 import kakaoBtn from "@/assets/images/icon-kakao.png";
+import axios from "axios";
 
 interface LoginProps {
   onClose: () => void;
