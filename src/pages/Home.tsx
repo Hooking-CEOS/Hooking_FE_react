@@ -3,11 +3,13 @@ import React, { Suspense } from "react";
 import Filter from "@/components/Filter";
 import { Card as SkeletonCard } from "@/components/Skeleton/Card";
 
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   brandModalOverlay,
   checkedListLen,
   filterCardList,
+  selectedCopy,
+  similarCopyList,
 } from "@/utils/atom";
 import styled from "styled-components";
 import Carousel from "@/components/Carousel";
@@ -23,6 +25,7 @@ interface ICardData {
   brandName: string;
   scrapCnt: number;
   createdAt: string;
+  index: number;
 }
 const Home = () => {
   const [brandModal, setBrandModal] = useRecoilState(brandModalOverlay);
@@ -30,6 +33,8 @@ const Home = () => {
 
   const filteredData = useRecoilValue(filterCardList);
   const filterLen = useRecoilValue(checkedListLen);
+  const setSelectedCopy = useSetRecoilState(selectedCopy);
+  const setSimilarCopy = useSetRecoilState(similarCopyList);
 
   const getHomecopy = async () => {
     const { data } = await getAllCopy();
@@ -43,7 +48,12 @@ const Home = () => {
     else setCardData(filteredData.data);
   }, [filteredData]);
 
-  const handleBrandOpen = () => setBrandModal(true);
+  const handleBrandOpen = (card: ICardData) => {
+    console.log(card);
+    setSelectedCopy(card);
+    setSimilarCopy(cardData.filter((el) => el.id !== card.id));
+    setBrandModal(true);
+  };
 
   return (
     <>
@@ -55,17 +65,19 @@ const Home = () => {
           <Filter />
           <BrandCards>
             {cardData.length > 1
-              ? cardData.map((card) => (
-                  <BrandCard
-                    key={card.id}
-                    text={card.text}
-                    brandId={card.id}
-                    brandName={card.brandName}
-                    brandImg={require(`../assets/images/brandIcon/brand-${card.brandName}.png`)}
-                    onClick={handleBrandOpen}
-                    scrapCnt={card.scrapCnt}
-                  />
-                ))
+              ? cardData.map((card) => {
+                  return (
+                    <BrandCard
+                      key={card.id}
+                      text={card.text}
+                      brandId={card.id}
+                      brandName={card.brandName}
+                      brandImg={require(`../assets/images/brandIcon/brand-${card.brandName}.png`)}
+                      onClick={() => handleBrandOpen(card)}
+                      scrapCnt={card.scrapCnt}
+                    />
+                  );
+                })
               : Array.from({ length: 9 }, () => Array(0).fill(0)).map(
                   (el, idx) => <SkeletonCard key={idx} />
                 )}

@@ -18,18 +18,16 @@ import {
   loginModalOverlay,
   isLogined,
 } from "@/utils/atom";
-import Portal from "@/utils/portal";
 
 const Header = () => {
   const navigate = useNavigate();
 
   const [activeMenuIdx, setActiveMenuIdx] = useRecoilState(activeMenu);
-  const [loginModal, setLoginModal] = useRecoilState(loginModalOverlay);
+  const setLoginModal = useSetRecoilState(loginModalOverlay);
   const setActiveChildMenuIdx = useSetRecoilState(activeChildMenu);
   const isLogin = useRecoilValue(isLogined);
 
   const handleLogin = () => setLoginModal(true);
-  const handleClose = () => setLoginModal(false);
 
   // TODO: 랜딩페이지 > 로그인 헤더 만들기
   return (
@@ -50,11 +48,7 @@ const Header = () => {
               }
             }}
           />
-          {loginModal && (
-            <Portal selector="#portal">
-              <Login onClose={handleClose} />
-            </Portal>
-          )}
+
           {HEADER_LEFT_MENU.map((menu) => (
             <Button
               key={menu.idx}

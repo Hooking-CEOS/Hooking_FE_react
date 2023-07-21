@@ -10,11 +10,17 @@ const BrandIcon = ({ name, size }: BrandIconProps) => {
   let targetData = imgData.find((item) => item.name_kr === name)!;
 
   return (
-    <BrandIconWrapper big={size === "big" ? 1 : 0}>
+    <BrandIconWrapper big={size === "big" ? 1 : size === "small" ? 2 : 0}>
       <BrandIconDiv
         src={require(`../assets/images/brandIcon/brand-${targetData.name_kr}.png`)}
         alt="brandIcon"
       />
+      {size === "big" && (
+        <BrandIconIGDiv
+          src={require("../assets/images/instagram.png")}
+          alt="instagramLogo"
+        />
+      )}
     </BrandIconWrapper>
   );
 };
@@ -22,27 +28,23 @@ const BrandIcon = ({ name, size }: BrandIconProps) => {
 export default BrandIcon;
 
 const BrandIconWrapper = styled.div<{ big: number }>`
-  width: ${(props) => (props.big === 1 ? "5vw" : "2.6vw")};
-  height: ${(props) => (props.big === 1 ? "5vw" : "2.6vw")};
+  width: ${(props) =>
+    props.big === 1 ? "5vw" : props.big === 2 ? "3.6rem" : "2.6vw"};
+  height: ${(props) =>
+    props.big === 1 ? "5vw" : props.big === 2 ? "3.6rem" : "2.6vw"};
   overflow: hidden;
   display: flex;
   flex-direction: column;
   position: relative;
-  ${(props) =>
-    // TODO: Fix url path
-    props.big === 1 &&
-    `
-    &::after {
-      content: '';
-      background: url("src/assets/images/instagram.png") no-repeat center;
-      position: absolute;
-      width: 1.667vw;
-      height: 1.667vw;
-      background-size: cover;
-      right: 0;
-      bottom: 0;
-    }
-  `}
+`;
+
+const BrandIconIGDiv = styled.img`
+  width: 1.667vw;
+  height: 1.667vw;
+  object-fit: contain;
+  position: absolute;
+  right: 0;
+  bottom: 0;
 `;
 
 const BrandIconDiv = styled.img`

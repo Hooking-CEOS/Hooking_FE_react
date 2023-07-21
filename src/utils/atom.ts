@@ -70,6 +70,32 @@ export const searchResult = selectorFamily({
   },
 });
 
+export const selectedCopy = atom({
+  key: "selectedCopy",
+  default: {
+    id: 0,
+    brandName: "",
+    createdAt: "",
+    index: 0,
+    scrapCnt: 0,
+    text: "",
+  },
+});
+
+export const similarCopyList = atom({
+  key: "similarCopyList",
+  default: [
+    {
+      id: 0,
+      brandName: "",
+      createdAt: "",
+      index: 0,
+      scrapCnt: 0,
+      text: "",
+    },
+  ],
+});
+
 // login modal overlay
 export const loginModalOverlay = atom({
   key: "loginModalOverlay",
