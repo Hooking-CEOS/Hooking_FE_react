@@ -1,5 +1,9 @@
 import HookingRouter from "@/router";
-import { loginModalOverlay, searchModalOverlay } from "@/utils/atom";
+import {
+  brandModalOverlay,
+  loginModalOverlay,
+  searchModalOverlay,
+} from "@/utils/atom";
 import { useRecoilValue } from "recoil";
 import { Suspense } from "react";
 import { Z_INDEX_MODAL } from "@/utils/constants";
@@ -9,6 +13,7 @@ import { isBigWindow } from "@/utils/atom";
 
 const App = () => {
   const mounted = useRecoilValue(loginModalOverlay);
+  const copyMounted = useRecoilValue(brandModalOverlay);
   const searchFocus = useRecoilValue(searchModalOverlay);
 
   useWindowResize();
@@ -16,7 +21,7 @@ const App = () => {
   return (
     <Suspense fallback={<div>Loading ...</div>}>
       <main className="app">
-        {mounted && <div className="hovered" />}
+        {(mounted || copyMounted) && <div className="hovered" />}
         {searchFocus && <Overlay />}
         <HookingRouter />
       </main>
