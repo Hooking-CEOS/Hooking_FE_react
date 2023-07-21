@@ -16,14 +16,32 @@ import Footer from "@/components/Footer";
 import QnA from "@/pages/QnA";
 import Landing from "@/pages/Landing";
 import OathProcessor from "@/pages/OathProcessor";
+import Login from "@/pages/Login";
 import Toast from "@/components/Toast";
 
-import { isLogined, toastPopup } from "@/utils/atom";
-import { useRecoilValue } from "recoil";
+import Portal from "@/utils/portal";
+import {
+  isLogined,
+  toastPopup,
+  loginModalOverlay,
+  brandModalOverlay,
+} from "@/utils/atom";
+import { useRecoilValue, useRecoilState } from "recoil";
+import CopyDetail from "@/pages/CopyDetail";
+import { useEffect } from "react";
 
 const HookingRouter = () => {
   const toastOpen = useRecoilValue(toastPopup);
   const isLogin = useRecoilValue(isLogined);
+  const [loginModal, setLoginModal] = useRecoilState(loginModalOverlay);
+  const [brandModal, setBrandModal] = useRecoilState(brandModalOverlay);
+
+  const handleClose = () => setLoginModal(false);
+  const handleCopyClose = () => setBrandModal(false);
+
+  useEffect(() => {
+    console.log(brandModal);
+  }, [brandModal]);
 
   const routes = [
     {
@@ -87,6 +105,16 @@ const HookingRouter = () => {
             />
           ))}
         </Routes>
+        {loginModal && (
+          <Portal selector="#portal">
+            <Login onClose={handleClose} />
+          </Portal>
+        )}
+        {brandModal && (
+          <Portal selector="#portal">
+            <CopyDetail onClose={handleCopyClose} />
+          </Portal>
+        )}
         {toastOpen && <Toast />}
         <Footer />
       </Router>
