@@ -2,8 +2,13 @@ import { useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import styled from "styled-components";
-import { useRecoilValue } from "recoil";
-import { searchResult } from "@/utils/atom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  brandModalOverlay,
+  searchResult,
+  selectedCopy,
+  similarCopyList,
+} from "@/utils/atom";
 import BrandCard from "@/components/BrandCard";
 
 import IMG_BRAND_SAMPLE from "@/assets/images/brandSearch/brand-search-logo.png";
@@ -88,12 +93,14 @@ const Search = () => {
   const [searchCnt, setSearchCnt] = useState(INITIAL_SEARCH_CNT);
   const [noResult, setNoResult] = useState(false);
   const [type, setType] = useState("copy");
-
-  const [card, setCard] = useState(CARD_DATA);
+  const [card, setCard] = useState<ICardData[]>([]);
 
   const keyword = searchParams.get("keyword");
   const getSearch = useRecoilValue(searchResult(keyword));
   const [totalLen, setTotalLen] = useState(0);
+  const setSelectedCopy = useSetRecoilState(selectedCopy);
+  const setSimilarCopy = useSetRecoilState(similarCopyList);
+  const setBrandModal = useSetRecoilState(brandModalOverlay);
 
   const getTotalLen = (keywordObj: SearchCnt) => {
     const totalLen = Object.keys(keywordObj)
@@ -141,6 +148,7 @@ const Search = () => {
     brandName: string;
     scrapCnt: number;
     createdAt: string;
+    index: number;
   }
 
   interface KeywordType {
@@ -166,6 +174,13 @@ const Search = () => {
     } else if (data.code === 400) {
       setNoResult(true);
     }
+  };
+
+  const handleBrandOpen = (cardData: any) => {
+    console.log(cardData);
+    setSelectedCopy(cardData);
+    setSimilarCopy(card.filter((el) => el.id !== cardData.id));
+    setBrandModal(true);
   };
 
   useEffect(() => {
@@ -231,7 +246,10 @@ const Search = () => {
                     <div className="dot" />
                   )}
                   {searchCnt.mood > 0 && (
-                    <div className="tab-wrap" onClick={() => setType("mood")}>
+                    <div
+                      className="tab-wrap"
+                      onClick={() => setType("mood")}
+                    >
                       <Button
                         text="카피 무드"
                         className={`button-text button-text-${
@@ -269,21 +287,29 @@ const Search = () => {
                       img: require(`../assets/images/brandSearch/brand-search-미샤.png`),
                     }}
                   />
-                  <hr className="hr" style={{ marginBottom: "3rem" }} />
+                  <hr
+                    className="hr"
+                    style={{ marginBottom: "3rem" }}
+                  />
                 </>
               )}
 
               <BrandCards>
                 {/* 데이터만 갈아끼우기 */}
-                {card.map((card) => (
-                  <BrandCard
-                    key={`brand-text-card-${card.id}`}
-                    brandId={card.id}
-                    text={card.text}
-                    brandImg={require(`../assets/images/brandIcon/brand-${card.brandName}.png`)}
-                    brandName={card.brandName}
-                  />
-                ))}
+                {/* TODO: idx값이랑 target 넘겨주고 주황글씨 처리해야함 */}
+                {card.map((card) => {
+                  return (
+                    <BrandCard
+                      key={`brand-text-card-${card.id}`}
+                      srcIdx={card.index ?? 0}
+                      brandId={card.id}
+                      text={card.text}
+                      brandImg={require(`../assets/images/brandIcon/brand-${card.brandName}.png`)}
+                      brandName={card.brandName}
+                      onClick={() => handleBrandOpen(card)}
+                    />
+                  );
+                })}
               </BrandCards>
             </div>
           </div>
