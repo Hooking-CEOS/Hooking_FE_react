@@ -1,12 +1,17 @@
 import styled from "styled-components";
-import { search } from "@/utils/atom";
+import { brandModalOverlay, search } from "@/utils/atom";
 
 import { useState } from "react";
 import Button from "@/components/Button";
 import { useNavigate } from "react-router-dom";
 
 import { useSetRecoilState, useRecoilValue } from "recoil";
-import { toastPopup, isLogined, loginModalOverlay } from "@/utils/atom";
+import {
+  toastPopup,
+  isLogined,
+  loginModalOverlay,
+  selectedCopy,
+} from "@/utils/atom";
 import { scrapCopy } from "@/api/copywriting";
 
 interface BrandProps {
@@ -15,8 +20,18 @@ interface BrandProps {
   brandId: number;
   brandImg?: string;
   saved?: boolean;
+  srcIdx?: number;
   scrapCnt?: number;
   onClick?: () => void;
+}
+
+interface ICardData {
+  id: number;
+  text: string;
+  brandName: string;
+  scrapCnt: number;
+  createdAt: string;
+  index: number;
 }
 
 // 단어 단위로 쪼개서 단어가 # 또는 @로 시작하면 밑줄
@@ -26,6 +41,7 @@ const BrandCard = ({
   brandName,
   brandImg,
   scrapCnt,
+  srcIdx,
   brandId,
   saved,
   onClick,
@@ -36,14 +52,23 @@ const BrandCard = ({
   const isLogin = useRecoilValue(isLogined);
   const setToast = useSetRecoilState(toastPopup);
   const setLogin = useSetRecoilState(loginModalOverlay);
+  const setSelectedCopy = useSetRecoilState(selectedCopy);
+  const setBrandModal = useSetRecoilState(brandModalOverlay);
 
   // api로 저장한거 북마크 저장됨 표시
   const [isSaved, setIsSaved] = useState(false);
+
+  const handleBrandOpen = (card: ICardData) => {
+    console.log(card);
+    setSelectedCopy(card);
+    setBrandModal(true);
+  };
 
   const handleCopyScrap = async () => {
     // 로그인 안된 상태면 로그인 팝업 출력
 
     if (!isLogin) {
+      // TODO: 로그인 로직
       setLogin(true);
       return;
     }
@@ -59,12 +84,18 @@ const BrandCard = ({
 
   const WordWrap = (word: string) => {
     // TODO: searchState값이 있다면 index값에 따라 주황글씨 처리
+
     word = word.replaceAll("\n", " \n");
     const words = word.split(" ");
     const setToast = useSetRecoilState(toastPopup);
     const handleToastOpen = () => setToast(true);
-
-    return (
+    return srcIdx === undefined || null ? (
+      <>
+        {words.map((word, index) => {
+          return word + " ";
+        })}
+      </>
+    ) : (
       <>
         {words.map((word, index) => {
           return word + " ";
@@ -76,6 +107,7 @@ const BrandCard = ({
   return (
     <BrandCardWrapper
       saved={saved}
+      onClick={onClick}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
