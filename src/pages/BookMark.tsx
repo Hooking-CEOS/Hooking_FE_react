@@ -6,6 +6,7 @@ import { searchModalOverlay, search } from "@/utils/atom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import Masonry from "@/components/Masonry";
 import { getScrapCopy } from "@/api/copywriting";
+import { BookmarkCard } from "@/components/Skeleton/BookmarkCard";
 
 interface ICardData {
   id: number;
@@ -40,6 +41,13 @@ const BookMark = () => {
       <section className="main bookmark">
         <div className="bookmark-copy">
           <h1 className="text-heading-2">북마크</h1>
+          {card.length === 0 && (
+            <BrandCards>
+              {Array.from({ length: 6 }, () => Array(0)).map((el, idx) => (
+                <BookmarkCard key={`bookmark-skeleton-${idx}`} />
+              ))}
+            </BrandCards>
+          )}
 
           {card.length > 0 && (
             <Masonry colCount={2}>

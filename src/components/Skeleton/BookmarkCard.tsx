@@ -3,13 +3,21 @@ import SkeletonItem from "./SkeletonItem";
 //import S from "@/components/BrandCard";
 
 // TODO: 레이아웃 모듈화
-export const Card = () => {
+export const BookmarkCard = () => {
   return (
     <BrandCardWrapper>
       <div className="card-content">
         <GreyBox width={"250px"} />
         <GreyBox width={"202px"} style={{ marginTop: "8px" }} />
-        <GreyBox width={"298px"} style={{ marginTop: "25px" }} />
+
+        <GreyBox width={"288px"} style={{ marginTop: "32px" }} />
+        <GreyBox width={"242px"} style={{ marginTop: "8px" }} />
+        <GreyBox width={"351px"} style={{ marginTop: "8px" }} />
+        <GreyBox width={"295px"} style={{ marginTop: "8px" }} />
+        <GreyBox width={"242px"} style={{ marginTop: "8px" }} />
+        <GreyBox width={"250px"} style={{ marginTop: "8px" }} />
+
+        <GreyBox width={"250px"} style={{ marginTop: "32px" }} />
         <GreyBox width={"250px"} style={{ marginTop: "8px" }} />
       </div>
 
@@ -18,10 +26,17 @@ export const Card = () => {
           <Circle className="brand-img" />
           <GreyBox width={"70px"} />
         </span>
+        <Button className="button button-orange-outline-saved component-small" />
       </div>
     </BrandCardWrapper>
   );
 };
+
+const Button = styled(SkeletonItem)`
+  width: 10.6rem;
+  height: 4.6rem;
+  border-radius: 6rem;
+`;
 
 const GreyBox = styled(SkeletonItem)<{ width: string }>`
   display: flex;
@@ -40,10 +55,10 @@ const Circle = styled(SkeletonItem)`
 const BrandCardWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  min-width: 37.8rem;
+  min-width: 58.2rem;
   max-width: 100%;
 
-  min-height: 27.8rem;
+  min-height: 47rem;
   padding: 3.8rem 4rem;
 
   border: 0.025rem solid ${(props) => props.theme.colors.black40};
