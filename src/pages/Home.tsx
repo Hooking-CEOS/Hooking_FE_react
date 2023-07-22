@@ -39,6 +39,7 @@ const Home = () => {
   const getHomecopy = async () => {
     const { data } = await getAllCopy();
     setCardData(data);
+    console.log("home data", data);
   };
 
   useEffect(() => {
@@ -65,20 +66,21 @@ const Home = () => {
         <Suspense fallback={<div>Loading ...</div>}>
           <Filter />
           <BrandCards>
-            {cardData.length > 1
-              ? cardData.map((card) => {
-                  return (
-                    <BrandCard
-                      key={card.id}
-                      text={card.text}
-                      brandId={card.id}
-                      brandName={card.brandName}
-                      brandImg={require(`../assets/images/brandIcon/brand-${card.brandName}.png`)}
-                      onClick={() => handleBrandOpen(card)}
-                      scrapCnt={card.scrapCnt}
-                    />
-                  );
-                })
+            {cardData && cardData.length > 1
+              ? cardData.map((card) => (
+                  <BrandCard
+                    key={card.id}
+                    text={card.text}
+                    brandId={card.id}
+                    brandName={card.brandName}
+                    brandImg={require(`../assets/images/brandIcon/brand-${card.brandName.replace(
+                      / /g,
+                      ""
+                    )}.png`)}
+                    //onClick={handleBrandOpen}
+                    scrapCnt={card.scrapCnt}
+                  />
+                ))
               : Array.from({ length: 9 }, () => Array(0).fill(0)).map(
                   (el, idx) => <SkeletonCard key={idx} />
                 )}
