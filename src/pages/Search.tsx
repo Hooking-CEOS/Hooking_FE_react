@@ -29,6 +29,7 @@ const Search = () => {
   const [noResult, setNoResult] = useState(false);
   const [type, setType] = useState("copy");
   const [card, setCard] = useState<ICardData[]>([]);
+  const [keywordData, setKeywordData] = useState<string>();
 
   const keyword = searchParams.get("keyword");
   const getSearch = useRecoilValue(searchResult(keyword));
@@ -91,6 +92,7 @@ const Search = () => {
   interface KeywordType {
     type: string;
     data: ICardData[];
+    keyword: string;
   }
 
   // TODO: 공통 res type 만들기
@@ -106,6 +108,7 @@ const Search = () => {
       const type = getTypeSearchCnt(data);
       if (data.data && data.data.length > 0) {
         setType(data.data[0].type);
+        setKeywordData(data.data[0].keyword);
       }
       getTypeData(data, type); // 데이터들의 대표 타입을 통해 카드 데이터 렌더링
     } else if (data.code === 400) {
@@ -201,7 +204,7 @@ const Search = () => {
                             type === "mood" ? "orange" : "grey"
                           } component-small`}
                         >
-                          #{keyword}
+                          #{keywordData}
                         </span>
                       )}
                     </div>
@@ -214,8 +217,8 @@ const Search = () => {
                   <BrandLogoCard
                     brand={{
                       idx: 0,
-                      name: keyword,
-                      img: require(`../assets/images/brandSearch/brand-search-미샤.png`),
+                      name: keywordData,
+                      img: require(`../assets/images/brandSearch/brand-search-${keywordData}.png`),
                     }}
                   />
                   <hr className="hr" style={{ marginBottom: "3rem" }} />
