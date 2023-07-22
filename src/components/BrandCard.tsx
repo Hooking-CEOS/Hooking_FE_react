@@ -115,9 +115,8 @@ const BrandCard = ({
         {WordWrap(text)}
         <span className="more-content" />
       </div>
-      {!saved && <Overlay hover={hover} />}
-
       <hr className="hr" />
+      {!saved && <Overlay hover={hover} />}
 
       <div className="card-brand">
         <span className="brandIcon">
@@ -185,7 +184,8 @@ export const BrandCardWrapper = styled.div<{
   max-width: 100%;
 
   min-height: ${(props) => (props.saved ? "auto" : "27.8rem")};
-  padding: 3.8rem 4rem 2.6rem 3.8rem;
+  padding: ${(props) =>
+    props.saved ? "3.8rem 4rem" : "3.8rem 4rem 2.6rem 3.8rem"};
 
   border: 0.025rem solid ${(props) => props.theme.colors.black40};
   border-radius: 2rem;
@@ -204,7 +204,7 @@ export const BrandCardWrapper = styled.div<{
   }
 
   .hr {
-    margin: 0;
+    margin: ${(props) => (props.saved ? "0 0 4rem 0" : 0)};
   }
 
 
@@ -220,7 +220,7 @@ export const BrandCardWrapper = styled.div<{
     max-height: ${(props) => (props.saved ? "auto" : "12rem")};
     min-height: 12rem;
     font-size: 1.6rem;
-    padding-bottom: ${(props) => (props.saved ? "10rem" : "0")};
+    padding-bottom: ${(props) => (props.saved ? "3rem" : "0")};
     color: ${(props) => props.theme.colors.black100};
     margin-bottom: 2.4rem;
     word-break: keep-all;
@@ -251,6 +251,7 @@ export const BrandCardWrapper = styled.div<{
     bottom: 2.6rem;
     width: calc(100% - 8rem);
     height: 4.6rem;
+    padding-top: ${(props) => (props.saved ? "1.8rem" : "0")};
 
     justify-content: space-between;
 
