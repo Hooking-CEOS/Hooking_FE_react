@@ -6,6 +6,7 @@ import { Swiper, SwiperSlide, SwiperRef } from "swiper/react";
 import BrandIcon from "@/components/BrandIcon";
 
 import CarouselData from "@/assets/datas/carousel.json";
+import imgData from "@/assets/datas/imgData.json";
 
 import "swiper/css";
 import "swiper/css/effect-coverflow";
@@ -33,8 +34,25 @@ const Carousel = () => {
     return <BrandIcon name={name} />;
   };
 
-  const handleSlideClick = () => {
-    navigate("/brand/1");
+  const handleSlideClick = (id: string) => {
+    navigate("/brand/" + id);
+  };
+
+  const RandomText = (data: any) => {
+    let randomNum = Math.floor(Math.random() * 3);
+    return (
+      <div className="swiper-slide-div">
+        <div className="swiper-slide-div-main_div">
+          “
+          <div className="swiper-slide-div-main_text">
+            {data.descText[randomNum].main} ”
+            <div className="swiper-slide-div-sub_text">
+              {data.descText[randomNum].sub}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -61,9 +79,10 @@ const Carousel = () => {
         modules={[EffectCoverflow, Navigation]}
         className="mySwiper"
       >
-        {CarouselData.map((data, index) => {
+        {/* {CarouselData.map((data, index) => { */}
+        {imgData.map((data, index) => {
           const slideId = Number(data.id) - 1;
-          const dataLength = CarouselData.length;
+          const dataLength = 28;
           const tagId =
             slideId === (currentSlide + dataLength - 1) % dataLength
               ? "prev"
@@ -82,37 +101,39 @@ const Carousel = () => {
             >
               <div className="slide-wrapper">
                 <CarouselImgDiv
-                  imgSrc={data.imgSrc}
-                  onClick={handleSlideClick}
+                  imgSrc={require(`../assets/images/brandSearch/brand-search-${data.name_kr.replace(
+                    / /g,
+                    ""
+                  )}.png`)}
+                  onClick={() => {
+                    if (currentSlide === slideId) {
+                      handleSlideClick(data.id.toString());
+                    }
+                  }}
                 >
                   {currentSlide === slideId && (
                     <>
                       <CarouselIconDiv>
                         <CarouselBrandIcon
-                          // name={data.name}
-                          name={"피지오겔"}
+                          name={data.name_kr}
+                          // name={"피지오겔"}
                         />
-                        <CarouselIconText>피지오겔</CarouselIconText>
+                        <CarouselIconText>{data.name_kr}</CarouselIconText>
                       </CarouselIconDiv>
                       <CarouselBrandMoodDiv>
-                        <BrandMoodButton name="퓨어한" />
-                        <BrandMoodButton name="자연의" />
-                        <BrandMoodButton name="감각적인" />
+                        {data.mood.map((mood, index) => {
+                          return (
+                            <BrandMoodButton
+                              key={index}
+                              name={mood}
+                            />
+                          );
+                        })}
                       </CarouselBrandMoodDiv>
                     </>
                   )}
                 </CarouselImgDiv>
-                <div className="swiper-slide-div">
-                  <div className="swiper-slide-div-main_div">
-                    “
-                    <div className="swiper-slide-div-main_text">
-                      {data.desc_main} ”
-                      <div className="swiper-slide-div-sub_text">
-                        {data.desc_sub}
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                {RandomText(data)}
               </div>
             </SwiperSlide>
           );
