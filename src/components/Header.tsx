@@ -118,6 +118,7 @@ const HeaderWrapper = styled.header`
      }
 
      .header__content--right{
+      min-width: fit-content;
       margin-left: 10rem;
      }
     }
