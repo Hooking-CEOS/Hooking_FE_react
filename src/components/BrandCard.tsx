@@ -168,7 +168,7 @@ const Overlay = styled.div<{ hover: boolean }>`
   height: 8rem;
   background: ${(props) =>
     props.hover
-      ? `linear-gradient(180deg, rgba(255, 248, 246, 0.00) 0%, rgba(255, 248, 246, 0.80) 52.08%, #FFF8F6 100%)`
+      ? `linear-gradient(180deg, rgba(255, 248, 246, 0.00) 0%, rgba(255, 248, 246, 0.80) 45.31%, #FFF8F6 100%);`
       : `linear-gradient(
     180deg,
     rgba(255, 255, 255, 0) 0%,
@@ -202,13 +202,6 @@ export const BrandCardWrapper = styled.div<{
       ),
       #fff;
     border: 0.025rem solid ${(props) => props.theme.colors.point};
-    .more-content {
-      background: linear-gradient(
-        180deg,
-        rgba(255, 248, 246, 0) 0%,
-        #fff8f6 72.4%
-      ) !important;
-    }
   }
 
   .card-content {
