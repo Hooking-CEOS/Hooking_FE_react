@@ -243,7 +243,10 @@ const Search = () => {
                     <div className="dot" />
                   )}
                   {searchCnt.mood > 0 && (
-                    <div className="tab-wrap" onClick={() => setType("mood")}>
+                    <div
+                      className="tab-wrap"
+                      onClick={() => setType("mood")}
+                    >
                       <Button
                         text="카피 무드"
                         className={`button-text button-text-${
@@ -281,7 +284,10 @@ const Search = () => {
                       img: require(`../assets/images/brandSearch/brand-search-미샤.png`),
                     }}
                   />
-                  <hr className="hr" style={{ marginBottom: "3rem" }} />
+                  <hr
+                    className="hr"
+                    style={{ marginBottom: "3rem" }}
+                  />
                 </>
               )}
 
@@ -295,7 +301,10 @@ const Search = () => {
                       srcIdx={card.index ?? 0}
                       brandId={card.id}
                       text={card.text}
-                      brandImg={require(`../assets/images/brandIcon/brand-${card.brandName}.png`)}
+                      brandImg={require(`../assets/images/brandIcon/brand-${card.brandName.replace(
+                        / /g,
+                        ""
+                      )}.png`)}
                       brandName={card.brandName}
                       onClick={() => handleBrandOpen(card)}
                     />

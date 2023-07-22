@@ -16,7 +16,10 @@ const BrandIcon = ({ name, size, onClick }: BrandIconProps) => {
       onClick={onClick}
     >
       <BrandIconDiv
-        src={require(`../assets/images/brandIcon/brand-${targetData.name_kr}.png`)}
+        src={require(`../assets/images/brandIcon/brand-${targetData.name_kr.replace(
+          / /g,
+          ""
+        )}.png`)}
         alt="brandIcon"
       />
       {size === "big" && (

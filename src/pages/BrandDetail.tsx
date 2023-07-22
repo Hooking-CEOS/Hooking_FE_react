@@ -95,7 +95,10 @@ const BrandDetail = () => {
               key={card.id}
               brandId={card.id}
               text={card.text}
-              brandImg={require(`../assets/images/brandIcon/brand-${brandData.brandName}.png`)}
+              brandImg={require(`../assets/images/brandIcon/brand-${brandData.brandName.replace(
+                / /g,
+                ""
+              )}.png`)}
               brandName={brandData.brandName}
               onClick={() => handleBrandOpen(card)}
               // onClick={handleBrandOpen}

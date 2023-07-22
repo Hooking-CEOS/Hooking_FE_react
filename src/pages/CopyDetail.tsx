@@ -76,7 +76,10 @@ const CopyDetail = ({ onClose }: CopyDetailProps) => {
         <div className="imgContainer ">
           <img
             className="imgElement inArea"
-            src={require(`../assets/images/brandSearch/brand-search-${selectedCopyData.brandName}.png`)}
+            src={require(`../assets/images/brandSearch/brand-search-${selectedCopyData.brandName.replace(
+              / /g,
+              ""
+            )}.png`)}
             alt="brandImg"
           />
           <div className="iconContainer">
@@ -119,7 +122,10 @@ const CopyDetail = ({ onClose }: CopyDetailProps) => {
                 text={card.text}
                 brandId={card.id}
                 brandName={card.brandName}
-                brandImg={require(`../assets/images/brandIcon/brand-${card.brandName}.png`)}
+                brandImg={require(`../assets/images/brandIcon/brand-${card.brandName.replace(
+                  / /g,
+                  ""
+                )}.png`)}
                 onClick={() => {
                   handleCopyClick(card);
                 }}
@@ -158,7 +164,10 @@ const SelectedCopyContainer = styled.div<{ brandName: string }>`
   .imgContainer {
     width: 30.7rem;
     height: 100%;
-    background-image: url("../assets/images/brandSearch/brand-search-" + brandName + ".png")
+    background-image: url("../assets/images/brandSearch/brand-search-" + brandName.replace(
+          // g,
+          ""
+        ) + ".png")
       no-repeat center;
     .imgElement {
       border-radius: 2rem 0 0 2rem;

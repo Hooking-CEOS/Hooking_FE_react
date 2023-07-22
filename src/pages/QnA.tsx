@@ -69,7 +69,10 @@ const QnA = () => {
                     text={card.text}
                     brandId={card.id}
                     brandName={card.brandName}
-                    brandImg={require(`../assets/images/brandIcon/brand-${card.brandName}.png`)}
+                    brandImg={require(`../assets/images/brandIcon/brand-${card.brandName.replace(
+                      / /g,
+                      ""
+                    )}.png`)}
                     onClick={handleBrandOpen}
                     scrapCnt={card.scrapCnt}
                   />

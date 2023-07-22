@@ -98,7 +98,10 @@ const SearchBar = () => {
 
   return (
     <>
-      <SearchBarWrapper ref={searchWrap} onClick={handleFocusOn}>
+      <SearchBarWrapper
+        ref={searchWrap}
+        onClick={handleFocusOn}
+      >
         <form
           onSubmit={onSearchSubmit}
           className={`${
@@ -155,7 +158,10 @@ const SearchBar = () => {
                           brand={{
                             idx: idx,
                             name: brandName,
-                            img: require(`../assets/images/brandSearch/brand-search-${brandName}.png`),
+                            img: require(`../assets/images/brandSearch/brand-search-${brandName.replace(
+                              / /g,
+                              ""
+                            )}.png`),
                           }}
                         />
                       ))}
