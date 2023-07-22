@@ -5,11 +5,9 @@ import {
   searchModalOverlay,
 } from "@/utils/atom";
 import { useRecoilValue } from "recoil";
-import { Suspense } from "react";
 import { Z_INDEX_MODAL } from "@/utils/constants";
 import styled from "styled-components";
 import useWindowResize from "./hooks/useWindowResize";
-import { isBigWindow } from "@/utils/atom";
 
 const App = () => {
   const mounted = useRecoilValue(loginModalOverlay);

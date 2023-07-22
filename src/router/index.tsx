@@ -31,7 +31,7 @@ import {
 import { useRecoilValue, useRecoilState } from "recoil";
 import HomeSkeleton from "@/pages/HomeSkeleton";
 
-import { useEffect } from "react";
+import SearchSkeleton from "@/pages/SearchSkeleton";
 
 const HookingRouter = () => {
   const toastOpen = useRecoilValue(toastPopup);
@@ -60,7 +60,11 @@ const HookingRouter = () => {
     {
       path: "/search",
       name: "Search",
-      component: <Search />,
+      component: (
+        <Suspense fallback={<SearchSkeleton />}>
+          <Search />
+        </Suspense>
+      ),
     },
     {
       path: "/profile",
