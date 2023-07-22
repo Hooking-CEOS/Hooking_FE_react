@@ -119,10 +119,7 @@ const BrandCard = ({
 
       <div className="card-brand">
         <span className="brandIcon">
-          <img
-            src={brandImg}
-            alt="brandImg"
-          />
+          <img src={brandImg} alt="brandImg" />
           <span className="component-small">{brandName}</span>
         </span>
         {saved ? (

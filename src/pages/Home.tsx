@@ -50,8 +50,6 @@ const Home = () => {
   }, [filteredData]);
 
   const handleBrandOpen = (card: ICardData) => {
-    console.log("Home handleBrandOpen", card);
-    console.log(card);
     setSelectedCopy(card);
     setSimilarCopy(cardData.filter((el) => el.id !== card.id));
     setBrandModal(true);
@@ -77,7 +75,7 @@ const Home = () => {
                       / /g,
                       ""
                     )}.png`)}
-                    //onClick={handleBrandOpen}
+                    onClick={() => handleBrandOpen(card)}
                     scrapCnt={card.scrapCnt}
                   />
                 ))

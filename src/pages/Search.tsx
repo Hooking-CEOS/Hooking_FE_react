@@ -187,9 +187,6 @@ const Search = () => {
     getSearchResult();
   }, [keyword]);
 
-  console.log("getSearch", getSearch);
-  console.log("searchCnt", searchCnt);
-
   // 탭이 여러 개일 경우 현재 누른 탭에 따라 카드 데이터 갈아끼움
   const getTypeData = ({ data }: any, findType: string) => {
     data?.map((obj: any) => {
@@ -246,10 +243,7 @@ const Search = () => {
                     <div className="dot" />
                   )}
                   {searchCnt.mood > 0 && (
-                    <div
-                      className="tab-wrap"
-                      onClick={() => setType("mood")}
-                    >
+                    <div className="tab-wrap" onClick={() => setType("mood")}>
                       <Button
                         text="카피 무드"
                         className={`button-text button-text-${
@@ -287,10 +281,7 @@ const Search = () => {
                       img: require(`../assets/images/brandSearch/brand-search-미샤.png`),
                     }}
                   />
-                  <hr
-                    className="hr"
-                    style={{ marginBottom: "3rem" }}
-                  />
+                  <hr className="hr" style={{ marginBottom: "3rem" }} />
                 </>
               )}
 
