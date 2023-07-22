@@ -123,7 +123,6 @@ const LandingPageWrapper = styled.div`
 `;
 
 const LandingPage1 = styled.div`
-  width: 192rem;
   height: 100rem;
   display: flex;
   flex-direction: column;
