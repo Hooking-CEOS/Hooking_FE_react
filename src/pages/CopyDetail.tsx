@@ -35,7 +35,6 @@ const CopyDetail = ({ onClose }: CopyDetailProps) => {
   const setLogin = useSetRecoilState(isLogined);
   const isLogin = useRecoilValue(isLogined);
   const setToast = useSetRecoilState(toastPopup);
-  console.log(selectedCopyData);
   const handleClose = () => {
     onClose?.();
   };

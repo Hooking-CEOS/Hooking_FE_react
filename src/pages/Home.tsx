@@ -49,6 +49,7 @@ const Home = () => {
   }, [filteredData]);
 
   const handleBrandOpen = (card: ICardData) => {
+    console.log("Home handleBrandOpen", card);
     console.log(card);
     setSelectedCopy(card);
     setSimilarCopy(cardData.filter((el) => el.id !== card.id));
