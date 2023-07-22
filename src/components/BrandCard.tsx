@@ -117,6 +117,8 @@ const BrandCard = ({
       </div>
       {!saved && <Overlay hover={hover} />}
 
+      <hr className="hr" />
+
       <div className="card-brand">
         <span className="brandIcon">
           <img src={brandImg} alt="brandImg" />
@@ -183,7 +185,7 @@ export const BrandCardWrapper = styled.div<{
   max-width: 100%;
 
   min-height: ${(props) => (props.saved ? "auto" : "27.8rem")};
-  padding: 3.8rem 4rem;
+  padding: 3.8rem 4rem 2.6rem 3.8rem;
 
   border: 0.025rem solid ${(props) => props.theme.colors.black40};
   border-radius: 2rem;
@@ -200,6 +202,12 @@ export const BrandCardWrapper = styled.div<{
       #fff;
     border: 0.025rem solid ${(props) => props.theme.colors.point};
   }
+
+  .hr {
+    margin: 0;
+  }
+
+
 
   .card-content {
     position: relative;
@@ -239,15 +247,15 @@ export const BrandCardWrapper = styled.div<{
   .card-brand {
     display: flex;
     align-items: center;
-    padding-top: 2.4rem;
     position: absolute;
     bottom: 2.6rem;
     width: calc(100% - 8rem);
-    border-top: 1px solid #0002351f;
+    height: 4.6rem;
+
     justify-content: space-between;
 
     .brandIcon {
-      min-height: 4.8rem;
+      min-height: 2.8rem;
       gap: 1rem;
       display: flex;
       flex-direction: row;
