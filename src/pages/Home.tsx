@@ -60,8 +60,8 @@ const Home = () => {
       <CarouselDiv>
         <Carousel />
       </CarouselDiv>
-      <section className="main">
-        <Suspense fallback={<div>Loading ...</div>}>
+      <Suspense fallback={<div>Home Loading ...</div>}>
+        <section className="main">
           <Filter />
           <BrandCards>
             {cardData && cardData.length > 1
@@ -83,8 +83,8 @@ const Home = () => {
                   (el, idx) => <SkeletonCard key={idx} />
                 )}
           </BrandCards>
-        </Suspense>
-      </section>
+        </section>
+      </Suspense>
     </>
   );
 };
