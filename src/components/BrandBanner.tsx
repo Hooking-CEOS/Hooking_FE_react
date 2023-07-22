@@ -2,14 +2,42 @@ import styled from "styled-components";
 import imgData from "@/assets/datas/imgData.json";
 import BrandIcon from "@/components/BrandIcon";
 import BrandMoodButton from "@/components/BrandMoodButton";
+import { useEffect, useState } from "react";
 
 interface BrandBannerProps {
   name: string;
+  link: string;
 }
 
-const BrandBanner = ({ name }: BrandBannerProps) => {
+const BrandBanner = ({ name, link }: BrandBannerProps) => {
   let targetData = imgData.find((item) => item.name_kr === name)!;
 
+  const RenderCarousel = () => {
+    const [randomNum, setRandomNum] = useState(Math.floor(Math.random() * 3));
+    useEffect(() => {
+      const timeOut = setTimeout(() => {
+        setRandomNum((randomNum + 1) % 3);
+      }, 10000);
+      return () => clearTimeout(timeOut);
+    }, [randomNum]);
+    return (
+      <BrandCarouselWrapper>
+        <BrandCarouselContainer>
+          <div className="mainTextDiv text-heading-2">
+            "
+            <div className="mainText ">
+              <div className="subTextDiv">
+                {targetData.descText[randomNum].main} "
+                <div className="subText text-subtitle-2">
+                  {targetData.descText[randomNum].sub}
+                </div>
+              </div>
+            </div>
+          </div>
+        </BrandCarouselContainer>
+      </BrandCarouselWrapper>
+    );
+  };
   return (
     <BrandBannerWrapper>
       <BrandBannerDiv
@@ -22,7 +50,7 @@ const BrandBanner = ({ name }: BrandBannerProps) => {
             <BrandIcon
               name={targetData.name_kr}
               size="big"
-              onClick={() => console.log("brandBanner")}
+              onClick={() => window.open(link, "_blank")}
             />
             <div className="brandDescTextDiv">
               <span className="brandDescName">{targetData.name_kr}</span>
@@ -35,7 +63,8 @@ const BrandBanner = ({ name }: BrandBannerProps) => {
           </div>
           <div className="brandDescText">{targetData.brandDesc}</div>
         </div>
-        {/* TODO : Carousel 추가 */}
+
+        <RenderCarousel />
       </BrandBannerInsideDiv>
     </BrandBannerWrapper>
   );
@@ -45,14 +74,14 @@ export default BrandBanner;
 
 const BrandBannerWrapper = styled.div`
   width: 100vw;
-  height: 31.35vw;
+  height: 60.2rem;
   position: relative;
 `;
 
 const BrandBannerDiv = styled.img`
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
 `;
 
 const BrandBannerInsideDiv = styled.div`
@@ -95,5 +124,33 @@ const BrandBannerInsideDiv = styled.div`
       font-weight: 300;
       line-height: 150%;
     }
+  }
+`;
+
+const BrandCarouselWrapper = styled.div`
+  position: absolute;
+  right: 11.8rem;
+`;
+
+const BrandCarouselContainer = styled.div`
+  width: 40.6rem;
+  height: 36.8rem;
+  background-color: ${(props) => props.theme.colors.white};
+  padding: 5.6rem 6.2rem 5.6rem 4rem;
+  border-radius: 2rem;
+  display: flex;
+  gap: 2.8rem;
+  .mainTextDiv {
+    display: flex;
+    flex-direction: row;
+  }
+  .subTextDiv {
+    display: flex;
+    margin-left: 1rem;
+    flex-direction: column;
+    gap: 2.8rem;
+  }
+  .subText {
+    color: ${(props) => props.theme.colors.black30};
   }
 `;
