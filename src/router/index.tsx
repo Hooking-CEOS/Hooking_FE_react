@@ -20,6 +20,7 @@ import CopyDetail from "@/pages/CopyDetail";
 import Login from "@/pages/Login";
 import Toast from "@/components/Toast";
 
+import { Suspense } from "react";
 import Portal from "@/utils/portal";
 import {
   isLogined,
@@ -28,6 +29,8 @@ import {
   brandModalOverlay,
 } from "@/utils/atom";
 import { useRecoilValue, useRecoilState } from "recoil";
+import HomeSkeleton from "@/pages/HomeSkeleton";
+
 import { useEffect } from "react";
 
 const HookingRouter = () => {
@@ -48,7 +51,11 @@ const HookingRouter = () => {
     {
       path: "/home",
       name: "Home",
-      component: <Home />,
+      component: (
+        <Suspense fallback={<HomeSkeleton />}>
+          <Home />
+        </Suspense>
+      ),
     },
     {
       path: "/search",

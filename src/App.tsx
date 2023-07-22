@@ -19,13 +19,11 @@ const App = () => {
   useWindowResize();
 
   return (
-    <Suspense fallback={<div>Loading ...</div>}>
-      <main className="app">
-        {(mounted || copyMounted) && <div className="hovered" />}
-        {searchFocus && <Overlay />}
-        <HookingRouter />
-      </main>
-    </Suspense>
+    <main className="app">
+      {(mounted || copyMounted) && <div className="hovered" />}
+      {searchFocus && <Overlay />}
+      <HookingRouter />
+    </main>
   );
 };
 export default App;
