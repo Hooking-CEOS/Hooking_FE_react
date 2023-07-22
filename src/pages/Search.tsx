@@ -2,7 +2,7 @@ import { useSearchParams } from "react-router-dom";
 import { useState, useEffect, useTransition } from "react";
 
 import styled from "styled-components";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   brandModalOverlay,
   searchResult,
@@ -11,7 +11,6 @@ import {
 } from "@/utils/atom";
 import BrandCard from "@/components/BrandCard";
 
-import IMG_BRAND_SAMPLE from "@/assets/images/brandSearch/brand-search-logo.png";
 import Button from "@/components/Button";
 import QnA from "@/pages/QnA";
 import BrandLogoCard from "@/components/BrandLogoCard";
@@ -36,7 +35,7 @@ const Search = () => {
   const [totalLen, setTotalLen] = useState(0);
   const setSelectedCopy = useSetRecoilState(selectedCopy);
   const setSimilarCopy = useSetRecoilState(similarCopyList);
-  const setBrandModal = useSetRecoilState(brandModalOverlay);
+  const [brandModal, setBrandModal] = useRecoilState(brandModalOverlay);
 
   const getTotalLen = (keywordObj: SearchCnt) => {
     const totalLen = Object.keys(keywordObj)
@@ -45,6 +44,8 @@ const Search = () => {
 
     setTotalLen(totalLen);
   };
+
+  const handleCopyClose = () => setBrandModal(true);
 
   // curType을 설정하는 함수
   const onSetType = (cur: any) => {

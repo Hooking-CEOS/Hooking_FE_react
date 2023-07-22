@@ -83,10 +83,7 @@ const CopyDetail = ({ onClose }: CopyDetailProps) => {
             alt="brandImg"
           />
           <div className="iconContainer">
-            <BrandIcon
-              name={selectedCopyData.brandName}
-              size="small"
-            />
+            <BrandIcon name={selectedCopyData.brandName} size="small" />
             <span className="component-large brandText">
               {selectedCopyData.brandName}
             </span>
