@@ -10,7 +10,7 @@ export const Card = () => {
         <GreyBox width={"250px"} />
         <GreyBox width={"202px"} style={{ marginTop: "8px" }} />
         <GreyBox width={"298px"} style={{ marginTop: "25px" }} />
-        <GreyBox width={"250px"} style={{ marginTop: "15px" }} />
+        <GreyBox width={"250px"} style={{ marginTop: "8px" }} />
       </div>
 
       <div className="card-brand">
