@@ -52,7 +52,7 @@ const ProfileDropDown = ({ className }: ProfilePropType) => {
           activeMenuIdx === 2 ? "black" : "white"
         } small`} text-subtitle-1 ${className}`}
         icon="icon-profile"
-        text={userName || "프로필"}
+        text={userName || ""}
       >
         <span className={getIconClassName()} />
       </Button>
