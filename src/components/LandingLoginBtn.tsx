@@ -28,6 +28,6 @@ const LandingLoginBtnWrapper = styled.div`
     font-weight: 500;
   }
   position: absolute;
-  left: 38.3rem;
+  left: 0;
   cursor: pointer;
 `;
