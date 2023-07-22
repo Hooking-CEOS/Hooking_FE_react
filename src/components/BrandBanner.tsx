@@ -22,18 +22,20 @@ const BrandBanner = ({ name }: BrandBannerProps) => {
             <BrandIcon
               name={targetData.name_kr}
               size="big"
+              onClick={() => console.log("brandBanner")}
             />
             <div className="brandDescTextDiv">
               <span className="brandDescName">{targetData.name_kr}</span>
               <div className="brandMoodDiv">
-                <BrandMoodButton name="퓨어한" />
-                <BrandMoodButton name="자연의" />
-                <BrandMoodButton name="감각적인" />
+                {targetData.mood.map((item: string) => (
+                  <BrandMoodButton name={item} />
+                ))}
               </div>
             </div>
           </div>
           <div className="brandDescText">{targetData.brandDesc}</div>
         </div>
+        {/* TODO : Carousel 추가 */}
       </BrandBannerInsideDiv>
     </BrandBannerWrapper>
   );
@@ -57,7 +59,7 @@ const BrandBannerInsideDiv = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  width: calc(100% - 12.5rem);
   height: 100%;
   display: flex;
   align-items: center;
