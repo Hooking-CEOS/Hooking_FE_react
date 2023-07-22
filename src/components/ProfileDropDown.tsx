@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Button from "@/components/Button";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +8,7 @@ import { PROFILE_DATA } from "@/utils/constants";
 import useOutSideClick from "@/hooks/useOutSideClick";
 import { openKaKaoPlus } from "@/utils/util";
 import { removeCookie } from "@/hooks/cookies";
+import { getUserProfile } from "@/api/user";
 
 interface ProfilePropType {
   className?: string;
@@ -17,6 +18,7 @@ const ProfileDropDown = ({ className }: ProfilePropType) => {
   const navigate = useNavigate();
   const [hover, setHover] = useState(false);
   const setIsLogin = useSetRecoilState(isLogined);
+  const [userName, setUserName] = useState<string>("");
 
   const [activeMenuIdx, setActiveMenuIdx] = useRecoilState(activeMenu);
   const [activeChildMenuIdx, setActiveChildMenuIdx] =
@@ -25,6 +27,13 @@ const ProfileDropDown = ({ className }: ProfilePropType) => {
   const dropdonwRef = useRef(null);
   useOutSideClick(dropdonwRef, () => setHover(false));
 
+  useEffect(() => {});
+  getUserProfile()
+    .then((res) => {
+      setUserName(res.nickname);
+      console.log(res);
+    })
+    .catch((err) => console.log(err));
   // TODO: icon-arrow-unfold-light 추가
   const getIconClassName = () =>
     activeMenuIdx === 2
@@ -43,7 +52,7 @@ const ProfileDropDown = ({ className }: ProfilePropType) => {
           activeMenuIdx === 2 ? "black" : "white"
         } small`} text-subtitle-1 ${className}`}
         icon="icon-profile"
-        text="이후킹"
+        text={userName || "프로필"}
       >
         <span className={getIconClassName()} />
       </Button>
