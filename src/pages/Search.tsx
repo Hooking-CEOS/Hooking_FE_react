@@ -1,5 +1,5 @@
 import { useSearchParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useTransition } from "react";
 
 import styled from "styled-components";
 import { useRecoilValue, useSetRecoilState } from "recoil";
@@ -16,71 +16,6 @@ import Button from "@/components/Button";
 import QnA from "@/pages/QnA";
 import BrandLogoCard from "@/components/BrandLogoCard";
 
-const CARD_DATA = [
-  {
-    id: 0,
-    text: "휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum 휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum",
-    brandName: "이니스프리",
-    img: IMG_BRAND_SAMPLE,
-  },
-
-  {
-    id: 1,
-    text: "휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum 휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum",
-    brandName: "이니스프리",
-    img: IMG_BRAND_SAMPLE,
-  },
-
-  {
-    id: 2,
-    text: "휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum 휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum",
-    brandName: "이니스프리",
-    img: IMG_BRAND_SAMPLE,
-  },
-
-  {
-    id: 3,
-    text: "휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum 휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum",
-    brandName: "이니스프리",
-    img: IMG_BRAND_SAMPLE,
-  },
-
-  {
-    id: 4,
-    text: "휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum 휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum",
-    brandName: "이니스프리",
-    img: IMG_BRAND_SAMPLE,
-  },
-
-  {
-    id: 5,
-    text: "휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum 휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum",
-    brandName: "이니스프리",
-    img: IMG_BRAND_SAMPLE,
-  },
-
-  {
-    id: 6,
-    text: "휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum 휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum",
-    brandName: "이니스프리",
-    img: IMG_BRAND_SAMPLE,
-  },
-
-  {
-    id: 7,
-    text: "휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum 휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum",
-    brandName: "이니스프리",
-    img: IMG_BRAND_SAMPLE,
-  },
-
-  {
-    id: 8,
-    text: "휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum 휴대하기 좋은 비건 세럼 립틴트로 어디서든 촉촉한 입술을 가꿔보세요 Get moist lips with the portable vegan serum",
-    brandName: "이니스프리",
-    img: IMG_BRAND_SAMPLE,
-  },
-];
-
 type SearchCnt = {
   [key: string]: number;
 };
@@ -89,8 +24,9 @@ const INITIAL_SEARCH_CNT: SearchCnt = { copy: 0, brand: 0, mood: 0 };
 
 const Search = () => {
   const [searchParams, _] = useSearchParams();
-  const [tab, setTab] = useState(0); // 키워드탭: 0, 카피무드탭: 1
+
   const [searchCnt, setSearchCnt] = useState(INITIAL_SEARCH_CNT);
+  const [isPending, startTransition] = useTransition(); // 낮은 우선순위
   const [noResult, setNoResult] = useState(false);
   const [type, setType] = useState("copy");
   const [card, setCard] = useState<ICardData[]>([]);
@@ -246,10 +182,7 @@ const Search = () => {
                     <div className="dot" />
                   )}
                   {searchCnt.mood > 0 && (
-                    <div
-                      className="tab-wrap"
-                      onClick={() => setType("mood")}
-                    >
+                    <div className="tab-wrap" onClick={() => setType("mood")}>
                       <Button
                         text="카피 무드"
                         className={`button-text button-text-${
@@ -287,10 +220,7 @@ const Search = () => {
                       img: require(`../assets/images/brandSearch/brand-search-미샤.png`),
                     }}
                   />
-                  <hr
-                    className="hr"
-                    style={{ marginBottom: "3rem" }}
-                  />
+                  <hr className="hr" style={{ marginBottom: "3rem" }} />
                 </>
               )}
 
