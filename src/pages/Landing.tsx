@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { useInView } from "react-intersection-observer";
 
 import iconVector from "@/assets/images/landing/icon-vector.png";
@@ -9,11 +9,15 @@ import landing3 from "@/assets/images/landing/landing3.png";
 import landing4 from "@/assets/images/landing/landing4.png";
 import LandingLoginBtn from "@/components/LandingLoginBtn";
 
-import { loginModalOverlay } from "@/utils/atom";
+import { activeMenu, loginModalOverlay } from "@/utils/atom";
 import { useEffect } from "react";
+import LandingHomeBtn from "@/components/LandingHomeButton";
+import { useNavigate } from "react-router-dom";
 const Landing = () => {
+  const navigate = useNavigate();
   const [loginModal, setLoginModal] = useRecoilState(loginModalOverlay);
   const handleLogin = () => setLoginModal(true);
+  const setActiveMenuIdx = useSetRecoilState(activeMenu);
   const { ref, inView, entry } = useInView();
 
   const handleScroll = () => {
@@ -30,7 +34,12 @@ const Landing = () => {
           alt="landingpage"
         />
         <LandingLoginBtn onClick={handleLogin} />
-
+        <LandingHomeBtn
+          onClick={() => {
+            setActiveMenuIdx(0);
+            navigate("/home");
+          }}
+        />
         <img
           src={iconVector}
           alt="vector facing down"
@@ -124,13 +133,14 @@ const LandingPageWrapper = styled.div`
 
 const LandingPage1 = styled.div`
   height: 100rem;
+  width: 115.4rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   position: relative;
   .page1Img {
-    width: 115.4rem;
+    width: 100%;
   }
   @keyframes bounce {
     0%,
