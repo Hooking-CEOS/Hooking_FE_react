@@ -52,19 +52,23 @@ const Search = () => {
   const onSetType = (cur: any) => {
     // cur: { copy: 0, brand: 0, mood: 0 };
     const { copy, brand, mood } = cur;
-    let type = "mood"; // default
+
+    let type = "copy"; // default
     if (brand > 0) {
       type = "brand";
-    } else if (copy > 0) {
-      type = "copy";
+    } else if (mood > 0) {
+      type = "mood";
     }
+
     setType(type);
+
     return type;
   };
 
   // 각 타입별 결과 데이터 개수를 반환하는 함수
   const getTypeSearchCnt = ({ data }: any): string => {
     const cur: any = { ...INITIAL_SEARCH_CNT };
+
     data.forEach((obj: any) => {
       if (obj.data !== null && obj.data !== undefined) {
         cur[obj.type] = obj.data.length;
@@ -72,6 +76,7 @@ const Search = () => {
     });
     setSearchCnt(cur);
     getTotalLen(cur); // 총 개수 설정
+
     return onSetType(cur);
   };
 
@@ -106,8 +111,9 @@ const Search = () => {
     if (data.code === 200) {
       setNoResult(false);
       const type = getTypeSearchCnt(data);
+
       if (data.data && data.data.length > 0) {
-        setType(data.data[0].type);
+        setType(type);
         setKeywordData(data.data[0].keyword);
       }
       getTypeData(data, type); // 데이터들의 대표 타입을 통해 카드 데이터 렌더링
@@ -117,7 +123,6 @@ const Search = () => {
   };
 
   const handleBrandOpen = (cardData: any) => {
-    console.log(cardData);
     setSelectedCopy(cardData);
     setSimilarCopy(card.filter((el) => el.id !== cardData.id));
     setBrandModal(true);
@@ -134,7 +139,6 @@ const Search = () => {
       //console.log("type", type);
       if (type === findType) {
         setCard(obj.data);
-        console.log("[obj.data]", obj.data);
       }
     });
   };
@@ -144,6 +148,10 @@ const Search = () => {
   useEffect(() => {
     getTypeData(getSearch, type);
   }, [type]);
+
+  const handleMoodType = () => {
+    setType("mood");
+  };
 
   return (
     <>
@@ -183,7 +191,7 @@ const Search = () => {
                     <div className="dot" />
                   )}
                   {searchCnt.mood > 0 && (
-                    <div className="tab-wrap" onClick={() => setType("mood")}>
+                    <div className="tab-wrap" onClick={handleMoodType}>
                       <Button
                         text="카피 무드"
                         className={`button-text button-text-${

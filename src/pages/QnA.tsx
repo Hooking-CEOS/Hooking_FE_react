@@ -27,7 +27,6 @@ const QnA = () => {
 
   const getRandomCopy = async () => {
     const { data } = await getAllCopy();
-    console.log("qna data", data);
     setCardData(data);
   };
 

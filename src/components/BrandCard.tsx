@@ -59,7 +59,7 @@ const BrandCard = ({
   const [isSaved, setIsSaved] = useState(false);
 
   const handleBrandOpen = (card: ICardData) => {
-    console.log(card);
+    //console.log(card);
     setSelectedCopy(card);
     setBrandModal(true);
   };

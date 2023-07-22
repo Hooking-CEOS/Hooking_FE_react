@@ -35,6 +35,7 @@ const Home = () => {
   const filterLen = useRecoilValue(checkedListLen);
   const setSelectedCopy = useSetRecoilState(selectedCopy);
   const setSimilarCopy = useSetRecoilState(similarCopyList);
+  const [emptyResult, setEmptyResult] = useState<boolean>();
 
   const getHomecopy = async () => {
     const { data } = await getAllCopy();
@@ -47,6 +48,10 @@ const Home = () => {
     if (!filterLen) getHomecopy();
     // 필터가 선택된 경우 필터카피 불러오기
     else setCardData(filteredData.data);
+
+    if (!filteredData.data.length) {
+      setEmptyResult(true);
+    } else setEmptyResult(false); // 값이 있으니까 false
   }, [filteredData]);
 
   const handleBrandOpen = (card: ICardData) => {
@@ -60,6 +65,7 @@ const Home = () => {
       <CarouselDiv>
         <Carousel />
       </CarouselDiv>
+
       <section className="main">
         <Filter />
         <BrandCards>
@@ -77,11 +83,10 @@ const Home = () => {
                 onClick={() => handleBrandOpen(card)}
                 scrapCnt={card.scrapCnt}
               />
-            )) // 검색결과 없는 경우
-          ) : cardData.length === 0 ? (
+            ))
+          ) : emptyResult ? (
             <></>
           ) : (
-            // 로딩
             Array.from({ length: 9 }, () => Array(0).fill(0)).map((el, idx) => (
               <SkeletonCard key={idx} />
             ))
