@@ -1,19 +1,28 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
+import App from "@/App";
+import { GlobalStyle } from "@/styles/globalStyle";
+
+import "@/scss/app.scss";
+
 import { RecoilRoot } from "recoil";
-import { GlobalStyle } from "styles/globalStyle";
+import { ThemeProvider } from "styled-components";
+import { theme } from "@/styles/theme";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+
 root.render(
-  <React.StrictMode>
-    <RecoilRoot>
+  // <React.StrictMode>
+  <RecoilRoot>
+    <ThemeProvider theme={theme}>
       <GlobalStyle />
       <App />
-    </RecoilRoot>
-  </React.StrictMode>
+      <div id="portal" />
+    </ThemeProvider>
+  </RecoilRoot>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

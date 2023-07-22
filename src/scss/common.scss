@@ -1,0 +1,392 @@
+.input {
+  width: 100%;
+  height: auto;
+  border: none;
+  outline: none;
+
+  &.searchbar {
+    height: 1.8rem;
+    margin-left: 2rem;
+  }
+  &.searchbar--active {
+    margin-left: 1.53rem;
+  }
+}
+
+input[type="checkbox"] {
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 0.4rem;
+  border: 1px solid $color_black_100;
+  cursor: pointer;
+
+  &:checked {
+    background: url("../assets/images/icon-check.svg") no-repeat center;
+    background-size: auto;
+  }
+}
+
+.hr {
+  width: 100%;
+  background-color: $color_black_5;
+  opacity: 0.3;
+  margin: 3.1rem 0 1.6rem;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  border: 0;
+  box-shadow: none;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: default;
+  }
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1 0 auto; //
+    padding: 1.5rem 2rem;
+    border-radius: 6rem;
+
+    // icon position
+    & > span {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  // color
+  &-black {
+    .button__inner {
+      color: $color_white;
+      background-color: $color_black_100;
+      padding: 1.6rem 2rem;
+    }
+
+    &.small {
+      .button__inner {
+        background-color: $color_black_100;
+        padding: 1.1rem 2.1rem 1.1rem 1.1rem;
+      }
+    }
+
+    &-small {
+      .button__inner {
+        color: $color_white;
+        background-color: $color_black_100;
+        padding: 0.6rem 1.2rem;
+        border-radius: 0.6rem;
+      }
+    }
+  }
+
+  &-white {
+    .button__inner {
+      color: $color_black_100;
+      padding: 1.6rem 2rem;
+    }
+
+    &.small {
+      .button__inner {
+        padding: 1.1rem 2.1rem 1.1rem 1.1rem;
+      }
+    }
+  }
+
+  &-orange {
+    .button__inner {
+      color: $color_white;
+      background-color: $color_point;
+    }
+
+    &.long {
+      .button__inner {
+        padding: 2rem 2.9rem;
+      }
+    }
+  }
+
+  &-grey {
+    .button__inner {
+      border: 0.025rem solid $color_black_40;
+      background: linear-gradient(
+          0deg,
+          rgba(0, 2, 53, 0.05) 0%,
+          rgba(0, 2, 53, 0.05) 100%
+        ),
+        #fff;
+    }
+  }
+
+  &-text {
+    &-orange {
+      .button__inner {
+        padding: 0;
+        color: $color_point;
+      }
+    }
+    &-grey {
+      .button__inner {
+        padding: 0;
+        color: $color_black_15;
+      }
+    }
+  }
+
+  &-white-outline {
+    .button__inner {
+      color: $color_black_40;
+      border: 0.025rem solid $color_black_40;
+      background: $color_white;
+
+      &.margin-left {
+        margin-left: 1.6rem;
+      }
+    }
+
+    &:hover {
+      &:not(.reset) {
+        // 초기화 버튼은 hover 적용하지 않음
+        .button__inner {
+          background: $color_black_100;
+          color: $color_white;
+
+          .icon-filter {
+            background: url("../assets/images/icon-filter-white.svg") no-repeat
+              90% center;
+          }
+        }
+      }
+    }
+    &:active {
+      &:not(.reset) {
+        // 초기화 버튼은 active 적용하지 않음
+        .button__inner {
+          background: $color_point;
+          border: none;
+          color: $color_white;
+
+          .icon-filter {
+            background: url("../assets/images/icon-filter-white.svg") no-repeat
+              90% center;
+          }
+        }
+      }
+    }
+  }
+
+  &-orange-outline {
+    .button__inner {
+      border: 1px solid $color_point;
+      background: $color_white;
+      color: $color_point;
+    }
+    &:hover {
+      .button__inner {
+        background: linear-gradient(
+            0deg,
+            rgba(255, 113, 69, 0.2) 0%,
+            rgba(255, 113, 69, 0.2) 100%
+          ),
+          #fff;
+      }
+    }
+    &:active {
+      .button__inner {
+        background: $color_point;
+        color: $color_white;
+      }
+    }
+  }
+
+  &-orange-outline-saved {
+    .button__inner {
+      color: $color_point;
+      border: 1px solid $color_point;
+      background: linear-gradient(
+          0deg,
+          rgba(255, 113, 69, 0.2) 0%,
+          rgba(255, 113, 69, 0.2) 100%
+        ),
+        #fff;
+    }
+  }
+
+  &-white-text-outline {
+    .button__inner {
+      color: $color_white;
+      border: 0.25px solid $color_white_40;
+      background: $color_white_25;
+      padding: 1.1rem 1.6rem;
+    }
+  }
+
+  &-grey-text-outline {
+    .button__inner {
+      color: $color_black_100;
+      border: 0.25px solid $color_black_40;
+      background: $color_black_5;
+      padding: 1.1rem 1.6rem;
+    }
+  }
+
+  // 필터 & 초기화 버튼: border-radius 10짜리 각진 모양
+  &-br-10 {
+    .button__inner {
+      padding: 1.4rem 2rem;
+      border-radius: 1rem;
+    }
+  }
+}
+
+.icon {
+  display: inline-block;
+  cursor: pointer;
+
+  &-logo {
+    width: 11.3rem;
+    height: 3.5rem;
+    background: url("../assets/images/icon-logo.svg") no-repeat center;
+
+    &-big {
+      width: 15.2rem;
+      height: 4.8rem;
+      background: url("../assets/images/icon-logo-big.svg") no-repeat center;
+    }
+  }
+  &-check-circle {
+    width: 2.4rem;
+    height: 2.4rem;
+    background: url("../assets/images/icon-check-circle.svg") no-repeat center;
+  }
+
+  &-hooking {
+    width: 2.4rem;
+    height: 2.4rem;
+    background: url("../assets/images/icon-hooking.svg") no-repeat center;
+    transition: background ease-in-out 0.2s 0s;
+  }
+
+  &-arrow-fold {
+    width: 1.2rem; // figma 사이즈로하면 잘려서 수정
+    height: 0.7rem;
+    background: url("../assets/images/icon-arrow-fold.svg") no-repeat 90% center;
+    margin-left: 1.2rem;
+
+    &-light {
+      width: 1.2rem; // figma 사이즈로하면 잘려서 수정
+      height: 0.7rem;
+      background: url("../assets/images/icon-arrow-fold-light.svg") no-repeat
+        90% center;
+      margin-left: 1.2rem;
+    }
+  }
+
+  &-arrow-unfold {
+    width: 1.2rem;
+    height: 0.7rem;
+    background: url("../assets/images/icon-arrow-unfold.svg") no-repeat 90%
+      center;
+    margin-left: 1.2rem;
+  }
+
+  &-arrow-right {
+    width: 0.7rem;
+    height: 1rem;
+    background: url("../assets/images/icon-arrow-right.svg") no-repeat 90%
+      center;
+    margin-left: 1.2rem;
+  }
+
+  &-profile {
+    width: 3.2rem;
+    height: 3.2rem;
+    background: url("../assets/images/icon-profile.svg") no-repeat center;
+    margin-right: 1.2rem;
+  }
+
+  &-instagram {
+    width: 1.6rem;
+    height: 1.6rem;
+    background: url("../assets/images/icon-instagram.svg") no-repeat center;
+  }
+
+  &-google {
+    width: 2rem;
+    height: 2rem;
+    background: url("../assets/images/icon-google.png") no-repeat center;
+  }
+
+  &-saved {
+    &-orange {
+      width: 2.4rem;
+      height: 3rem;
+      background: url("../assets/images/icon-saved.svg") no-repeat center;
+    }
+    &-outline {
+      width: 1.8rem;
+      height: 1.8rem;
+      background: url("../assets/images/icon-saved-outline.svg") no-repeat
+        center;
+      margin-right: 0.8rem;
+      stroke-width: 2px;
+    }
+
+    &-white {
+      &-small {
+        width: 1.6rem;
+        height: 1.6rem;
+        background: url("../assets/images/icon-saved-white-small.svg") no-repeat
+          center;
+      }
+      &-large {
+        width: 1.8rem;
+        height: 1.8rem;
+        background: url("../assets/images/icon-saved-white-large.svg") no-repeat
+          center;
+        margin-right: 0.8rem;
+      }
+    }
+  }
+
+  &-search {
+    width: 1.9rem;
+    height: 1.9rem;
+    background: url("../assets/images/icon-search.svg") no-repeat 90% center;
+    cursor: pointer;
+  }
+
+  &-filter {
+    width: 1.4rem;
+    height: 1.6rem;
+    margin-right: 0.8rem;
+
+    &-white {
+      background: url("../assets/images/icon-filter-white.svg") no-repeat 90%
+        center;
+    }
+
+    &-outline {
+      background: url("../assets/images/icon-filter-outline.svg") no-repeat 90%
+        center;
+    }
+  }
+
+  &-reset {
+    width: 1.5rem;
+    height: 1.8rem;
+    background: url("../assets/images/icon-reset.svg") no-repeat 90% center;
+    margin-right: 0.8rem;
+  }
+
+  &-delete {
+    width: 1.8rem;
+    height: 1.8rem;
+    background: url("../assets/images/icon-delete.svg") no-repeat center;
+    margin-left: 1.6rem;
+  }
+}

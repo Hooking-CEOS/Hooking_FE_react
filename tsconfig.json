@@ -2,13 +2,10 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "paths": {
-      "@components/*": ["./components/*"],
-      "@hooks/*": ["./hooks/*"],
-      "@pages/*": ["./pages/*"]
+      "@/*": ["./*"]
     },
     "target": "es5",
     "types": ["node"],
-    //"typeRoots": ["./src/utils"],
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -24,5 +21,6 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src"]
+  "include": ["src"],
+  "extends": "./tsconfig.paths.json"
 }
