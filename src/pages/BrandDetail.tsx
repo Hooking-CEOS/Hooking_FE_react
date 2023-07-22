@@ -87,7 +87,10 @@ const BrandDetail = () => {
   // TODO : Carousel 추가 in BrandBanner
   return (
     <>
-      <BrandBanner name={targetData.name_kr} />
+      <BrandBanner
+        name={targetData.name_kr}
+        link={brandData.brandLink}
+      />
       <section className="main">
         <BrandCards>
           {cardData.map((card) => (
