@@ -16,6 +16,7 @@ import Footer from "@/components/Footer";
 import QnA from "@/pages/QnA";
 import Landing from "@/pages/Landing";
 import OathProcessor from "@/pages/OathProcessor";
+import CopyDetail from "@/pages/CopyDetail";
 import Login from "@/pages/Login";
 import Toast from "@/components/Toast";
 
@@ -27,7 +28,6 @@ import {
   brandModalOverlay,
 } from "@/utils/atom";
 import { useRecoilValue, useRecoilState } from "recoil";
-import CopyDetail from "@/pages/CopyDetail";
 import { useEffect } from "react";
 
 const HookingRouter = () => {
@@ -38,10 +38,6 @@ const HookingRouter = () => {
 
   const handleClose = () => setLoginModal(false);
   const handleCopyClose = () => setBrandModal(false);
-
-  useEffect(() => {
-    console.log(brandModal);
-  }, [brandModal]);
 
   const routes = [
     {
