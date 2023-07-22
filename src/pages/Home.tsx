@@ -60,31 +60,34 @@ const Home = () => {
       <CarouselDiv>
         <Carousel />
       </CarouselDiv>
-      <Suspense fallback={<div>Home Loading ...</div>}>
-        <section className="main">
-          <Filter />
-          <BrandCards>
-            {cardData && cardData.length > 1
-              ? cardData.map((card) => (
-                  <BrandCard
-                    key={card.id}
-                    text={card.text}
-                    brandId={card.id}
-                    brandName={card.brandName}
-                    brandImg={require(`../assets/images/brandIcon/brand-${card.brandName.replace(
-                      / /g,
-                      ""
-                    )}.png`)}
-                    onClick={() => handleBrandOpen(card)}
-                    scrapCnt={card.scrapCnt}
-                  />
-                ))
-              : Array.from({ length: 9 }, () => Array(0).fill(0)).map(
-                  (el, idx) => <SkeletonCard key={idx} />
-                )}
-          </BrandCards>
-        </section>
-      </Suspense>
+      <section className="main">
+        <Filter />
+        <BrandCards>
+          {cardData && cardData.length > 1 ? (
+            cardData.map((card) => (
+              <BrandCard
+                key={card.id}
+                text={card.text}
+                brandId={card.id}
+                brandName={card.brandName}
+                brandImg={require(`../assets/images/brandIcon/brand-${card.brandName.replace(
+                  / /g,
+                  ""
+                )}.png`)}
+                onClick={() => handleBrandOpen(card)}
+                scrapCnt={card.scrapCnt}
+              />
+            )) // 검색결과 없는 경우
+          ) : cardData.length === 0 ? (
+            <></>
+          ) : (
+            // 로딩
+            Array.from({ length: 9 }, () => Array(0).fill(0)).map((el, idx) => (
+              <SkeletonCard key={idx} />
+            ))
+          )}
+        </BrandCards>
+      </section>
     </>
   );
 };
