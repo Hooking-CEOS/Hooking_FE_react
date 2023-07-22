@@ -4,13 +4,17 @@ import imgData from "@/assets/datas/imgData.json";
 interface BrandIconProps {
   name: string;
   size?: string;
+  onClick?: () => void;
 }
 
-const BrandIcon = ({ name, size }: BrandIconProps) => {
+const BrandIcon = ({ name, size, onClick }: BrandIconProps) => {
   let targetData = imgData.find((item) => item.name_kr === name)!;
 
   return (
-    <BrandIconWrapper big={size === "big" ? 1 : size === "small" ? 2 : 0}>
+    <BrandIconWrapper
+      big={size === "big" ? 1 : size === "small" ? 2 : 0}
+      onClick={onClick}
+    >
       <BrandIconDiv
         src={require(`../assets/images/brandIcon/brand-${targetData.name_kr}.png`)}
         alt="brandIcon"
@@ -36,6 +40,7 @@ const BrandIconWrapper = styled.div<{ big: number }>`
   display: flex;
   flex-direction: column;
   position: relative;
+  cursor: ${(props) => (props.onClick ? "pointer" : "default")};
 `;
 
 const BrandIconIGDiv = styled.img`
