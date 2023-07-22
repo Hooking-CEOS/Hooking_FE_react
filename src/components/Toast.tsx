@@ -26,7 +26,10 @@ const Toast = () => {
   }, []);
 
   return (
-    <ToastWrapper close={close} className={`${close ? "close" : ""}`}>
+    <ToastWrapper
+      close={close}
+      className={`${close ? "close" : ""}`}
+    >
       <p>
         <span className="icon icon-check-circle" />
         <span className="text-subtitle-1">카피가 북마크에 저장됨</span>
@@ -55,7 +58,7 @@ const ToastWrapper = styled.div<{ close: boolean }>`
   position: absolute;
   bottom: 4.8rem;
   right: 4rem;
-  z-index: 50;
+  z-index: 10000;
   background-color: white;
   gap: 2.4rem;
 
