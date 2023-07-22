@@ -27,13 +27,14 @@ const ProfileDropDown = ({ className }: ProfilePropType) => {
   const dropdonwRef = useRef(null);
   useOutSideClick(dropdonwRef, () => setHover(false));
 
-  useEffect(() => {});
-  getUserProfile()
-    .then((res) => {
-      setUserName(res.nickname);
-      console.log(res);
-    })
-    .catch((err) => console.log(err));
+  useEffect(() => {
+    getUserProfile()
+      .then((res) => {
+        setUserName(res.nickname);
+        console.log(res);
+      })
+      .catch((err) => console.log(err));
+  }, []);
   // TODO: icon-arrow-unfold-light 추가
   const getIconClassName = () =>
     activeMenuIdx === 2
@@ -52,7 +53,7 @@ const ProfileDropDown = ({ className }: ProfilePropType) => {
           activeMenuIdx === 2 ? "black" : "white"
         } small`} text-subtitle-1 ${className}`}
         icon="icon-profile"
-        text={userName || ""}
+        text={userName || "profile"}
       >
         <span className={getIconClassName()} />
       </Button>
