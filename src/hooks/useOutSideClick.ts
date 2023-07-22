@@ -10,10 +10,19 @@ function useOutSideClick(
         callback?.();
       }
     };
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        callback?.();
+      }
+    };
 
     window.addEventListener("mousedown", handleClick);
+    window.addEventListener("keydown", handleKeyPress);
 
-    return () => window.removeEventListener("mousedown", handleClick);
+    return () => {
+      window.removeEventListener("mousedown", handleClick);
+      window.removeEventListener("keydown", handleKeyPress);
+    };
   }, [ref, callback]);
 }
 
