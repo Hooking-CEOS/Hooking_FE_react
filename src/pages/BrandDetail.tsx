@@ -3,8 +3,11 @@ import styled from "styled-components";
 import imgData from "@/assets/datas/imgData.json";
 import IMG_BRAND_SAMPLE from "@/assets/images/icon-brand-sample.svg";
 
+import { getBrandDetail } from "@/api/brand";
+
 import BrandBanner from "@/components/BrandBanner";
 import BrandCard from "@/components/BrandCard";
+import { useEffect, useState } from "react";
 
 const CARD_DATA = [
   {
@@ -80,23 +83,66 @@ const CARD_DATA = [
     img: IMG_BRAND_SAMPLE,
   },
 ];
+interface ICardData {
+  id: number;
+  text: string;
+  brandName: string;
+  scrapCnt: number;
+  createdAt: string;
+  index: number;
+}
+
+interface IBrandData {
+  brandId: number;
+  brandLink: string;
+  brandName: string;
+}
 
 const BrandDetail = () => {
   const { brandId } = useParams<{ brandId: string }>();
+  const [brandData, setBrandData] = useState<IBrandData>({
+    brandId: 0,
+    brandLink: "",
+    brandName: "",
+  });
+  const [cardData, setCardData] = useState<ICardData[]>([]);
   let targetData = imgData.find((item) => item.id === Number(brandId))!;
 
+  useEffect(() => {
+    getBrandDetail(targetData.api_id)
+      .then((res) => {
+        console.log(res);
+        setCardData(res.data.card);
+        setBrandData({
+          brandId: res.data.brandId,
+          brandLink: res.data.brandLink,
+          brandName: res.data.brandName,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    console.log("cardData", cardData);
+    console.log("brandData", brandData);
+  }, [cardData, brandData]);
+
+  // TODO : click시 brandModal 열기
+  // TODO : Carousel 추가 in BrandBanner
   return (
     <>
       <BrandBanner name={targetData.name_kr} />
       <section className="main">
         <BrandCards>
-          {CARD_DATA.map((card) => (
+          {cardData.map((card) => (
             <BrandCard
-              key={card.idx}
-              brandId={card.idx}
+              key={card.id}
+              brandId={card.id}
               text={card.text}
-              brandImg={card.img}
-              brandName={card.brand}
+              brandImg={require(`../assets/images/brandIcon/brand-${brandData.brandName}.png`)}
+              brandName={brandData.brandName}
               // onClick={handleBrandOpen}
             />
           ))}
