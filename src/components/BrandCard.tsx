@@ -89,7 +89,7 @@ const BrandCard = ({
     const words = word.split(" ");
     const setToast = useSetRecoilState(toastPopup);
     const handleToastOpen = () => setToast(true);
-    return srcIdx === undefined || null ? (
+    return srcIdx === undefined || null || 0 ? (
       <>
         {words.map((word, index) => {
           return word + " ";
@@ -120,7 +120,10 @@ const BrandCard = ({
 
       <div className="card-brand">
         <span className="brandIcon">
-          <img src={brandImg} alt="brandImg" />
+          <img
+            src={brandImg}
+            alt="brandImg"
+          />
           <span className="component-small">{brandName}</span>
         </span>
         {saved ? (
