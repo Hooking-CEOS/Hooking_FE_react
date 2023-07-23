@@ -1,3 +1,6 @@
+import { forwardRef } from "react";
+import styled from "styled-components";
+
 interface ButtonProps {
   width?: string;
   type?: "button" | "submit" | "reset" | undefined;
@@ -6,20 +9,25 @@ interface ButtonProps {
   icon?: string;
   buttonLabel?: string;
   children?: JSX.Element;
+  imageUrl?: string;
   onClick?: (e?: React.MouseEvent<HTMLElement>) => void;
 }
 
-const Button = ({
-  width = "fit-content",
-  type = "button",
-  className,
-  icon,
-  text,
-  onClick,
-  children,
-  buttonLabel,
-  ...props
-}: ButtonProps) => {
+const Button = (
+  {
+    width = "fit-content",
+    type = "button",
+    className,
+    icon,
+    text,
+    onClick,
+    children,
+    buttonLabel,
+    imageUrl,
+    ...props
+  }: ButtonProps,
+  ref: React.ForwardedRef<HTMLButtonElement>
+) => {
   /** 사용방법
    *
    * 1. width가 고정값인 경우 props로 내리기
@@ -43,10 +51,12 @@ const Button = ({
       className={`button ${className}`}
       style={{ width: width }}
       onClick={onClick}
+      ref={ref}
       {...props}
       aria-label={buttonLabel}
     >
       <div className="button__inner">
+        {imageUrl && <ProfileImg imageUrl={imageUrl} />}
         <span className={icon}></span>
         <span>{text}</span>
         {children}
@@ -55,4 +65,13 @@ const Button = ({
   );
 };
 
-export default Button;
+export default forwardRef<HTMLButtonElement, ButtonProps>(Button);
+
+const ProfileImg = styled.span<{ imageUrl: string }>`
+  width: 3.2rem;
+  height: 3.2rem;
+  // url repeat position / size
+  background: url(${(props) => props.imageUrl}) no-repeat center / cover;
+  border-radius: 50%;
+  margin-right: 1.2rem;
+`;
