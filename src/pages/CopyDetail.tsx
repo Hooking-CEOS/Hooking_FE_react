@@ -1,8 +1,8 @@
 import useOutSideClick from "@/hooks/useOutSideClick";
 import styled from "styled-components";
-import React, { useRef } from "react";
+import { useRef, useState } from "react";
 import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
-import BrandIcon from "@/components/BrandIcon";
+import BrandIcon from "@/components/Brand/BrandIcon";
 import moment from "moment";
 import Button from "@/components/Button";
 import { scrapCopy } from "@/api/copywriting";
@@ -12,17 +12,14 @@ import {
   isLogined,
   toastPopup,
   similarCopyList,
+  loginModalOverlay,
+  brandModalOverlay,
+  setSaveId,
+  savedIdLists,
+  staticKeyword,
 } from "@/utils/atom";
-import BrandCard from "@/components/BrandCard";
-
-interface ICardData {
-  id: number;
-  text: string;
-  brandName: string;
-  scrapCnt: number;
-  createdAt: string;
-  index: number;
-}
+import BrandCard from "@/components/Brand/BrandCard";
+import { removeAllSpace } from "@/utils/util";
 
 interface CopyDetailProps {
   onClose: () => void;
@@ -30,19 +27,25 @@ interface CopyDetailProps {
 
 const CopyDetail = ({ onClose }: CopyDetailProps) => {
   const [similarCopyData, setSimilarCopy] = useRecoilState(similarCopyList);
-  const modalRef = useRef<HTMLDivElement>(null);
   const [selectedCopyData, setSelectedCopy] = useRecoilState(selectedCopy);
-  const setLogin = useSetRecoilState(isLogined);
-  const isLogin = useRecoilValue(isLogined);
+
+  const [isLogin, setLogin] = useRecoilState(isLogined);
+  const setLoginModal = useSetRecoilState(loginModalOverlay);
   const setToast = useSetRecoilState(toastPopup);
+  const [brandModal, setBrandModal] = useRecoilState(brandModalOverlay);
+  const setSaveIdList = useSetRecoilState(setSaveId);
+
+  const keyword = useRecoilValue(staticKeyword);
+
+  const modalRef = useRef<HTMLDivElement>(null);
+  const savedIdList = useRecoilValue(savedIdLists);
+
   const handleClose = () => {
     onClose?.();
   };
 
-  const handleCopyClick = (card: ICardData) => {
-    // console.log(card);
+  const handleCopyClick = (card: any) => {
     let similarList = [...similarCopyData];
-    // console.log(similarList);
     similarList.push(selectedCopyData);
     setSelectedCopy(card);
     setSimilarCopy(similarList.filter((el) => el.id !== card.id));
@@ -51,15 +54,15 @@ const CopyDetail = ({ onClose }: CopyDetailProps) => {
   const handleCopyScrap = async () => {
     // 로그인 안된 상태면 로그인 팝업 출력
     if (!isLogin) {
-      // TODO: 로그인 로직
-      setLogin(true);
+      setLoginModal(true);
+      setBrandModal(false); // 현재 모달 닫기
       return;
     }
     const data = await scrapCopy({ cardId: selectedCopyData.id });
     if (data.code === 200) {
-      console.log("스크랩 결과", data);
-      //   setIsSaved(true);
+      console.log("스크랩 결과", selectedCopyData.id, data);
       setToast(true);
+      setSaveIdList(selectedCopyData.id as any);
     } else if (data.code === 400) {
       alert(data.message);
     }
@@ -76,9 +79,8 @@ const CopyDetail = ({ onClose }: CopyDetailProps) => {
         <div className="imgContainer ">
           <img
             className="imgElement inArea"
-            src={require(`../assets/images/brandSearch/brand-search-${selectedCopyData.brandName.replace(
-              / /g,
-              ""
+            src={require(`../assets/images/brandSearch/brand-search-${removeAllSpace(
+              selectedCopyData.brandName
             )}.png`)}
             alt="brandImg"
           />
@@ -98,12 +100,24 @@ const CopyDetail = ({ onClose }: CopyDetailProps) => {
             <div className="component-caption">
               {moment(selectedCopyData.createdAt).format("YYYY년 M월 D일")}
             </div>
-            <Button
-              icon="icon-saved-white-large"
-              className="button-orange component-small"
-              text="저장"
-              onClick={handleCopyScrap}
-            />
+
+            {/* 저장된 상태라면  */}
+
+            {savedIdList.includes(selectedCopyData.id as any) ||
+            selectedCopyData.scrapCnt > 0 ? (
+              <Button
+                icon="icon-saved-outline"
+                className="button-orange-outline-saved component-small "
+                text="저장됨"
+              />
+            ) : (
+              <Button
+                icon="icon-saved-white-large"
+                className="button-orange component-small"
+                text="저장"
+                onClick={handleCopyScrap}
+              />
+            )}
           </div>
         </div>
       </SelectedCopyContainer>
@@ -119,6 +133,7 @@ const CopyDetail = ({ onClose }: CopyDetailProps) => {
                 text={card.text}
                 brandId={card.id}
                 brandName={card.brandName}
+                keyword={keyword}
                 brandImg={require(`../assets/images/brandIcon/brand-${card.brandName.replace(
                   / /g,
                   ""
@@ -158,6 +173,7 @@ const SelectedCopyContainer = styled.div<{ brandName: string }>`
   justify-content: center;
   align-items: center;
   position: relative;
+
   .imgContainer {
     width: 30.7rem;
     height: 100%;
@@ -194,16 +210,24 @@ const SelectedCopyContainer = styled.div<{ brandName: string }>`
     gap: 1rem;
 
     .textArea {
-      overflow: scroll;
+      overflow-y: auto;
       height: 46.5rem;
       word-break: keep-all;
       white-space: pre-wrap;
-      /* TODO : 스크롤바 activate 시키기 */
+
+      &::-webkit-scrollbar {
+        display: block;
+        width: 6px;
+        height: 23.3rem;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 2, 53, 0.15); //${({ theme }) =>
+          theme.colors.black15};
+        border-radius: 4px;
+      }
     }
-    .textArea::-webkit-scrollbar {
-      width: 12px;
-      display: default;
-    }
+
     .bottomArea {
       display: flex;
       justify-content: space-between;
