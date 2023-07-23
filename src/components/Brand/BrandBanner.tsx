@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import imgData from "@/assets/datas/imgData.json";
-import BrandIcon from "@/components/BrandIcon";
+import BrandIcon from "@/components/Brand/BrandIcon";
 import BrandMoodButton from "@/components/BrandMoodButton";
 import { useEffect, useState } from "react";
 
@@ -14,12 +14,14 @@ const BrandBanner = ({ name, link }: BrandBannerProps) => {
 
   const RenderCarousel = () => {
     const [randomNum, setRandomNum] = useState(Math.floor(Math.random() * 3));
+
     useEffect(() => {
       const timeOut = setTimeout(() => {
         setRandomNum((randomNum + 1) % 3);
       }, 10000);
       return () => clearTimeout(timeOut);
     }, [randomNum]);
+
     return (
       <BrandCarouselWrapper>
         <BrandCarouselContainer>
@@ -41,7 +43,7 @@ const BrandBanner = ({ name, link }: BrandBannerProps) => {
   return (
     <BrandBannerWrapper>
       <BrandBannerDiv
-        src={require(`../assets/images/brandBanner/${targetData.name_kr}.png`)}
+        src={require(`../../assets/images/brandBanner/${targetData.name_kr}.png`)}
         alt="brandBanner"
       />
       <BrandBannerInsideDiv>
@@ -55,8 +57,8 @@ const BrandBanner = ({ name, link }: BrandBannerProps) => {
             <div className="brandDescTextDiv">
               <span className="brandDescName">{targetData.name_kr}</span>
               <div className="brandMoodDiv">
-                {targetData.mood.map((item: string) => (
-                  <BrandMoodButton name={item} />
+                {targetData.mood.map((item: string, idx) => (
+                  <BrandMoodButton key={`targetData-${idx}`} name={item} />
                 ))}
               </div>
             </div>

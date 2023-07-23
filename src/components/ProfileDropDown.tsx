@@ -13,12 +13,21 @@ import { getUserProfile } from "@/api/user";
 interface ProfilePropType {
   className?: string;
 }
+interface UserProfileType {
+  nickname: string;
+  email?: string;
+  picture: string;
+  gender: string | null;
+  ageRange: string | null;
+  role: string;
+  authorities: Array<object>;
+}
 
 const ProfileDropDown = ({ className }: ProfilePropType) => {
   const navigate = useNavigate();
   const [hover, setHover] = useState(false);
   const setIsLogin = useSetRecoilState(isLogined);
-  const [userName, setUserName] = useState<string>("");
+  const [user, setUser] = useState<UserProfileType>();
 
   const [activeMenuIdx, setActiveMenuIdx] = useRecoilState(activeMenu);
   const [activeChildMenuIdx, setActiveChildMenuIdx] =
@@ -30,8 +39,8 @@ const ProfileDropDown = ({ className }: ProfilePropType) => {
   useEffect(() => {
     getUserProfile()
       .then((res) => {
-        setUserName(res.nickname);
-        console.log(res);
+        setUser(res);
+        //console.log(res);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -52,8 +61,8 @@ const ProfileDropDown = ({ className }: ProfilePropType) => {
         className={`${`button-${
           activeMenuIdx === 2 ? "black" : "white"
         } small`} text-subtitle-1 ${className}`}
-        icon="icon-profile"
-        text={userName || "profile"}
+        imageUrl={user && user.picture}
+        text={(user && user.nickname) || "profile"}
       >
         <span className={getIconClassName()} />
       </Button>

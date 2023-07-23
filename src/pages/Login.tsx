@@ -18,7 +18,6 @@ const Login = ({ onClose }: LoginProps) => {
 
   const handleLogin = () => {
     window.location.href = `${process.env.REACT_APP_API_URL}/oauth2/authorization/kakao`;
-
     handleClose();
   };
 
@@ -26,25 +25,14 @@ const Login = ({ onClose }: LoginProps) => {
   return (
     <LoginContainer ref={modalRef}>
       <CircleDiv />
-      <CloseIcon
-        src={closeIcon}
-        alt="closeIcon"
-        onClick={handleClose}
-      />
-      <HookingLogo
-        src={hookingIcon}
-        alt="hookingIcon"
-      />
+      <CloseIcon src={closeIcon} alt="closeIcon" onClick={handleClose} />
+      <HookingLogo src={hookingIcon} alt="hookingIcon" />
       <WelcomeText>
         후킹으로 매일 새로운 카피 문구를 확인해보세요
         <br />
         세분화된 필터로 맞춤 카피를 손쉽게 탐색할 수 있습니다
       </WelcomeText>
-      <KakaoBtn
-        src={kakaoBtn}
-        alt="kakaoLogin"
-        onClick={handleLogin}
-      />
+      <KakaoBtn src={kakaoBtn} alt="kakaoLogin" onClick={handleLogin} />
     </LoginContainer>
   );
 };

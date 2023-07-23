@@ -4,3 +4,7 @@ export const openKaKaoPlus = () =>
     "_blank",
     "noopener, noreferrer"
   );
+
+export const removeAllSpace = (text: string | undefined) => {
+  return text && text.replace(/ /g, "");
+};

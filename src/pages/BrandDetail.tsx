@@ -5,21 +5,13 @@ import IMG_BRAND_SAMPLE from "@/assets/images/icon-brand-sample.svg";
 
 import { getBrandDetail } from "@/api/brand";
 
-import BrandBanner from "@/components/BrandBanner";
-import BrandCard from "@/components/BrandCard";
+import BrandBanner from "@/components/Brand/BrandBanner";
+import BrandCard from "@/components/Brand/BrandCard";
 import { useEffect, useState } from "react";
 
 import { useSetRecoilState } from "recoil";
 import { brandModalOverlay, selectedCopy, similarCopyList } from "@/utils/atom";
-
-interface ICardData {
-  id: number;
-  text: string;
-  brandName: string;
-  scrapCnt: number;
-  createdAt: string;
-  index: number;
-}
+import { ICardData } from "@/utils/type";
 
 interface IBrandData {
   brandId: number;
@@ -68,6 +60,7 @@ const BrandDetail = () => {
   };
 
   useEffect(() => {
+    // 브랜드 상세 페이지 카드
     getBrandDetail(targetData.api_id)
       .then((res) => {
         console.log(res);
@@ -87,10 +80,7 @@ const BrandDetail = () => {
   // TODO : Carousel 추가 in BrandBanner
   return (
     <>
-      <BrandBanner
-        name={targetData.name_kr}
-        link={brandData.brandLink}
-      />
+      <BrandBanner name={targetData.name_kr} link={brandData.brandLink} />
       <section className="main">
         <BrandCards>
           {cardData.map((card) => (
@@ -104,7 +94,6 @@ const BrandDetail = () => {
               )}.png`)}
               brandName={brandData.brandName}
               onClick={() => handleBrandOpen(card)}
-              // onClick={handleBrandOpen}
             />
           ))}
         </BrandCards>
