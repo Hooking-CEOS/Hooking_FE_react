@@ -33,6 +33,11 @@ input[type="checkbox"] {
   margin: 3.1rem 0 1.6rem;
 }
 
+// 검색결과 키워드 하이라이트
+.highlight {
+  color: $color_point;
+}
+
 .button {
   display: flex;
   align-items: center;
@@ -302,13 +307,6 @@ input[type="checkbox"] {
     margin-left: 1.2rem;
   }
 
-  &-profile {
-    width: 3.2rem;
-    height: 3.2rem;
-    background: url("../assets/images/icon-profile.svg") no-repeat center;
-    margin-right: 1.2rem;
-  }
-
   &-instagram {
     width: 1.6rem;
     height: 1.6rem;
@@ -328,10 +326,10 @@ input[type="checkbox"] {
       background: url("../assets/images/icon-saved.svg") no-repeat center;
     }
     &-outline {
-      width: 1.8rem;
-      height: 1.8rem;
+      width: 1.6rem;
+      height: 1.6rem;
       background: url("../assets/images/icon-saved-outline.svg") no-repeat
-        center;
+        center / contain;
       margin-right: 0.8rem;
       stroke-width: 2px;
     }
