@@ -63,7 +63,7 @@ const BrandDetail = () => {
     // 브랜드 상세 페이지 카드
     getBrandDetail(targetData.api_id)
       .then((res) => {
-        console.log(res);
+        console.log(res); // 스크랩 성공
         setCardData(res.data.card);
         setBrandData({
           brandId: res.data.brandId,
@@ -88,6 +88,7 @@ const BrandDetail = () => {
               key={card.id}
               brandId={card.id}
               text={card.text}
+              scrapCnt={card.scrapCnt}
               brandImg={require(`../assets/images/brandIcon/brand-${brandData.brandName.replace(
                 / /g,
                 ""
