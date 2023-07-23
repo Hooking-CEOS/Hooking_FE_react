@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import imgData from "@/assets/datas/imgData.json";
+import { removeAllSpace } from "@/utils/util";
 
 interface BrandIconProps {
   name: string;
@@ -16,15 +17,14 @@ const BrandIcon = ({ name, size, onClick }: BrandIconProps) => {
       onClick={onClick}
     >
       <BrandIconDiv
-        src={require(`../assets/images/brandIcon/brand-${targetData.name_kr.replace(
-          / /g,
-          ""
+        src={require(`../../assets/images/brandIcon/brand-${removeAllSpace(
+          targetData.name_kr
         )}.png`)}
         alt="brandIcon"
       />
       {size === "big" && (
         <BrandIconIGDiv
-          src={require("../assets/images/instagram.png")}
+          src={require("../../assets/images/instagram.png")}
           alt="instagramLogo"
         />
       )}
