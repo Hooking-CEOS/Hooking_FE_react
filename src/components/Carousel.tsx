@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { EffectCoverflow, Navigation } from "swiper";
 import { Swiper, SwiperSlide, SwiperRef } from "swiper/react";
 
-import BrandIcon from "@/components/BrandIcon";
+import BrandIcon from "@/components/Brand/BrandIcon";
 
 import CarouselData from "@/assets/datas/carousel.json";
 import imgData from "@/assets/datas/imgData.json";
@@ -13,6 +13,7 @@ import "swiper/css/effect-coverflow";
 import "swiper/css/navigation";
 import BrandMoodButton from "@/components/BrandMoodButton";
 import { useNavigate } from "react-router-dom";
+import { removeAllSpace } from "@/utils/util";
 
 interface BrandIconProps {
   name: string;
@@ -95,15 +96,11 @@ const Carousel = () => {
               : "";
 
           return (
-            <SwiperSlide
-              key={data.id}
-              id={tagId}
-            >
+            <SwiperSlide key={data.id} id={tagId}>
               <div className="slide-wrapper">
                 <CarouselImgDiv
-                  imgSrc={require(`../assets/images/brandSearch/brand-search-${data.name_kr.replace(
-                    / /g,
-                    ""
+                  imgSrc={require(`../assets/images/brandSearch/brand-search-${removeAllSpace(
+                    data.name_kr
                   )}.png`)}
                   onClick={() => {
                     if (currentSlide === slideId) {
@@ -122,12 +119,7 @@ const Carousel = () => {
                       </CarouselIconDiv>
                       <CarouselBrandMoodDiv>
                         {data.mood.map((mood, index) => {
-                          return (
-                            <BrandMoodButton
-                              key={index}
-                              name={mood}
-                            />
-                          );
+                          return <BrandMoodButton key={index} name={mood} />;
                         })}
                       </CarouselBrandMoodDiv>
                     </>

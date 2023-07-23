@@ -1,29 +1,18 @@
-import styled from "styled-components";
-import IMG_BRAND_SAMPLE from "@/assets/images/icon-brand-sample.svg";
-import BrandCard from "@/components/BrandCard";
+import { useEffect, useState } from "react";
+import BrandCard from "@/components/Brand/BrandCard";
 import Button from "@/components/Button";
 import { Card as SkeletonCard } from "@/components/Skeleton/Card";
 
-import { search } from "@/utils/atom";
-import { openKaKaoPlus } from "@/utils/util";
+import styled from "styled-components";
 import { getAllCopy } from "@/api/copywriting";
-import { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { openKaKaoPlus, removeAllSpace } from "@/utils/util";
+import { useSetRecoilState } from "recoil";
 import { brandModalOverlay } from "@/utils/atom";
+import { ICardData } from "@/utils/type";
 
-interface ICardData {
-  id: number;
-  text: string;
-  brandName: string;
-  scrapCnt: number;
-  createdAt: string;
-}
-
-const QnA = () => {
-  const searchState = useRecoilValue(search);
-  const [brandModal, setBrandModal] = useRecoilState(brandModalOverlay);
-
+const QnA = ({ keyword }: { keyword?: string | null }) => {
   const [cardData, setCardData] = useState<ICardData[]>([]);
+  const setBrandModal = useSetRecoilState(brandModalOverlay);
 
   const getRandomCopy = async () => {
     const { data } = await getAllCopy();
@@ -34,15 +23,13 @@ const QnA = () => {
     getRandomCopy();
   }, []);
 
-  const handleBrandOpen = () => setBrandModal(true);
-
   return (
     <section className="main qna">
       <div className="qna-search-result">
         <div className="qna-search-result__wrap">
           <h1 className="text-heading-2">
-            <span className="text-orange">'{searchState.searchKeyword}'</span>에
-            대한 검색 결과가 없습니다.
+            <span className="text-orange">'{keyword}'</span>에 대한 검색 결과가
+            없습니다.
           </h1>
           <p className="qna-search-result-content text-body-1">
             새로운 뷰티 브랜드의 SNS 홍보 문구를 찾으셨나요?
@@ -68,11 +55,10 @@ const QnA = () => {
                     text={card.text}
                     brandId={card.id}
                     brandName={card.brandName}
-                    brandImg={require(`../assets/images/brandIcon/brand-${card.brandName.replace(
-                      / /g,
-                      ""
+                    brandImg={require(`../assets/images/brandIcon/brand-${removeAllSpace(
+                      card.brandName
                     )}.png`)}
-                    onClick={handleBrandOpen}
+                    onClick={() => setBrandModal(true)}
                     scrapCnt={card.scrapCnt}
                   />
                 ))
