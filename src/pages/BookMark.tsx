@@ -1,5 +1,4 @@
-import IMG_BRAND_SAMPLE from "@/assets/images/icon-brand-sample.svg";
-import BrandCard from "@/components/BrandCard";
+import BrandCard from "@/components/Brand/BrandCard";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { searchModalOverlay, search } from "@/utils/atom";
@@ -7,17 +6,12 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import Masonry from "@/components/Masonry";
 import { getScrapCopy } from "@/api/copywriting";
 import { BookmarkCard } from "@/components/Skeleton/BookmarkCard";
-
-interface ICardData {
-  id: number;
-  text: string;
-  brandName: string;
-  scrapCnt: number;
-  createdAt: string;
-}
+import { ICardData } from "@/utils/type";
+import { removeAllSpace } from "@/utils/util";
 
 const BookMark = () => {
   const [card, setCard] = useState<ICardData[]>([]);
+  const [noResult, setNoResult] = useState<boolean>();
 
   const setOverlay = useSetRecoilState(searchModalOverlay);
   const [searchState, setSearchState] = useRecoilState(search);
@@ -25,7 +19,11 @@ const BookMark = () => {
   const getScrap = async () => {
     const data = await getScrapCopy();
     if (data.code === 200) {
+      console.log("북마크 스크랩 데이터 길이", data.data.length);
       setCard(data.data);
+      if (!data.data.length) {
+        setNoResult(true); // 검색결과 없음
+      } else setNoResult(false);
     }
   };
 
@@ -41,27 +39,37 @@ const BookMark = () => {
       <section className="main bookmark">
         <div className="bookmark-copy">
           <h1 className="text-heading-2">북마크</h1>
-          {card.length === 0 && (
-            <BrandCards>
-              {Array.from({ length: 6 }, () => Array(0)).map((el, idx) => (
-                <BookmarkCard key={`bookmark-skeleton-${idx}`} />
-              ))}
-            </BrandCards>
-          )}
+          {/* 검색결과 없는 경우 */}
+          {noResult ? (
+            <></>
+          ) : (
+            <>
+              {/* 로딩중인 경우 */}
+              {card.length === 0 && (
+                <BrandCards>
+                  {Array.from({ length: 6 }, () => Array(0)).map((el, idx) => (
+                    <BookmarkCard key={`bookmark-skeleton-${idx}`} />
+                  ))}
+                </BrandCards>
+              )}
 
-          {card.length > 0 && (
-            <Masonry colCount={2}>
-              {card.map((card) => (
-                <BrandCard
-                  saved={true}
-                  key={card.id}
-                  brandId={card.id}
-                  text={card.text}
-                  brandImg={IMG_BRAND_SAMPLE}
-                  brandName={card.brandName}
-                />
-              ))}
-            </Masonry>
+              {card.length > 0 && (
+                <Masonry colCount={2}>
+                  {card.map((card) => (
+                    <BrandCard
+                      saved={true}
+                      key={card.id}
+                      brandId={card.id}
+                      text={card.text}
+                      brandImg={require(`../assets/images/brandIcon/brand-${removeAllSpace(
+                        card.brandName
+                      )}.png`)}
+                      brandName={card.brandName}
+                    />
+                  ))}
+                </Masonry>
+              )}
+            </>
           )}
         </div>
       </section>
