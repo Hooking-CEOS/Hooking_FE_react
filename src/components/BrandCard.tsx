@@ -68,7 +68,6 @@ const BrandCard = ({
     // 로그인 안된 상태면 로그인 팝업 출력
 
     if (!isLogin) {
-      // TODO: 로그인 로직
       setLogin(true);
       return;
     }
@@ -83,8 +82,6 @@ const BrandCard = ({
   };
 
   const WordWrap = (word: string) => {
-    // TODO: searchState값이 있다면 index값에 따라 주황글씨 처리
-
     word = word.replaceAll("\n", " \n");
     const words = word.split(" ");
     const setToast = useSetRecoilState(toastPopup);
@@ -120,10 +117,7 @@ const BrandCard = ({
 
       <div className="card-brand">
         <span className="brandIcon">
-          <img
-            src={brandImg}
-            alt="brandImg"
-          />
+          <img src={brandImg} alt="brandImg" />
           <span className="component-small">{brandName}</span>
         </span>
         {saved ? (

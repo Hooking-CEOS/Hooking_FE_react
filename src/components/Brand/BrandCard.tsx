@@ -55,15 +55,9 @@ const BrandCard = ({
   const isLogin = useRecoilValue(isLogined);
   const setToast = useSetRecoilState(toastPopup);
   const setLogin = useSetRecoilState(loginModalOverlay);
-  //const keyword = useRecoilValue(search);
 
-  // set
   const setSaveIdList = useSetRecoilState(setSaveId);
-
-  // get
   const savedIdList = useRecoilValue(savedIdLists);
-
-  //console.log("cardId", brandId, "scrapCnt", scrapCnt);
 
   // TODO: any 수정
   const saveBtnRef = useRef<any>();
@@ -73,20 +67,18 @@ const BrandCard = ({
 
   const handleCopyScrap = async () => {
     // 로그인 안된 상태면 로그인 팝업 출력
-
     if (!isLogin) {
-      // TODO: 로그인 로직
       setLogin(true);
       return;
     }
+
+    console.log("scrapCnt", scrapCnt);
 
     console.log("card.cardId", brandId, typeof brandId);
     const data = await scrapCopy({ cardId: brandId });
     if (data.code === 200) {
       console.log("스크랩 결과", brandId, data);
       setToast(true);
-      // TODO: 카드 아이디 저장
-
       setSaveIdList(brandId as any);
     } else if (data.code === 400) {
       alert(data.message);
@@ -94,46 +86,21 @@ const BrandCard = ({
   };
 
   const GetHighlight = (text: string) => {
-    // TODO: searchState값이 있다면 index값에 따라 주황글씨 처리
-
     // 상세페이지에서 조회한 경우에만 보이기
     if (location.pathname.includes("search")) {
-      //console.log("text", text);
-
       if (keyword) {
-        //console.log("keyword", keyword); // 수십번의
-
         let find = keyword;
         let regex = new RegExp(find, "g");
         text = text.replace(
           regex,
           `<span class='highlight text-subtitle-2'>${find}</span>`
         );
-        //console.log("hightlight text", text);
         const parsedHtml = React.createElement("div", {
           dangerouslySetInnerHTML: { __html: text },
         });
         return parsedHtml;
       }
       return text;
-      /*
-      text = text.replaceAll("\n", " \n");
-      const words = text.split(" ");
-      const handleToastOpen = () => setToast(true);
-      return srcIdx === undefined || null ? (
-        <>
-          {words.map((word, index) => {
-            return word + " ";
-          })}
-        </>
-      ) : (
-        <>
-          {words.map((word, index) => {
-            return word + " ";
-          })}
-        </>
-      );
-      */
     } else {
       return text;
     }
