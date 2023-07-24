@@ -7,6 +7,7 @@ import { getBrandDetail } from "@/api/brand";
 
 import BrandBanner from "@/components/Brand/BrandBanner";
 import BrandCard from "@/components/Brand/BrandCard";
+import { Card as SkeletonCard } from "@/components/Skeleton/Card";
 import { useEffect, useState } from "react";
 
 import { useSetRecoilState } from "recoil";
@@ -83,20 +84,24 @@ const BrandDetail = () => {
       <BrandBanner name={targetData.name_kr} link={brandData.brandLink} />
       <section className="main">
         <BrandCards>
-          {cardData.map((card) => (
-            <BrandCard
-              key={card.id}
-              brandId={card.id}
-              text={card.text}
-              scrapCnt={card.scrapCnt}
-              brandImg={require(`../assets/images/brandIcon/brand-${brandData.brandName.replace(
-                / /g,
-                ""
-              )}.png`)}
-              brandName={brandData.brandName}
-              onClick={() => handleBrandOpen(card)}
-            />
-          ))}
+          {brandData && cardData.length > 0
+            ? cardData.map((card) => (
+                <BrandCard
+                  key={card.id}
+                  brandId={card.id}
+                  text={card.text}
+                  scrapCnt={card.scrapCnt}
+                  brandImg={require(`../assets/images/brandIcon/brand-${brandData.brandName.replace(
+                    / /g,
+                    ""
+                  )}.png`)}
+                  brandName={brandData.brandName}
+                  onClick={() => handleBrandOpen(card)}
+                />
+              ))
+            : Array.from({ length: 9 }, () => Array(0).fill(0)).map(
+                (el, idx) => <SkeletonCard key={idx} />
+              )}
         </BrandCards>
       </section>
     </>
