@@ -222,8 +222,8 @@ const SelectedCopyContainer = styled.div<{ brandName: string }>`
       }
 
       &::-webkit-scrollbar-thumb {
-        background-color: rgba(0, 2, 53, 0.15); //${({ theme }) =>
-          theme.colors.black15};
+        background-color: rgba(0, 2, 53, 0.15);
+        //${({ theme }) => theme.colors.black15};
         border-radius: 4px;
       }
     }
