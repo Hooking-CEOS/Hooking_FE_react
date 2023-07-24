@@ -48,13 +48,15 @@ const BrandCard = ({
   brandId,
   saved,
   keyword,
-  setSaved,
   onClick,
 }: BrandProps) => {
   const [hover, setHover] = useState(false);
   const isLogin = useRecoilValue(isLogined);
   const setToast = useSetRecoilState(toastPopup);
   const setLogin = useSetRecoilState(loginModalOverlay);
+
+  const [forceHover, setForceHover] = useState(false);
+
   //const keyword = useRecoilValue(search);
 
   // set
@@ -63,29 +65,41 @@ const BrandCard = ({
   // get
   const savedIdList = useRecoilValue(savedIdLists);
 
-  //console.log("cardId", brandId, "scrapCnt", scrapCnt);
-
-  // TODO: any 수정
   const saveBtnRef = useRef<any>();
   const cardRef = useRef<any>();
 
   const location = useLocation();
 
+  const setHoverActive = (time: number) => {
+    // 강제로 true였다가 2초뒤에 false
+    setForceHover(true);
+
+    let test = 0;
+    for (let i = 0; i < 100000; i++) {
+      test += i;
+    }
+
+    setTimeout(() => {
+      setForceHover(false);
+    }, time);
+  };
+
   const handleCopyScrap = async () => {
     // 로그인 안된 상태면 로그인 팝업 출력
-
     if (!isLogin) {
-      // TODO: 로그인 로직
       setLogin(true);
       return;
     }
 
     console.log("card.cardId", brandId, typeof brandId);
     const data = await scrapCopy({ cardId: brandId });
+
+    console.log("scrapCnt", scrapCnt);
     if (data.code === 200) {
       console.log("스크랩 결과", brandId, data);
+
+      setHoverActive(2500);
       setToast(true);
-      // TODO: 카드 아이디 저장
 
       setSaveIdList(brandId as any);
     } else if (data.code === 400) {
@@ -94,54 +108,38 @@ const BrandCard = ({
   };
 
   const GetHighlight = (text: string) => {
-    // TODO: searchState값이 있다면 index값에 따라 주황글씨 처리
-
     // 상세페이지에서 조회한 경우에만 보이기
     if (location.pathname.includes("search")) {
-      //console.log("text", text);
-
       if (keyword) {
-        //console.log("keyword", keyword); // 수십번의
-
         let find = keyword;
         let regex = new RegExp(find, "g");
         text = text.replace(
           regex,
           `<span class='highlight text-subtitle-2'>${find}</span>`
         );
-        //console.log("hightlight text", text);
         const parsedHtml = React.createElement("div", {
           dangerouslySetInnerHTML: { __html: text },
         });
         return parsedHtml;
       }
       return text;
-      /*
-      text = text.replaceAll("\n", " \n");
-      const words = text.split(" ");
-      const handleToastOpen = () => setToast(true);
-      return srcIdx === undefined || null ? (
-        <>
-          {words.map((word, index) => {
-            return word + " ";
-          })}
-        </>
-      ) : (
-        <>
-          {words.map((word, index) => {
-            return word + " ";
-          })}
-        </>
-      );
-      */
     } else {
       return text;
     }
   };
 
+  const handleMouseLeave = () => {
+    // 북마크 방금 저장되었으면 2초뒤에 제거
+    if (forceHover) {
+      setTimeout(() => {
+        setHover(false);
+      }, 2000);
+    } else setHover(false);
+  };
+
   const handleCardOpen = (e: any) => {
-    // 1. 북마크 버튼을 클릭한 경우 동작 안해야 함 return
-    // 이벤트가 버튼 ref가 이벤트를 포함하고 있는지 확인
+    // 1. 북마크 버튼을 클릭한 경우 동작 안함
+    // - 버튼 ref가 이벤트를 포함하고 있는지 확인
     if (saveBtnRef.current && saveBtnRef.current.contains(e.target)) {
       return;
     }
@@ -152,10 +150,12 @@ const BrandCard = ({
   return (
     <BrandCardWrapper
       saved={saved}
+      hover={hover}
       ref={cardRef}
+      className={`${hover ? "hover" : ""}`}
       onClick={handleCardOpen}
       onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
+      onMouseLeave={handleMouseLeave}
     >
       <div className="card-content text-normal-300">
         {GetHighlight(text)}
@@ -226,6 +226,7 @@ const Overlay = styled.div<{ hover: boolean }>`
 
 export const BrandCardWrapper = styled.div<{
   saved: boolean | undefined;
+  hover: boolean;
 }>`
   min-width: 37.8rem;
   max-width: 100%;
@@ -241,15 +242,15 @@ export const BrandCardWrapper = styled.div<{
   position: relative;
   cursor: pointer;
 
-  &:hover {
-    background: linear-gradient(
-        0deg,
-        rgba(255, 113, 69, 0.05) 0%,
-        rgba(255, 113, 69, 0.05) 100%
-      ),
-      #fff;
-    border: 0.025rem solid ${(props) => props.theme.colors.point};
-  }
+  background: ${(props) =>
+    props.hover
+      ? ` linear-gradient(180deg, rgba(255, 248, 246, 0.00) 0%, rgba(255, 248, 246, 0.80) 45.31%, #FFF8F6 100%), linear-gradient(0deg, rgba(255, 113, 69, 0.05) 0%, rgba(255, 113, 69, 0.05) 100%), #FFF;`
+      : ""};
+
+  border: ${(props) =>
+    props.hover ? `0.025rem solid ${props.theme.colors.point}` : ""};
+
+  transition: all 0.5s ease-in-out;
 
   .bookmark-hr {
     width: 100%;
