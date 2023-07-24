@@ -5,7 +5,6 @@ import { Swiper, SwiperSlide, SwiperRef } from "swiper/react";
 
 import BrandIcon from "@/components/Brand/BrandIcon";
 
-import CarouselData from "@/assets/datas/carousel.json";
 import imgData from "@/assets/datas/imgData.json";
 
 import "swiper/css";
