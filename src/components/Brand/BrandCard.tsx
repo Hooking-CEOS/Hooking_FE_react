@@ -245,10 +245,7 @@ export const BrandCardWrapper = styled.div<{
   background: ${(props) =>
     props.hover
       ? ` linear-gradient(180deg, rgba(255, 248, 246, 0.00) 0%, rgba(255, 248, 246, 0.80) 45.31%, #FFF8F6 100%), linear-gradient(0deg, rgba(255, 113, 69, 0.05) 0%, rgba(255, 113, 69, 0.05) 100%), #FFF;`
-      : ""};
-
-  border: ${(props) =>
-    props.hover ? `0.025rem solid ${props.theme.colors.point}` : ""};
+      : `${props.theme.colors.white}`};
 
   transition: all 0.5s ease-in-out;
 
