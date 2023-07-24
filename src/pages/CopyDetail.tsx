@@ -68,7 +68,7 @@ const CopyDetail = ({ onClose }: CopyDetailProps) => {
     }
   };
 
-  useOutSideClick(modalRef, handleClose);
+  useOutSideClick(modalRef, handleClose, brandModalOverlay);
 
   return (
     <CopyDetailContainer ref={modalRef}>

@@ -34,7 +34,7 @@ const ProfileDropDown = ({ className }: ProfilePropType) => {
     useRecoilState(activeChildMenu);
 
   const dropdonwRef = useRef(null);
-  useOutSideClick(dropdonwRef, () => setHover(false));
+  useOutSideClick(dropdonwRef, () => setHover(false), hover);
 
   useEffect(() => {
     getUserProfile()

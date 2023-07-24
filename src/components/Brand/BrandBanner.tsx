@@ -73,11 +73,13 @@ const BrandBanner = ({ name, link }: BrandBannerProps) => {
           {Array.from({ length: 3 }, (_, idx) =>
             idx === randomNum ? (
               <span
+                key={`circle-filled-${idx}`}
                 className="circle filled"
                 onClick={() => dispatch({ type: idx.toString() })}
               />
             ) : (
               <span
+                key={`circle-${idx}`}
                 className="circle"
                 onClick={() => dispatch({ type: idx.toString() })}
               />

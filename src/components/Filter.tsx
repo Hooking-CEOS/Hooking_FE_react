@@ -41,7 +41,7 @@ const Filter = () => {
     // 창 닫을 때 키워드 눌렀던거 초기화
     setInnerCheckedList(checkedList); // 마지막 리코일에 저장된 상태로 초기화
   };
-  useOutSideClick(filterRef, handleOutSideclick);
+  useOutSideClick(filterRef, handleOutSideclick, openFilter);
 
   const handleSelected = () => {
     getFilterLen() === 0 ? setSelected(false) : setSelected(true);

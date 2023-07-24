@@ -39,7 +39,7 @@ const BrandDetail = () => {
   const setSimilarCopy = useSetRecoilState(similarCopyList);
   const setBrandModal = useSetRecoilState(brandModalOverlay);
   const setOverlay = useSetRecoilState(searchModalOverlay);
-  // const [searchState, setSearchState] = useRecoilState(search); // 절대 import하지마
+  const [searchState, setSearchState] = useRecoilState(search); // 절대 import하지마
   let targetData = imgData.find((item) => item.id === Number(brandId))!;
 
   const handleBrandOpen = (card: any) => {
@@ -85,6 +85,8 @@ const BrandDetail = () => {
   // 브랜드 상세 페이지 카드
   useEffect(() => {
     //TODO : 검색창 닫기 but search recoil쓰면 안됨
+
+    setSearchState({ ...searchState, searchFocus: false });
     setOverlay(false);
     getBrandCard();
   }, [brandId]);

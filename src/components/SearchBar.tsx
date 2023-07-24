@@ -50,13 +50,12 @@ const SearchBar = () => {
     searchRef.current?.focus();
   };
 
-  // 검색창 focus out
   const handleFocusOut = () => {
     setSearchState({ ...searchState, searchFocus: false });
     setOverlay(false);
   };
 
-  useOutSideClick(searchWrap, handleFocusOut);
+  useOutSideClick(searchWrap, handleFocusOut, searchState.searchFocus);
 
   const onSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
