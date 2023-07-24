@@ -8,12 +8,14 @@ import {
   searchResult,
   selectedCopy,
   similarCopyList,
+  staticKeyword,
 } from "@/utils/atom";
-import BrandCard from "@/components/BrandCard";
-
+import BrandCard from "@/components/Brand/BrandCard";
+import { ICardData } from "@/utils/type";
 import Button from "@/components/Button";
 import QnA from "@/pages/QnA";
-import BrandLogoCard from "@/components/BrandLogoCard";
+import BrandLogoCard from "@/components/Brand/BrandLogoCard";
+import { removeAllSpace } from "@/utils/util";
 
 type SearchCnt = {
   [key: string]: number;
@@ -31,7 +33,9 @@ const Search = () => {
   const [card, setCard] = useState<ICardData[]>([]);
   const [keywordData, setKeywordData] = useState<string>();
 
+  const setKeyword = useSetRecoilState(staticKeyword);
   const keyword = searchParams.get("keyword");
+
   const getSearch = useRecoilValue(searchResult(keyword));
   const [totalLen, setTotalLen] = useState(0);
   const setSelectedCopy = useSetRecoilState(selectedCopy);
@@ -46,22 +50,13 @@ const Search = () => {
     setTotalLen(totalLen);
   };
 
-  const handleCopyClose = () => setBrandModal(true);
-
   // curType을 설정하는 함수
   const onSetType = (cur: any) => {
-    // cur: { copy: 0, brand: 0, mood: 0 };
     const { copy, brand, mood } = cur;
-
     let type = "copy"; // default
-    if (brand > 0) {
-      type = "brand";
-    } else if (mood > 0) {
-      type = "mood";
-    }
-
+    if (brand > 0) type = "brand";
+    else if (mood > 0) type = "mood";
     setType(type);
-
     return type;
   };
 
@@ -85,15 +80,6 @@ const Search = () => {
     messages: string;
   }
 
-  interface ICardData {
-    id: number;
-    text: string;
-    brandName: string;
-    scrapCnt: number;
-    createdAt: string;
-    index: number;
-  }
-
   interface KeywordType {
     type: string;
     data: ICardData[];
@@ -108,22 +94,23 @@ const Search = () => {
   const getSearchResult = () => {
     const data: searchAPIResponseType = getSearch;
     // 400: no search result
+
     if (data.code === 200) {
       setNoResult(false);
       const type = getTypeSearchCnt(data);
 
       if (data.data && data.data.length > 0) {
+        const keyword = data.data[0].keyword;
         setType(type);
-        setKeywordData(data.data[0].keyword);
+        setKeywordData(keyword);
+        setKeyword(keyword);
       }
       getTypeData(data, type); // 데이터들의 대표 타입을 통해 카드 데이터 렌더링
-    } else if (data.code === 400) {
-      setNoResult(true);
-    }
+    } else if (data.code === 400) setNoResult(true);
   };
 
   const handleBrandOpen = (cardData: any) => {
-    setSelectedCopy(cardData);
+    setSelectedCopy(cardData); // 여기서 선택된 데이터
     setSimilarCopy(card.filter((el) => el.id !== cardData.id));
     setBrandModal(true);
   };
@@ -136,7 +123,6 @@ const Search = () => {
   const getTypeData = ({ data }: any, findType: string) => {
     data?.map((obj: any) => {
       const { type } = obj;
-      //console.log("type", type);
       if (type === findType) {
         setCard(obj.data);
       }
@@ -149,15 +135,11 @@ const Search = () => {
     getTypeData(getSearch, type);
   }, [type]);
 
-  const handleMoodType = () => {
-    setType("mood");
-  };
-
   return (
     <>
       {/* || totalLen === 0  */}
       {noResult || totalLen === 0 ? (
-        <QnA />
+        <QnA keyword={keyword} />
       ) : (
         <section className="main qna">
           <div className="qna-copy">
@@ -191,7 +173,12 @@ const Search = () => {
                     <div className="dot" />
                   )}
                   {searchCnt.mood > 0 && (
-                    <div className="tab-wrap" onClick={handleMoodType}>
+                    <div
+                      className="tab-wrap"
+                      onClick={() => {
+                        setType("mood");
+                      }}
+                    >
                       <Button
                         text="카피 무드"
                         className={`button-text button-text-${
@@ -226,7 +213,9 @@ const Search = () => {
                     brand={{
                       idx: 0,
                       name: keywordData,
-                      img: require(`../assets/images/brandSearch/brand-search-${keywordData}.png`),
+                      img: require(`../assets/images/brandSearch/brand-search-${removeAllSpace(
+                        keywordData
+                      )}.png`),
                     }}
                   />
                   <hr className="hr" style={{ marginBottom: "3rem" }} />
@@ -234,8 +223,6 @@ const Search = () => {
               )}
 
               <BrandCards>
-                {/* 데이터만 갈아끼우기 */}
-                {/* TODO: idx값이랑 target 넘겨주고 주황글씨 처리해야함 */}
                 {card.map((card) => {
                   return (
                     <BrandCard
@@ -243,9 +230,10 @@ const Search = () => {
                       srcIdx={card.index ?? 0}
                       brandId={card.id}
                       text={card.text}
-                      brandImg={require(`../assets/images/brandIcon/brand-${card.brandName.replace(
-                        / /g,
-                        ""
+                      scrapCnt={card.scrapCnt}
+                      keyword={keywordData}
+                      brandImg={require(`../assets/images/brandIcon/brand-${removeAllSpace(
+                        card.brandName
                       )}.png`)}
                       brandName={card.brandName}
                       onClick={() => handleBrandOpen(card)}

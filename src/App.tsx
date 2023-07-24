@@ -4,7 +4,7 @@ import {
   loginModalOverlay,
   searchModalOverlay,
 } from "@/utils/atom";
-import { useRecoilValue } from "recoil";
+import { RecoilState, useRecoilValue } from "recoil";
 import { Z_INDEX_MODAL } from "@/utils/constants";
 import styled from "styled-components";
 import useWindowResize from "./hooks/useWindowResize";
@@ -36,3 +36,6 @@ const Overlay = styled.div`
   opacity: 0.6;
   z-index: ${Z_INDEX_MODAL};
 `;
+function useRecoilState(brandModalOverlay: RecoilState<boolean>): [any, any] {
+  throw new Error("Function not implemented.");
+}
