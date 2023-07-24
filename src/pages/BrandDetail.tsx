@@ -10,8 +10,14 @@ import BrandCard from "@/components/Brand/BrandCard";
 import { Card as SkeletonCard } from "@/components/Skeleton/Card";
 import { useEffect, useState } from "react";
 
-import { useSetRecoilState } from "recoil";
-import { brandModalOverlay, selectedCopy, similarCopyList } from "@/utils/atom";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import {
+  brandModalOverlay,
+  search,
+  searchModalOverlay,
+  selectedCopy,
+  similarCopyList,
+} from "@/utils/atom";
 import { ICardData } from "@/utils/type";
 
 interface IBrandData {
@@ -28,10 +34,12 @@ const BrandDetail = () => {
     brandName: "",
   });
   const [cardData, setCardData] = useState<ICardData[]>([]);
-
+  const [noResult, setNoResult] = useState<boolean>();
   const setSelectedCopy = useSetRecoilState(selectedCopy);
   const setSimilarCopy = useSetRecoilState(similarCopyList);
   const setBrandModal = useSetRecoilState(brandModalOverlay);
+  const setOverlay = useSetRecoilState(searchModalOverlay);
+  // const [searchState, setSearchState] = useRecoilState(search); // 절대 import하지마
   let targetData = imgData.find((item) => item.id === Number(brandId))!;
 
   const handleBrandOpen = (card: any) => {
@@ -60,11 +68,10 @@ const BrandDetail = () => {
     setBrandModal(true);
   };
 
-  useEffect(() => {
-    // 브랜드 상세 페이지 카드
+  const getBrandCard = async () => {
     getBrandDetail(targetData.api_id)
       .then((res) => {
-        console.log(res); // 스크랩 성공
+        console.log(res);
         setCardData(res.data.card);
         setBrandData({
           brandId: res.data.brandId,
@@ -72,10 +79,24 @@ const BrandDetail = () => {
           brandName: res.data.brandName,
         });
       })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+      .catch((err) => console.log(err));
+  };
+
+  // 브랜드 상세 페이지 카드
+  useEffect(() => {
+    //TODO : 검색창 닫기 but search recoil쓰면 안됨
+    setOverlay(false);
+    getBrandCard();
+  }, [brandId]);
+
+  // useEffect(() => {
+  //   // 검색창 창닫기
+  //   setSearchState({ ...searchState, searchFocus: false });
+  //   setOverlay(false);
+
+  //   //api 호출
+  //   getBrandCard();
+  // }, [brandId]);
 
   // TODO : click시 brandModal 열기
   // TODO : Carousel 추가 in BrandBanner

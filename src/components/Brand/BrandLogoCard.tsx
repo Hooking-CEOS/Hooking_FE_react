@@ -2,14 +2,19 @@ import styled from "styled-components";
 import imgData from "@/assets/datas/imgData.json";
 import { useNavigate } from "react-router-dom";
 
-const BrandLogoCard = ({ brand }: any) => {
+interface IBLCProps {
+  brand: any;
+}
+
+const BrandLogoCard = ({ brand }: IBLCProps) => {
   let targetData = imgData.find((item) => item.name_kr === brand.name)!;
   const Navigate = useNavigate();
+
+  const handleCardClick = () => {
+    Navigate("/brand/" + targetData.id);
+  };
   return (
-    <BrandCard
-      className="brand-card"
-      onClick={() => Navigate("/brand/" + targetData.id)}
-    >
+    <BrandCard className="brand-card" onClick={handleCardClick}>
       <img className="brand-img" src={brand.img} alt="brand-img" />
       <div className="brand-name text-subtitle-1">{brand.name}</div>
     </BrandCard>
