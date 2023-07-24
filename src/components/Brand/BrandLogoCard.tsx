@@ -1,8 +1,15 @@
 import styled from "styled-components";
+import imgData from "@/assets/datas/imgData.json";
+import { useNavigate } from "react-router-dom";
 
 const BrandLogoCard = ({ brand }: any) => {
+  let targetData = imgData.find((item) => item.name_kr === brand.name)!;
+  const Navigate = useNavigate();
   return (
-    <BrandCard className="brand-card">
+    <BrandCard
+      className="brand-card"
+      onClick={() => Navigate("/brand/" + targetData.id)}
+    >
       <img className="brand-img" src={brand.img} alt="brand-img" />
       <div className="brand-name text-subtitle-1">{brand.name}</div>
     </BrandCard>

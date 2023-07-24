@@ -5,7 +5,6 @@ import { Swiper, SwiperSlide, SwiperRef } from "swiper/react";
 
 import BrandIcon from "@/components/Brand/BrandIcon";
 
-import CarouselData from "@/assets/datas/carousel.json";
 import imgData from "@/assets/datas/imgData.json";
 
 import "swiper/css";
@@ -14,15 +13,31 @@ import "swiper/css/navigation";
 import BrandMoodButton from "@/components/BrandMoodButton";
 import { useNavigate } from "react-router-dom";
 import { removeAllSpace } from "@/utils/util";
+import { get } from "lodash";
 
 interface BrandIconProps {
   name: string;
+}
+
+interface IImgData {
+  id: number;
+  name_kr: string;
+  name_en: string;
+  api_id: string;
+  brandDesc: string;
+  mood: string[];
+  descText: {
+    main: string;
+    sub: string;
+  }[];
 }
 
 const Carousel = () => {
   const navigate = useNavigate();
   const swiperRef = useRef<SwiperRef>(null);
   const [currentSlide, setCurrentSlide] = useState<number>(0);
+  // 브랜드 내에 descText중 몇번째 출력할지 나타내는 변수
+  const [randomNum, setRandomNum] = useState<number>(0);
 
   const handleSlideChange = () => {
     if (swiperRef.current) {
@@ -39,8 +54,7 @@ const Carousel = () => {
     navigate("/brand/" + id);
   };
 
-  const RandomText = (data: any) => {
-    let randomNum = Math.floor(Math.random() * 3);
+  const RandomText = (data: IImgData) => {
     return (
       <div className="swiper-slide-div">
         <div className="swiper-slide-div-main_div">
