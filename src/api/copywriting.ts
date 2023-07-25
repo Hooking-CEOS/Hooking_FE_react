@@ -8,8 +8,8 @@ export const getCopyFilter = async (params: any) => {
 };
 
 // 전체 카피라이팅 조회
-export const getAllCopy = async () => {
-  return await GET("/copy");
+export const getAllCopy = async (pageNum: number) => {
+  return await GET(`/copy/${pageNum}`);
 };
 
 // 카피라이팅 검색 조회

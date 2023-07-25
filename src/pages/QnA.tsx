@@ -15,7 +15,7 @@ const QnA = ({ keyword }: { keyword?: string | null }) => {
   const setBrandModal = useSetRecoilState(brandModalOverlay);
 
   const getRandomCopy = async () => {
-    const { data } = await getAllCopy();
+    const { data } = await getAllCopy(1);
     setCardData(data);
   };
 

@@ -31,7 +31,7 @@ const Home = () => {
   const [emptyResult, setEmptyResult] = useState<boolean>();
 
   const getHomecopy = async () => {
-    const { data } = await getAllCopy();
+    const { data } = await getAllCopy(1);
     setCardData(data);
 
     console.log("home data", data.length);
