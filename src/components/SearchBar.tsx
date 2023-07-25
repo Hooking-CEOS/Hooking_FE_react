@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useMemo } from "react";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import useOutSideClick from "@/hooks/useOutSideClick";
@@ -9,15 +9,19 @@ import { useNavigate } from "react-router-dom";
 
 import { searchModalOverlay, search } from "@/utils/atom";
 import { BRAND_TO_BRANDID, Z_INDEX_FILTER } from "@/utils/constants";
-import BrandLogoCard from "./BrandLogoCard";
+import BrandLogoCard from "./Brand/BrandLogoCard";
 import { useLocation } from "react-router-dom";
 import { isBigWindow } from "@/utils/atom";
+import { debounce } from "lodash";
 
 const SearchBar = () => {
   const navigate = useNavigate();
   const setOverlay = useSetRecoilState(searchModalOverlay);
 
   const [searchState, setSearchState] = useRecoilState(search);
+
+  // 내부 state keyword
+  const [keyword, setKeyword] = useState<string>();
 
   const searchRef = useRef<HTMLInputElement>(null);
   const searchWrap = useRef<HTMLInputElement>(null);
@@ -30,12 +34,13 @@ const SearchBar = () => {
   useEffect(() => {
     if (location.pathname === "/" || location.pathname === "/home") {
       setSearchState({ ...searchState, searchKeyword: "" });
+      setKeyword("");
     }
   }, [location.pathname]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-    setSearchState({ ...searchState, searchKeyword: e.target.value });
+    setKeyword(e.target.value);
   };
 
   // 검색창 focus in
@@ -45,18 +50,18 @@ const SearchBar = () => {
     searchRef.current?.focus();
   };
 
-  // 검색창 focus out
   const handleFocusOut = () => {
     setSearchState({ ...searchState, searchFocus: false });
     setOverlay(false);
   };
 
-  useOutSideClick(searchWrap, handleFocusOut);
+  useOutSideClick(searchWrap, handleFocusOut, searchState.searchFocus);
 
   const onSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setSearchState({ ...searchState, searchKeyword: keyword });
+    navigate(`/search?keyword=${keyword}`);
     handleFocusOut();
-    navigate(`/search?keyword=${searchState.searchKeyword}`);
   };
 
   const getBrandNameById = (id: number): string | undefined => {
@@ -98,10 +103,7 @@ const SearchBar = () => {
 
   return (
     <>
-      <SearchBarWrapper
-        ref={searchWrap}
-        onClick={handleFocusOn}
-      >
+      <SearchBarWrapper ref={searchWrap} onClick={handleFocusOn}>
         <form
           onSubmit={onSearchSubmit}
           className={`${
@@ -130,7 +132,7 @@ const SearchBar = () => {
             } text-subtitle-1`}
             onChange={handleSearch}
             onFocus={handleFocusOn}
-            value={searchState.searchKeyword}
+            value={keyword || ""} //{searchState.searchKeyword}
             ref={searchRef}
           />
           {searchState.searchFocus && (

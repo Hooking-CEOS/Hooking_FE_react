@@ -13,6 +13,7 @@ import { activeMenu, loginModalOverlay } from "@/utils/atom";
 import { useEffect } from "react";
 import LandingHomeBtn from "@/components/LandingHomeButton";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 const Landing = () => {
   const navigate = useNavigate();
   const [loginModal, setLoginModal] = useRecoilState(loginModalOverlay);
@@ -28,16 +29,16 @@ const Landing = () => {
   return (
     <LandingPageWrapper>
       <LandingPage1>
-        <img
-          className="page1Img"
-          src={landing1}
-          alt="landingpage"
-        />
+        <img className="page1Img" src={landing1} alt="landingpage" />
         <LandingLoginBtn onClick={handleLogin} />
         <LandingHomeBtn
           onClick={() => {
-            setActiveMenuIdx(0);
-            navigate("/home");
+            // setActiveMenuIdx(0);
+            // navigate("/home");
+            axios
+              .get("https://hooking.shop/example/login")
+              .then((res) => console.log(res))
+              .catch((err) => console.log(err));
           }}
         />
         <img
@@ -60,18 +61,10 @@ const Landing = () => {
             내가 원하는 브랜드 카피를 바로 볼 수 있어요.
           </span>
         </div>
-        <img
-          src={landing2}
-          alt="landingpage"
-          className="page2Img"
-        />
+        <img src={landing2} alt="landingpage" className="page2Img" />
       </LandingPage2>
       <LandingPage3>
-        <img
-          src={landing3}
-          alt="landingpage"
-          className="page3Img"
-        />
+        <img src={landing3} alt="landingpage" className="page3Img" />
         <div className="textDiv">
           <span className="mainText">
             다양한 브랜드의
@@ -86,11 +79,7 @@ const Landing = () => {
         </div>
       </LandingPage3>
       <LandingPage4>
-        <img
-          src={landing4}
-          alt="landingpage"
-          className="page4Img"
-        />
+        <img src={landing4} alt="landingpage" className="page4Img" />
       </LandingPage4>
       <OberserveDiv ref={ref} />
       {inView && (

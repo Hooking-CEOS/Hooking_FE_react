@@ -26,10 +26,7 @@ const Toast = () => {
   }, []);
 
   return (
-    <ToastWrapper
-      close={close}
-      className={`${close ? "close" : ""}`}
-    >
+    <ToastWrapper close={close} className={`${close ? "close" : ""}`}>
       <p>
         <span className="icon icon-check-circle" />
         <span className="text-subtitle-1">카피가 북마크에 저장됨</span>

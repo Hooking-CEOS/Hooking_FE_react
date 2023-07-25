@@ -1,10 +1,19 @@
 import styled from "styled-components";
-import { brandModalOverlay, search } from "@/utils/atom";
+import {
+  brandModalOverlay,
+  homeCardLists,
+  savedIdLists,
+  search,
+  searchResult,
+  setSaveId,
+  staticKeyword,
+} from "@/utils/atom";
 
-import { useState } from "react";
+import { useState, useRef, SetStateAction } from "react";
 import Button from "@/components/Button";
-import { useNavigate } from "react-router-dom";
-
+import { useLocation, useNavigate } from "react-router-dom";
+import { ICardData } from "@/utils/type";
+import { flexColumnCenter } from "@/styles/theme";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import {
   toastPopup,
@@ -13,6 +22,7 @@ import {
   selectedCopy,
 } from "@/utils/atom";
 import { scrapCopy } from "@/api/copywriting";
+import React from "react";
 
 interface BrandProps {
   text: string;
@@ -22,16 +32,9 @@ interface BrandProps {
   saved?: boolean;
   srcIdx?: number;
   scrapCnt?: number;
+  keyword?: string;
+  setSaved?: React.Dispatch<SetStateAction<boolean | undefined>>;
   onClick?: () => void;
-}
-
-interface ICardData {
-  id: number;
-  text: string;
-  brandName: string;
-  scrapCnt: number;
-  createdAt: string;
-  index: number;
 }
 
 // 단어 단위로 쪼개서 단어가 # 또는 @로 시작하면 밑줄
@@ -44,87 +47,131 @@ const BrandCard = ({
   srcIdx,
   brandId,
   saved,
+  keyword,
   onClick,
 }: BrandProps) => {
-  const searchState = useRecoilValue(search);
   const [hover, setHover] = useState(false);
-  const navigate = useNavigate();
   const isLogin = useRecoilValue(isLogined);
   const setToast = useSetRecoilState(toastPopup);
   const setLogin = useSetRecoilState(loginModalOverlay);
-  const setSelectedCopy = useSetRecoilState(selectedCopy);
-  const setBrandModal = useSetRecoilState(brandModalOverlay);
 
-  // api로 저장한거 북마크 저장됨 표시
-  const [isSaved, setIsSaved] = useState(false);
+  const [forceHover, setForceHover] = useState(false);
 
-  const handleBrandOpen = (card: ICardData) => {
-    //console.log(card);
-    setSelectedCopy(card);
-    setBrandModal(true);
+  //const keyword = useRecoilValue(search);
+
+  // set
+  const setSaveIdList = useSetRecoilState(setSaveId);
+
+  // get
+  const savedIdList = useRecoilValue(savedIdLists);
+
+  const saveBtnRef = useRef<any>();
+  const cardRef = useRef<any>();
+
+  const location = useLocation();
+
+  const setHoverActive = (time: number) => {
+    // 강제로 true였다가 2초뒤에 false
+    setForceHover(true);
+
+    let test = 0;
+    for (let i = 0; i < 100000; i++) {
+      test += i;
+    }
+
+    setTimeout(() => {
+      setForceHover(false);
+    }, time);
   };
 
   const handleCopyScrap = async () => {
     // 로그인 안된 상태면 로그인 팝업 출력
-
     if (!isLogin) {
-      // TODO: 로그인 로직
       setLogin(true);
       return;
     }
+
+    console.log("card.cardId", brandId, typeof brandId);
     const data = await scrapCopy({ cardId: brandId });
+
+    console.log("scrapCnt", scrapCnt);
     if (data.code === 200) {
-      console.log("스크랩 결과", data);
-      setIsSaved(true);
+      console.log("스크랩 결과", brandId, data);
+
+      setHoverActive(2500);
       setToast(true);
+
+      setSaveIdList(brandId as any);
     } else if (data.code === 400) {
       alert(data.message);
     }
   };
 
-  const WordWrap = (word: string) => {
-    // TODO: searchState값이 있다면 index값에 따라 주황글씨 처리
+  const GetHighlight = (text: string) => {
+    // 상세페이지에서 조회한 경우에만 보이기
+    if (location.pathname.includes("search")) {
+      if (keyword) {
+        let find = keyword;
+        let regex = new RegExp(find, "g");
+        text = text.replace(
+          regex,
+          `<span class='highlight text-subtitle-2'>${find}</span>`
+        );
+        const parsedHtml = React.createElement("div", {
+          dangerouslySetInnerHTML: { __html: text },
+        });
+        return parsedHtml;
+      }
+      return text;
+    } else {
+      return text;
+    }
+  };
 
-    word = word.replaceAll("\n", " \n");
-    const words = word.split(" ");
-    const setToast = useSetRecoilState(toastPopup);
-    const handleToastOpen = () => setToast(true);
-    return srcIdx === undefined || null ? (
-      <>
-        {words.map((word, index) => {
-          return word + " ";
-        })}
-      </>
-    ) : (
-      <>
-        {words.map((word, index) => {
-          return word + " ";
-        })}
-      </>
-    );
+  const handleMouseLeave = () => {
+    // 북마크 방금 저장되었으면 2초뒤에 제거
+    if (forceHover) {
+      setTimeout(() => {
+        setHover(false);
+      }, 2000);
+    } else setHover(false);
+  };
+
+  const handleCardOpen = (e: any) => {
+    // 1. 북마크 버튼을 클릭한 경우 동작 안함
+    // - 버튼 ref가 이벤트를 포함하고 있는지 확인
+    if (saveBtnRef.current && saveBtnRef.current.contains(e.target)) {
+      return;
+    }
+    // 2. 북마크 버튼이 아닌 다른 곳을 선택한 경우 카피 디테일로 이동
+    onClick && onClick();
   };
 
   return (
     <BrandCardWrapper
       saved={saved}
-      onClick={onClick}
+      hover={hover}
+      ref={cardRef}
+      className={`${hover ? "hover" : ""}`}
+      onClick={handleCardOpen}
       onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
+      onMouseLeave={handleMouseLeave}
     >
-      <div className={`card-content text-normal-300`}>
-        {WordWrap(text)}
+      <div className="card-content text-normal-300">
+        {GetHighlight(text)}
         <span className="more-content" />
       </div>
-      <hr className="hr" />
+      <div className="bookmark-hr" />
       {!saved && <Overlay hover={hover} />}
 
-      <div className="card-brand">
-        <span className="brandIcon">
-          <img src={brandImg} alt="brandImg" />
+      <div className={`${saved ? "card-brand-bookmark" : "card-brand"}`}>
+        <span className="brand-icon">
+          <img src={brandImg} alt="brand-image" />
           <span className="component-small">{brandName}</span>
         </span>
+
         {saved ? (
-          // 북마크 카드
+          // 북마크 카드 (이미 저장된 상태)
           <Button
             icon="icon-saved-outline"
             className="button-orange-outline-saved component-small "
@@ -133,7 +180,8 @@ const BrandCard = ({
         ) : // 홈카드
         hover ? (
           // 호버했을 때 저장된 상태
-          isSaved || (scrapCnt && scrapCnt > 0) ? (
+          // 프론트에서 저장하거나 api에서 저장된 상태로 받는다면
+          savedIdList.includes(brandId as any) || (scrapCnt && scrapCnt > 0) ? (
             <Button
               icon="icon-saved-outline"
               className="button-orange-outline-saved component-small "
@@ -145,6 +193,7 @@ const BrandCard = ({
               icon="icon-saved-white-large"
               className="button-orange component-small"
               text="저장"
+              ref={saveBtnRef}
               onClick={handleCopyScrap}
             />
           )
@@ -177,9 +226,8 @@ const Overlay = styled.div<{ hover: boolean }>`
 
 export const BrandCardWrapper = styled.div<{
   saved: boolean | undefined;
+  hover: boolean;
 }>`
-  display: flex;
-  flex-direction: column;
   min-width: 37.8rem;
   max-width: 100%;
 
@@ -189,28 +237,28 @@ export const BrandCardWrapper = styled.div<{
 
   border: 0.025rem solid ${(props) => props.theme.colors.black40};
   border-radius: 2rem;
+
   background: ${(props) => props.theme.colors.white};
   position: relative;
   cursor: pointer;
 
-  &:hover {
-    background: linear-gradient(
-        0deg,
-        rgba(255, 113, 69, 0.05) 0%,
-        rgba(255, 113, 69, 0.05) 100%
-      ),
-      #fff;
-    border: 0.025rem solid ${(props) => props.theme.colors.point};
+  background: ${(props) =>
+    props.hover
+      ? ` linear-gradient(180deg, rgba(255, 248, 246, 0.00) 0%, rgba(255, 248, 246, 0.80) 45.31%, #FFF8F6 100%), linear-gradient(0deg, rgba(255, 113, 69, 0.05) 0%, rgba(255, 113, 69, 0.05) 100%), #FFF;`
+      : `${props.theme.colors.white}`};
+
+  transition: all 0.5s ease-in-out;
+
+  .bookmark-hr {
+    width: 100%;
+    background-color: $color_black_5;
+    border-top: 0.25px solid ${({ theme }) => theme.colors.black30};
+    padding-bottom: ${(props) => (props.saved ? "3rem" : "0")};
   }
-
-  .hr {
-    margin: ${(props) => (props.saved ? "0 0 4rem 0" : 0)};
-  }
-
-
 
   .card-content {
     position: relative;
+
     // 여러 줄 말줄임 표시
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -222,7 +270,8 @@ export const BrandCardWrapper = styled.div<{
     font-size: 1.6rem;
     padding-bottom: ${(props) => (props.saved ? "3rem" : "0")};
     color: ${(props) => props.theme.colors.black100};
-    margin-bottom: 2.4rem;
+    margin-bottom: ${(props) =>
+      !props.saved && "2.4rem"}; // 홈카드인 경우에만 2.4rem
     word-break: keep-all;
 
     // 더보기
@@ -233,14 +282,6 @@ export const BrandCardWrapper = styled.div<{
       bottom: 0px;
       text-align: right;
       right: 0;
-      //background: white;
-      *
-      background: linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0) 0%,
-        #fff 72.4%
-      );
-      */
     }
   }
 
@@ -251,15 +292,30 @@ export const BrandCardWrapper = styled.div<{
     bottom: 2.6rem;
     width: calc(100% - 8rem);
     height: 4.6rem;
-    padding-top: ${(props) => (props.saved ? "1.8rem" : "0")};
+    justify-content: space-between;
+
+    .brand-icon {
+      gap: 1rem;
+      display: flex;
+      align-items: center;
+
+      img {
+        width: 2.8rem;
+        height: 2.8rem;
+      }
+    }
+  }
+  .card-brand-bookmark {
+    display: flex;
+    height: 4.6rem;
+    align-items: center;
+    width: 100%;
 
     justify-content: space-between;
 
-    .brandIcon {
-      min-height: 2.8rem;
+    .brand-icon {
       gap: 1rem;
       display: flex;
-      flex-direction: row;
       align-items: center;
 
       img {
