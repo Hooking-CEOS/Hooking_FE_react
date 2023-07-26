@@ -23,6 +23,10 @@ const Landing = () => {
     threshold: 0.5,
   });
 
+  useEffect(() => {
+    setActiveMenuIdx(-1);
+  }, []);
+
   const [newRef, newInView] = useInView();
 
   const handleScroll = () => {
