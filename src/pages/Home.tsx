@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import Filter from "@/components/Filter";
 import { Card as SkeletonCard } from "@/components/Skeleton/Card";
@@ -18,10 +18,9 @@ import { getAllCopy } from "@/api/copywriting";
 import { ICardData } from "@/utils/type";
 import { removeAllSpace } from "@/utils/util";
 
+import BrandCard from "@/components/Brand/BrandCard";
 import useScrollIntoView from "@/hooks/useScrollIntoView";
 import useDidMountEffect from "@/hooks/useDidMountEffect";
-
-const BrandCard = React.lazy(() => import("@/components/Brand/BrandCard"));
 
 const Home = () => {
   const [brandModal, setBrandModal] = useRecoilState(brandModalOverlay);
@@ -32,7 +31,7 @@ const Home = () => {
   const setSelectedCopy = useSetRecoilState<ICardData>(selectedCopy);
   const setSimilarCopy = useSetRecoilState(similarCopyList);
 
-  const [emptyResult, setEmptyResult] = useState<boolean>();
+  const [emptyResult, setEmptyResult] = useState<boolean>(false);
 
   const getHomecopy = async () => {
     const { data } = await getAllCopy(1);
@@ -41,8 +40,6 @@ const Home = () => {
 
   // recoil state에 변화가 생길 때마다 스크롤 카드 시작부분으로 이동
   const checkedList = useRecoilValue(checkedFilterList);
-
-  type ScrollBehavior = "auto" | "instant" | "smooth";
 
   const { element, onScrollToElement } = useScrollIntoView("auto");
 
@@ -55,7 +52,9 @@ const Home = () => {
     if (!filterLen) getHomecopy();
     else setCardData(filteredData.data);
 
-    setEmptyResult(filteredData.data ?? !filteredData.data.length);
+    if (!filteredData.data.length) {
+      setEmptyResult(true);
+    } else setEmptyResult(false);
   }, [filteredData]);
 
   const handleBrandOpen = (card: ICardData) => {
@@ -73,7 +72,6 @@ const Home = () => {
       <section className="main">
         <Filter />
         <BrandCards ref={element}>
-          {/** suspense로 부모 컴포넌트에서 감싸줬기 때문에 cardData가 fetching 된 이후에 여기로 옴 */}
           {cardData && cardData.length > 1 ? (
             cardData.map((card: ICardData) => (
               <BrandCard
@@ -89,7 +87,7 @@ const Home = () => {
               />
             ))
           ) : emptyResult ? (
-            <></>
+            <>no Result!!!</>
           ) : (
             Array.from({ length: 9 }, () => Array(0).fill(0)).map((el, idx) => (
               <SkeletonCard key={idx} />
