@@ -1,7 +1,5 @@
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import imgData from "@/assets/datas/imgData.json";
-import IMG_BRAND_SAMPLE from "@/assets/images/icon-brand-sample.svg";
 
 import { getBrandDetail } from "@/api/brand";
 
@@ -19,6 +17,7 @@ import {
   similarCopyList,
 } from "@/utils/atom";
 import { ICardData } from "@/utils/type";
+import { getBrandById } from "@/utils/util";
 
 interface IBrandData {
   brandId: number;
@@ -39,8 +38,9 @@ const BrandDetail = () => {
   const setSimilarCopy = useSetRecoilState(similarCopyList);
   const setBrandModal = useSetRecoilState(brandModalOverlay);
   const setOverlay = useSetRecoilState(searchModalOverlay);
-  const [searchState, setSearchState] = useRecoilState(search); // 절대 import하지마
-  let targetData = imgData.find((item) => item.id === Number(brandId))!;
+  const setDetailOverlay = useSetRecoilState(brandModalOverlay);
+  const [searchState, setSearchState] = useRecoilState(search);
+  let targetData = getBrandById(Number(brandId));
 
   const handleBrandOpen = (card: any) => {
     let target = {
@@ -84,24 +84,13 @@ const BrandDetail = () => {
 
   // 브랜드 상세 페이지 카드
   useEffect(() => {
-    //TODO : 검색창 닫기 but search recoil쓰면 안됨
-
+    // TODO : 해당 브랜드에서 검색창 연 다음에 브랜드 icon 클릭했을 때 예외처리 필요함
     setSearchState({ ...searchState, searchFocus: false });
     setOverlay(false);
+    setDetailOverlay(false);
     getBrandCard();
   }, [brandId]);
 
-  // useEffect(() => {
-  //   // 검색창 창닫기
-  //   setSearchState({ ...searchState, searchFocus: false });
-  //   setOverlay(false);
-
-  //   //api 호출
-  //   getBrandCard();
-  // }, [brandId]);
-
-  // TODO : click시 brandModal 열기
-  // TODO : Carousel 추가 in BrandBanner
   return (
     <>
       <BrandBanner name={targetData.name_kr} link={brandData.brandLink} />

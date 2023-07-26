@@ -165,6 +165,7 @@ const SearchBar = () => {
                               ""
                             )}.png`),
                           }}
+                          onClick={() => getRandNumBrand(bigWindow ? 3 : 2)}
                         />
                       ))}
                   </div>
@@ -226,7 +227,7 @@ const SearchBarWrapper = styled.div`
 `;
 
 const SearchHistory = styled.div`
-  display flex;
+  display: flex;
   flex-direction: column;
   width: 100%;
   min-width: 55.5rem;
@@ -235,29 +236,34 @@ const SearchHistory = styled.div`
 
   border: 0.5px solid ${({ theme }) => theme.colors.black30};
   border-radius: 0 0 2rem 2rem;
-  background: linear-gradient(0deg, rgba(242, 242, 242, 0.70) 0%, rgba(242, 242, 242, 0.70) 100%), #FFF;
+  background: linear-gradient(
+      0deg,
+      rgba(242, 242, 242, 0.7) 0%,
+      rgba(242, 242, 242, 0.7) 100%
+    ),
+    #fff;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
-  padding: 4rem 5.8rem 2.5rem 5.8rem;  
+  padding: 4rem 5.8rem 2.5rem 5.8rem;
   z-index: ${Z_INDEX_FILTER};
 
-  .search-history__wrap{
-    .search-brand{
+  .search-history__wrap {
+    .search-brand {
       display: flex;
       flex-direction: column;
       gap: 2.4rem;
-      
-      .search-brand-content{
+
+      .search-brand-content {
         display: flex;
         //gap: 3.75rem;
       }
     }
 
-    .search-copy{
+    .search-copy {
       display: flex;
       align-items: center;
       //margin-top: 3.1rem;
-      .text-headline{
-        flex:1;
+      .text-headline {
+        flex: 1;
       }
     }
   }

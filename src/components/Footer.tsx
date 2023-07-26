@@ -20,7 +20,7 @@ const Footer = () => {
             </span>
             <span className="footer-grey-text text-body-2">
               <a
-                href="https://www.notion.so/143ff06c36e941869574b2ce0685166f?pvs=4"
+                href="https://mixolydian-colt-b51.notion.site/143ff06c36e941869574b2ce0685166f?pvs=4"
                 target="_blank"
                 rel="noreferrer"
               >
@@ -29,7 +29,7 @@ const Footer = () => {
             </span>
             <span className="footer-grey-text text-body-2">
               <a
-                href="https://www.notion.so/d6d255c513ad414aafc4ebfda445ee84?pvs=4"
+                href="https://mixolydian-colt-b51.notion.site/d6d255c513ad414aafc4ebfda445ee84?pvs=4"
                 target="_blank"
                 rel="noreferrer"
               >

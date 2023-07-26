@@ -24,7 +24,7 @@ interface UserProfileType {
 }
 
 const ProfileDropDown = ({ className }: ProfilePropType) => {
-  const navigate = useNavigate();
+  const Navigate = useNavigate();
   const [hover, setHover] = useState(false);
   const setIsLogin = useSetRecoilState(isLogined);
   const [user, setUser] = useState<UserProfileType>();
@@ -40,9 +40,15 @@ const ProfileDropDown = ({ className }: ProfilePropType) => {
     getUserProfile()
       .then((res) => {
         setUser(res);
+        setIsLogin(true);
         //console.log(res);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        removeCookie("userToken");
+        setIsLogin(false);
+        Navigate("/");
+        console.log(err);
+      });
   }, []);
   // TODO: icon-arrow-unfold-light 추가
   const getIconClassName = () =>
@@ -82,7 +88,7 @@ const ProfileDropDown = ({ className }: ProfilePropType) => {
               if (data.idx === 2) openKaKaoPlus();
               setActiveMenuIdx(data.idx === 3 ? -1 : data.idx === 2 ? 0 : 2);
               setActiveChildMenuIdx(data.idx);
-              navigate(data.link);
+              Navigate(data.link);
               if (data.idx === 3) {
                 setIsLogin(false);
                 removeCookie("userToken");

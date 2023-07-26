@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { useInView } from "react-intersection-observer";
 
 import iconVector from "@/assets/images/landing/icon-vector.png";
@@ -13,13 +13,21 @@ import { activeMenu, loginModalOverlay } from "@/utils/atom";
 import { useEffect } from "react";
 import LandingHomeBtn from "@/components/LandingHomeButton";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+
 const Landing = () => {
   const navigate = useNavigate();
-  const [loginModal, setLoginModal] = useRecoilState(loginModalOverlay);
+  const setLoginModal = useSetRecoilState(loginModalOverlay);
   const handleLogin = () => setLoginModal(true);
   const setActiveMenuIdx = useSetRecoilState(activeMenu);
-  const { ref, inView, entry } = useInView();
+  const [ref, inView] = useInView({
+    threshold: 0.5,
+  });
+
+  useEffect(() => {
+    setActiveMenuIdx(-1);
+  }, []);
+
+  const [newRef, newInView] = useInView();
 
   const handleScroll = () => {
     const target = document.getElementById("target");
@@ -33,12 +41,8 @@ const Landing = () => {
         <LandingLoginBtn onClick={handleLogin} />
         <LandingHomeBtn
           onClick={() => {
-            // setActiveMenuIdx(0);
-            // navigate("/home");
-            axios
-              .get("https://hooking.shop/example/login")
-              .then((res) => console.log(res))
-              .catch((err) => console.log(err));
+            setActiveMenuIdx(0);
+            navigate("/home");
           }}
         />
         <img
@@ -63,26 +67,27 @@ const Landing = () => {
         </div>
         <img src={landing2} alt="landingpage" className="page2Img" />
       </LandingPage2>
-      <LandingPage3>
-        <img src={landing3} alt="landingpage" className="page3Img" />
-        <div className="textDiv">
-          <span className="mainText">
-            다양한 브랜드의
-            <br />
-            SNS 카피를 읽고 비교해보세요
-          </span>
-          <span className="subText">
-            후킹이 크롤링한 약 30여개의 브랜드들을 필터링하고,
-            <br />
-            원하는 브랜드들만 모아서 볼 수 있습니다.
-          </span>
-        </div>
-      </LandingPage3>
-      <LandingPage4>
-        <img src={landing4} alt="landingpage" className="page4Img" />
-      </LandingPage4>
-      <OberserveDiv ref={ref} />
-      {inView && (
+      <div ref={ref}>
+        <LandingPage3>
+          <img src={landing3} alt="landingpage" className="page3Img" />
+          <div className="textDiv">
+            <span className="mainText">
+              다양한 브랜드의
+              <br />
+              SNS 카피를 읽고 비교해보세요
+            </span>
+            <span className="subText">
+              후킹이 크롤링한 약 30여개의 브랜드들을 필터링하고,
+              <br />
+              원하는 브랜드들만 모아서 볼 수 있습니다.
+            </span>
+          </div>
+        </LandingPage3>
+        <LandingPage4 ref={newRef}>
+          <img src={landing4} alt="landingpage" className="page4Img" />
+        </LandingPage4>
+      </div>
+      {(inView || newInView) && (
         <>
           <LoginDeriveSpan onClick={handleLogin}>
             <LoginDeriveBtn>3초만에 원하는 카피 발견하러 가기</LoginDeriveBtn>
@@ -197,8 +202,8 @@ const LandingPage4 = styled.div`
 
 const LoginDeriveBtn = styled.div`
   position: sticky;
-  bottom: 3rem;
-  margin-bottom: 3rem;
+  bottom: 4rem;
+  margin-bottom: 4rem;
   width: 119.5rem;
   height: 10.4rem;
   padding: 40px;
@@ -214,7 +219,7 @@ const LoginDeriveBtn = styled.div`
   line-height: 100%;
   color: white;
   cursor: pointer;
-  animation: appear 1s ease-in-out;
+  animation: appear 0.5s ease-in-out;
   @keyframes appear {
     0% {
       opacity: 0;
@@ -232,12 +237,7 @@ const LoginDeriveSpan = styled.span`
   align-items: center;
   bottom: 0rem;
   width: 100vw;
-  height: 329px;
+  height: 100px;
   flex-shrink: 0;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #fff 100%);
-`;
-
-const OberserveDiv = styled.div`
-  width: 100%;
-  height: 10px;
 `;
