@@ -19,13 +19,15 @@ import {
   staticKeyword,
 } from "@/utils/atom";
 import BrandCard from "@/components/Brand/BrandCard";
-import { removeAllSpace } from "@/utils/util";
+import { getBrandByName, removeAllSpace } from "@/utils/util";
+import { useNavigate } from "react-router-dom";
 
 interface CopyDetailProps {
   onClose: () => void;
 }
 
 const CopyDetail = ({ onClose }: CopyDetailProps) => {
+  const Navigate = useNavigate();
   const [similarCopyData, setSimilarCopy] = useRecoilState(similarCopyList);
   const [selectedCopyData, setSelectedCopy] = useRecoilState(selectedCopy);
 
@@ -73,7 +75,7 @@ const CopyDetail = ({ onClose }: CopyDetailProps) => {
   return (
     <CopyDetailContainer ref={modalRef}>
       <SelectedCopyContainer
-        brandName={selectedCopyData.brandName}
+        brandName={removeAllSpace(selectedCopyData.brandName)!}
         className="inArea"
       >
         <div className="imgContainer ">
@@ -84,7 +86,14 @@ const CopyDetail = ({ onClose }: CopyDetailProps) => {
             )}.png`)}
             alt="brandImg"
           />
-          <div className="iconContainer">
+          <div
+            className="iconContainer"
+            onClick={() =>
+              Navigate(
+                `/brand/${getBrandByName(selectedCopyData.brandName).id}`
+              )
+            }
+          >
             <BrandIcon name={selectedCopyData.brandName} size="small" />
             <span className="component-large brandText">
               {selectedCopyData.brandName}
@@ -177,10 +186,7 @@ const SelectedCopyContainer = styled.div<{ brandName: string }>`
   .imgContainer {
     width: 30.7rem;
     height: 100%;
-    background-image: url("../assets/images/brandSearch/brand-search-" + brandName.replace(
-          // g,
-          ""
-        ) + ".png")
+    background-image: url("../assets/images/brandSearch/brand-search-" + brandName + ".png")
       no-repeat center;
     .imgElement {
       border-radius: 2rem 0 0 2rem;

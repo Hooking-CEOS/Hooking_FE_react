@@ -1,7 +1,5 @@
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import imgData from "@/assets/datas/imgData.json";
-import IMG_BRAND_SAMPLE from "@/assets/images/icon-brand-sample.svg";
 
 import { getBrandDetail } from "@/api/brand";
 
@@ -19,6 +17,7 @@ import {
   similarCopyList,
 } from "@/utils/atom";
 import { ICardData } from "@/utils/type";
+import { getBrandById } from "@/utils/util";
 
 interface IBrandData {
   brandId: number;
@@ -41,7 +40,7 @@ const BrandDetail = () => {
   const setOverlay = useSetRecoilState(searchModalOverlay);
   const setDetailOverlay = useSetRecoilState(brandModalOverlay);
   const [searchState, setSearchState] = useRecoilState(search);
-  let targetData = imgData.find((item) => item.id === Number(brandId))!;
+  let targetData = getBrandById(Number(brandId));
 
   const handleBrandOpen = (card: any) => {
     let target = {

@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import imgData from "@/assets/datas/imgData.json";
 import BrandIcon from "@/components/Brand/BrandIcon";
 import BrandMoodButton from "@/components/BrandMoodButton";
 import { useEffect, useReducer, useState } from "react";
 
 import leftArrow from "@/assets/images/icon-arrow-left-light.svg";
 import rightArrow from "@/assets/images/icon-arrow-right-light.svg";
+import { getBrandByName } from "@/utils/util";
 
 interface BrandBannerProps {
   name: string;
@@ -13,7 +13,7 @@ interface BrandBannerProps {
 }
 
 const BrandBanner = ({ name, link }: BrandBannerProps) => {
-  let targetData = imgData.find((item) => item.name_kr === name)!;
+  let targetData = getBrandByName(name);
 
   const RenderCarousel = () => {
     // const [randomNum, setRandomNum] = useState(Math.floor(Math.random() * 3));

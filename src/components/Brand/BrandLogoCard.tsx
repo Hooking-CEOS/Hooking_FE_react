@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import imgData from "@/assets/datas/imgData.json";
 import { useNavigate } from "react-router-dom";
+import { getBrandByName } from "@/utils/util";
 
 interface IBLCProps {
   brand: any;
@@ -8,7 +8,7 @@ interface IBLCProps {
 }
 
 const BrandLogoCard = ({ brand, onClick }: IBLCProps) => {
-  let targetData = imgData.find((item) => item.name_kr === brand.name)!;
+  let targetData = getBrandByName(brand.name);
   const Navigate = useNavigate();
 
   const handleCardClick = () => {

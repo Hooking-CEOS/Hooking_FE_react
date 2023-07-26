@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import imgData from "@/assets/datas/imgData.json";
-import { removeAllSpace } from "@/utils/util";
+
+import { removeAllSpace, getBrandByName } from "@/utils/util";
 import { useNavigate } from "react-router-dom";
 
 interface BrandIconProps {
@@ -10,7 +10,7 @@ interface BrandIconProps {
 }
 
 const BrandIcon = ({ name, size, clickRef }: BrandIconProps) => {
-  let targetData = imgData.find((item) => item.name_kr === name)!;
+  let targetData = getBrandByName(name);
   const Navigation = useNavigate();
   const handleClickIcon = (e: React.MouseEvent<HTMLDivElement>) => {
     if (clickRef) {
