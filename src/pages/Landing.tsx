@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { useInView } from "react-intersection-observer";
 
 import iconVector from "@/assets/images/landing/icon-vector.png";
@@ -10,15 +10,14 @@ import landing4 from "@/assets/images/landing/landing4.png";
 import LandingLoginBtn from "@/components/LandingLoginBtn";
 
 import { activeMenu, loginModalOverlay } from "@/utils/atom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import LandingHomeBtn from "@/components/LandingHomeButton";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+
 const Landing = () => {
   const navigate = useNavigate();
-  const [loginModal, setLoginModal] = useRecoilState(loginModalOverlay);
+  const setLoginModal = useSetRecoilState(loginModalOverlay);
   const handleLogin = () => setLoginModal(true);
-  const [loginRender, setLoginRender] = useState(false);
   const setActiveMenuIdx = useSetRecoilState(activeMenu);
   const [ref, inView] = useInView({
     threshold: 0.5,
@@ -31,9 +30,6 @@ const Landing = () => {
     target?.scrollIntoView({ behavior: "smooth" });
   };
 
-  useEffect(() => {
-    console.log(inView);
-  }, [inView]);
   return (
     <LandingPageWrapper>
       <LandingPage1>
@@ -226,21 +222,6 @@ const LoginDeriveBtn = styled.div`
     }
     100% {
       opacity: 1;
-    }
-  }
-  @keyframes bounce {
-    0%,
-    100% {
-      -webkit-transform: translateY(-25%);
-      transform: translateY(-25%);
-      -webkit-animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
-      animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
-    }
-    50% {
-      -webkit-transform: none;
-      transform: none;
-      -webkit-animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
-      animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
     }
   }
 `;
