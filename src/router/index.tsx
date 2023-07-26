@@ -27,9 +27,8 @@ import {
   brandModalOverlay,
 } from "@/utils/atom";
 import { useRecoilValue, useRecoilState } from "recoil";
-import HomeSkeleton from "@/pages/HomeSkeleton";
-
-import SearchSkeleton from "@/pages/SearchSkeleton";
+import HomeSkeleton from "@/pages/Skeleton/HomeSkeleton";
+import SearchSkeleton from "@/pages/Skeleton/SearchSkeleton";
 
 const HookingRouter = () => {
   const toastOpen = useRecoilValue(toastPopup);
