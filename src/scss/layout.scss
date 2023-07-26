@@ -26,6 +26,8 @@ body {
     overflow: auto;
 
     .main {
+      content-visibility: auto;
+
       &:not(.bookmark, .qna) {
         max-width: 119.4rem;
         margin: 5.6rem auto 12.8rem auto;

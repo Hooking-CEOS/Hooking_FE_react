@@ -86,7 +86,7 @@ const SearchBar = () => {
     const brandRandomIdArr: number[] = [];
     while (num) {
       const randNum = getRandomNum(1, 28);
-      // 배열에 없다면 추가하고 하나 줄이기
+
       if (brandRandomIdArr.indexOf(randNum) === -1) {
         brandRandomIdArr.push(randNum);
         num--;
