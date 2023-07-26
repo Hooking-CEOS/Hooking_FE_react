@@ -7,16 +7,24 @@ import styled from "styled-components";
 import { getAllCopy } from "@/api/copywriting";
 import { openKaKaoPlus, removeAllSpace } from "@/utils/util";
 import { useSetRecoilState } from "recoil";
-import { brandModalOverlay } from "@/utils/atom";
+import { brandModalOverlay, selectedCopy, similarCopyList } from "@/utils/atom";
 import { ICardData } from "@/utils/type";
 
 const QnA = ({ keyword }: { keyword?: string | null }) => {
   const [cardData, setCardData] = useState<ICardData[]>([]);
   const setBrandModal = useSetRecoilState(brandModalOverlay);
+  const setSelectedCopy = useSetRecoilState(selectedCopy);
+  const setSimilarCopy = useSetRecoilState(similarCopyList);
 
   const getRandomCopy = async () => {
     const { data } = await getAllCopy(1);
     setCardData(data);
+  };
+
+  const handleBrandOpen = (card: any) => {
+    setSelectedCopy(card);
+    setSimilarCopy(cardData.filter((el) => el.id !== card.id));
+    setBrandModal(true);
   };
 
   useEffect(() => {
@@ -58,7 +66,7 @@ const QnA = ({ keyword }: { keyword?: string | null }) => {
                     brandImg={require(`../assets/images/brandIcon/brand-${removeAllSpace(
                       card.brandName
                     )}.png`)}
-                    onClick={() => setBrandModal(true)}
+                    onClick={() => handleBrandOpen(card)}
                     scrapCnt={card.scrapCnt}
                   />
                 ))
