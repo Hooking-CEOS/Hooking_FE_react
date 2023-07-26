@@ -4,13 +4,17 @@ import { useNavigate } from "react-router-dom";
 
 interface IBLCProps {
   brand: any;
+  onClick?: () => void;
 }
 
-const BrandLogoCard = ({ brand }: IBLCProps) => {
+const BrandLogoCard = ({ brand, onClick }: IBLCProps) => {
   let targetData = imgData.find((item) => item.name_kr === brand.name)!;
   const Navigate = useNavigate();
 
   const handleCardClick = () => {
+    if (onClick) {
+      onClick();
+    }
     Navigate("/brand/" + targetData.id);
   };
   return (
@@ -25,6 +29,7 @@ export default BrandLogoCard;
 
 const BrandCard = styled.div`
   display: inline-flex;
+  cursor: pointer;
 
   & + .brand-card {
     margin-left: 3.75rem; // 서치바에서는 37.5px
