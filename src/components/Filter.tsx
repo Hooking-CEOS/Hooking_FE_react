@@ -12,6 +12,7 @@ import {
   HEADER_HEIGHT_MO,
   Z_INDEX_FILTER,
 } from "@/utils/constants";
+import useDidMountEffect from "@/hooks/useDidMountEffect";
 
 const DEFAULT_FILTER_STATE = [[], [], [], []];
 
@@ -35,6 +36,10 @@ const Filter = () => {
     setOpenFilter((prev) => !prev);
   };
 
+  useDidMountEffect(() => {
+    onScrollToElement();
+  }, checkedList);
+
   const handleOutSideclick = () => {
     setOpenFilter(false);
 
@@ -44,7 +49,7 @@ const Filter = () => {
   useOutSideClick(filterRef, handleOutSideclick, openFilter);
 
   const handleSelected = () => {
-    getFilterLen() === 0 ? setSelected(false) : setSelected(true);
+    !getFilterLen() ? setSelected(false) : setSelected(true);
     setOpenFilter(false);
     setCheckedList(innerCheckedList);
   };
@@ -75,7 +80,7 @@ const Filter = () => {
 
   const getFilterLengthText = () => {
     const len = getFilterLen();
-    return len === 0 ? `필터 적용하기` : `필터 적용하기 (${len})`;
+    return !len ? `필터 적용하기` : `필터 적용하기 (${len})`;
   };
 
   const handleKeywordRemove = (item: string) => {
@@ -99,8 +104,8 @@ const Filter = () => {
   }, [innerCheckedList]);
 
   return (
-    <FilterWrapper ref={filterRef} selected={selected}>
-      <div className="button-wrapper" ref={element}>
+    <FilterWrapper selected={selected} ref={element}>
+      <div className="button-wrapper">
         <Button
           text="필터"
           icon={`icon-filter ${getIconFilterClass()}`}
@@ -124,7 +129,7 @@ const Filter = () => {
                 <Button
                   key={`button-check-${key}`}
                   text={item}
-                  className="button-br-10 button-grey text-subtitle-1"
+                  className="button-grey text-subtitle-1"
                   data-item={item}
                   onClick={() => handleKeywordRemove(item)}
                 >
@@ -145,7 +150,7 @@ const Filter = () => {
                 </h2>
                 <ul
                   className={`${
-                    filter.idx === 0 ? "filter-keyword-grid" : "filter-keyword"
+                    !filter.idx ? "filter-keyword-grid" : "filter-keyword"
                   }`}
                 >
                   {filter.data.map((data) => (
@@ -206,7 +211,6 @@ const FilterWrapper = styled.div<{ selected: boolean }>`
     display: inline-flex;
     flex-wrap: wrap;
     gap: 1.6rem;
-
     top: ${HEADER_HEIGHT_MO};
   }
 `;
