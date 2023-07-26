@@ -1,6 +1,6 @@
 import useOutSideClick from "@/hooks/useOutSideClick";
 import styled from "styled-components";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
 import BrandIcon from "@/components/Brand/BrandIcon";
 import moment from "moment";
