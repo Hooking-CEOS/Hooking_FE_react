@@ -93,17 +93,16 @@ const BrandBanner = ({ name, link }: BrandBannerProps) => {
   return (
     <BrandBannerWrapper>
       <BrandBannerDiv
-        src={require(`../../assets/images/brandBanner/${targetData.name_kr}.png`)}
+        src={require(`../../assets/images/brandBanner/${targetData.name_kr.replace(
+          / /g,
+          ""
+        )}.png`)}
         alt="brandBanner"
       />
       <BrandBannerInsideDiv>
         <div className="brandDescSection">
           <div className="brandDescTop">
-            <BrandIcon
-              name={targetData.name_kr}
-              size="big"
-              onClick={() => window.open(link, "_blank")}
-            />
+            <BrandIcon name={targetData.name_kr} size="big" clickRef={link} />
             <div className="brandDescTextDiv">
               <span className="text-heading-1">{targetData.name_kr}</span>
               <div className="brandMoodDiv">
