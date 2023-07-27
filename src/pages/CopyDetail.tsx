@@ -216,8 +216,10 @@ const SelectedCopyContainer = styled.div<{ brandName: string }>`
     gap: 1rem;
 
     .textArea {
+      overflow-x: hidden;
       overflow-y: auto;
       height: 46.5rem;
+      word-wrap: break-word;
       word-break: keep-all;
       white-space: pre-wrap;
 
