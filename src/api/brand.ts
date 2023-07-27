@@ -6,6 +6,6 @@ export const getBrandDefault = async (pageNum: number = 0) => {
 };
 
 // 브랜드 상세정보 조회
-export const getBrandDetail = async (brandId: any, pageNum: number = 0) => {
+export const getBrandDetail = async (brandId: any, pageNum: number = 1) => {
   return await POST(`/brand/${brandId}/${pageNum}`, {});
 };
