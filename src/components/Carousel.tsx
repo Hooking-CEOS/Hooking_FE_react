@@ -83,7 +83,7 @@ const Carousel = () => {
         navigation={true}
         allowTouchMove={false}
         autoplay={{
-          delay: 10000,
+          delay: 5000,
           disableOnInteraction: false,
         }}
         speed={400}
@@ -207,6 +207,7 @@ const CarouselIconDiv = styled.div`
   gap: 0.833vw;
   display: flex;
   flex-direction: row;
+  z-index: 3;
 `;
 
 const CarouselIconText = styled.div`
@@ -224,4 +225,5 @@ const CarouselBrandMoodDiv = styled.div`
   gap: 0.521vw;
   display: flex;
   flex-direction: row;
+  z-index: 3;
 `;
