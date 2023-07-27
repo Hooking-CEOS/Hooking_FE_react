@@ -189,7 +189,7 @@ const CarouselImgDiv = styled.div<CIDProps>`
     background-repeat: no-repeat;
     filter: brightness(0.9);
     border-radius: 20px;
-    z-index: -1;
+    z-index: 2;
   }
 
   box-sizing: border-box;
