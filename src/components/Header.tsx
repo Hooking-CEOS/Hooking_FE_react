@@ -98,7 +98,7 @@ const HeaderWrapper = styled.header`
     align-items: center;
     height: 5.4rem;
     margin: 1.6rem 0;
-    padding: 0 1.9rem 0 4rem;
+    padding: 0 4rem;
 
     .header__content--left {
       display: flex;
