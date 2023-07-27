@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import { EffectCoverflow, Navigation } from "swiper";
+import { EffectCoverflow, Navigation, Autoplay } from "swiper";
 import { Swiper, SwiperSlide, SwiperRef } from "swiper/react";
 
 import BrandIcon from "@/components/Brand/BrandIcon";
@@ -82,6 +82,10 @@ const Carousel = () => {
         centeredSlides={true}
         navigation={true}
         allowTouchMove={false}
+        autoplay={{
+          delay: 10000,
+          disableOnInteraction: false,
+        }}
         speed={400}
         slidesPerView={"auto"}
         coverflowEffect={{
@@ -91,7 +95,7 @@ const Carousel = () => {
           modifier: 2,
           slideShadows: false,
         }}
-        modules={[EffectCoverflow, Navigation]}
+        modules={[Autoplay, EffectCoverflow, Navigation]}
         className="mySwiper"
       >
         {/* {CarouselData.map((data, index) => { */}
