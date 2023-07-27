@@ -12,10 +12,11 @@ import {
 } from "@/utils/atom";
 import styled from "styled-components";
 import Carousel from "@/components/Carousel";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { getAllCopy } from "@/api/copywriting";
 import { ICardData } from "@/utils/type";
 import { removeAllSpace } from "@/utils/util";
+import { useInView } from "react-intersection-observer";
 // 미리 불러오는게 아니라 데이터 패칭이 완료되어서 렌더링할 필요가 있을 때 불러옴
 //const BrandCard = React.lazy(() => import("@/components/BrandCard"));
 
@@ -27,17 +28,31 @@ const Home = () => {
   const filterLen = useRecoilValue(checkedListLen);
   const setSelectedCopy = useSetRecoilState(selectedCopy);
   const setSimilarCopy = useSetRecoilState(similarCopyList);
+  const [ref, inView] = useInView();
+  const [renderSkeleton, setRenderSkeleton] = useState(false);
 
   const [emptyResult, setEmptyResult] = useState<boolean>();
+  const pageNum = useRef(0);
 
   const getHomecopy = async () => {
-    const { data } = await getAllCopy(1);
+    const { data } = await getAllCopy(0);
     setCardData(data);
 
     console.log("home data", data.length);
 
     // setHomeCards(data); // 리코일에 저장
   };
+
+  const getMoreCopy = async (num: number) => {
+    const { data } = await getAllCopy(num);
+    setCardData((prevData) => [...prevData, ...data]);
+    setRenderSkeleton(false);
+    // setHomeCards(data); // 리코일에 저장
+  };
+
+  useEffect(() => {
+    console.log("current Length:", cardData.length);
+  }, [cardData]);
 
   useEffect(() => {
     //  필터가 초기값인 경우 전체 카피 불러오기
@@ -52,6 +67,20 @@ const Home = () => {
       setEmptyResult(true);
     } else setEmptyResult(false); // 값이 있으니까 false
   }, [filteredData]);
+
+  useEffect(() => {
+    console.log(inView);
+    if (cardData.length > 0 && inView) {
+      if (pageNum.current < 3) {
+        pageNum.current += 1;
+        console.log("pageNum", pageNum.current);
+        setRenderSkeleton(true);
+        getMoreCopy(pageNum.current);
+      } else {
+        // 로딩 더이상 안되게
+      }
+    }
+  }, [inView]);
 
   const handleBrandOpen = (card: any) => {
     // 현재 선택된 카피: 카드로 설정
@@ -94,6 +123,14 @@ const Home = () => {
               <SkeletonCard key={idx} />
             ))
           )}
+          {/* 아래 observing div 보이면 다음 api 호출 */}
+          {renderSkeleton ? (
+            Array.from({ length: 3 }, () => Array(0).fill(0)).map((el, idx) => (
+              <SkeletonCard key={idx} />
+            ))
+          ) : (
+            <div className="observedDiv" ref={ref} />
+          )}
         </BrandCards>
       </section>
     </>
@@ -107,6 +144,11 @@ const BrandCards = styled.div`
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 3rem;
   margin-top: 3rem;
+  .observedDiv {
+    width: 100%;
+    height: 10px;
+    background-color: red;
+  }
 `;
 
 const CarouselDiv = styled.div`
