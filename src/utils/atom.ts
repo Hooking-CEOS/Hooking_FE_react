@@ -30,7 +30,7 @@ export const filterCardList = selector({
         params[key[idx]] = removeAllSpace(filter.join(","));
       }
     });
-    return await getCopyFilter(params);
+    return await getCopyFilter(params, 0);
   },
 });
 
