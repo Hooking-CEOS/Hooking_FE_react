@@ -31,7 +31,7 @@ const CopyDetail = ({ onClose }: CopyDetailProps) => {
   const [similarCopyData, setSimilarCopy] = useRecoilState(similarCopyList);
   const [selectedCopyData, setSelectedCopy] = useRecoilState(selectedCopy);
 
-  const [isLogin, setLogin] = useRecoilState(isLogined);
+  const isLogin = useRecoilValue(isLogined);
   const setLoginModal = useSetRecoilState(loginModalOverlay);
   const setToast = useSetRecoilState(toastPopup);
   const [brandModal, setBrandModal] = useRecoilState(brandModalOverlay);
