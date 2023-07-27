@@ -300,6 +300,8 @@ export const BrandCardWrapper = styled.div<{
       align-items: center;
 
       img {
+        border: 0.025rem solid ${(props) => props.theme.colors.black100};
+        border-radius: 50%;
         width: 2.8rem;
         height: 2.8rem;
       }

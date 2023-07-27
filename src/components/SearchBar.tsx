@@ -5,7 +5,7 @@ import useOutSideClick from "@/hooks/useOutSideClick";
 
 import styled from "styled-components";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { searchModalOverlay, search } from "@/utils/atom";
 import { BRAND_TO_BRANDID, Z_INDEX_FILTER } from "@/utils/constants";
@@ -21,7 +21,10 @@ const SearchBar = () => {
   const [searchState, setSearchState] = useRecoilState(search);
 
   // 내부 state keyword
-  const [keyword, setKeyword] = useState<string>();
+  const [keyword, setKeyword] = useState<string>(searchState.searchKeyword);
+
+  const [searchParams, _] = useSearchParams();
+  const urlKeyword = searchParams.get("keyword");
 
   const searchRef = useRef<HTMLInputElement>(null);
   const searchWrap = useRef<HTMLInputElement>(null);
@@ -30,13 +33,6 @@ const SearchBar = () => {
 
   const location = useLocation();
   const bigWindow = useRecoilValue(isBigWindow);
-
-  useEffect(() => {
-    if (location.pathname === "/" || location.pathname === "/home") {
-      setSearchState({ ...searchState, searchKeyword: "" });
-      setKeyword("");
-    }
-  }, [location.pathname]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -57,12 +53,29 @@ const SearchBar = () => {
 
   useOutSideClick(searchWrap, handleFocusOut, searchState.searchFocus);
 
+  useEffect(() => {
+    setKeyword(keyword.trim());
+  }, [urlKeyword]);
+
   const onSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSearchState({ ...searchState, searchKeyword: keyword });
-    navigate(`/search?keyword=${keyword}`);
+
+    const trimKeyword = keyword?.trim();
+
+    if (trimKeyword === "") return;
+
+    setSearchState({ ...searchState, searchKeyword: trimKeyword });
+    navigate(`/search?keyword=${trimKeyword}`);
     handleFocusOut();
+    searchRef.current?.blur();
   };
+
+  useEffect(() => {
+    if (location.pathname === "/" || location.pathname === "/home") {
+      setSearchState({ ...searchState, searchKeyword: "" });
+      setKeyword("");
+    }
+  }, [location.pathname]);
 
   const getBrandNameById = (id: number): string | undefined => {
     const brand = BRAND_TO_BRANDID.find(
@@ -86,7 +99,7 @@ const SearchBar = () => {
     const brandRandomIdArr: number[] = [];
     while (num) {
       const randNum = getRandomNum(1, 28);
-      // 배열에 없다면 추가하고 하나 줄이기
+
       if (brandRandomIdArr.indexOf(randNum) === -1) {
         brandRandomIdArr.push(randNum);
         num--;
@@ -132,7 +145,7 @@ const SearchBar = () => {
             } text-subtitle-1`}
             onChange={handleSearch}
             onFocus={handleFocusOn}
-            value={keyword || ""} //{searchState.searchKeyword}
+            value={keyword || ""}
             ref={searchRef}
           />
           {searchState.searchFocus && (

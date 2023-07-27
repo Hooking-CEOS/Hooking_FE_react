@@ -2,7 +2,7 @@ import { useSearchParams } from "react-router-dom";
 import { useState, useEffect, useTransition } from "react";
 
 import styled from "styled-components";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
   brandModalOverlay,
   searchResult,
@@ -14,8 +14,12 @@ import BrandCard from "@/components/Brand/BrandCard";
 import { ICardData } from "@/utils/type";
 import Button from "@/components/Button";
 import QnA from "@/pages/QnA";
-import BrandLogoCard from "@/components/Brand/BrandLogoCard";
 import { removeAllSpace } from "@/utils/util";
+import React from "react";
+
+const BrandLogoCard = React.lazy(
+  () => import("@/components/Brand/BrandLogoCard")
+);
 
 type SearchCnt = {
   [key: string]: number;
@@ -40,7 +44,7 @@ const Search = () => {
   const [totalLen, setTotalLen] = useState(0);
   const setSelectedCopy = useSetRecoilState(selectedCopy);
   const setSimilarCopy = useSetRecoilState(similarCopyList);
-  const [brandModal, setBrandModal] = useRecoilState(brandModalOverlay);
+  const setBrandModal = useSetRecoilState(brandModalOverlay);
 
   const getTotalLen = (keywordObj: SearchCnt) => {
     const totalLen = Object.keys(keywordObj)
@@ -138,7 +142,7 @@ const Search = () => {
   return (
     <>
       {/* || totalLen === 0  */}
-      {noResult || totalLen === 0 ? (
+      {noResult || !totalLen ? (
         <QnA keyword={keyword} />
       ) : (
         <section className="main qna">
@@ -148,9 +152,7 @@ const Search = () => {
                 {(searchCnt.copy > 0 || searchCnt.brand > 0) && (
                   <div
                     className="tab-wrap"
-                    onClick={() =>
-                      setType(searchCnt.brand > 0 ? "brand" : "copy")
-                    }
+                    onClick={() => setType(searchCnt.brand ? "brand" : "copy")}
                   >
                     <Button
                       text="키워드"
@@ -223,23 +225,21 @@ const Search = () => {
               )}
 
               <BrandCards>
-                {card.map((card) => {
-                  return (
-                    <BrandCard
-                      key={`brand-text-card-${card.id}`}
-                      srcIdx={card.index ?? 0}
-                      brandId={card.id}
-                      text={card.text}
-                      scrapCnt={card.scrapCnt}
-                      keyword={keywordData}
-                      brandImg={require(`../assets/images/brandIcon/brand-${removeAllSpace(
-                        card.brandName
-                      )}.png`)}
-                      brandName={card.brandName}
-                      onClick={() => handleBrandOpen(card)}
-                    />
-                  );
-                })}
+                {card.map((card) => (
+                  <BrandCard
+                    key={`brand-text-card-${card.id}`}
+                    srcIdx={card.index ?? 0}
+                    brandId={card.id}
+                    text={card.text}
+                    scrapCnt={card.scrapCnt}
+                    keyword={keywordData}
+                    brandImg={require(`../assets/images/brandIcon/brand-${removeAllSpace(
+                      card.brandName
+                    )}.png`)}
+                    brandName={card.brandName}
+                    onClick={() => handleBrandOpen(card)}
+                  />
+                ))}
               </BrandCards>
             </div>
           </div>

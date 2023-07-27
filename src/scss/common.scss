@@ -138,6 +138,7 @@ input[type="checkbox"] {
       .button__inner {
         padding: 0;
         color: $color_black_15;
+        border-radius: 2rem;
       }
     }
   }
@@ -364,8 +365,9 @@ input[type="checkbox"] {
     margin-right: 0.8rem;
 
     &-white {
+      // image, repeat, position / size
       background: url("../assets/images/icon-filter-white.svg") no-repeat 90%
-        center;
+        center / cover;
     }
 
     &-outline {

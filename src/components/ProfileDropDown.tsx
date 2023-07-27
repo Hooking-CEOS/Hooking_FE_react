@@ -39,17 +39,25 @@ const ProfileDropDown = ({ className }: ProfilePropType) => {
   useEffect(() => {
     getUserProfile()
       .then((res) => {
-        setUser(res);
-        setIsLogin(true);
-        //console.log(res);
+        if (res.code === "ERR_NETWORK") {
+          setIsLogin(false);
+          alert("세션이 만료되었습니다.");
+          removeCookie("userToken");
+
+          Navigate("/");
+        } else {
+          console.log(res);
+          setUser(res);
+          setIsLogin(true);
+          //console.log(res);
+        }
       })
       .catch((err) => {
         removeCookie("userToken");
         setIsLogin(false);
         Navigate("/");
-        console.log(err);
       });
-  }, []);
+  }, [window.location.pathname]);
   // TODO: icon-arrow-unfold-light 추가
   const getIconClassName = () =>
     activeMenuIdx === 2

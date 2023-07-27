@@ -1,24 +1,27 @@
-import BrandCard from "@/components/Brand/BrandCard";
+import { useState, useEffect, useRef } from "react";
+
 import Filter from "@/components/Filter";
 import { Card as SkeletonCard } from "@/components/Skeleton/Card";
+import Carousel from "@/components/Carousel";
 
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   brandModalOverlay,
+  checkedFilterList,
   checkedListLen,
   filterCardList,
   selectedCopy,
   similarCopyList,
 } from "@/utils/atom";
 import styled from "styled-components";
-import Carousel from "@/components/Carousel";
-import { useState, useEffect, useRef } from "react";
+import { useInView } from "react-intersection-observer";
 import { getAllCopy } from "@/api/copywriting";
 import { ICardData } from "@/utils/type";
 import { removeAllSpace } from "@/utils/util";
-import { useInView } from "react-intersection-observer";
-// 미리 불러오는게 아니라 데이터 패칭이 완료되어서 렌더링할 필요가 있을 때 불러옴
-//const BrandCard = React.lazy(() => import("@/components/BrandCard"));
+
+import BrandCard from "@/components/Brand/BrandCard";
+import useScrollIntoView from "@/hooks/useScrollIntoView";
+import useDidMountEffect from "@/hooks/useDidMountEffect";
 
 const Home = () => {
   const [brandModal, setBrandModal] = useRecoilState(brandModalOverlay);
@@ -26,21 +29,17 @@ const Home = () => {
 
   const filteredData = useRecoilValue(filterCardList);
   const filterLen = useRecoilValue(checkedListLen);
-  const setSelectedCopy = useSetRecoilState(selectedCopy);
+  const setSelectedCopy = useSetRecoilState<ICardData>(selectedCopy);
   const setSimilarCopy = useSetRecoilState(similarCopyList);
   const [ref, inView] = useInView();
   const [renderSkeleton, setRenderSkeleton] = useState(false);
 
-  const [emptyResult, setEmptyResult] = useState<boolean>();
+  const [emptyResult, setEmptyResult] = useState<boolean>(false);
   const pageNum = useRef(0);
 
   const getHomecopy = async () => {
     const { data } = await getAllCopy(0);
     setCardData(data);
-
-    console.log("home data", data.length);
-
-    // setHomeCards(data); // 리코일에 저장
   };
 
   const getMoreCopy = async (num: number) => {
@@ -53,19 +52,23 @@ const Home = () => {
   useEffect(() => {
     console.log("current Length:", cardData.length);
   }, [cardData]);
+  // recoil state에 변화가 생길 때마다 스크롤 카드 시작부분으로 이동
+  const checkedList = useRecoilValue(checkedFilterList);
+
+  const { element, onScrollToElement } = useScrollIntoView("auto");
+
+  useDidMountEffect(() => {
+    onScrollToElement();
+  }, checkedList);
 
   useEffect(() => {
     //  필터가 초기값인 경우 전체 카피 불러오기
     if (!filterLen) getHomecopy();
-    // 필터가 선택된 경우 필터카피 불러오기
-    else {
-      setCardData(filteredData.data);
-      console.log("filteredData", filteredData.data.length);
-    }
+    else setCardData(filteredData.data);
 
     if (!filteredData.data.length) {
       setEmptyResult(true);
-    } else setEmptyResult(false); // 값이 있으니까 false
+    } else setEmptyResult(false);
   }, [filteredData]);
 
   useEffect(() => {
@@ -82,14 +85,10 @@ const Home = () => {
     }
   }, [inView]);
 
-  const handleBrandOpen = (card: any) => {
-    // 현재 선택된 카피: 카드로 설정
+  // 현재 선택된 카피: 카드로 설정
+  const handleBrandOpen = (card: ICardData) => {
     setSelectedCopy(card);
-
-    // 나머지 카피 갈아끼우기
     setSimilarCopy(cardData.filter((el) => el.id !== card.id));
-
-    // 브랜드 모달 띄우기
     setBrandModal(true);
   };
 
@@ -101,7 +100,7 @@ const Home = () => {
 
       <section className="main">
         <Filter />
-        <BrandCards>
+        <BrandCards ref={element}>
           {cardData && cardData.length > 1 ? (
             cardData.map((card: ICardData) => (
               <BrandCard
@@ -117,7 +116,7 @@ const Home = () => {
               />
             ))
           ) : emptyResult ? (
-            <></>
+            <>no Result!!!</>
           ) : (
             Array.from({ length: 9 }, () => Array(0).fill(0)).map((el, idx) => (
               <SkeletonCard key={idx} />

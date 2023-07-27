@@ -92,7 +92,7 @@ const HeaderWrapper = styled.header`
   height: ${HEADER_HEIGHT_MO};
   z-index: ${Z_INDEX_HEADER};
   background-color: ${(props) => props.theme.colors.white};
-  
+
   .header__wrap {
     display: flex;
     align-items: center;
@@ -110,17 +110,16 @@ const HeaderWrapper = styled.header`
       }
     }
 
-     .header__content--center{
+    .header__content--center {
       display: flex;
       margin: auto;
       width: 100%;
       max-width: 100.9rem;
-     }
+    }
 
-     .header__content--right{
+    .header__content--right {
       min-width: fit-content;
       margin-left: 10rem;
-     }
     }
   }
 `;

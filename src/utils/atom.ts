@@ -85,7 +85,7 @@ export const searchResult = selectorFamily({
   },
 });
 
-export const selectedCopy = atom({
+export const selectedCopy = atom<ICardData>({
   key: "selectedCopy",
   default: {
     id: 0,

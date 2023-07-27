@@ -19,8 +19,17 @@ const BrandLogoCard = ({ brand, onClick }: IBLCProps) => {
   };
   return (
     <BrandCard className="brand-card" onClick={handleCardClick}>
-      <img className="brand-img" src={brand.img} alt="brand-img" />
-      <div className="brand-name text-subtitle-1">{brand.name}</div>
+      <img
+        width="96px"
+        height="96px"
+        className="brand-img"
+        src={brand.img}
+        alt="brand-img"
+        loading="lazy"
+      />
+      <div className="brand-name">
+        <span className="text-subtitle-1">{brand.name}</span>
+      </div>
     </BrandCard>
   );
 };
@@ -30,20 +39,23 @@ export default BrandLogoCard;
 const BrandCard = styled.div`
   display: inline-flex;
   cursor: pointer;
+  width: 100%;
 
   & + .brand-card {
     margin-left: 3.75rem; // 서치바에서는 37.5px
   }
   .brand-img {
-    max-width: 9.6rem; // TODO: searchbar 1280 너비 조절
+    max-width: 9.6rem;
     height: 9.6rem;
     border-top-left-radius: 1.6rem;
     border-bottom-left-radius: 1.6rem;
+    background-color: ${(props) => props.theme.colors.black5};
   }
 
   .brand-name {
-    min-width: 17.6rem;
-    max-width: 17.6rem; // TODO: searchbar 1280 너비 조절
+    flex: 1;
+    width: 100%;
+    max-width: 17.6rem;
     border-top-right-radius: 1.6rem;
     border-bottom-right-radius: 1.6rem;
     font-size: 1.8rem;
@@ -51,6 +63,9 @@ const BrandCard = styled.div`
 
     display: flex;
     align-items: center;
-    padding-left: 2.2rem;
+
+    .text-subtitle-1 {
+      padding: 2.2rem;
+    }
   }
 `;

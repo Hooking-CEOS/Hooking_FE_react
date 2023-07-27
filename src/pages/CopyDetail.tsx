@@ -1,6 +1,6 @@
 import useOutSideClick from "@/hooks/useOutSideClick";
 import styled from "styled-components";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
 import BrandIcon from "@/components/Brand/BrandIcon";
 import moment from "moment";
@@ -31,7 +31,7 @@ const CopyDetail = ({ onClose }: CopyDetailProps) => {
   const [similarCopyData, setSimilarCopy] = useRecoilState(similarCopyList);
   const [selectedCopyData, setSelectedCopy] = useRecoilState(selectedCopy);
 
-  const [isLogin, setLogin] = useRecoilState(isLogined);
+  const isLogin = useRecoilValue(isLogined);
   const setLoginModal = useSetRecoilState(loginModalOverlay);
   const setToast = useSetRecoilState(toastPopup);
   const [brandModal, setBrandModal] = useRecoilState(brandModalOverlay);
@@ -216,8 +216,10 @@ const SelectedCopyContainer = styled.div<{ brandName: string }>`
     gap: 1rem;
 
     .textArea {
+      overflow-x: hidden;
       overflow-y: auto;
       height: 46.5rem;
+      word-wrap: break-word;
       word-break: keep-all;
       white-space: pre-wrap;
 

@@ -6,8 +6,6 @@ import {
 } from "react-router-dom";
 import Home from "@/pages/Home";
 import Search from "@/pages/Search";
-import Profile from "@/pages/Profile";
-import Writing from "@/pages/Writing";
 import BookMark from "@/pages/BookMark";
 import BrandDetail from "@/pages/BrandDetail";
 import ScrollToTop from "@/hooks/scrollToTop";
@@ -29,9 +27,8 @@ import {
   brandModalOverlay,
 } from "@/utils/atom";
 import { useRecoilValue, useRecoilState } from "recoil";
-import HomeSkeleton from "@/pages/HomeSkeleton";
-
-import SearchSkeleton from "@/pages/SearchSkeleton";
+import HomeSkeleton from "@/pages/Skeleton/HomeSkeleton";
+import SearchSkeleton from "@/pages/Skeleton/SearchSkeleton";
 
 const HookingRouter = () => {
   const toastOpen = useRecoilValue(toastPopup);
@@ -67,19 +64,9 @@ const HookingRouter = () => {
       ),
     },
     {
-      path: "/profile",
-      name: "Profile",
-      component: isLogin ? <Profile /> : <Navigate to="/home" />,
-    },
-    {
       path: "/bookmark",
       name: "BookMark",
       component: isLogin ? <BookMark /> : <Navigate to="/home" />,
-    },
-    {
-      path: "/writing",
-      name: "Writing",
-      component: <Writing />,
     },
     {
       path: "/qna",
