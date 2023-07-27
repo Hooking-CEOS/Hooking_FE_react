@@ -31,27 +31,40 @@ const Home = () => {
   const filterLen = useRecoilValue(checkedListLen);
   const setSelectedCopy = useSetRecoilState<ICardData>(selectedCopy);
   const setSimilarCopy = useSetRecoilState(similarCopyList);
-  const [ref, inView] = useInView();
   const [renderSkeleton, setRenderSkeleton] = useState(false);
 
   const [emptyResult, setEmptyResult] = useState<boolean>(false);
-  const pageNum = useRef(0);
+  const [ref, inView] = useInView();
+  const pageNum = useRef({
+    homecopy: 0,
+    filtercopy: 0,
+  });
 
   const getHomecopy = async () => {
-    const { data } = await getAllCopy(0);
+    const { data } = await getAllCopy();
     setCardData(data);
   };
 
   const getMoreCopy = async (num: number) => {
-    const { data } = await getAllCopy(num);
-    setCardData((prevData) => [...prevData, ...data]);
+    const { data } = await getAllCopy(num).then((res) => {
+      // TODO : api toomuch 분기처리
+      return res;
+    });
+    console.log("data at getMorecopy:", data);
+    const uniqueData = Array.from(
+      new Set([...cardData, ...data].map((item) => JSON.stringify(item)))
+      // Parse each item in the set back to an object
+    ).map((item) => JSON.parse(item));
+
+    setCardData(uniqueData);
     setRenderSkeleton(false);
     // setHomeCards(data); // 리코일에 저장
   };
 
   useEffect(() => {
-    console.log("current Length:", cardData.length);
+    console.log(cardData);
   }, [cardData]);
+
   // recoil state에 변화가 생길 때마다 스크롤 카드 시작부분으로 이동
   const checkedList = useRecoilValue(checkedFilterList);
 
@@ -63,22 +76,28 @@ const Home = () => {
 
   useEffect(() => {
     //  필터가 초기값인 경우 전체 카피 불러오기
-    if (!filterLen) getHomecopy();
-    else setCardData(filteredData.data);
+    if (!filterLen) {
+      getHomecopy();
+    } else {
+      setCardData(filteredData);
+    }
 
-    if (!filteredData.data.length) {
+    if (!filteredData.length) {
       setEmptyResult(true);
-    } else setEmptyResult(false);
+    } else {
+      setEmptyResult(false);
+    }
   }, [filteredData]);
 
   useEffect(() => {
-    console.log(inView);
+    // TODO : filterLen 분기처리
+    console.log(inView, filterLen);
     if (cardData.length > 0 && inView) {
-      if (pageNum.current < 3) {
-        pageNum.current += 1;
+      if (pageNum.current.homecopy < 3) {
+        pageNum.current.homecopy += 1;
         console.log("pageNum", pageNum.current);
         setRenderSkeleton(true);
-        getMoreCopy(pageNum.current);
+        getMoreCopy(pageNum.current.homecopy);
       } else {
         // 로딩 더이상 안되게
       }
