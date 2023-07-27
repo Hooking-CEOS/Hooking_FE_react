@@ -30,6 +30,7 @@ export const filterCardList = selector({
         params[key[idx]] = removeAllSpace(filter.join(","));
       }
     });
+    // TODO : pagnination 구현
     return await getCopyFilter(params, 0);
   },
 });
