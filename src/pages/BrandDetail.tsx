@@ -6,7 +6,7 @@ import { getBrandDetail } from "@/api/brand";
 import BrandBanner from "@/components/Brand/BrandBanner";
 import BrandCard from "@/components/Brand/BrandCard";
 import { Card as SkeletonCard } from "@/components/Skeleton/Card";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
@@ -41,7 +41,7 @@ const BrandDetail = () => {
   const setDetailOverlay = useSetRecoilState(brandModalOverlay);
   const [searchState, setSearchState] = useRecoilState(search);
   let targetData = getBrandById(Number(brandId));
-
+  const pageNum = useRef(1);
   const handleBrandOpen = (card: any) => {
     let target = {
       brandName: card.brand.brandName,
@@ -68,7 +68,7 @@ const BrandDetail = () => {
     setBrandModal(true);
   };
 
-  const getBrandCard = async () => {
+  const getBrandCard = async (pageNum: number) => {
     getBrandDetail(targetData.api_id)
       .then((res) => {
         console.log(res);
@@ -88,7 +88,7 @@ const BrandDetail = () => {
     setSearchState({ ...searchState, searchFocus: false });
     setOverlay(false);
     setDetailOverlay(false);
-    getBrandCard();
+    getBrandCard(pageNum.current);
   }, [brandId]);
 
   return (
