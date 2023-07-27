@@ -156,7 +156,7 @@ interface CIDProps {
 }
 
 const CarouselImgDiv = styled.div<CIDProps>`
-  background-image: url(${(props) => props.imgSrc});
+  /* background-image: url(${(props) => props.imgSrc});
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -169,6 +169,31 @@ const CarouselImgDiv = styled.div<CIDProps>`
   box-shadow: 0px 4px 30px 0px rgba(158, 158, 158, 0.4);
   z-index: 999;
   position: relative;
+  filter: brightness(0.9); */
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(${(props) => props.imgSrc});
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: brightness(0.9);
+    border-radius: 20px;
+    z-index: -1;
+  }
+
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  min-width: 23.4vw;
+  min-height: 23.4vw;
+  box-shadow: 0px 4px 30px 0px rgba(158, 158, 158, 0.4);
 `;
 
 const CarouselIconDiv = styled.div`
