@@ -1,13 +1,15 @@
 import { useState, useRef, useEffect } from "react";
-import Button from "@/components/Button";
-import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import Button from "@/components/Button";
+
+import styled from "styled-components";
+import useOutSideClick from "@/hooks/useOutSideClick";
+import { removeCookie } from "@/hooks/cookies";
 import { useRecoilState, useSetRecoilState } from "recoil";
+
 import { activeMenu, activeChildMenu, isLogined } from "@/utils/atom";
 import { PROFILE_DATA } from "@/utils/constants";
-import useOutSideClick from "@/hooks/useOutSideClick";
 import { openKaKaoPlus } from "@/utils/util";
-import { removeCookie } from "@/hooks/cookies";
 import { getUserProfile } from "@/api/user";
 
 interface ProfilePropType {
@@ -26,14 +28,14 @@ interface UserProfileType {
 const ProfileDropDown = ({ className }: ProfilePropType) => {
   const Navigate = useNavigate();
   const [hover, setHover] = useState(false);
-  const setIsLogin = useSetRecoilState(isLogined);
   const [user, setUser] = useState<UserProfileType>();
 
+  const setIsLogin = useSetRecoilState(isLogined);
   const [activeMenuIdx, setActiveMenuIdx] = useRecoilState(activeMenu);
   const [activeChildMenuIdx, setActiveChildMenuIdx] =
     useRecoilState(activeChildMenu);
 
-  const dropdonwRef = useRef(null);
+  const dropdonwRef = useRef<HTMLDivElement>(null);
   useOutSideClick(dropdonwRef, () => setHover(false), hover);
 
   useEffect(() => {
@@ -46,7 +48,7 @@ const ProfileDropDown = ({ className }: ProfilePropType) => {
 
           Navigate("/");
         } else {
-          console.log(res);
+          //  console.log(res);
           setUser(res);
           setIsLogin(true);
           //console.log(res);

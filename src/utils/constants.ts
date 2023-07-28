@@ -1,6 +1,7 @@
 export const HEADER_HEIGHT_MO = "8.6rem";
 
 // z-index
+export const Z_INDEX_TOAST = 10000;
 export const Z_INDEX_HEADER = 100;
 export const Z_INDEX_FILTER = 50;
 export const Z_INDEX_MODAL = 30;

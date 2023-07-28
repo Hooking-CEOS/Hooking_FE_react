@@ -10,3 +10,8 @@ export interface ICardData {
   createdAt: string;
   index?: number | undefined;
 }
+
+interface ISearchType {
+  searchKeyword: string;
+  searchFocus: boolean;
+}
