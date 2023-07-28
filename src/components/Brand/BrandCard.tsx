@@ -7,6 +7,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { ICardData } from "@/utils/type";
 import { flexColumnCenter } from "@/styles/theme";
 import { useSetRecoilState, useRecoilValue } from "recoil";
+
 import {
   toastPopup,
   isLogined,
@@ -145,7 +146,9 @@ const BrandCard = ({
         hover ? (
           // 호버했을 때 저장된 상태
           // 프론트에서 저장하거나 api에서 저장된 상태로 받는다면
-          savedIdList.includes(brandId as any) || (scrapCnt && scrapCnt > 0) ? (
+          isLogin &&
+          (savedIdList.includes(brandId as any) ||
+            (scrapCnt && scrapCnt > 0)) ? (
             <Button
               icon="icon-saved-outline"
               className="button-orange-outline-saved component-small "
