@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { getBrandByName } from "@/utils/util";
+import { useState } from "react";
 
 interface IBLCProps {
   brand: any;
@@ -8,7 +9,9 @@ interface IBLCProps {
 }
 
 const BrandLogoCard = ({ brand, onClick }: IBLCProps) => {
-  let targetData = getBrandByName(brand.name);
+  const [targetData, setTargetId] = useState(getBrandByName(brand.name));
+
+  //let targetData = getBrandByName(brand.name); // 에러나서 state에 저장하는 걸로 수정했어!!
   const Navigate = useNavigate();
 
   const handleCardClick = () => {
