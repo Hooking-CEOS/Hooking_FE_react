@@ -47,7 +47,6 @@ const Footer = () => {
           <span className="footer-grey-text text-body-2">
             궁금한 점이 있거나 건의하고 싶은 내용이 있으신가요?
           </span>
-          {/* TODO: 링크 삽입: 카카오 오픈채팅방 링크 */}
           <Button
             className="button-black-small text-body-3"
             text="1:1 문의"

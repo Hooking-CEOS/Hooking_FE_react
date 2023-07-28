@@ -62,7 +62,7 @@ const Home = () => {
   };
 
   useEffect(() => {
-    console.log(cardData);
+    // console.log(cardData);
   }, [cardData]);
 
   // recoil state에 변화가 생길 때마다 스크롤 카드 시작부분으로 이동
@@ -91,7 +91,7 @@ const Home = () => {
 
   useEffect(() => {
     // TODO : filterLen 분기처리
-    console.log(inView, filterLen);
+    // console.log(inView, filterLen);
     if (cardData.length > 0 && inView) {
       if (pageNum.current.homecopy < 3) {
         pageNum.current.homecopy += 1;

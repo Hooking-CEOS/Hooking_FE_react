@@ -1,13 +1,5 @@
 import styled from "styled-components";
-import {
-  brandModalOverlay,
-  homeCardLists,
-  savedIdLists,
-  search,
-  searchResult,
-  setSaveId,
-  staticKeyword,
-} from "@/utils/atom";
+import { savedIdLists, setSaveId } from "@/utils/atom";
 
 import { useState, useRef, SetStateAction } from "react";
 import Button from "@/components/Button";
@@ -21,6 +13,7 @@ import {
   loginModalOverlay,
   selectedCopy,
 } from "@/utils/atom";
+import { GetHighlight } from "@/utils/util";
 import { scrapCopy } from "@/api/copywriting";
 import React from "react";
 
@@ -44,7 +37,6 @@ const BrandCard = ({
   brandName,
   brandImg,
   scrapCnt,
-  srcIdx,
   brandId,
   saved,
   keyword,
@@ -67,8 +59,6 @@ const BrandCard = ({
 
   const saveBtnRef = useRef<any>();
   const cardRef = useRef<any>();
-
-  const location = useLocation();
 
   const setHoverActive = (time: number) => {
     // 강제로 true였다가 2초뒤에 false
@@ -107,27 +97,6 @@ const BrandCard = ({
     }
   };
 
-  const GetHighlight = (text: string) => {
-    // 상세페이지에서 조회한 경우에만 보이기
-    if (location.pathname.includes("search")) {
-      if (keyword) {
-        let find = keyword;
-        let regex = new RegExp(find, "g");
-        text = text.replace(
-          regex,
-          `<span class='highlight text-subtitle-2'>${find}</span>`
-        );
-        const parsedHtml = React.createElement("div", {
-          dangerouslySetInnerHTML: { __html: text },
-        });
-        return parsedHtml;
-      }
-      return text;
-    } else {
-      return text;
-    }
-  };
-
   const handleMouseLeave = () => {
     // 북마크 방금 저장되었으면 2초뒤에 제거
     if (forceHover) {
@@ -137,13 +106,8 @@ const BrandCard = ({
     } else setHover(false);
   };
 
-  const handleCardOpen = (e: any) => {
-    // 1. 북마크 버튼을 클릭한 경우 동작 안함
-    // - 버튼 ref가 이벤트를 포함하고 있는지 확인
-    if (saveBtnRef.current && saveBtnRef.current.contains(e.target)) {
-      return;
-    }
-    // 2. 북마크 버튼이 아닌 다른 곳을 선택한 경우 카피 디테일로 이동
+  const handleCardOpen = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (saveBtnRef.current && saveBtnRef.current.contains(e.target)) return;
     onClick && onClick();
   };
 
@@ -158,7 +122,7 @@ const BrandCard = ({
       onMouseLeave={handleMouseLeave}
     >
       <div className="card-content text-normal-300">
-        {GetHighlight(text)}
+        {GetHighlight(text, keyword)}
         <span className="more-content" />
       </div>
       <div className="bookmark-hr" />

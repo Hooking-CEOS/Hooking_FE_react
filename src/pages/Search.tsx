@@ -187,23 +187,13 @@ const Search = () => {
                           type === "mood" ? "orange" : "grey"
                         } text-heading-2`}
                       />
-                      {searchCnt.mood === 0 ? (
-                        <span
-                          className={`tab-content tab-content-${
-                            type === "mood" ? "orange" : "grey"
-                          } component-small`}
-                        >
-                          {searchCnt.mood}
-                        </span>
-                      ) : (
-                        <span
-                          className={`tab-content tab-content-${
-                            type === "mood" ? "orange" : "grey"
-                          } component-small`}
-                        >
-                          #{keywordData}
-                        </span>
-                      )}
+                      <span
+                        className={`tab-content tab-content-${
+                          type === "mood" ? "orange" : "grey"
+                        } component-small`}
+                      >
+                        #{keywordData}
+                      </span>
                     </div>
                   )}
                 </>
