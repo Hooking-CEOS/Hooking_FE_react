@@ -1,17 +1,16 @@
-import styled from "styled-components";
-import Button from "./Button";
-import { useState } from "react";
-import { toastPopup } from "@/utils/atom";
-import { useRecoilState } from "recoil";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import Button from "@/components/Button";
+
+import styled from "styled-components";
+import { Z_INDEX_TOAST } from "@/utils/constants";
+import { toastPopup } from "@/utils/atom";
+import { useSetRecoilState } from "recoil";
 
 const Toast = () => {
-  const [close, setClose] = useState(false);
-
   const navigate = useNavigate();
-
-  const [toast, setToast] = useRecoilState(toastPopup);
+  const [close, setClose] = useState(false);
+  const setToast = useSetRecoilState(toastPopup);
 
   const handleTimer = () => {
     setTimeout(() => {
@@ -26,7 +25,7 @@ const Toast = () => {
   }, []);
 
   return (
-    <ToastWrapper close={close} className={`${close ? "close" : ""}`}>
+    <ToastWrapper className={`${close ? "close" : ""}`}>
       <p>
         <span className="icon icon-check-circle" />
         <span className="text-subtitle-1">카피가 북마크에 저장됨</span>
@@ -49,13 +48,13 @@ const Toast = () => {
 
 export default Toast;
 
-const ToastWrapper = styled.div<{ close: boolean }>`
+const ToastWrapper = styled.div`
   display: flex;
   align-items: center;
   position: absolute;
   bottom: 4.8rem;
   right: 4rem;
-  z-index: 10000;
+  z-index: ${Z_INDEX_TOAST};
   background-color: white;
   gap: 2.4rem;
 
