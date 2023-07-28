@@ -1,9 +1,8 @@
-import Login from "@/pages/Login";
-import SearchBar from "@/components/SearchBar";
+import { useNavigate } from "react-router-dom";
+import SearchBar from "@/components/Search/SearchBar";
 import Button from "@/components/Button";
 import ProfileDropDown from "@/components/ProfileDropDown";
 
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
@@ -29,7 +28,11 @@ const Header = () => {
 
   const handleLogin = () => setLoginModal(true);
 
-  // TODO: 랜딩페이지 > 로그인 헤더 만들기
+  const MENU = {
+    landing: { name: "landing", path: "/", idx: -1 },
+    home: { name: "home", path: "/home", idx: 0 },
+  };
+
   return (
     <HeaderWrapper>
       <div className="header__wrap">
@@ -39,30 +42,29 @@ const Header = () => {
             text=""
             onClick={() => {
               setActiveChildMenuIdx(-1);
-              if (!isLogin) {
-                setActiveMenuIdx(-1);
-                navigate("/");
-              } else {
-                setActiveMenuIdx(0);
-                navigate("/home");
-              }
+              let curMenu = !isLogin ? MENU.landing : MENU.home;
+              setActiveMenuIdx(curMenu.idx);
+              navigate(curMenu.path);
             }}
           />
-
-          {HEADER_LEFT_MENU.map((menu) => (
-            <Button
-              key={menu.idx}
-              className={`component-small ${
-                activeMenuIdx === menu.idx ? "button-black" : "button-white"
-              }`}
-              onClick={() => {
-                setActiveMenuIdx(menu.idx);
-                setActiveChildMenuIdx(-1);
-                navigate(menu.path);
-              }}
-              text={menu.name}
-            />
-          ))}
+          <ul>
+            {HEADER_LEFT_MENU.map((menu) => (
+              <li key={`menu-li-${menu.idx}`}>
+                <Button
+                  key={`menu-button-${menu.idx}`}
+                  text={menu.name}
+                  className={`button-${
+                    activeMenuIdx === menu.idx ? "black" : "white"
+                  } component-small`}
+                  onClick={() => {
+                    setActiveMenuIdx(menu.idx);
+                    setActiveChildMenuIdx(-1);
+                    navigate(menu.path);
+                  }}
+                />
+              </li>
+            ))}
+          </ul>
         </div>
         <div className="header__content--center">
           <SearchBar />
@@ -119,7 +121,12 @@ const HeaderWrapper = styled.header`
 
     .header__content--right {
       min-width: fit-content;
-      margin-left: 10rem;
+      margin-left: 10rem; // TODO: 로그인 헤더랑 비교해서 margin-left 수정
+      flex: 1;
+      margin-right: auto;
+      display: flex; 
+      justify-content: flex-end;
+     }
     }
   }
 `;
