@@ -39,7 +39,7 @@ export const BRAND_TO_BRANDID = [
 export const FILTER_DATA = [
   {
     idx: 0,
-    filter: "무드 키워드",
+    filter: "브랜드 무드",
     data: [
       { idx: "0", name: "퓨어한" },
       { idx: "1", name: "키치한" },
