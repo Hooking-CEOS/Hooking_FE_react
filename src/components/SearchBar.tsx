@@ -136,7 +136,7 @@ const SearchBar = () => {
             placeholder={`${
               searchState.searchFocus
                 ? ""
-                : "브랜드 이름, 분위기 등으로 검색해보세요"
+                : "제품, 브랜드 이름, 분위기 등으로 검색해보세요"
             }`}
             className={`${
               searchState.searchFocus
