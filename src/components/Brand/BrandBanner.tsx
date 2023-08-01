@@ -13,6 +13,13 @@ interface BrandBannerProps {
 }
 
 const BrandBanner = ({ name, link }: BrandBannerProps) => {
+  if (name === "skeleton") {
+    return (
+      <BrandBannerWrapper>
+        <div className="skeleton skeleton-list-item"></div>
+      </BrandBannerWrapper>
+    );
+  }
   let targetData = getBrandByName(name);
 
   const RenderCarousel = () => {
@@ -129,6 +136,47 @@ const BrandBannerWrapper = styled.div`
   width: 100vw;
   height: 60.2rem;
   position: relative;
+  .skeleton {
+    background-color: #e5e6eb;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 11.8rem;
+  }
+  @-webkit-keyframes skeleton-gradient {
+    0% {
+      background-color: rgba(165, 165, 165, 0.1);
+    }
+
+    50% {
+      background-color: rgba(165, 165, 165, 0.3);
+    }
+
+    100% {
+      background-color: rgba(165, 165, 165, 0.1);
+    }
+  }
+
+  @keyframes skeleton-gradient {
+    0% {
+      background-color: rgba(165, 165, 165, 0.1);
+    }
+
+    50% {
+      background-color: rgba(165, 165, 165, 0.3);
+    }
+
+    100% {
+      background-color: rgba(165, 165, 165, 0.1);
+    }
+  }
+
+  /*해당되는 컴포넌트에 적용*/
+  .skeleton-list-item {
+    -webkit-animation: skeleton-gradient 1.8s infinite ease-in-out;
+    animation: skeleton-gradient 1.8s infinite ease-in-out;
+  }
 `;
 
 const BrandBannerDiv = styled.img`

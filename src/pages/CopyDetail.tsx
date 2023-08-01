@@ -6,6 +6,7 @@ import BrandIcon from "@/components/Brand/BrandIcon";
 import moment from "moment";
 import Button from "@/components/Button";
 import { scrapCopy } from "@/api/copywriting";
+import linkSrc from "@/assets/images/icon-link.svg";
 
 import {
   selectedCopy,
@@ -108,25 +109,30 @@ const CopyDetail = ({ onClose }: CopyDetailProps) => {
             <div className="component-caption">
               {moment(selectedCopyData.createdAt).format("YYYY년 M월 D일")}
             </div>
-
-            {/* 저장된 상태라면  */}
-
-            {(savedIdList.length &&
-              savedIdList.includes(selectedCopyData.id as any)) ||
-            selectedCopyData.scrapCnt > 0 ? (
-              <Button
-                icon="icon-saved-outline"
-                className="button-orange-outline-saved component-small "
-                text="저장됨"
+            <div className="linkBtnDiv">
+              <img
+                src={linkSrc}
+                alt="link"
+                className="linkBtn"
+                onClick={() => console.log(selectedCopyData)}
               />
-            ) : (
-              <Button
-                icon="icon-saved-white-large"
-                className="button-orange component-small"
-                text="저장"
-                onClick={handleCopyScrap}
-              />
-            )}
+              {/* 저장된 상태라면  */}
+              {savedIdList.includes(selectedCopyData.id as any) ||
+              selectedCopyData.scrapCnt > 0 ? (
+                <Button
+                  icon="icon-saved-outline"
+                  className="button-orange-outline-saved component-small "
+                  text="저장됨"
+                />
+              ) : (
+                <Button
+                  icon="icon-saved-white-large"
+                  className="button-orange component-small"
+                  text="저장"
+                  onClick={handleCopyScrap}
+                />
+              )}
+            </div>
           </div>
         </div>
       </SelectedCopyContainer>
@@ -241,6 +247,13 @@ const SelectedCopyContainer = styled.div<{ brandName: string }>`
       justify-content: space-between;
       align-items: center;
       height: 4.6rem;
+      .linkBtnDiv {
+        display: flex;
+        gap: 1.5rem;
+        .linkBtn {
+          cursor: pointer;
+        }
+      }
     }
   }
 `;

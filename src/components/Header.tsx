@@ -110,6 +110,9 @@ const HeaderWrapper = styled.header`
       .icon-logo {
         margin-right: 1rem;
       }
+      ul {
+        display: flex;
+      }
     }
 
     .header__content--center {
@@ -124,9 +127,8 @@ const HeaderWrapper = styled.header`
       margin-left: 10rem; // TODO: 로그인 헤더랑 비교해서 margin-left 수정
       flex: 1;
       margin-right: auto;
-      display: flex; 
+      display: flex;
       justify-content: flex-end;
-     }
     }
   }
 `;
