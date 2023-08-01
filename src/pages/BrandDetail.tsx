@@ -18,6 +18,7 @@ import {
 } from "@/utils/atom";
 import { ICardData } from "@/utils/type";
 import { getBrandById } from "@/utils/util";
+import { useInView } from "react-intersection-observer";
 
 interface IBrandData {
   brandId: number;
@@ -27,13 +28,11 @@ interface IBrandData {
 
 const BrandDetail = () => {
   const { brandId } = useParams<{ brandId: string }>();
-  const [brandData, setBrandData] = useState<IBrandData>({
-    brandId: 0,
-    brandLink: "",
-    brandName: "",
-  });
+  const [brandData, setBrandData] = useState<IBrandData>();
   const [cardData, setCardData] = useState<ICardData[]>([]);
   const [noResult, setNoResult] = useState<boolean>();
+  const [nomoreData, setNomoreData] = useState<boolean>(false);
+  const [renderSkeleton, setRenderSkeleton] = useState<boolean>(false);
   const setSelectedCopy = useSetRecoilState(selectedCopy);
   const setSimilarCopy = useSetRecoilState(similarCopyList);
   const setBrandModal = useSetRecoilState(brandModalOverlay);
@@ -41,13 +40,17 @@ const BrandDetail = () => {
   const setDetailOverlay = useSetRecoilState(brandModalOverlay);
   const [searchState, setSearchState] = useRecoilState(search);
   let targetData = getBrandById(Number(brandId));
-  const pageNum = useRef(1);
+  const [ref, inView] = useInView();
+  const pageNum = useRef(0);
   const handleBrandOpen = (card: any) => {
+    console.log(card);
     let target = {
-      brandName: card.brand.brandName,
+      brandName: card.brandName,
+      // brandLink: card.brandLink,
       createdAt: card.createdAt,
       id: card.id,
       index: 0,
+      isScrap: card.isScrap,
       scrapCnt: card.scrapCnt,
       text: card.text,
     };
@@ -57,10 +60,12 @@ const BrandDetail = () => {
       cardData
         .filter((el) => el.id !== card.id)
         .map((item: any) => ({
-          brandName: item.brand.brandName,
+          brandName: item.brandName,
+          // link : item.brandLink;
           createdAt: item.createdAt,
           id: item.id,
           index: 0,
+          isScrap: item.isScrap,
           scrapCnt: item.scrapCnt,
           text: item.text,
         }))
@@ -69,17 +74,19 @@ const BrandDetail = () => {
   };
 
   const getBrandCard = async (pageNum: number) => {
-    getBrandDetail(targetData.api_id)
-      .then((res) => {
-        console.log(res);
-        setCardData(res.data.card);
-        setBrandData({
-          brandId: res.data.brandId,
-          brandLink: res.data.brandLink,
-          brandName: res.data.brandName,
-        });
-      })
-      .catch((err) => console.log(err));
+    try {
+      const res = await getBrandDetail(targetData.api_id, pageNum);
+      console.log(res);
+      setCardData((prev) => [...prev, ...res.data.card]);
+      setBrandData({
+        brandId: res.data.brandId,
+        brandLink: res.data.brandLink,
+        brandName: res.data.brandName,
+      });
+      setRenderSkeleton(false);
+    } catch (err) {
+      setNomoreData(true);
+    }
   };
 
   // 브랜드 상세 페이지 카드
@@ -91,7 +98,15 @@ const BrandDetail = () => {
     getBrandCard(pageNum.current);
   }, [brandId]);
 
-  return (
+  useEffect(() => {
+    if (inView) {
+      setRenderSkeleton(true);
+      pageNum.current += 1;
+      getBrandCard(pageNum.current);
+    }
+  }, [inView]);
+
+  return brandData ? (
     <>
       <BrandBanner name={targetData.name_kr} link={brandData.brandLink} />
       <section className="main">
@@ -103,6 +118,7 @@ const BrandDetail = () => {
                   brandId={card.id}
                   text={card.text}
                   scrapCnt={card.scrapCnt}
+                  isScrap={card.isScrap}
                   brandImg={require(`../assets/images/brandIcon/brand-${brandData.brandName.replace(
                     / /g,
                     ""
@@ -114,6 +130,25 @@ const BrandDetail = () => {
             : Array.from({ length: 9 }, () => Array(0).fill(0)).map(
                 (el, idx) => <SkeletonCard key={idx} />
               )}
+          {!nomoreData &&
+            (renderSkeleton ? (
+              Array.from({ length: 3 }, () => Array(0).fill(0)).map(
+                (el, idx) => <SkeletonCard key={idx} />
+              )
+            ) : (
+              <div className="observedDiv" ref={ref} />
+            ))}
+        </BrandCards>
+      </section>
+    </>
+  ) : (
+    <>
+      <BrandBanner name="skeleton" link="" />
+      <section className="main">
+        <BrandCards>
+          {Array.from({ length: 12 }, () => Array(0).fill(0)).map((el, idx) => (
+            <SkeletonCard key={idx} />
+          ))}
         </BrandCards>
       </section>
     </>
