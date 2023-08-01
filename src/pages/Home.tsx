@@ -4,7 +4,12 @@ import Filter from "@/components/Filter";
 import { Card as SkeletonCard } from "@/components/Skeleton/Card";
 import Carousel from "@/components/Carousel";
 
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  useRecoilState,
+  useRecoilValue,
+  useRecoilValueLoadable,
+  useSetRecoilState,
+} from "recoil";
 import {
   brandModalOverlay,
   checkedFilterList,
@@ -15,7 +20,7 @@ import {
 } from "@/utils/atom";
 import styled from "styled-components";
 import { useInView } from "react-intersection-observer";
-import { getAllCopy } from "@/api/copywriting";
+import { getAllCopy, getCopyFilter } from "@/api/copywriting";
 import { ICardData } from "@/utils/type";
 import { removeAllSpace } from "@/utils/util";
 
@@ -32,12 +37,14 @@ const Home = () => {
   const setSelectedCopy = useSetRecoilState<ICardData>(selectedCopy);
   const setSimilarCopy = useSetRecoilState(similarCopyList);
   const [renderSkeleton, setRenderSkeleton] = useState(false);
+  const filterCardReady = useRecoilValueLoadable(filterCardList);
 
   const [emptyResult, setEmptyResult] = useState<boolean>(false);
+  const [nomoreData, setNomoreData] = useState<boolean>(false);
   const [ref, inView] = useInView();
   const pageNum = useRef({
-    homecopy: 0,
-    filtercopy: 0,
+    copyNum: 0,
+    filterNum: 0,
   });
 
   const getHomecopy = async () => {
@@ -46,11 +53,11 @@ const Home = () => {
   };
 
   const getMoreCopy = async (num: number) => {
-    const { data } = await getAllCopy(num).then((res) => {
-      // TODO : api toomuch 분기처리
-      return res;
-    });
-    console.log("data at getMorecopy:", data);
+    const { data } = await getAllCopy(num);
+    if (!data) {
+      setNomoreData(true);
+      return;
+    }
     const uniqueData = Array.from(
       new Set([...cardData, ...data].map((item) => JSON.stringify(item)))
       // Parse each item in the set back to an object
@@ -60,10 +67,6 @@ const Home = () => {
     setRenderSkeleton(false);
     // setHomeCards(data); // 리코일에 저장
   };
-
-  useEffect(() => {
-    // console.log(cardData);
-  }, [cardData]);
 
   // recoil state에 변화가 생길 때마다 스크롤 카드 시작부분으로 이동
   const checkedList = useRecoilValue(checkedFilterList);
@@ -79,7 +82,9 @@ const Home = () => {
     if (!filterLen) {
       getHomecopy();
     } else {
-      setCardData(filteredData);
+      if (pageNum.current.filterNum === 0) {
+        setCardData(filteredData);
+      }
     }
 
     if (!filteredData.length) {
@@ -89,18 +94,34 @@ const Home = () => {
     }
   }, [filteredData]);
 
+  const handleApiCall = async (query: string, target?: ICardData[]) => {
+    // home copy api call
+    if (cardData.length > 0 && inView) {
+      if (query === "home") {
+        pageNum.current.copyNum += 1;
+        setRenderSkeleton(true);
+        await getMoreCopy(pageNum.current.copyNum);
+      }
+      // filter copy api call
+      else {
+        const uniqueData = Array.from(
+          new Set([...cardData, ...target!].map((item) => JSON.stringify(item)))
+        ).map((item) => JSON.parse(item));
+
+        setCardData(uniqueData);
+        setRenderSkeleton(false);
+      }
+    }
+  };
+
   useEffect(() => {
     // TODO : filterLen 분기처리
-    // console.log(inView, filterLen);
-    if (cardData.length > 0 && inView) {
-      if (pageNum.current.homecopy < 3) {
-        pageNum.current.homecopy += 1;
-        console.log("pageNum", pageNum.current);
-        setRenderSkeleton(true);
-        getMoreCopy(pageNum.current.homecopy);
-      } else {
-        // 로딩 더이상 안되게
-      }
+    console.log("cardData & filteredData", cardData, filteredData);
+    if (filterLen && cardData !== filteredData) {
+      pageNum.current.filterNum += 1;
+      handleApiCall("filter", filteredData);
+    } else if (filterLen === 0) {
+      handleApiCall("home");
     }
   }, [inView]);
 
@@ -132,6 +153,7 @@ const Home = () => {
                 )}.png`)}
                 onClick={() => handleBrandOpen(card)}
                 scrapCnt={card.scrapCnt}
+                isScrap={card.isScrap}
               />
             ))
           ) : emptyResult ? (
@@ -142,13 +164,14 @@ const Home = () => {
             ))
           )}
           {/* 아래 observing div 보이면 다음 api 호출 */}
-          {renderSkeleton ? (
-            Array.from({ length: 3 }, () => Array(0).fill(0)).map((el, idx) => (
-              <SkeletonCard key={idx} />
-            ))
-          ) : (
-            <div className="observedDiv" ref={ref} />
-          )}
+          {!nomoreData &&
+            (renderSkeleton ? (
+              Array.from({ length: 3 }, () => Array(0).fill(0)).map(
+                (el, idx) => <SkeletonCard key={idx} />
+              )
+            ) : (
+              <div className="observedDiv" ref={ref} />
+            ))}
         </BrandCards>
       </section>
     </>
