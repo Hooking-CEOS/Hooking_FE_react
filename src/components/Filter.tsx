@@ -206,12 +206,10 @@ export default Filter;
 const FilterWrapper = styled.div<{ selected: boolean }>`
   position: ${(props) => (props.selected ? "sticky" : "relative")};
   width: 100%;
-  padding: 1.6rem 0;
   display: flex;
   max-width: 119.4rem;
   margin: 5.6rem auto 3rem auto;
   top: 0;
-  z-index: 40;
   background: linear-gradient(
     180deg,
     rgba(255, 255, 255, 0.9) 63.02%,
