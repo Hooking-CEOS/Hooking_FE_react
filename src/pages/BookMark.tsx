@@ -60,7 +60,7 @@ const BookMark = () => {
   useEffect(() => {
     if (recentCopy.id !== 0) {
       const newCard = [recentCopy, ...card];
-      setCard(newCard);
+      setCard(newCard as any);
       setRestore(false);
 
       if (!newCard.length) setNoResult(true);
