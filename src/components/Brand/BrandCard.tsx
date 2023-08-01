@@ -1,5 +1,10 @@
 import styled from "styled-components";
-import { savedIdLists, setSaveId } from "@/utils/atom";
+import {
+  deleteToastPopup,
+  recentDeleteCopy,
+  savedIdLists,
+  setSaveId,
+} from "@/utils/atom";
 
 import { useState, useRef, SetStateAction } from "react";
 import Button from "@/components/Button";
@@ -15,7 +20,7 @@ import {
   selectedCopy,
 } from "@/utils/atom";
 import { GetHighlight } from "@/utils/util";
-import { scrapCopy } from "@/api/copywriting";
+import { cancelScrap, scrapCopy } from "@/api/copywriting";
 import React from "react";
 
 interface BrandProps {
@@ -49,11 +54,13 @@ const BrandCard = ({
   const setLogin = useSetRecoilState(loginModalOverlay);
 
   const [forceHover, setForceHover] = useState(false);
+  const setDeleteToast = useSetRecoilState(deleteToastPopup);
 
   //const keyword = useRecoilValue(search);
 
   // set
   const setSaveIdList = useSetRecoilState(setSaveId);
+  const setRecentDelete = useSetRecoilState(recentDeleteCopy);
 
   // get
   const savedIdList = useRecoilValue(savedIdLists);
@@ -75,23 +82,32 @@ const BrandCard = ({
     }, time);
   };
 
+  const handleCancelScrap = async () => {
+    setDeleteToast(true);
+
+    const deleteCopy = {
+      id: brandId,
+      brandName: brandName,
+      scrapCnt: scrapCnt || 1,
+      text: text,
+      createdAt: "",
+    };
+
+    setRecentDelete(deleteCopy);
+    const data = await cancelScrap({ cardId: brandId });
+    if (data.code === 200) setToast(true);
+  };
+
   const handleCopyScrap = async () => {
     // 로그인 안된 상태면 로그인 팝업 출력
     if (!isLogin) {
       setLogin(true);
       return;
     }
-
-    console.log("card.cardId", brandId, typeof brandId);
     const data = await scrapCopy({ cardId: brandId });
-
-    console.log("scrapCnt", scrapCnt);
     if (data.code === 200) {
-      console.log("스크랩 결과", brandId, data);
-
       setHoverActive(2500);
       setToast(true);
-
       setSaveIdList(brandId as any);
     } else if (data.code === 400) {
       alert(data.message);
@@ -141,13 +157,14 @@ const BrandCard = ({
             icon="icon-saved-outline"
             className="button-orange-outline-saved component-small "
             text="저장됨"
+            onClick={handleCancelScrap}
           />
         ) : // 홈카드
         hover ? (
           // 호버했을 때 저장된 상태
           // 프론트에서 저장하거나 api에서 저장된 상태로 받는다면
           isLogin &&
-          (savedIdList.includes(brandId as any) ||
+          ((savedIdList.length && savedIdList.includes(brandId as any)) ||
             (scrapCnt && scrapCnt > 0)) ? (
             <Button
               icon="icon-saved-outline"

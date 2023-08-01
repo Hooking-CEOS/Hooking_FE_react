@@ -52,6 +52,27 @@ export const toastPopup = atom({
   default: false,
 });
 
+export const deleteToastPopup = atom({
+  key: "deleteToastPopup",
+  default: false,
+});
+
+export const recentDeleteCopy = atom({
+  key: "recentDeleteCopy",
+  default: {
+    id: 0,
+    brandName: "",
+    text: "",
+    scrapCnt: 0,
+    createdAt: "",
+  },
+});
+
+export const restoreCopy = atom({
+  key: "restoreCopy",
+  default: false,
+});
+
 export const isChecked = selectorFamily({
   key: "isChecked",
   get:
@@ -162,6 +183,29 @@ export const savedIdLists = atom<number[]>({
   effects_UNSTABLE: [persistAtom],
 });
 
+export const deleteSavedId = selector({
+  key: "deleteSavedId",
+  get: ({ get }) => {
+    return get(savedIdLists);
+  },
+  set: ({ get, set }, id) => {
+    // 삭제할 id
+    if (typeof id === "number") {
+      let idLists = get(savedIdLists);
+
+      if (!idLists.length) {
+        idLists = [];
+      } else idLists = idLists.filter((el) => el !== id);
+      set(savedIdLists, idLists);
+    }
+  },
+});
+
+export const sOpenFilter = atom({
+  key: "openFilter",
+  default: false,
+});
+
 export const setSaveId = selector({
   key: "setSaveId",
   get: ({ get }) => {
@@ -172,6 +216,8 @@ export const setSaveId = selector({
       let idLists = get(savedIdLists);
       if (!idLists.length) idLists = [id];
       else idLists = [...idLists, id];
+
+      console.log("복구 idLists", idLists);
 
       // idLists = [...idLists, id]; // params로 전달받은 id 추가
       set(savedIdLists, idLists);

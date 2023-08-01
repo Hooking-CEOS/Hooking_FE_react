@@ -4,13 +4,25 @@ import Button from "@/components/Button";
 
 import styled from "styled-components";
 import { Z_INDEX_TOAST } from "@/utils/constants";
-import { toastPopup } from "@/utils/atom";
-import { useSetRecoilState } from "recoil";
+import {
+  deleteToastPopup,
+  recentDeleteCopy,
+  restoreCopy,
+  savedIdLists,
+  setSaveId,
+  toastPopup,
+} from "@/utils/atom";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { scrapCopy } from "@/api/copywriting";
 
 const Toast = () => {
   const navigate = useNavigate();
   const [close, setClose] = useState(false);
   const setToast = useSetRecoilState(toastPopup);
+  const [saved, setDeleteToast] = useRecoilState(deleteToastPopup); // delete 팝업인지 여부
+  const setRestoreCopy = useSetRecoilState(restoreCopy);
+  const setSaveIdList = useSetRecoilState(setSaveId);
+  const recentCopy = useRecoilValue(recentDeleteCopy);
 
   const handleTimer = () => {
     setTimeout(() => {
@@ -18,22 +30,41 @@ const Toast = () => {
     }, 2000);
     setTimeout(() => {
       setToast(false);
+      if (saved) {
+        setDeleteToast(false); // 삭제 -> 원래대로 변경
+      }
     }, 2500);
   };
   useEffect(() => {
     handleTimer();
   }, []);
 
+  const handleRestore = async () => {
+    const data = await scrapCopy({ cardId: recentCopy.id });
+
+    if (data.code === 200) {
+      console.log("스크랩 결과", recentCopy.id, data);
+    } else if (data.code === 400) {
+      alert(data.message);
+    }
+    // 북마크에 다시 추가해주기
+    setRestoreCopy(true);
+  };
+
   return (
     <ToastWrapper className={`${close ? "close" : ""}`}>
       <p>
-        <span className="icon icon-check-circle" />
-        <span className="text-subtitle-1">카피가 북마크에 저장됨</span>
+        <span className={`icon icon-${saved ? "delete" : "check"}-circle`} />
+        <span className="text-subtitle-1">
+          {saved ? "카피를 북마크에서 삭제함" : "카피가 북마크에 저장됨"}
+        </span>
       </p>
       <Button
-        text="내 북마크"
+        text={saved ? "복구하기" : "내 북마크"}
         className="button-orange component-default"
-        onClick={() => navigate("/bookmark")}
+        onClick={() => {
+          saved ? handleRestore() : navigate("/bookmark");
+        }}
       />
       <span
         className="icon icon-delete"
@@ -97,3 +128,10 @@ const ToastWrapper = styled.div`
     }
   }
 `;
+
+/*
+function setSaveIdList(arg0: any) {
+  throw new Error("Function not implemented.");
+}
+
+*/

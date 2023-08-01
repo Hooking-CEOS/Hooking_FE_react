@@ -29,3 +29,8 @@ export const scrapCopy = async (body: { cardId: number }) => {
 export const getScrapCopy = async (pageNum: number = 0) => {
   return await GET(`/copy/scrap/${pageNum}`);
 };
+
+// 카피라이팅 스크랩
+export const cancelScrap = async (body: { cardId: number }) => {
+  return await POST(`/copy/scrap/cancle`, body);
+};
