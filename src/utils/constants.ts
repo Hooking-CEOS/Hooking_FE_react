@@ -97,23 +97,21 @@ export const HEADER_LEFT_MENU = [
     path: "/home",
     name: "홈",
   },
-  /*
+
   {
     idx: 1,
     path: "/writing",
     name: "글쓰기",
   },
-  */
 ];
 
 export const PROFILE_DATA = [
-  /*
   {
     idx: 0,
     text: "내 계정",
     link: "/profile",
   },
-  */
+
   {
     idx: 1,
     text: "북마크",
