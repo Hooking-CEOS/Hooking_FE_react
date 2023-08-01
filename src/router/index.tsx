@@ -29,6 +29,7 @@ import {
 import { useRecoilValue, useRecoilState } from "recoil";
 import HomeSkeleton from "@/pages/Skeleton/HomeSkeleton";
 import SearchSkeleton from "@/pages/Skeleton/SearchSkeleton";
+import WIP from "@/pages/WIP";
 
 const HookingRouter = () => {
   const toastOpen = useRecoilValue(toastPopup);
@@ -82,6 +83,16 @@ const HookingRouter = () => {
       path: "/oath-processor",
       name: "fetchData",
       component: <OathProcessor />,
+    },
+    {
+      path: "/writing",
+      name: "WIP",
+      component: <WIP />,
+    },
+    {
+      path: "/profile",
+      name: "WIP",
+      component: <WIP />,
     },
   ];
 
