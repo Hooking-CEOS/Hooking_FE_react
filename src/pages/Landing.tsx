@@ -7,12 +7,15 @@ import landing1 from "@/assets/images/landing/landing1.png";
 import landing2 from "@/assets/images/landing/landing2.png";
 import landing3 from "@/assets/images/landing/landing3.png";
 import landing4 from "@/assets/images/landing/landing4.png";
+import card1 from "@/assets/images/landing/card1.svg";
+import card2 from "@/assets/images/landing/card2.svg";
 import LandingLoginBtn from "@/components/LandingLoginBtn";
 
 import { activeMenu, loginModalOverlay } from "@/utils/atom";
 import { useEffect } from "react";
 import LandingHomeBtn from "@/components/LandingHomeButton";
 import { useNavigate } from "react-router-dom";
+import Button from "@/components/Button";
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -37,13 +40,34 @@ const Landing = () => {
   return (
     <LandingPageWrapper>
       <LandingPage1>
-        <img className="page1Img" src={landing1} alt="landingpage" />
-        <LandingLoginBtn onClick={handleLogin} />
-        <LandingHomeBtn
-          onClick={() => {
-            setActiveMenuIdx(0);
-            navigate("/home");
-          }}
+        <div className="topArea">
+          <div className="textArea">
+            <div className="fontBig">
+              한 눈에 보는 <br />
+              SNS <span className="orange">카피 레퍼런스</span>
+            </div>
+            <div className="fontSmall">
+              보고 싶은 브랜드를 팔로우하고,
+              <br />
+              원하는 카피라이팅 레퍼런스를 북마크에서 모아보세요.
+            </div>
+            <Button
+              width="178px"
+              text="로그인하기"
+              className="button-landing-white text-landing"
+              onClick={handleLogin}
+            />
+          </div>
+          <div className="cardArea">
+            <div className="card2"></div>
+            <img src={card1} alt="imgcard" className="card1" />
+          </div>
+        </div>
+        <Button
+          width="165px"
+          text="바로 살펴보기"
+          className="button-landing-orange text-landing"
+          onClick={() => navigate("/home")}
         />
         <img
           src={iconVector}
@@ -130,12 +154,58 @@ const LandingPage1 = styled.div`
   width: 115.4rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   position: relative;
-  .page1Img {
-    width: 100%;
+  padding-top: 16rem;
+  .topArea {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+
+    .textArea {
+      display: flex;
+      flex-direction: column;
+      gap: 4rem;
+      .fontBig {
+        font-size: 6.4rem;
+        font-weight: 700;
+        line-height: 140%;
+        letter-spacing: -1.6px;
+        color: #222;
+      }
+      .fontSmall {
+        color: ${(props) => props.theme.colors.black40};
+        font-size: 2rem;
+        font-weight: 500;
+        line-height: 150%;
+        margin-bottom: 2.6rem;
+      }
+      .orange {
+        color: ${(props) => props.theme.colors.point};
+      }
+      .white {
+        color: ${(props) => props.theme.colors.white};
+      }
+    }
+    .cardArea {
+      position: relative;
+      .card1 {
+        position: absolute;
+        top: 0;
+        left: -50rem;
+      }
+      .card2 {
+        position: absolute;
+        top: 7.8rem;
+        left: -36.6rem;
+        width: 37.8rem;
+        height: 27.8rem;
+        border-radius: 2rem;
+        border: 1px solid rgba(0, 2, 53, 0.08);
+        background-color: transparent;
+      }
+    }
   }
+
   @keyframes bounce {
     0%,
     100% {
@@ -154,6 +224,7 @@ const LandingPage1 = styled.div`
 
   .iconVector {
     width: 9rem;
+    height: 4.1rem;
     -webkit-animation: bounce 1s infinite;
     animation: bounce 1s infinite;
     cursor: pointer;
