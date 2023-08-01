@@ -7,6 +7,8 @@ export interface ICardData {
   text: string;
   brandName: string;
   scrapCnt: number;
+  brandLink?: string;
+  isScrap: number;
   createdAt: string;
   index?: number | undefined;
 }
