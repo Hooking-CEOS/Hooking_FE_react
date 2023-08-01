@@ -221,6 +221,11 @@ const SelectedCopyContainer = styled.div<{ brandName: string }>`
     padding: 4rem;
     gap: 1rem;
 
+    .textArea::selection {
+      user-select: auto !important;
+      background: ${({ theme }) => theme.colors.drag};
+    }
+
     .textArea {
       overflow-x: hidden;
       overflow-y: auto;
