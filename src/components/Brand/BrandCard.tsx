@@ -26,6 +26,7 @@ interface BrandProps {
   saved?: boolean;
   srcIdx?: number;
   scrapCnt?: number;
+  isScrap?: number;
   keyword?: string;
   setSaved?: React.Dispatch<SetStateAction<boolean | undefined>>;
   onClick?: () => void;
@@ -38,6 +39,7 @@ const BrandCard = ({
   brandName,
   brandImg,
   scrapCnt,
+  isScrap,
   brandId,
   saved,
   keyword,
@@ -85,7 +87,7 @@ const BrandCard = ({
     console.log("card.cardId", brandId, typeof brandId);
     const data = await scrapCopy({ cardId: brandId });
 
-    console.log("scrapCnt", scrapCnt);
+    console.log("isScrap", isScrap);
     if (data.code === 200) {
       console.log("스크랩 결과", brandId, data);
 
@@ -147,8 +149,7 @@ const BrandCard = ({
           // 호버했을 때 저장된 상태
           // 프론트에서 저장하거나 api에서 저장된 상태로 받는다면
           isLogin &&
-          (savedIdList.includes(brandId as any) ||
-            (scrapCnt && scrapCnt > 0)) ? (
+          (savedIdList.includes(brandId as any) || (isScrap && isScrap > 0)) ? (
             <Button
               icon="icon-saved-outline"
               className="button-orange-outline-saved component-small "
