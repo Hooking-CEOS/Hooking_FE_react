@@ -210,6 +210,7 @@ const FilterWrapper = styled.div<{ selected: boolean }>`
   max-width: 119.4rem;
   margin: 5.6rem auto 3rem auto;
   top: 0;
+  z-index: 20;
   background: linear-gradient(
     180deg,
     rgba(255, 255, 255, 0.9) 63.02%,
