@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { checkedFilterList, checkedListLen } from "@/utils/atom";
+import { checkedFilterList, checkedListLen, sOpenFilter } from "@/utils/atom";
 import useOutSideClick from "@/hooks/useOutSideClick";
 import useScrollIntoView from "@/hooks/useScrollIntoView";
 import { flexColumnCenter } from "@/styles/theme";
@@ -27,6 +27,7 @@ const Filter = () => {
   const [checkedList, setCheckedList] = useRecoilState(checkedFilterList);
   const totalLen = useRecoilValue(checkedListLen);
   const [selected, setSelected] = useState(false);
+  const [rOpenFilter, setROpenFilter] = useRecoilState(sOpenFilter);
 
   // component inner state
   const [innerCheckedList, setInnerCheckedList] = useState(checkedList);
@@ -103,6 +104,12 @@ const Filter = () => {
     if (len === 0) setSelected(false);
   }, [innerCheckedList]);
 
+  const handleReset = () => {
+    setSelected(false);
+    setCheckedList(DEFAULT_FILTER_STATE);
+    setInnerCheckedList(DEFAULT_FILTER_STATE);
+  };
+
   return (
     <FilterWrapper selected={selected} ref={element}>
       <div className="button-wrapper">
@@ -118,11 +125,7 @@ const Filter = () => {
               text="초기화"
               icon="icon-reset"
               className="button-br-10 button-white-outline reset text-subtitle-1"
-              onClick={() => {
-                setSelected(false);
-                setCheckedList(DEFAULT_FILTER_STATE);
-                setInnerCheckedList(DEFAULT_FILTER_STATE);
-              }}
+              onClick={handleReset}
             />
             {checkedList.map((list) =>
               list.map((item, key) => (

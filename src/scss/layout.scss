@@ -33,6 +33,10 @@ body {
         margin: 5.6rem auto 12.8rem auto;
       }
 
+      &.home {
+        z-index: 30;
+      }
+
       &.bookmark {
         margin: auto;
         padding: 5.6rem 0 12.8rem 0;

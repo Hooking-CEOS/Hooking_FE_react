@@ -54,10 +54,9 @@ const CopyDetail = ({ onClose }: CopyDetailProps) => {
   };
 
   const handleCopyScrap = async () => {
-    // 로그인 안된 상태면 로그인 팝업 출력
     if (!isLogin) {
       setLoginModal(true);
-      setBrandModal(false); // 현재 모달 닫기
+      setBrandModal(false);
       return;
     }
     const data = await scrapCopy({ cardId: selectedCopyData.id });
@@ -112,7 +111,8 @@ const CopyDetail = ({ onClose }: CopyDetailProps) => {
 
             {/* 저장된 상태라면  */}
 
-            {savedIdList.includes(selectedCopyData.id as any) ||
+            {(savedIdList.length &&
+              savedIdList.includes(selectedCopyData.id as any)) ||
             selectedCopyData.scrapCnt > 0 ? (
               <Button
                 icon="icon-saved-outline"

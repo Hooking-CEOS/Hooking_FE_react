@@ -10,6 +10,7 @@ import {
   checkedFilterList,
   checkedListLen,
   filterCardList,
+  sOpenFilter,
   selectedCopy,
   similarCopyList,
 } from "@/utils/atom";
@@ -22,6 +23,9 @@ import { removeAllSpace } from "@/utils/util";
 import BrandCard from "@/components/Brand/BrandCard";
 import useScrollIntoView from "@/hooks/useScrollIntoView";
 import useDidMountEffect from "@/hooks/useDidMountEffect";
+import Button from "@/components/Button";
+import { flexCenter } from "@/styles/theme";
+import QnA from "./QnA";
 
 const Home = () => {
   const [brandModal, setBrandModal] = useRecoilState(brandModalOverlay);
@@ -32,6 +36,7 @@ const Home = () => {
   const setSelectedCopy = useSetRecoilState<ICardData>(selectedCopy);
   const setSimilarCopy = useSetRecoilState(similarCopyList);
   const [renderSkeleton, setRenderSkeleton] = useState(false);
+  const setOpenFilter = useSetRecoilState(sOpenFilter);
 
   const [emptyResult, setEmptyResult] = useState<boolean>(false);
   const [ref, inView] = useInView();
@@ -116,8 +121,7 @@ const Home = () => {
       <CarouselDiv>
         <Carousel />
       </CarouselDiv>
-
-      <section className="main">
+      <section className="main home">
         <Filter />
         <BrandCards ref={element}>
           {cardData && cardData.length > 1 ? (
@@ -135,7 +139,20 @@ const Home = () => {
               />
             ))
           ) : emptyResult ? (
-            <>no Result!!!</>
+            <EmptyResult>
+              <p className="text-heading-2 empty-text">
+                알맞은 카피 결과가 없습니다.
+              </p>
+              <p className="text-body-1">
+                선택한 필터에 맞는 카피를 찾을 수 없습니다. 다른 필터 조합을
+                선택해보세요.
+              </p>
+              <Button
+                text="필터 재설정하기"
+                onClick={() => console.log("filter reset")}
+                className="button-orange big component-small"
+              />
+            </EmptyResult>
           ) : (
             Array.from({ length: 9 }, () => Array(0).fill(0)).map((el, idx) => (
               <SkeletonCard key={idx} />
@@ -151,6 +168,7 @@ const Home = () => {
           )}
         </BrandCards>
       </section>
+      {emptyResult && <QnA copyOnly={true} />}
     </>
   );
 };
@@ -169,6 +187,11 @@ const BrandCards = styled.div`
   }
 `;
 
+const FilterWrapper = styled.div`
+  max-width: 119.4rem;
+  margin: 5.6rem auto 12.8rem auto;
+`;
+
 const CarouselDiv = styled.div`
   width: 100%;
   /* height: 360px; */
@@ -178,4 +201,28 @@ const CarouselDiv = styled.div`
     rgba(0, 2, 53, 0) 0%,
     rgba(0, 2, 53, 0.03) 100%
   );
+`;
+
+const EmptyResult = styled.div`
+  width: 119.4rem;
+  height: auto;
+  margin-top: 6.3rem;
+  background-color: ${({ theme }) => theme.colors.white};
+  border-radius: 2rem;
+  ${flexCenter}
+  flex-direction: column;
+  text-align: center;
+
+  .empty-text {
+    color: ${({ theme }) => theme.colors.black100} !important;
+  }
+
+  .text-body-1 {
+    margin-top: 0.8rem;
+    color: ${({ theme }) => theme.colors.black40};
+  }
+
+  .component-small {
+    margin-top: 4.8rem;
+  }
 `;

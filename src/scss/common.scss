@@ -113,6 +113,11 @@ input[type="checkbox"] {
         padding: 2rem 2.9rem;
       }
     }
+    &.big {
+      .button__inner {
+        padding: 2rem 4.1rem;
+      }
+    }
   }
 
   &-grey {
@@ -268,6 +273,13 @@ input[type="checkbox"] {
     width: 2.4rem;
     height: 2.4rem;
     background: url("../assets/images/icon-check-circle.svg") no-repeat center;
+  }
+
+  &-delete-circle {
+    width: 2.4rem;
+    height: 2.4rem;
+    background: url("../assets/images/icon-delete-circle.png") no-repeat center /
+      cover;
   }
 
   &-hooking {

@@ -10,7 +10,13 @@ import { useSetRecoilState } from "recoil";
 import { brandModalOverlay, selectedCopy, similarCopyList } from "@/utils/atom";
 import { ICardData } from "@/utils/type";
 
-const QnA = ({ keyword }: { keyword?: string | null }) => {
+const QnA = ({
+  keyword,
+  copyOnly,
+}: {
+  keyword?: string | null;
+  copyOnly?: boolean;
+}) => {
   const [cardData, setCardData] = useState<ICardData[]>([]);
   const setBrandModal = useSetRecoilState(brandModalOverlay);
   const setSelectedCopy = useSetRecoilState(selectedCopy);
@@ -33,24 +39,26 @@ const QnA = ({ keyword }: { keyword?: string | null }) => {
 
   return (
     <section className="main qna">
-      <div className="qna-search-result">
-        <div className="qna-search-result__wrap">
-          <h1 className="text-heading-2">
-            <span className="text-orange">'{keyword}'</span>에 대한 검색 결과가
-            없습니다.
-          </h1>
-          <p className="qna-search-result-content text-body-1">
-            새로운 뷰티 브랜드의 SNS 홍보 문구를 찾으셨나요?
-            <br /> 후킹에서 지속적으로 만나보고 싶은 브랜드가 있다면 아래 버튼을
-            눌러 건의해주세요.
-          </p>
-          <Button
-            text="후킹에게 건의하기"
-            className="button-orange long component-small"
-            onClick={openKaKaoPlus}
-          ></Button>
+      {!copyOnly && (
+        <div className="qna-search-result">
+          <div className="qna-search-result__wrap">
+            <h1 className="text-heading-2">
+              <span className="text-orange">'{keyword}'</span>에 대한 검색
+              결과가 없습니다.
+            </h1>
+            <p className="qna-search-result-content text-body-1">
+              새로운 뷰티 브랜드의 SNS 홍보 문구를 찾으셨나요?
+              <br /> 후킹에서 지속적으로 만나보고 싶은 브랜드가 있다면 아래
+              버튼을 눌러 건의해주세요.
+            </p>
+            <Button
+              text="후킹에게 건의하기"
+              className="button-orange long component-small"
+              onClick={openKaKaoPlus}
+            ></Button>
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="qna-copy">
         <div className="qna-copy__wrap">
