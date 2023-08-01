@@ -160,21 +160,14 @@ interface CIDProps {
 }
 
 const CarouselImgDiv = styled.div<CIDProps>`
-  /* background-image: url(${(props) => props.imgSrc});
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  position: relative;
   box-sizing: border-box;
-  border-radius: 20px;
   display: flex;
   justify-content: center;
   min-width: 23.4vw;
   min-height: 23.4vw;
   box-shadow: 0px 4px 30px 0px rgba(158, 158, 158, 0.4);
-  z-index: 999;
-  position: relative;
-  filter: brightness(0.9); */
-  position: relative;
+  border-radius: 2rem 0 0 2rem;
 
   &::before {
     content: "";
@@ -188,16 +181,9 @@ const CarouselImgDiv = styled.div<CIDProps>`
     background-position: center;
     background-repeat: no-repeat;
     filter: brightness(0.9);
-    border-radius: 20px;
+    border-radius: 2rem;
     z-index: 2;
   }
-
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  min-width: 23.4vw;
-  min-height: 23.4vw;
-  box-shadow: 0px 4px 30px 0px rgba(158, 158, 158, 0.4);
 `;
 
 const CarouselIconDiv = styled.div`

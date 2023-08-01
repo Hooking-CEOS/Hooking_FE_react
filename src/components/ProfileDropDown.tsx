@@ -45,6 +45,7 @@ const ProfileDropDown = ({ className }: ProfilePropType) => {
           setIsLogin(false);
           alert("세션이 만료되었습니다.");
           removeCookie("userToken");
+          localStorage.clear();
 
           Navigate("/");
         } else {
@@ -102,6 +103,7 @@ const ProfileDropDown = ({ className }: ProfilePropType) => {
               if (data.idx === 3) {
                 setIsLogin(false);
                 removeCookie("userToken");
+                localStorage.clear();
               }
             }}
           >

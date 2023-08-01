@@ -40,6 +40,7 @@ input[type="checkbox"] {
 
 .button {
   display: flex;
+  height: fit-content;
   align-items: center;
   border: 0;
   box-shadow: none;
@@ -250,6 +251,26 @@ input[type="checkbox"] {
     .button__inner {
       padding: 1.4rem 2rem;
       border-radius: 1rem;
+    }
+  }
+
+  &-landing {
+    &-white {
+      .button__inner {
+        color: $color_point;
+        background-color: $color_white;
+        border: $color_point solid 1px;
+        padding: 1.4rem 2rem;
+        border-radius: 0.5rem;
+      }
+    }
+    &-orange {
+      .button__inner {
+        color: $color_white;
+        background-color: $color_point;
+        padding: 1.4rem 2rem;
+        border-radius: 0.5rem;
+      }
     }
   }
 }

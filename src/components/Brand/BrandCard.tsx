@@ -31,6 +31,7 @@ interface BrandProps {
   saved?: boolean;
   srcIdx?: number;
   scrapCnt?: number;
+  isScrap?: number;
   keyword?: string;
   setSaved?: React.Dispatch<SetStateAction<boolean | undefined>>;
   onClick?: () => void;
@@ -43,6 +44,7 @@ const BrandCard = ({
   brandName,
   brandImg,
   scrapCnt,
+  isScrap,
   brandId,
   saved,
   keyword,
@@ -165,7 +167,7 @@ const BrandCard = ({
           // 프론트에서 저장하거나 api에서 저장된 상태로 받는다면
           isLogin &&
           ((savedIdList.length && savedIdList.includes(brandId as any)) ||
-            (scrapCnt && scrapCnt > 0)) ? (
+            (isScrap && isScrap > 0)) ? (
             <Button
               icon="icon-saved-outline"
               className="button-orange-outline-saved component-small "
