@@ -17,7 +17,13 @@ import useDidMountEffect from "@/hooks/useDidMountEffect";
 const DEFAULT_FILTER_STATE = [[], [], [], []];
 
 const Filter = () => {
-  const [openFilter, setOpenFilter] = useState(false);
+  const [rOpenFilter, setROpenFilter] = useRecoilState(sOpenFilter);
+
+  const [openFilter, setOpenFilter] = useState(rOpenFilter || false);
+
+  useEffect(() => {
+    if (rOpenFilter) setOpenFilter(true);
+  }, [rOpenFilter]);
 
   const filterRef = useRef(null);
 
@@ -27,8 +33,6 @@ const Filter = () => {
   const [checkedList, setCheckedList] = useRecoilState(checkedFilterList);
   const totalLen = useRecoilValue(checkedListLen);
   const [selected, setSelected] = useState(false);
-  const [rOpenFilter, setROpenFilter] = useRecoilState(sOpenFilter);
-
   // component inner state
   const [innerCheckedList, setInnerCheckedList] = useState(checkedList);
 
@@ -43,6 +47,7 @@ const Filter = () => {
 
   const handleOutSideclick = () => {
     setOpenFilter(false);
+    setROpenFilter(false);
 
     // 창 닫을 때 키워드 눌렀던거 초기화
     setInnerCheckedList(checkedList); // 마지막 리코일에 저장된 상태로 초기화
@@ -52,6 +57,7 @@ const Filter = () => {
   const handleSelected = () => {
     !getFilterLen() ? setSelected(false) : setSelected(true);
     setOpenFilter(false);
+    setROpenFilter(false);
     setCheckedList(innerCheckedList);
   };
 
@@ -202,8 +208,10 @@ const FilterWrapper = styled.div<{ selected: boolean }>`
   width: 100%;
   padding: 1.6rem 0;
   display: flex;
+  max-width: 119.4rem;
+  margin: 5.6rem auto 3rem auto;
   top: 0;
-  z-index: 10;
+  z-index: 40;
   background: linear-gradient(
     180deg,
     rgba(255, 255, 255, 0.9) 63.02%,
@@ -221,6 +229,7 @@ const FilterWrapper = styled.div<{ selected: boolean }>`
 const FilterContent = styled.div`
   ${flexColumnCenter}
   position: absolute;
+  z-index: 50;
   top: 7rem;
 
   border-radius: 2rem;

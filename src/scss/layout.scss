@@ -28,13 +28,14 @@ body {
     .main {
       content-visibility: auto;
 
-      &:not(.bookmark, .qna) {
+      &:not(.bookmark, .qna, .home) {
         max-width: 119.4rem;
         margin: 5.6rem auto 12.8rem auto;
       }
 
       &.home {
-        z-index: 30;
+        max-width: 119.4rem;
+        margin: 3rem auto 12.8rem auto;
       }
 
       &.bookmark {

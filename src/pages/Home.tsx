@@ -121,8 +121,8 @@ const Home = () => {
       <CarouselDiv>
         <Carousel />
       </CarouselDiv>
+      <Filter />
       <section className="main home">
-        <Filter />
         <BrandCards ref={element}>
           {cardData && cardData.length > 1 ? (
             cardData.map((card: ICardData) => (
@@ -149,7 +149,7 @@ const Home = () => {
               </p>
               <Button
                 text="필터 재설정하기"
-                onClick={() => console.log("filter reset")}
+                onClick={() => setOpenFilter(true)}
                 className="button-orange big component-small"
               />
             </EmptyResult>
@@ -179,17 +179,11 @@ const BrandCards = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 3rem;
-  margin-top: 3rem;
   .observedDiv {
     width: 100%;
     height: 10px;
     background-color: red;
   }
-`;
-
-const FilterWrapper = styled.div`
-  max-width: 119.4rem;
-  margin: 5.6rem auto 12.8rem auto;
 `;
 
 const CarouselDiv = styled.div`
