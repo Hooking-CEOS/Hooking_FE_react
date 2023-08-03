@@ -4,7 +4,7 @@ import { useInView } from "react-intersection-observer";
 
 import iconVector from "@/assets/images/landing/icon-vector.png";
 import landing1 from "@/assets/images/landing/landing1.png";
-import landing2 from "@/assets/images/landing/landing2.png";
+import landing2 from "@/assets/images/landing/landing2.svg";
 import landing3 from "@/assets/images/landing/landing3.png";
 import landing4 from "@/assets/images/landing/landing4.png";
 import card1 from "@/assets/images/landing/card1.svg";
