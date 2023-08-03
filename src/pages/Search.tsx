@@ -80,7 +80,7 @@ const Search = () => {
   };
 
   interface commonAPIResponseType {
-    code: number;
+    code: number | string;
     messages: string;
   }
 
@@ -110,7 +110,8 @@ const Search = () => {
         setKeyword(keyword);
       }
       getTypeData(data, type); // 데이터들의 대표 타입을 통해 카드 데이터 렌더링
-    } else if (data.code === 400) setNoResult(true);
+    } else if (data.code === 400 || data.code === "ERR_BAD_REQUEST")
+      setNoResult(true);
   };
 
   const handleBrandOpen = (cardData: any) => {
