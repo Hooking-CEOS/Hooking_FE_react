@@ -16,21 +16,21 @@ interface IParamsType {
 }
 
 // checkedFilterList를 통해 필터링된 카드 데이터
-export const filterCardList = selector({
-  key: "filterCardList",
-  get: async ({ get }) => {
-    const list = get(checkedFilterList);
-    const key: string[] = ["mood", "product", "age", "price"];
-    let params: any = {};
-    list.map((filter: any, idx) => {
-      if (filter.length) {
-        params[key[idx]] = removeAllSpace(filter.join(","));
-      }
-    });
-    // TODO : pagnination 구현
-    return await getCopyFilter(params, 0);
-  },
-});
+// export const filterCardList = selector({
+//   key: "filterCardList",
+//   get: async ({ get }) => {
+//     const list = get(checkedFilterList);
+//     const key: string[] = ["mood", "product", "age", "price"];
+//     let params: any = {};
+//     list.map((filter: any, idx) => {
+//       if (filter.length) {
+//         params[key[idx]] = removeAllSpace(filter.join(","));
+//       }
+//     });
+//     // TODO : pagnination 구현
+//     return await getCopyFilter(params, 0);
+//   },
+// });
 
 // api response로 받은 keyword
 //  -> 검색 하이라이트 처리하려면 BrandCard props로 이 keyword를 내려줘야함
@@ -63,6 +63,7 @@ export const recentDeleteCopy = atom({
     id: 0,
     brandName: "",
     text: "",
+    isScrap: 0,
     scrapCnt: 0,
     createdAt: "",
   },
@@ -115,7 +116,7 @@ export const selectedCopy = atom<ICardData>({
     id: 0,
     brandName: "",
     createdAt: "",
-    brandLink: "",
+    cardLink: "",
     index: 0,
     isScrap: 0,
     scrapCnt: 0,

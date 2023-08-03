@@ -75,6 +75,7 @@ const QnA = ({
                       card.brandName
                     )}.png`)}
                     onClick={() => handleBrandOpen(card)}
+                    isScrap={card.isScrap}
                     scrapCnt={card.scrapCnt}
                   />
                 ))

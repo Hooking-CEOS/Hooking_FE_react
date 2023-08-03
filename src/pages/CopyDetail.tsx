@@ -114,11 +114,11 @@ const CopyDetail = ({ onClose }: CopyDetailProps) => {
                 src={linkSrc}
                 alt="link"
                 className="linkBtn"
-                onClick={() => console.log(selectedCopyData)}
+                onClick={() => window.open(selectedCopyData.cardLink, "_blank")}
               />
               {/* 저장된 상태라면  */}
               {savedIdList.includes(selectedCopyData.id as any) ||
-              selectedCopyData.scrapCnt > 0 ? (
+              selectedCopyData.isScrap > 0 ? (
                 <Button
                   icon="icon-saved-outline"
                   className="button-orange-outline-saved component-small "
@@ -156,6 +156,7 @@ const CopyDetail = ({ onClose }: CopyDetailProps) => {
                 onClick={() => {
                   handleCopyClick(card);
                 }}
+                isScrap={card.isScrap}
                 scrapCnt={card.scrapCnt}
               />
             );

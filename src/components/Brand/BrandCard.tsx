@@ -91,6 +91,7 @@ const BrandCard = ({
       id: brandId,
       brandName: brandName,
       scrapCnt: scrapCnt || 1,
+      isScrap: isScrap || 1,
       text: text,
       createdAt: "",
     };

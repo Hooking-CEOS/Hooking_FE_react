@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Button from "@/components/Button";
 
 import styled from "styled-components";
@@ -27,6 +27,7 @@ interface UserProfileType {
 
 const ProfileDropDown = ({ className }: ProfilePropType) => {
   const Navigate = useNavigate();
+  const location = useLocation();
   const [hover, setHover] = useState(false);
   const [user, setUser] = useState<UserProfileType>();
 
@@ -43,24 +44,23 @@ const ProfileDropDown = ({ className }: ProfilePropType) => {
       .then((res) => {
         if (res.code === "ERR_NETWORK") {
           setIsLogin(false);
-          alert("세션이 만료되었습니다.");
+          alert("세션이 만료되었습니다.\n다시 로그인해주세요.");
           removeCookie("userToken");
           localStorage.clear();
-
           Navigate("/");
-        } else {
-          //  console.log(res);
+        } else if (res.nickname || res.picture) {
           setUser(res);
           setIsLogin(true);
-          //console.log(res);
+        } else {
+          alert("");
+          removeCookie("userToken");
+          localStorage.clear();
+          setIsLogin(false);
+          Navigate("/");
         }
       })
-      .catch((err) => {
-        removeCookie("userToken");
-        setIsLogin(false);
-        Navigate("/");
-      });
-  }, [window.location.pathname]);
+      .catch((err) => {});
+  }, [location]);
   // TODO: icon-arrow-unfold-light 추가
   const getIconClassName = () =>
     activeMenuIdx === 2

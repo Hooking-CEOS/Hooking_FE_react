@@ -36,8 +36,10 @@ const Carousel = () => {
   const navigate = useNavigate();
   const swiperRef = useRef<SwiperRef>(null);
   const [currentSlide, setCurrentSlide] = useState<number>(0);
+  const [randNum, setRandNum] = useState(Math.floor(Math.random() * 3));
+  const [carouselRdy, setCarouselRdy] = useState(false);
+
   // 브랜드 내에 descText중 몇번째 출력할지 나타내는 변수
-  const [randomNum, setRandomNum] = useState<number>(0);
 
   const handleSlideChange = () => {
     if (swiperRef.current) {
@@ -50,6 +52,12 @@ const Carousel = () => {
     return <BrandIcon name={name} />;
   };
 
+  useEffect(() => {
+    imgData.sort(() => Math.random() - Math.random());
+    // console.log(randList);
+    setCarouselRdy(true);
+  }, []);
+
   const handleSlideClick = (id: string) => {
     navigate("/brand/" + id);
   };
@@ -60,9 +68,9 @@ const Carousel = () => {
         <div className="swiper-slide-div-main_div">
           “
           <div className="swiper-slide-div-main_text">
-            {data.descText[randomNum].main} ”
+            {data.descText[randNum].main} ”
             <div className="swiper-slide-div-sub_text">
-              {data.descText[randomNum].sub}
+              {data.descText[randNum].sub}
             </div>
           </div>
         </div>
@@ -70,7 +78,7 @@ const Carousel = () => {
     );
   };
 
-  return (
+  return carouselRdy ? (
     <>
       <Swiper
         ref={swiperRef}
@@ -100,7 +108,7 @@ const Carousel = () => {
       >
         {/* {CarouselData.map((data, index) => { */}
         {imgData.map((data, index) => {
-          const slideId = Number(data.id) - 1;
+          const slideId = Number(index);
           const dataLength = 28;
           const tagId =
             slideId === (currentSlide + dataLength - 1) % dataLength
@@ -150,6 +158,8 @@ const Carousel = () => {
         })}
       </Swiper>
     </>
+  ) : (
+    <></>
   );
 };
 

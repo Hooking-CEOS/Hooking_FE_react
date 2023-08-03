@@ -4,17 +4,11 @@ import Filter from "@/components/Filter";
 import { Card as SkeletonCard } from "@/components/Skeleton/Card";
 import Carousel from "@/components/Carousel";
 
-import {
-  useRecoilState,
-  useRecoilValue,
-  useRecoilValueLoadable,
-  useSetRecoilState,
-} from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   brandModalOverlay,
   checkedFilterList,
   checkedListLen,
-  filterCardList,
   sOpenFilter,
   selectedCopy,
   similarCopyList,
@@ -36,13 +30,12 @@ const Home = () => {
   const [brandModal, setBrandModal] = useRecoilState(brandModalOverlay);
   const [cardData, setCardData] = useState<ICardData[]>([]);
 
-  const filteredData = useRecoilValue(filterCardList);
   const filterLen = useRecoilValue(checkedListLen);
   const setSelectedCopy = useSetRecoilState<ICardData>(selectedCopy);
   const setSimilarCopy = useSetRecoilState(similarCopyList);
   const [renderSkeleton, setRenderSkeleton] = useState(false);
   const setOpenFilter = useSetRecoilState(sOpenFilter);
-  const filterCardReady = useRecoilValueLoadable(filterCardList);
+  const checkedList = useRecoilValue(checkedFilterList);
 
   const [emptyResult, setEmptyResult] = useState<boolean>(false);
   const [nomoreData, setNomoreData] = useState<boolean>(false);
@@ -57,24 +50,58 @@ const Home = () => {
     setCardData(data);
   };
 
-  const getMoreCopy = async (num: number) => {
-    const { data } = await getAllCopy(num);
-    if (!data) {
+  const getMoreFilterCopy = async (num: number) => {
+    const key: string[] = ["mood", "product", "age", "price"];
+    let params: any = {};
+    checkedList.forEach((el, idx) => {
+      if (el.length) {
+        params[key[idx]] = removeAllSpace(el.join(","));
+      }
+    });
+
+    const data = await getCopyFilter(params, num);
+    console.log(data);
+    if (data.response?.status === 400) {
+      setEmptyResult(true);
+      return;
+    } else if (data.response?.status === 500) {
       setNomoreData(true);
       return;
     }
-    const uniqueData = Array.from(
-      new Set([...cardData, ...data].map((item) => JSON.stringify(item)))
-      // Parse each item in the set back to an object
-    ).map((item) => JSON.parse(item));
+    if (num === 0) {
+      setCardData(data);
+    } else {
+      const uniqueData = Array.from(
+        new Set([...cardData, ...data].map((item) => JSON.stringify(item)))
+      ).map((item) => JSON.parse(item));
 
-    setCardData(uniqueData);
+      setCardData(uniqueData);
+    }
+    setRenderSkeleton(false);
+  };
+
+  const getMoreCopy = async (num: number) => {
+    const { data } = await getAllCopy(num);
+
+    if (data.status) {
+      setNomoreData(true);
+      return;
+    }
+    if (num === 0) {
+      setCardData(data);
+    } else {
+      const uniqueData = Array.from(
+        new Set([...cardData, ...data].map((item) => JSON.stringify(item)))
+        // Parse each item in the set back to an object
+      ).map((item) => JSON.parse(item));
+
+      setCardData(uniqueData);
+    }
     setRenderSkeleton(false);
     // setHomeCards(data); // 리코일에 저장
   };
 
   // recoil state에 변화가 생길 때마다 스크롤 카드 시작부분으로 이동
-  const checkedList = useRecoilValue(checkedFilterList);
 
   const { element, onScrollToElement } = useScrollIntoView("auto");
 
@@ -82,49 +109,61 @@ const Home = () => {
     onScrollToElement();
   }, checkedList);
 
+  // useEffect(() => {
+  //   //  필터가 초기값인 경우 전체 카피 불러오기
+  //   if (!filterLen) {
+  //     getHomecopy();
+  //   } else {
+  //     if (pageNum.current.filterNum === 0) {
+  //       setCardData(filteredData);
+  //     }
+  //   }
+
+  //   if (!filteredData.length) {
+  //     setEmptyResult(true);
+
+  //     setEmptyResult(false);
+  //   }
+  // }, [filteredData]);
+
+  // filter 바뀌면 초기화
   useEffect(() => {
-    //  필터가 초기값인 경우 전체 카피 불러오기
+    setCardData([]);
+    pageNum.current.copyNum = 0;
+    pageNum.current.filterNum = 0;
+    setNomoreData(false);
+    setEmptyResult(false);
     if (!filterLen) {
       getHomecopy();
     } else {
-      if (pageNum.current.filterNum === 0) {
-        setCardData(filteredData);
-      }
+      getMoreFilterCopy(0);
     }
 
-    if (!filteredData.length) {
+    if (filterLen && !cardData.length) {
       setEmptyResult(true);
-    } else {
-      setEmptyResult(false);
     }
-  }, [filteredData]);
+  }, [checkedList]);
 
-  const handleApiCall = async (query: string, target?: ICardData[]) => {
+  const handleApiCall = async (query: string) => {
     // home copy api call
     if (cardData.length > 0 && inView) {
+      setRenderSkeleton(true);
       if (query === "home") {
         pageNum.current.copyNum += 1;
-        setRenderSkeleton(true);
         await getMoreCopy(pageNum.current.copyNum);
       }
       // filter copy api call
       else {
-        const uniqueData = Array.from(
-          new Set([...cardData, ...target!].map((item) => JSON.stringify(item)))
-        ).map((item) => JSON.parse(item));
-
-        setCardData(uniqueData);
-        setRenderSkeleton(false);
+        pageNum.current.filterNum += 1;
+        await getMoreFilterCopy(pageNum.current.filterNum);
       }
     }
   };
 
   useEffect(() => {
     // TODO : filterLen 분기처리
-    console.log("cardData & filteredData", cardData, filteredData);
-    if (filterLen && cardData !== filteredData) {
-      pageNum.current.filterNum += 1;
-      handleApiCall("filter", filteredData);
+    if (filterLen) {
+      handleApiCall("filter");
     } else if (filterLen === 0) {
       handleApiCall("home");
     }

@@ -222,6 +222,7 @@ const Search = () => {
                     brandId={card.id}
                     text={card.text}
                     scrapCnt={card.scrapCnt}
+                    isScrap={card.isScrap}
                     keyword={keywordData}
                     brandImg={require(`../assets/images/brandIcon/brand-${removeAllSpace(
                       card.brandName
