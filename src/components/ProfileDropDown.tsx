@@ -44,7 +44,6 @@ const ProfileDropDown = ({ className }: ProfilePropType) => {
       .then((res) => {
         if (res.code === "ERR_NETWORK") {
           setIsLogin(false);
-          alert("세션이 만료되었습니다.\n다시 로그인해주세요.");
           removeCookie("userToken");
           localStorage.clear();
           Navigate("/");
@@ -52,7 +51,6 @@ const ProfileDropDown = ({ className }: ProfilePropType) => {
           setUser(res);
           setIsLogin(true);
         } else {
-          alert("");
           removeCookie("userToken");
           localStorage.clear();
           setIsLogin(false);
