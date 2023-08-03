@@ -43,7 +43,6 @@ const BrandDetail = () => {
   const [ref, inView] = useInView();
   const pageNum = useRef(0);
   const handleBrandOpen = (card: any) => {
-    console.log(card);
     let target = {
       brandName: card.brandName,
       cardLink: card.cardLink,
@@ -76,7 +75,6 @@ const BrandDetail = () => {
   const getBrandCard = async (pageNum: number) => {
     const res = await getBrandDetail(targetData.api_id, pageNum);
     if (res.code === 200) {
-      console.log(res);
       setCardData((prev) => [...prev, ...res.data.card]);
       setBrandData({
         brandId: res.data.brandId,

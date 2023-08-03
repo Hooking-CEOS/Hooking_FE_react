@@ -59,7 +59,7 @@ const ProfileDropDown = ({ className }: ProfilePropType) => {
       })
       .catch((err) => {});
   }, [location]);
-  // TODO: icon-arrow-unfold-light 추가
+
   const getIconClassName = () =>
     activeMenuIdx === 2
       ? `icon-arrow-${hover ? "fold" : "fold"}-light`
