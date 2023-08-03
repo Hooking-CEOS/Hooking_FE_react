@@ -82,8 +82,9 @@ const Home = () => {
 
   const getMoreCopy = async (num: number) => {
     const { data } = await getAllCopy(num);
+    console.log(data);
 
-    if (data.status) {
+    if (!data) {
       setNomoreData(true);
       return;
     }
@@ -244,7 +245,7 @@ const BrandCards = styled.div`
   .observedDiv {
     width: 100%;
     height: 10px;
-    background-color: red;
+    /* background-color: red; */
   }
 `;
 
