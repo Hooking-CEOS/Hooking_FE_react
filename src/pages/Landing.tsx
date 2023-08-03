@@ -3,18 +3,16 @@ import { useSetRecoilState } from "recoil";
 import { useInView } from "react-intersection-observer";
 
 import iconVector from "@/assets/images/landing/icon-vector.png";
-import landing1 from "@/assets/images/landing/landing1.png";
 import landing2 from "@/assets/images/landing/landing2.svg";
-import landing3 from "@/assets/images/landing/landing3.png";
-import landing4 from "@/assets/images/landing/landing4.png";
+import landing3 from "@/assets/images/landing/landing3.svg";
+import landing4 from "@/assets/images/landing/landing4.svg";
 import iconfold from "@/assets/images/icon-arrow-fold-point.svg";
 import card1 from "@/assets/images/landing/card1.svg";
 import card2 from "@/assets/images/landing/card2.svg";
-import LandingLoginBtn from "@/components/LandingLoginBtn";
 
 import { activeMenu, loginModalOverlay } from "@/utils/atom";
 import { useEffect } from "react";
-import LandingHomeBtn from "@/components/LandingHomeButton";
+
 import { useNavigate } from "react-router-dom";
 import Button from "@/components/Button";
 
