@@ -43,7 +43,6 @@ const Carousel = () => {
 
   const handleSlideChange = () => {
     if (swiperRef.current) {
-      //console.log(swiperRef.current.swiper.realIndex);
       setCurrentSlide(swiperRef.current.swiper.realIndex);
     }
   };
@@ -54,7 +53,7 @@ const Carousel = () => {
 
   useEffect(() => {
     imgData.sort(() => Math.random() - Math.random());
-    // console.log(randList);
+
     setCarouselRdy(true);
   }, []);
 

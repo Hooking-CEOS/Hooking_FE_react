@@ -43,7 +43,6 @@ const Toast = () => {
     const data = await scrapCopy({ cardId: recentCopy.id });
 
     if (data.code === 200) {
-      console.log("스크랩 결과", recentCopy.id, data);
     } else if (data.code === 400) {
       alert(data.message);
     }
