@@ -7,6 +7,7 @@ import landing1 from "@/assets/images/landing/landing1.png";
 import landing2 from "@/assets/images/landing/landing2.svg";
 import landing3 from "@/assets/images/landing/landing3.png";
 import landing4 from "@/assets/images/landing/landing4.png";
+import iconfold from "@/assets/images/icon-arrow-fold-point.svg";
 import card1 from "@/assets/images/landing/card1.svg";
 import card2 from "@/assets/images/landing/card2.svg";
 import LandingLoginBtn from "@/components/LandingLoginBtn";
@@ -59,16 +60,49 @@ const Landing = () => {
             />
           </div>
           <div className="cardArea">
-            <div className="card2"></div>
+            {/* <div className="card2"></div> */}
+            <img src={card2} alt="imgcard" className="card2" />
             <img src={card1} alt="imgcard" className="card1" />
           </div>
         </div>
-        <Button
-          width="165px"
-          text="바로 살펴보기"
-          className="button-landing-orange text-landing"
-          onClick={() => navigate("/home")}
-        />
+        <div className="bottomArea">
+          <div className="filterArea">
+            <div className="filterBtn">
+              <div className="filtertop">
+                무드 키워드
+                <img src={iconfold} alt="foldIcon" />
+              </div>
+              <div className="filterBtm">브랜드를 설명하는 키워드</div>
+            </div>
+            <div className="filterBtn">
+              <div className="filtertop">
+                산업군
+                <img src={iconfold} alt="foldIcon" />
+              </div>
+              <div className="filterBtm">브랜드가 속한 산업군</div>
+            </div>
+            <div className="filterBtn">
+              <div className="filtertop">
+                타겟 나이대
+                <img src={iconfold} alt="foldIcon" />
+              </div>
+              <div className="filterBtm">중점적으로 목표한 나이대</div>
+            </div>
+            <div className="filterBtn">
+              <div className="filtertop">
+                가격대
+                <img src={iconfold} alt="foldIcon" />
+              </div>
+              <div className="filterBtm">형성되어 있는 가격</div>
+            </div>
+          </div>
+          <Button
+            width="165px"
+            text="바로 살펴보기"
+            className="button-landing-orange text-landing "
+            onClick={() => navigate("/home")}
+          />
+        </div>
         <img
           src={iconVector}
           alt="vector facing down"
@@ -160,6 +194,7 @@ const LandingPage1 = styled.div`
     display: flex;
     justify-content: space-between;
     flex-direction: row;
+    margin-bottom: 11.7rem;
 
     .textArea {
       display: flex;
@@ -191,7 +226,10 @@ const LandingPage1 = styled.div`
       .card1 {
         position: absolute;
         top: 0;
+        opacity: 0;
         left: -50rem;
+        animation: appear 0.7s ease-in-out 0.5s;
+        animation-fill-mode: forwards;
       }
       .card2 {
         position: absolute;
@@ -200,9 +238,58 @@ const LandingPage1 = styled.div`
         width: 37.8rem;
         height: 27.8rem;
         border-radius: 2rem;
-        border: 1px solid rgba(0, 2, 53, 0.08);
         background-color: transparent;
+        animation: appear 0.7s ease-in-out;
       }
+    }
+  }
+  .bottomArea {
+    display: flex;
+    align-self: center;
+    padding: 3.2rem 6rem;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    height: 12.3rem;
+    width: 91.3rem;
+    background-color: ${(props) => props.theme.colors.white};
+    border-radius: 1rem;
+    box-shadow: 0px 2px 80px 2px rgba(0, 0, 0, 0.06);
+
+    .filterArea {
+      width: 58.2rem;
+      height: 4.9rem;
+      display: flex;
+      gap: 5rem;
+      .filterBtn {
+        display: flex;
+        flex-direction: column;
+        gap: 1.4rem;
+        .filtertop {
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          font-size: 1.6rem;
+          font-weight: 500;
+          gap: 1rem;
+        }
+        .filterBtm {
+          width: 100%;
+          color: ${(props) => props.theme.colors.black40};
+          font-size: 1.2rem;
+          font-weight: 400;
+        }
+      }
+    }
+  }
+  @keyframes appear {
+    0% {
+      opacity: 0.5;
+      transform: translateX(50%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0%);
     }
   }
 
@@ -225,9 +312,12 @@ const LandingPage1 = styled.div`
   .iconVector {
     width: 9rem;
     height: 4.1rem;
+    position: absolute;
     -webkit-animation: bounce 1s infinite;
     animation: bounce 1s infinite;
+    align-self: center;
     cursor: pointer;
+    bottom: 9.7rem;
   }
 `;
 
