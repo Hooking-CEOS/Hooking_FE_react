@@ -1,6 +1,7 @@
 export const HEADER_HEIGHT_MO = "8.6rem";
 
 // z-index
+export const Z_INDEX_TOAST = 10000;
 export const Z_INDEX_HEADER = 100;
 export const Z_INDEX_FILTER = 50;
 export const Z_INDEX_MODAL = 30;
@@ -39,7 +40,7 @@ export const BRAND_TO_BRANDID = [
 export const FILTER_DATA = [
   {
     idx: 0,
-    filter: "무드 키워드",
+    filter: "브랜드 무드",
     data: [
       { idx: "0", name: "퓨어한" },
       { idx: "1", name: "키치한" },
@@ -96,23 +97,21 @@ export const HEADER_LEFT_MENU = [
     path: "/home",
     name: "홈",
   },
-  /*
+
   {
     idx: 1,
     path: "/writing",
     name: "글쓰기",
   },
-  */
 ];
 
 export const PROFILE_DATA = [
-  /*
   {
     idx: 0,
     text: "내 계정",
     link: "/profile",
   },
-  */
+
   {
     idx: 1,
     text: "북마크",

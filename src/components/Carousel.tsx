@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import { EffectCoverflow, Navigation } from "swiper";
+import { EffectCoverflow, Navigation, Autoplay } from "swiper";
 import { Swiper, SwiperSlide, SwiperRef } from "swiper/react";
 
 import BrandIcon from "@/components/Brand/BrandIcon";
@@ -36,8 +36,10 @@ const Carousel = () => {
   const navigate = useNavigate();
   const swiperRef = useRef<SwiperRef>(null);
   const [currentSlide, setCurrentSlide] = useState<number>(0);
+  const [randNum, setRandNum] = useState(Math.floor(Math.random() * 3));
+  const [carouselRdy, setCarouselRdy] = useState(false);
+
   // 브랜드 내에 descText중 몇번째 출력할지 나타내는 변수
-  const [randomNum, setRandomNum] = useState<number>(0);
 
   const handleSlideChange = () => {
     if (swiperRef.current) {
@@ -50,6 +52,12 @@ const Carousel = () => {
     return <BrandIcon name={name} />;
   };
 
+  useEffect(() => {
+    imgData.sort(() => Math.random() - Math.random());
+    // console.log(randList);
+    setCarouselRdy(true);
+  }, []);
+
   const handleSlideClick = (id: string) => {
     navigate("/brand/" + id);
   };
@@ -60,9 +68,9 @@ const Carousel = () => {
         <div className="swiper-slide-div-main_div">
           “
           <div className="swiper-slide-div-main_text">
-            {data.descText[randomNum].main} ”
+            {data.descText[randNum].main} ”
             <div className="swiper-slide-div-sub_text">
-              {data.descText[randomNum].sub}
+              {data.descText[randNum].sub}
             </div>
           </div>
         </div>
@@ -70,7 +78,7 @@ const Carousel = () => {
     );
   };
 
-  return (
+  return carouselRdy ? (
     <>
       <Swiper
         ref={swiperRef}
@@ -82,6 +90,10 @@ const Carousel = () => {
         centeredSlides={true}
         navigation={true}
         allowTouchMove={false}
+        autoplay={{
+          delay: 5000,
+          disableOnInteraction: false,
+        }}
         speed={400}
         slidesPerView={"auto"}
         coverflowEffect={{
@@ -91,12 +103,12 @@ const Carousel = () => {
           modifier: 2,
           slideShadows: false,
         }}
-        modules={[EffectCoverflow, Navigation]}
+        modules={[Autoplay, EffectCoverflow, Navigation]}
         className="mySwiper"
       >
         {/* {CarouselData.map((data, index) => { */}
         {imgData.map((data, index) => {
-          const slideId = Number(data.id) - 1;
+          const slideId = Number(index);
           const dataLength = 28;
           const tagId =
             slideId === (currentSlide + dataLength - 1) % dataLength
@@ -146,6 +158,8 @@ const Carousel = () => {
         })}
       </Swiper>
     </>
+  ) : (
+    <></>
   );
 };
 
@@ -156,19 +170,30 @@ interface CIDProps {
 }
 
 const CarouselImgDiv = styled.div<CIDProps>`
-  background-image: url(${(props) => props.imgSrc});
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  position: relative;
   box-sizing: border-box;
-  border-radius: 20px;
   display: flex;
   justify-content: center;
   min-width: 23.4vw;
   min-height: 23.4vw;
   box-shadow: 0px 4px 30px 0px rgba(158, 158, 158, 0.4);
-  z-index: 999;
-  position: relative;
+  border-radius: 2rem 0 0 2rem;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(${(props) => props.imgSrc});
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: brightness(0.9);
+    border-radius: 2rem;
+    z-index: 2;
+  }
 `;
 
 const CarouselIconDiv = styled.div`
@@ -178,6 +203,7 @@ const CarouselIconDiv = styled.div`
   gap: 0.833vw;
   display: flex;
   flex-direction: row;
+  z-index: 3;
 `;
 
 const CarouselIconText = styled.div`
@@ -195,4 +221,5 @@ const CarouselBrandMoodDiv = styled.div`
   gap: 0.521vw;
   display: flex;
   flex-direction: row;
+  z-index: 3;
 `;

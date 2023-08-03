@@ -22,3 +22,10 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# webp (temporary)
+*.webp
+/src/assets/images/icon-webp
+/src/assets/images/brandIcon/webp
+/src/assets/images/brandBanner/icon-webp
+/src/assets/images/brandSearch/icon-webp

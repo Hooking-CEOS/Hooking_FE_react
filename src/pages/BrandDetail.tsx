@@ -1,14 +1,12 @@
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import imgData from "@/assets/datas/imgData.json";
-import IMG_BRAND_SAMPLE from "@/assets/images/icon-brand-sample.svg";
 
 import { getBrandDetail } from "@/api/brand";
 
 import BrandBanner from "@/components/Brand/BrandBanner";
 import BrandCard from "@/components/Brand/BrandCard";
 import { Card as SkeletonCard } from "@/components/Skeleton/Card";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
@@ -19,6 +17,8 @@ import {
   similarCopyList,
 } from "@/utils/atom";
 import { ICardData } from "@/utils/type";
+import { getBrandById } from "@/utils/util";
+import { useInView } from "react-intersection-observer";
 
 interface IBrandData {
   brandId: number;
@@ -28,26 +28,29 @@ interface IBrandData {
 
 const BrandDetail = () => {
   const { brandId } = useParams<{ brandId: string }>();
-  const [brandData, setBrandData] = useState<IBrandData>({
-    brandId: 0,
-    brandLink: "",
-    brandName: "",
-  });
+  const [brandData, setBrandData] = useState<IBrandData>();
   const [cardData, setCardData] = useState<ICardData[]>([]);
   const [noResult, setNoResult] = useState<boolean>();
+  const [nomoreData, setNomoreData] = useState<boolean>(false);
+  const [renderSkeleton, setRenderSkeleton] = useState<boolean>(false);
   const setSelectedCopy = useSetRecoilState(selectedCopy);
   const setSimilarCopy = useSetRecoilState(similarCopyList);
   const setBrandModal = useSetRecoilState(brandModalOverlay);
   const setOverlay = useSetRecoilState(searchModalOverlay);
-  const [searchState, setSearchState] = useRecoilState(search); // 절대 import하지마
-  let targetData = imgData.find((item) => item.id === Number(brandId))!;
-
+  const setDetailOverlay = useSetRecoilState(brandModalOverlay);
+  const [searchState, setSearchState] = useRecoilState(search);
+  let targetData = getBrandById(Number(brandId));
+  const [ref, inView] = useInView();
+  const pageNum = useRef(0);
   const handleBrandOpen = (card: any) => {
+    console.log(card);
     let target = {
-      brandName: card.brand.brandName,
+      brandName: card.brandName,
+      cardLink: card.cardLink,
       createdAt: card.createdAt,
       id: card.id,
       index: 0,
+      isScrap: card.isScrap,
       scrapCnt: card.scrapCnt,
       text: card.text,
     };
@@ -57,10 +60,12 @@ const BrandDetail = () => {
       cardData
         .filter((el) => el.id !== card.id)
         .map((item: any) => ({
-          brandName: item.brand.brandName,
+          brandName: item.brandName,
+          cardLink: item.cardLink,
           createdAt: item.createdAt,
           id: item.id,
           index: 0,
+          isScrap: item.isScrap,
           scrapCnt: item.scrapCnt,
           text: item.text,
         }))
@@ -68,63 +73,97 @@ const BrandDetail = () => {
     setBrandModal(true);
   };
 
-  const getBrandCard = async () => {
-    getBrandDetail(targetData.api_id)
-      .then((res) => {
-        console.log(res);
-        setCardData(res.data.card);
-        setBrandData({
-          brandId: res.data.brandId,
-          brandLink: res.data.brandLink,
-          brandName: res.data.brandName,
-        });
-      })
-      .catch((err) => console.log(err));
+  const getBrandCard = async (pageNum: number) => {
+    const res = await getBrandDetail(targetData.api_id, pageNum);
+    if (res.code === 200) {
+      console.log(res);
+      setCardData((prev) => [...prev, ...res.data.card]);
+      setBrandData({
+        brandId: res.data.brandId,
+        brandLink: res.data.brandLink,
+        brandName: res.data.brandName,
+      });
+      setRenderSkeleton(false);
+    } else {
+      setNomoreData(true);
+    }
   };
 
   // 브랜드 상세 페이지 카드
   useEffect(() => {
-    //TODO : 검색창 닫기 but search recoil쓰면 안됨
-
+    // TODO : 해당 브랜드에서 검색창 연 다음에 브랜드 icon 클릭했을 때 예외처리 필요함
     setSearchState({ ...searchState, searchFocus: false });
     setOverlay(false);
-    getBrandCard();
+    setDetailOverlay(false);
+    getBrandCard(pageNum.current);
   }, [brandId]);
 
-  // useEffect(() => {
-  //   // 검색창 창닫기
-  //   setSearchState({ ...searchState, searchFocus: false });
-  //   setOverlay(false);
+  useEffect(() => {
+    if (inView) {
+      setRenderSkeleton(true);
+      pageNum.current += 1;
+      getBrandCard(pageNum.current);
+    }
+  }, [inView]);
 
-  //   //api 호출
-  //   getBrandCard();
-  // }, [brandId]);
-
-  // TODO : click시 brandModal 열기
-  // TODO : Carousel 추가 in BrandBanner
-  return (
+  return targetData ? (
+    brandData ? (
+      <>
+        <BrandBanner name={targetData.name_kr} link={brandData.brandLink} />
+        <section className="main">
+          <BrandCards>
+            {brandData && cardData.length > 0
+              ? cardData.map((card) => (
+                  <BrandCard
+                    key={card.id}
+                    brandId={card.id}
+                    text={card.text}
+                    scrapCnt={card.scrapCnt}
+                    isScrap={card.isScrap}
+                    brandImg={require(`../assets/images/brandIcon/brand-${brandData.brandName.replace(
+                      / /g,
+                      ""
+                    )}.png`)}
+                    brandName={brandData.brandName}
+                    onClick={() => handleBrandOpen(card)}
+                  />
+                ))
+              : Array.from({ length: 9 }, () => Array(0).fill(0)).map(
+                  (el, idx) => <SkeletonCard key={idx} />
+                )}
+            {!nomoreData &&
+              (renderSkeleton ? (
+                Array.from({ length: 3 }, () => Array(0).fill(0)).map(
+                  (el, idx) => <SkeletonCard key={idx} />
+                )
+              ) : (
+                <div className="observedDiv" ref={ref} />
+              ))}
+          </BrandCards>
+        </section>
+      </>
+    ) : (
+      <>
+        <BrandBanner name={targetData.name_kr} link="" />
+        <section className="main">
+          <BrandCards>
+            {Array.from({ length: 12 }, () => Array(0).fill(0)).map(
+              (el, idx) => (
+                <SkeletonCard key={idx} />
+              )
+            )}
+          </BrandCards>
+        </section>
+      </>
+    )
+  ) : (
     <>
-      <BrandBanner name={targetData.name_kr} link={brandData.brandLink} />
+      <BrandBanner name="skeleton" link="" />
       <section className="main">
         <BrandCards>
-          {brandData && cardData.length > 0
-            ? cardData.map((card) => (
-                <BrandCard
-                  key={card.id}
-                  brandId={card.id}
-                  text={card.text}
-                  scrapCnt={card.scrapCnt}
-                  brandImg={require(`../assets/images/brandIcon/brand-${brandData.brandName.replace(
-                    / /g,
-                    ""
-                  )}.png`)}
-                  brandName={brandData.brandName}
-                  onClick={() => handleBrandOpen(card)}
-                />
-              ))
-            : Array.from({ length: 9 }, () => Array(0).fill(0)).map(
-                (el, idx) => <SkeletonCard key={idx} />
-              )}
+          {Array.from({ length: 12 }, () => Array(0).fill(0)).map((el, idx) => (
+            <SkeletonCard key={idx} />
+          ))}
         </BrandCards>
       </section>
     </>

@@ -1,12 +1,9 @@
 import styled from "styled-components";
 import {
-  brandModalOverlay,
-  homeCardLists,
+  deleteToastPopup,
+  recentDeleteCopy,
   savedIdLists,
-  search,
-  searchResult,
   setSaveId,
-  staticKeyword,
 } from "@/utils/atom";
 
 import { useState, useRef, SetStateAction } from "react";
@@ -15,13 +12,15 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { ICardData } from "@/utils/type";
 import { flexColumnCenter } from "@/styles/theme";
 import { useSetRecoilState, useRecoilValue } from "recoil";
+
 import {
   toastPopup,
   isLogined,
   loginModalOverlay,
   selectedCopy,
 } from "@/utils/atom";
-import { scrapCopy } from "@/api/copywriting";
+import { GetHighlight } from "@/utils/util";
+import { cancelScrap, scrapCopy } from "@/api/copywriting";
 import React from "react";
 
 interface BrandProps {
@@ -32,6 +31,7 @@ interface BrandProps {
   saved?: boolean;
   srcIdx?: number;
   scrapCnt?: number;
+  isScrap?: number;
   keyword?: string;
   setSaved?: React.Dispatch<SetStateAction<boolean | undefined>>;
   onClick?: () => void;
@@ -44,7 +44,7 @@ const BrandCard = ({
   brandName,
   brandImg,
   scrapCnt,
-  srcIdx,
+  isScrap,
   brandId,
   saved,
   keyword,
@@ -56,19 +56,19 @@ const BrandCard = ({
   const setLogin = useSetRecoilState(loginModalOverlay);
 
   const [forceHover, setForceHover] = useState(false);
+  const setDeleteToast = useSetRecoilState(deleteToastPopup);
 
   //const keyword = useRecoilValue(search);
 
   // set
   const setSaveIdList = useSetRecoilState(setSaveId);
+  const setRecentDelete = useSetRecoilState(recentDeleteCopy);
 
   // get
   const savedIdList = useRecoilValue(savedIdLists);
 
   const saveBtnRef = useRef<any>();
   const cardRef = useRef<any>();
-
-  const location = useLocation();
 
   const setHoverActive = (time: number) => {
     // 강제로 true였다가 2초뒤에 false
@@ -84,47 +84,36 @@ const BrandCard = ({
     }, time);
   };
 
+  const handleCancelScrap = async () => {
+    setDeleteToast(true);
+
+    const deleteCopy = {
+      id: brandId,
+      brandName: brandName,
+      scrapCnt: scrapCnt || 1,
+      isScrap: isScrap || 1,
+      text: text,
+      createdAt: "",
+    };
+
+    setRecentDelete(deleteCopy);
+    const data = await cancelScrap({ cardId: brandId });
+    if (data.code === 200) setToast(true);
+  };
+
   const handleCopyScrap = async () => {
     // 로그인 안된 상태면 로그인 팝업 출력
     if (!isLogin) {
       setLogin(true);
       return;
     }
-
-    console.log("card.cardId", brandId, typeof brandId);
     const data = await scrapCopy({ cardId: brandId });
-
-    console.log("scrapCnt", scrapCnt);
     if (data.code === 200) {
-      console.log("스크랩 결과", brandId, data);
-
       setHoverActive(2500);
       setToast(true);
-
       setSaveIdList(brandId as any);
     } else if (data.code === 400) {
       alert(data.message);
-    }
-  };
-
-  const GetHighlight = (text: string) => {
-    // 상세페이지에서 조회한 경우에만 보이기
-    if (location.pathname.includes("search")) {
-      if (keyword) {
-        let find = keyword;
-        let regex = new RegExp(find, "g");
-        text = text.replace(
-          regex,
-          `<span class='highlight text-subtitle-2'>${find}</span>`
-        );
-        const parsedHtml = React.createElement("div", {
-          dangerouslySetInnerHTML: { __html: text },
-        });
-        return parsedHtml;
-      }
-      return text;
-    } else {
-      return text;
     }
   };
 
@@ -137,13 +126,8 @@ const BrandCard = ({
     } else setHover(false);
   };
 
-  const handleCardOpen = (e: any) => {
-    // 1. 북마크 버튼을 클릭한 경우 동작 안함
-    // - 버튼 ref가 이벤트를 포함하고 있는지 확인
-    if (saveBtnRef.current && saveBtnRef.current.contains(e.target)) {
-      return;
-    }
-    // 2. 북마크 버튼이 아닌 다른 곳을 선택한 경우 카피 디테일로 이동
+  const handleCardOpen = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (saveBtnRef.current && saveBtnRef.current.contains(e.target)) return;
     onClick && onClick();
   };
 
@@ -158,7 +142,7 @@ const BrandCard = ({
       onMouseLeave={handleMouseLeave}
     >
       <div className="card-content text-normal-300">
-        {GetHighlight(text)}
+        {GetHighlight(text, keyword)}
         <span className="more-content" />
       </div>
       <div className="bookmark-hr" />
@@ -176,12 +160,15 @@ const BrandCard = ({
             icon="icon-saved-outline"
             className="button-orange-outline-saved component-small "
             text="저장됨"
+            onClick={handleCancelScrap}
           />
         ) : // 홈카드
         hover ? (
           // 호버했을 때 저장된 상태
           // 프론트에서 저장하거나 api에서 저장된 상태로 받는다면
-          savedIdList.includes(brandId as any) || (scrapCnt && scrapCnt > 0) ? (
+          isLogin &&
+          ((savedIdList.length && savedIdList.includes(brandId as any)) ||
+            (isScrap && isScrap > 0)) ? (
             <Button
               icon="icon-saved-outline"
               className="button-orange-outline-saved component-small "
@@ -300,6 +287,8 @@ export const BrandCardWrapper = styled.div<{
       align-items: center;
 
       img {
+        border: 0.025rem solid ${(props) => props.theme.colors.black40};
+        border-radius: 50%;
         width: 2.8rem;
         height: 2.8rem;
       }

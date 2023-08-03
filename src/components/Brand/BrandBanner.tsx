@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import imgData from "@/assets/datas/imgData.json";
 import BrandIcon from "@/components/Brand/BrandIcon";
 import BrandMoodButton from "@/components/BrandMoodButton";
 import { useEffect, useReducer, useState } from "react";
 
 import leftArrow from "@/assets/images/icon-arrow-left-light.svg";
 import rightArrow from "@/assets/images/icon-arrow-right-light.svg";
+import { getBrandByName } from "@/utils/util";
 
 interface BrandBannerProps {
   name: string;
@@ -13,7 +13,14 @@ interface BrandBannerProps {
 }
 
 const BrandBanner = ({ name, link }: BrandBannerProps) => {
-  let targetData = imgData.find((item) => item.name_kr === name)!;
+  if (name === "skeleton") {
+    return (
+      <BrandBannerWrapper>
+        <div className="skeleton skeleton-list-item"></div>
+      </BrandBannerWrapper>
+    );
+  }
+  let targetData = getBrandByName(name);
 
   const RenderCarousel = () => {
     // const [randomNum, setRandomNum] = useState(Math.floor(Math.random() * 3));
@@ -93,17 +100,16 @@ const BrandBanner = ({ name, link }: BrandBannerProps) => {
   return (
     <BrandBannerWrapper>
       <BrandBannerDiv
-        src={require(`../../assets/images/brandBanner/${targetData.name_kr}.png`)}
+        src={require(`../../assets/images/brandBanner/${targetData.name_kr.replace(
+          / /g,
+          ""
+        )}.png`)}
         alt="brandBanner"
       />
       <BrandBannerInsideDiv>
         <div className="brandDescSection">
           <div className="brandDescTop">
-            <BrandIcon
-              name={targetData.name_kr}
-              size="big"
-              onClick={() => window.open(link, "_blank")}
-            />
+            <BrandIcon name={targetData.name_kr} size="big" clickRef={link} />
             <div className="brandDescTextDiv">
               <span className="text-heading-1">{targetData.name_kr}</span>
               <div className="brandMoodDiv">
@@ -130,6 +136,47 @@ const BrandBannerWrapper = styled.div`
   width: 100vw;
   height: 60.2rem;
   position: relative;
+  .skeleton {
+    background-color: #e5e6eb;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 11.8rem;
+  }
+  @-webkit-keyframes skeleton-gradient {
+    0% {
+      background-color: rgba(165, 165, 165, 0.1);
+    }
+
+    50% {
+      background-color: rgba(165, 165, 165, 0.3);
+    }
+
+    100% {
+      background-color: rgba(165, 165, 165, 0.1);
+    }
+  }
+
+  @keyframes skeleton-gradient {
+    0% {
+      background-color: rgba(165, 165, 165, 0.1);
+    }
+
+    50% {
+      background-color: rgba(165, 165, 165, 0.3);
+    }
+
+    100% {
+      background-color: rgba(165, 165, 165, 0.1);
+    }
+  }
+
+  /*해당되는 컴포넌트에 적용*/
+  .skeleton-list-item {
+    -webkit-animation: skeleton-gradient 1.8s infinite ease-in-out;
+    animation: skeleton-gradient 1.8s infinite ease-in-out;
+  }
 `;
 
 const BrandBannerDiv = styled.img`

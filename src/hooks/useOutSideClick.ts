@@ -25,7 +25,6 @@ function useOutSideClick(
       }
     };
 
-    // 모든 클릭에 대해서 실행
     window.addEventListener("mousedown", handleClick);
     window.addEventListener("keydown", handleKeyPress);
 
