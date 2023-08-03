@@ -46,7 +46,7 @@ const BrandDetail = () => {
     console.log(card);
     let target = {
       brandName: card.brandName,
-      // brandLink: card.brandLink,
+      cardLink: card.cardLink,
       createdAt: card.createdAt,
       id: card.id,
       index: 0,
@@ -61,7 +61,7 @@ const BrandDetail = () => {
         .filter((el) => el.id !== card.id)
         .map((item: any) => ({
           brandName: item.brandName,
-          // link : item.brandLink;
+          cardLink: item.cardLink,
           createdAt: item.createdAt,
           id: item.id,
           index: 0,
@@ -74,8 +74,8 @@ const BrandDetail = () => {
   };
 
   const getBrandCard = async (pageNum: number) => {
-    try {
-      const res = await getBrandDetail(targetData.api_id, pageNum);
+    const res = await getBrandDetail(targetData.api_id, pageNum);
+    if (res.code === 200) {
       console.log(res);
       setCardData((prev) => [...prev, ...res.data.card]);
       setBrandData({
@@ -84,7 +84,7 @@ const BrandDetail = () => {
         brandName: res.data.brandName,
       });
       setRenderSkeleton(false);
-    } catch (err) {
+    } else {
       setNomoreData(true);
     }
   };
@@ -106,41 +106,56 @@ const BrandDetail = () => {
     }
   }, [inView]);
 
-  return brandData ? (
-    <>
-      <BrandBanner name={targetData.name_kr} link={brandData.brandLink} />
-      <section className="main">
-        <BrandCards>
-          {brandData && cardData.length > 0
-            ? cardData.map((card) => (
-                <BrandCard
-                  key={card.id}
-                  brandId={card.id}
-                  text={card.text}
-                  scrapCnt={card.scrapCnt}
-                  isScrap={card.isScrap}
-                  brandImg={require(`../assets/images/brandIcon/brand-${brandData.brandName.replace(
-                    / /g,
-                    ""
-                  )}.png`)}
-                  brandName={brandData.brandName}
-                  onClick={() => handleBrandOpen(card)}
-                />
-              ))
-            : Array.from({ length: 9 }, () => Array(0).fill(0)).map(
-                (el, idx) => <SkeletonCard key={idx} />
-              )}
-          {!nomoreData &&
-            (renderSkeleton ? (
-              Array.from({ length: 3 }, () => Array(0).fill(0)).map(
-                (el, idx) => <SkeletonCard key={idx} />
+  return targetData ? (
+    brandData ? (
+      <>
+        <BrandBanner name={targetData.name_kr} link={brandData.brandLink} />
+        <section className="main">
+          <BrandCards>
+            {brandData && cardData.length > 0
+              ? cardData.map((card) => (
+                  <BrandCard
+                    key={card.id}
+                    brandId={card.id}
+                    text={card.text}
+                    scrapCnt={card.scrapCnt}
+                    isScrap={card.isScrap}
+                    brandImg={require(`../assets/images/brandIcon/brand-${brandData.brandName.replace(
+                      / /g,
+                      ""
+                    )}.png`)}
+                    brandName={brandData.brandName}
+                    onClick={() => handleBrandOpen(card)}
+                  />
+                ))
+              : Array.from({ length: 9 }, () => Array(0).fill(0)).map(
+                  (el, idx) => <SkeletonCard key={idx} />
+                )}
+            {!nomoreData &&
+              (renderSkeleton ? (
+                Array.from({ length: 3 }, () => Array(0).fill(0)).map(
+                  (el, idx) => <SkeletonCard key={idx} />
+                )
+              ) : (
+                <div className="observedDiv" ref={ref} />
+              ))}
+          </BrandCards>
+        </section>
+      </>
+    ) : (
+      <>
+        <BrandBanner name={targetData.name_kr} link="" />
+        <section className="main">
+          <BrandCards>
+            {Array.from({ length: 12 }, () => Array(0).fill(0)).map(
+              (el, idx) => (
+                <SkeletonCard key={idx} />
               )
-            ) : (
-              <div className="observedDiv" ref={ref} />
-            ))}
-        </BrandCards>
-      </section>
-    </>
+            )}
+          </BrandCards>
+        </section>
+      </>
+    )
   ) : (
     <>
       <BrandBanner name="skeleton" link="" />
