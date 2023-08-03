@@ -108,7 +108,6 @@ const Search = () => {
   const getSearchResult = () => {
     const data: searchAPIResponseType = getSearch;
     // 400: no search result
-
     if (data.code === 200) {
       setNoResult(false);
       const type = getTypeSearchCnt(data);
@@ -118,7 +117,7 @@ const Search = () => {
         setType(type);
         setKeywordData(keyword);
         setKeyword(keyword);
-        setResCnt(data.data[0].totalNum);
+        setResCnt(data.data.find((el) => el.type === "copy")?.totalNum);
       }
       getTypeData(data, type); // 데이터들의 대표 타입을 통해 카드 데이터 렌더링
     } else if (data.code === 400 || data.code === "ERR_BAD_REQUEST")
@@ -142,6 +141,8 @@ const Search = () => {
 
       setCard(uniqueData);
       setRenderSkeleton(false);
+    } else if (data.response.status === 500) {
+      setNomoreData(true);
     }
   };
 
