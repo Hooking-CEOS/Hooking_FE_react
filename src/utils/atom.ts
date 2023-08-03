@@ -220,9 +220,6 @@ export const setSaveId = selector({
       let idLists = get(savedIdLists);
       if (!idLists.length) idLists = [id];
       else idLists = [...idLists, id];
-
-      console.log("복구 idLists", idLists);
-
       // idLists = [...idLists, id]; // params로 전달받은 id 추가
       set(savedIdLists, idLists);
     }

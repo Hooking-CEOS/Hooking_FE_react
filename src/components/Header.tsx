@@ -124,7 +124,7 @@ const HeaderWrapper = styled.header`
 
     .header__content--right {
       min-width: fit-content;
-      margin-left: 10rem; // TODO: 로그인 헤더랑 비교해서 margin-left 수정
+      margin-left: 10rem;
       flex: 1;
       margin-right: auto;
       display: flex;

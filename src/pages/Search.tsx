@@ -100,7 +100,6 @@ const Search = () => {
     totalNum: number;
   }
 
-  // TODO: 공통 res type 만들기
   interface searchAPIResponseType extends commonAPIResponseType {
     data: KeywordType[];
   }
@@ -171,8 +170,6 @@ const Search = () => {
       }
     });
   };
-
-  /* TODO: qna 말고, copy로 빼기 */
 
   useEffect(() => {
     getTypeData(getSearch, type);

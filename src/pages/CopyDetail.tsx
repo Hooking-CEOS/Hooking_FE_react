@@ -62,7 +62,6 @@ const CopyDetail = ({ onClose }: CopyDetailProps) => {
     }
     const data = await scrapCopy({ cardId: selectedCopyData.id });
     if (data.code === 200) {
-      console.log("스크랩 결과", selectedCopyData.id, data);
       setToast(true);
       setSaveIdList(selectedCopyData.id as any);
     } else if (data.code === 400) {

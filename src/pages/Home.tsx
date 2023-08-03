@@ -60,7 +60,7 @@ const Home = () => {
     });
 
     const data = await getCopyFilter(params, num);
-    console.log(data);
+
     if (data.response?.status === 400) {
       setEmptyResult(true);
       return;
@@ -82,7 +82,6 @@ const Home = () => {
 
   const getMoreCopy = async (num: number) => {
     const { data } = await getAllCopy(num);
-    console.log(data);
 
     if (!data) {
       setNomoreData(true);

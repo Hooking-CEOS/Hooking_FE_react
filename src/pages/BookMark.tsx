@@ -38,7 +38,6 @@ const BookMark = () => {
   const getScrap = async () => {
     const data = await getScrapCopy();
     if (data.code === 200) {
-      console.log("북마크 스크랩 데이터 길이", data.data.length);
       setCard(data.data);
       if (!data.data.length) {
         setNoResult(true); // 검색결과 없음
