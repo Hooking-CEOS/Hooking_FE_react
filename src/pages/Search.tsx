@@ -1,5 +1,5 @@
 import { useSearchParams } from "react-router-dom";
-import { useState, useEffect, useTransition } from "react";
+import { useState, useEffect, useTransition, useRef } from "react";
 
 import styled from "styled-components";
 import { useRecoilValue, useSetRecoilState } from "recoil";
@@ -16,6 +16,9 @@ import Button from "@/components/Button";
 import QnA from "@/pages/QnA";
 import { removeAllSpace } from "@/utils/util";
 import React from "react";
+import { Card as SkeletonCard } from "@/components/Skeleton/Card";
+import { useInView } from "react-intersection-observer";
+import { getCopySearch } from "@/api/copywriting";
 
 const BrandLogoCard = React.lazy(
   () => import("@/components/Brand/BrandLogoCard")
@@ -33,9 +36,12 @@ const Search = () => {
   const [searchCnt, setSearchCnt] = useState(INITIAL_SEARCH_CNT);
   const [isPending, startTransition] = useTransition(); // 낮은 우선순위
   const [noResult, setNoResult] = useState(false);
+  const [resCnt, setResCnt] = useState<number>();
   const [type, setType] = useState("copy");
   const [card, setCard] = useState<ICardData[]>([]);
   const [keywordData, setKeywordData] = useState<string>();
+  const [nomoreData, setNomoreData] = useState<boolean>(false);
+  const [renderSkeleton, setRenderSkeleton] = useState<boolean>(false);
 
   const setKeyword = useSetRecoilState(staticKeyword);
   const keyword = searchParams.get("keyword");
@@ -45,6 +51,9 @@ const Search = () => {
   const setSelectedCopy = useSetRecoilState(selectedCopy);
   const setSimilarCopy = useSetRecoilState(similarCopyList);
   const setBrandModal = useSetRecoilState(brandModalOverlay);
+
+  const [ref, inView] = useInView();
+  const pageNum = useRef<number>(0);
 
   const getTotalLen = (keywordObj: SearchCnt) => {
     const totalLen = Object.keys(keywordObj)
@@ -88,6 +97,7 @@ const Search = () => {
     type: string;
     data: ICardData[];
     keyword: string;
+    totalNum: number;
   }
 
   // TODO: 공통 res type 만들기
@@ -108,6 +118,7 @@ const Search = () => {
         setType(type);
         setKeywordData(keyword);
         setKeyword(keyword);
+        setResCnt(data.data[0].totalNum);
       }
       getTypeData(data, type); // 데이터들의 대표 타입을 통해 카드 데이터 렌더링
     } else if (data.code === 400) setNoResult(true);
@@ -119,9 +130,36 @@ const Search = () => {
     setBrandModal(true);
   };
 
+  const getMoreSearchResult = async () => {
+    const data = await getCopySearch(keyword, pageNum.current);
+    if (data.code === 200) {
+      const uniqueData = Array.from(
+        new Set(
+          [...card, ...data.data[0].data].map((item) => JSON.stringify(item))
+        )
+      ).map((item) => JSON.parse(item));
+
+      setCard(uniqueData);
+      setRenderSkeleton(false);
+    }
+  };
+
   useEffect(() => {
     getSearchResult();
   }, [keyword]);
+
+  useEffect(() => {
+    if (inView) {
+      setRenderSkeleton(true);
+      pageNum.current += 1;
+      if (pageNum.current >= 2) {
+        if (pageNum.current * 30 >= resCnt! * 1.5) {
+          setNomoreData(true);
+        }
+      }
+      getMoreSearchResult();
+    }
+  }, [inView]);
 
   // 탭이 여러 개일 경우 현재 누른 탭에 따라 카드 데이터 갈아끼움
   const getTypeData = ({ data }: any, findType: string) => {
@@ -165,7 +203,8 @@ const Search = () => {
                         type === "copy" || type === "brand" ? "orange" : "grey"
                       } component-small`}
                     >
-                      {searchCnt.copy || searchCnt.brand}
+                      {/* {searchCnt.copy || searchCnt.brand} */}
+                      {resCnt}
                     </span>
                   </div>
                 )}
@@ -231,6 +270,14 @@ const Search = () => {
                     onClick={() => handleBrandOpen(card)}
                   />
                 ))}
+                {!nomoreData &&
+                  (renderSkeleton ? (
+                    Array.from({ length: 3 }, () => Array(0).fill(0)).map(
+                      (el, idx) => <SkeletonCard key={idx} />
+                    )
+                  ) : (
+                    <div className="observedDiv" ref={ref} />
+                  ))}
               </BrandCards>
             </div>
           </div>
