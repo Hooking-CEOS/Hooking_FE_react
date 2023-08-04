@@ -118,8 +118,11 @@ const Search = () => {
         setType(type);
         setKeywordData(keyword);
         setKeyword(keyword);
-        setResCnt(data.data.find((el) => el.type === "copy")?.totalNum);
+        type === "mood"
+          ? setResCnt(data.data.find((el) => el.type === "copy")!.totalNum)
+          : setResCnt(data.data[0].totalNum);
       }
+
       getTypeData(data, type); // 데이터들의 대표 타입을 통해 카드 데이터 렌더링
     } else if (data.code === 400 || data.code === "ERR_BAD_REQUEST")
       setNoResult(true);
