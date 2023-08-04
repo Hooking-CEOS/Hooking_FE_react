@@ -4,6 +4,7 @@ import { useState, useEffect, useTransition, useRef } from "react";
 import styled from "styled-components";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
+  activeMenu,
   brandModalOverlay,
   searchResult,
   selectedCopy,
@@ -51,6 +52,7 @@ const Search = () => {
   const setSelectedCopy = useSetRecoilState(selectedCopy);
   const setSimilarCopy = useSetRecoilState(similarCopyList);
   const setBrandModal = useSetRecoilState(brandModalOverlay);
+  const setActiveMenuIdx = useSetRecoilState(activeMenu);
 
   const [ref, inView] = useInView();
   const pageNum = useRef<number>(0);
@@ -162,6 +164,14 @@ const Search = () => {
     }
   }, [inView]);
 
+  useEffect(() => {
+    getTypeData(getSearch, type);
+  }, [type]);
+
+  useEffect(() => {
+    setActiveMenuIdx(-1);
+  }, []);
+
   // 탭이 여러 개일 경우 현재 누른 탭에 따라 카드 데이터 갈아끼움
   const getTypeData = ({ data }: any, findType: string) => {
     data?.map((obj: any) => {
@@ -171,10 +181,6 @@ const Search = () => {
       }
     });
   };
-
-  useEffect(() => {
-    getTypeData(getSearch, type);
-  }, [type]);
 
   return (
     <>
