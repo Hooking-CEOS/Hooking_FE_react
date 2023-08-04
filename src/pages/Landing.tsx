@@ -98,7 +98,10 @@ const Landing = () => {
             width="165px"
             text="바로 살펴보기"
             className="button-landing-orange text-landing "
-            onClick={() => navigate("/home")}
+            onClick={() => {
+              navigate("/home");
+              setActiveMenuIdx(0);
+            }}
           />
         </div>
         <img
