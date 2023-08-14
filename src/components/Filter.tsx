@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { checkedFilterList, checkedListLen } from "@/utils/atom";
+import { checkedFilterList, checkedListLen, sOpenFilter } from "@/utils/atom";
 import useOutSideClick from "@/hooks/useOutSideClick";
 import useScrollIntoView from "@/hooks/useScrollIntoView";
 import { flexColumnCenter } from "@/styles/theme";
@@ -12,11 +12,18 @@ import {
   HEADER_HEIGHT_MO,
   Z_INDEX_FILTER,
 } from "@/utils/constants";
+import useDidMountEffect from "@/hooks/useDidMountEffect";
 
 const DEFAULT_FILTER_STATE = [[], [], [], []];
 
 const Filter = () => {
-  const [openFilter, setOpenFilter] = useState(false);
+  const [rOpenFilter, setROpenFilter] = useRecoilState(sOpenFilter);
+
+  const [openFilter, setOpenFilter] = useState(rOpenFilter || false);
+
+  useEffect(() => {
+    if (rOpenFilter) setOpenFilter(true);
+  }, [rOpenFilter]);
 
   const filterRef = useRef(null);
 
@@ -26,7 +33,6 @@ const Filter = () => {
   const [checkedList, setCheckedList] = useRecoilState(checkedFilterList);
   const totalLen = useRecoilValue(checkedListLen);
   const [selected, setSelected] = useState(false);
-
   // component inner state
   const [innerCheckedList, setInnerCheckedList] = useState(checkedList);
 
@@ -35,17 +41,23 @@ const Filter = () => {
     setOpenFilter((prev) => !prev);
   };
 
+  useDidMountEffect(() => {
+    onScrollToElement();
+  }, checkedList);
+
   const handleOutSideclick = () => {
     setOpenFilter(false);
+    setROpenFilter(false);
 
     // 창 닫을 때 키워드 눌렀던거 초기화
     setInnerCheckedList(checkedList); // 마지막 리코일에 저장된 상태로 초기화
   };
-  useOutSideClick(filterRef, handleOutSideclick);
+  useOutSideClick(filterRef, handleOutSideclick, openFilter);
 
   const handleSelected = () => {
-    getFilterLen() === 0 ? setSelected(false) : setSelected(true);
+    !getFilterLen() ? setSelected(false) : setSelected(true);
     setOpenFilter(false);
+    setROpenFilter(false);
     setCheckedList(innerCheckedList);
   };
 
@@ -75,7 +87,7 @@ const Filter = () => {
 
   const getFilterLengthText = () => {
     const len = getFilterLen();
-    return len === 0 ? `필터 적용하기` : `필터 적용하기 (${len})`;
+    return !len ? `필터 적용하기` : `필터 적용하기 (${len})`;
   };
 
   const handleKeywordRemove = (item: string) => {
@@ -98,9 +110,15 @@ const Filter = () => {
     if (len === 0) setSelected(false);
   }, [innerCheckedList]);
 
+  const handleReset = () => {
+    setSelected(false);
+    setCheckedList(DEFAULT_FILTER_STATE);
+    setInnerCheckedList(DEFAULT_FILTER_STATE);
+  };
+
   return (
-    <FilterWrapper ref={filterRef} selected={selected}>
-      <div className="button-wrapper" ref={element}>
+    <FilterWrapper selected={selected} ref={element}>
+      <div className="button-wrapper">
         <Button
           text="필터"
           icon={`icon-filter ${getIconFilterClass()}`}
@@ -113,18 +131,14 @@ const Filter = () => {
               text="초기화"
               icon="icon-reset"
               className="button-br-10 button-white-outline reset text-subtitle-1"
-              onClick={() => {
-                setSelected(false);
-                setCheckedList(DEFAULT_FILTER_STATE);
-                setInnerCheckedList(DEFAULT_FILTER_STATE);
-              }}
+              onClick={handleReset}
             />
             {checkedList.map((list) =>
               list.map((item, key) => (
                 <Button
                   key={`button-check-${key}`}
                   text={item}
-                  className="button-br-10 button-grey text-subtitle-1"
+                  className="button-grey text-subtitle-1"
                   data-item={item}
                   onClick={() => handleKeywordRemove(item)}
                 >
@@ -145,7 +159,7 @@ const Filter = () => {
                 </h2>
                 <ul
                   className={`${
-                    filter.idx === 0 ? "filter-keyword-grid" : "filter-keyword"
+                    !filter.idx ? "filter-keyword-grid" : "filter-keyword"
                   }`}
                 >
                   {filter.data.map((data) => (
@@ -192,10 +206,11 @@ export default Filter;
 const FilterWrapper = styled.div<{ selected: boolean }>`
   position: ${(props) => (props.selected ? "sticky" : "relative")};
   width: 100%;
-  padding: 1.6rem 0;
   display: flex;
+  max-width: 119.4rem;
+  margin: 5.6rem auto 3rem auto;
   top: 0;
-  z-index: 10;
+  z-index: 20;
   background: linear-gradient(
     180deg,
     rgba(255, 255, 255, 0.9) 63.02%,
@@ -206,7 +221,6 @@ const FilterWrapper = styled.div<{ selected: boolean }>`
     display: inline-flex;
     flex-wrap: wrap;
     gap: 1.6rem;
-
     top: ${HEADER_HEIGHT_MO};
   }
 `;
@@ -214,6 +228,7 @@ const FilterWrapper = styled.div<{ selected: boolean }>`
 const FilterContent = styled.div`
   ${flexColumnCenter}
   position: absolute;
+  z-index: 50;
   top: 7rem;
 
   border-radius: 2rem;

@@ -5,7 +5,7 @@ import useOutSideClick from "@/hooks/useOutSideClick";
 
 import styled from "styled-components";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { searchModalOverlay, search } from "@/utils/atom";
 import { BRAND_TO_BRANDID, Z_INDEX_FILTER } from "@/utils/constants";
@@ -21,7 +21,10 @@ const SearchBar = () => {
   const [searchState, setSearchState] = useRecoilState(search);
 
   // 내부 state keyword
-  const [keyword, setKeyword] = useState<string>();
+  const [keyword, setKeyword] = useState<string>(searchState.searchKeyword);
+
+  const [searchParams, _] = useSearchParams();
+  const urlKeyword = searchParams.get("keyword");
 
   const searchRef = useRef<HTMLInputElement>(null);
   const searchWrap = useRef<HTMLInputElement>(null);
@@ -30,13 +33,6 @@ const SearchBar = () => {
 
   const location = useLocation();
   const bigWindow = useRecoilValue(isBigWindow);
-
-  useEffect(() => {
-    if (location.pathname === "/" || location.pathname === "/home") {
-      setSearchState({ ...searchState, searchKeyword: "" });
-      setKeyword("");
-    }
-  }, [location.pathname]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -50,20 +46,36 @@ const SearchBar = () => {
     searchRef.current?.focus();
   };
 
-  // 검색창 focus out
   const handleFocusOut = () => {
     setSearchState({ ...searchState, searchFocus: false });
     setOverlay(false);
   };
 
-  useOutSideClick(searchWrap, handleFocusOut);
+  useOutSideClick(searchWrap, handleFocusOut, searchState.searchFocus);
+
+  useEffect(() => {
+    setKeyword(keyword.trim());
+  }, [urlKeyword]);
 
   const onSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSearchState({ ...searchState, searchKeyword: keyword });
-    navigate(`/search?keyword=${keyword}`);
+
+    const trimKeyword = keyword?.trim();
+
+    if (trimKeyword === "") return;
+
+    setSearchState({ ...searchState, searchKeyword: trimKeyword });
+    navigate(`/search?keyword=${trimKeyword}`);
     handleFocusOut();
+    searchRef.current?.blur();
   };
+
+  useEffect(() => {
+    if (location.pathname === "/" || location.pathname === "/home") {
+      setSearchState({ ...searchState, searchKeyword: "" });
+      setKeyword("");
+    }
+  }, [location.pathname]);
 
   const getBrandNameById = (id: number): string | undefined => {
     const brand = BRAND_TO_BRANDID.find(
@@ -87,7 +99,7 @@ const SearchBar = () => {
     const brandRandomIdArr: number[] = [];
     while (num) {
       const randNum = getRandomNum(1, 28);
-      // 배열에 없다면 추가하고 하나 줄이기
+
       if (brandRandomIdArr.indexOf(randNum) === -1) {
         brandRandomIdArr.push(randNum);
         num--;
@@ -124,7 +136,7 @@ const SearchBar = () => {
             placeholder={`${
               searchState.searchFocus
                 ? ""
-                : "브랜드 이름, 분위기 등으로 검색해보세요"
+                : "제품, 브랜드 이름, 분위기 등으로 검색해보세요"
             }`}
             className={`${
               searchState.searchFocus
@@ -133,7 +145,7 @@ const SearchBar = () => {
             } text-subtitle-1`}
             onChange={handleSearch}
             onFocus={handleFocusOn}
-            value={keyword || ""} //{searchState.searchKeyword}
+            value={keyword || ""}
             ref={searchRef}
           />
           {searchState.searchFocus && (
@@ -166,6 +178,7 @@ const SearchBar = () => {
                               ""
                             )}.png`),
                           }}
+                          onClick={() => getRandNumBrand(bigWindow ? 3 : 2)}
                         />
                       ))}
                   </div>
@@ -227,7 +240,7 @@ const SearchBarWrapper = styled.div`
 `;
 
 const SearchHistory = styled.div`
-  display flex;
+  display: flex;
   flex-direction: column;
   width: 100%;
   min-width: 55.5rem;
@@ -236,29 +249,34 @@ const SearchHistory = styled.div`
 
   border: 0.5px solid ${({ theme }) => theme.colors.black30};
   border-radius: 0 0 2rem 2rem;
-  background: linear-gradient(0deg, rgba(242, 242, 242, 0.70) 0%, rgba(242, 242, 242, 0.70) 100%), #FFF;
+  background: linear-gradient(
+      0deg,
+      rgba(242, 242, 242, 0.7) 0%,
+      rgba(242, 242, 242, 0.7) 100%
+    ),
+    #fff;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
-  padding: 4rem 5.8rem 2.5rem 5.8rem;  
+  padding: 4rem 5.8rem 2.5rem 5.8rem;
   z-index: ${Z_INDEX_FILTER};
 
-  .search-history__wrap{
-    .search-brand{
+  .search-history__wrap {
+    .search-brand {
       display: flex;
       flex-direction: column;
       gap: 2.4rem;
-      
-      .search-brand-content{
+
+      .search-brand-content {
         display: flex;
         //gap: 3.75rem;
       }
     }
 
-    .search-copy{
+    .search-copy {
       display: flex;
       align-items: center;
       //margin-top: 3.1rem;
-      .text-headline{
-        flex:1;
+      .text-headline {
+        flex: 1;
       }
     }
   }

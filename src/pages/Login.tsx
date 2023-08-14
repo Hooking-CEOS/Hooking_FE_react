@@ -5,6 +5,7 @@ import closeIcon from "@/assets/images/icon-delete.svg";
 import hookingIcon from "@/assets/images/icon-logo-text.svg";
 import kakaoBtn from "@/assets/images/icon-kakao.png";
 import axios from "axios";
+import { loginModalOverlay } from "@/utils/atom";
 
 interface LoginProps {
   onClose: () => void;
@@ -21,7 +22,7 @@ const Login = ({ onClose }: LoginProps) => {
     handleClose();
   };
 
-  useOutSideClick(modalRef, handleClose);
+  useOutSideClick(modalRef, handleClose, loginModalOverlay);
   return (
     <LoginContainer ref={modalRef}>
       <CircleDiv />

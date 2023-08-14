@@ -5,7 +5,7 @@ import { useSetRecoilState } from "recoil";
 const useWindowResize = () => {
   const setWindowSize = useSetRecoilState(isBigWindow);
 
-  const BIG_WINDOW_SIZE = 1660;
+  const BIG_WINDOW_SIZE = 1360;
 
   const handleResize = () => {
     window.innerWidth > BIG_WINDOW_SIZE

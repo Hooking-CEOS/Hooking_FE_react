@@ -14,6 +14,7 @@ declare module "styled-components" {
       black5: "#0002350D";
       black3: "#00023508";
       point: "#FF7145";
+      drag: "#fab39d";
     };
   }
 }

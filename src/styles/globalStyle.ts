@@ -9,7 +9,6 @@ ${normalize}
 
 html {
    font-size: 10px;
-   user-select: none;
    box-sizing: border-box;
    font-family: 'SUIT Variable', sans-serif;
 }

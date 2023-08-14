@@ -1,11 +1,12 @@
 import useOutSideClick from "@/hooks/useOutSideClick";
 import styled from "styled-components";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
 import BrandIcon from "@/components/Brand/BrandIcon";
 import moment from "moment";
 import Button from "@/components/Button";
 import { scrapCopy } from "@/api/copywriting";
+import linkSrc from "@/assets/images/icon-link.svg";
 
 import {
   selectedCopy,
@@ -19,17 +20,19 @@ import {
   staticKeyword,
 } from "@/utils/atom";
 import BrandCard from "@/components/Brand/BrandCard";
-import { removeAllSpace } from "@/utils/util";
+import { getBrandByName, removeAllSpace } from "@/utils/util";
+import { useNavigate } from "react-router-dom";
 
 interface CopyDetailProps {
   onClose: () => void;
 }
 
 const CopyDetail = ({ onClose }: CopyDetailProps) => {
+  const Navigate = useNavigate();
   const [similarCopyData, setSimilarCopy] = useRecoilState(similarCopyList);
   const [selectedCopyData, setSelectedCopy] = useRecoilState(selectedCopy);
 
-  const [isLogin, setLogin] = useRecoilState(isLogined);
+  const isLogin = useRecoilValue(isLogined);
   const setLoginModal = useSetRecoilState(loginModalOverlay);
   const setToast = useSetRecoilState(toastPopup);
   const [brandModal, setBrandModal] = useRecoilState(brandModalOverlay);
@@ -52,15 +55,13 @@ const CopyDetail = ({ onClose }: CopyDetailProps) => {
   };
 
   const handleCopyScrap = async () => {
-    // 로그인 안된 상태면 로그인 팝업 출력
     if (!isLogin) {
       setLoginModal(true);
-      setBrandModal(false); // 현재 모달 닫기
+      setBrandModal(false);
       return;
     }
     const data = await scrapCopy({ cardId: selectedCopyData.id });
     if (data.code === 200) {
-      console.log("스크랩 결과", selectedCopyData.id, data);
       setToast(true);
       setSaveIdList(selectedCopyData.id as any);
     } else if (data.code === 400) {
@@ -68,12 +69,12 @@ const CopyDetail = ({ onClose }: CopyDetailProps) => {
     }
   };
 
-  useOutSideClick(modalRef, handleClose);
+  useOutSideClick(modalRef, handleClose, brandModalOverlay);
 
   return (
     <CopyDetailContainer ref={modalRef}>
       <SelectedCopyContainer
-        brandName={selectedCopyData.brandName}
+        brandName={removeAllSpace(selectedCopyData.brandName)!}
         className="inArea"
       >
         <div className="imgContainer ">
@@ -84,7 +85,14 @@ const CopyDetail = ({ onClose }: CopyDetailProps) => {
             )}.png`)}
             alt="brandImg"
           />
-          <div className="iconContainer">
+          <div
+            className="iconContainer"
+            onClick={() =>
+              Navigate(
+                `/brand/${getBrandByName(selectedCopyData.brandName).id}`
+              )
+            }
+          >
             <BrandIcon name={selectedCopyData.brandName} size="small" />
             <span className="component-large brandText">
               {selectedCopyData.brandName}
@@ -100,24 +108,30 @@ const CopyDetail = ({ onClose }: CopyDetailProps) => {
             <div className="component-caption">
               {moment(selectedCopyData.createdAt).format("YYYY년 M월 D일")}
             </div>
-
-            {/* 저장된 상태라면  */}
-
-            {savedIdList.includes(selectedCopyData.id as any) ||
-            selectedCopyData.scrapCnt > 0 ? (
-              <Button
-                icon="icon-saved-outline"
-                className="button-orange-outline-saved component-small "
-                text="저장됨"
+            <div className="linkBtnDiv">
+              <img
+                src={linkSrc}
+                alt="link"
+                className="linkBtn"
+                onClick={() => window.open(selectedCopyData.cardLink, "_blank")}
               />
-            ) : (
-              <Button
-                icon="icon-saved-white-large"
-                className="button-orange component-small"
-                text="저장"
-                onClick={handleCopyScrap}
-              />
-            )}
+              {/* 저장된 상태라면  */}
+              {savedIdList.includes(selectedCopyData.id as any) ||
+              selectedCopyData.isScrap > 0 ? (
+                <Button
+                  icon="icon-saved-outline"
+                  className="button-orange-outline-saved component-small "
+                  text="저장됨"
+                />
+              ) : (
+                <Button
+                  icon="icon-saved-white-large"
+                  className="button-orange component-small"
+                  text="저장"
+                  onClick={handleCopyScrap}
+                />
+              )}
+            </div>
           </div>
         </div>
       </SelectedCopyContainer>
@@ -141,6 +155,7 @@ const CopyDetail = ({ onClose }: CopyDetailProps) => {
                 onClick={() => {
                   handleCopyClick(card);
                 }}
+                isScrap={card.isScrap}
                 scrapCnt={card.scrapCnt}
               />
             );
@@ -177,10 +192,7 @@ const SelectedCopyContainer = styled.div<{ brandName: string }>`
   .imgContainer {
     width: 30.7rem;
     height: 100%;
-    background-image: url("../assets/images/brandSearch/brand-search-" + brandName.replace(
-          // g,
-          ""
-        ) + ".png")
+    background-image: url("../assets/images/brandSearch/brand-search-" + brandName + ".png")
       no-repeat center;
     .imgElement {
       border-radius: 2rem 0 0 2rem;
@@ -209,9 +221,16 @@ const SelectedCopyContainer = styled.div<{ brandName: string }>`
     padding: 4rem;
     gap: 1rem;
 
+    .textArea::selection {
+      user-select: auto !important;
+      background: ${({ theme }) => theme.colors.drag};
+    }
+
     .textArea {
+      overflow-x: hidden;
       overflow-y: auto;
       height: 46.5rem;
+      word-wrap: break-word;
       word-break: keep-all;
       white-space: pre-wrap;
 
@@ -222,8 +241,8 @@ const SelectedCopyContainer = styled.div<{ brandName: string }>`
       }
 
       &::-webkit-scrollbar-thumb {
-        background-color: rgba(0, 2, 53, 0.15); //${({ theme }) =>
-          theme.colors.black15};
+        background-color: rgba(0, 2, 53, 0.15);
+        //${({ theme }) => theme.colors.black15};
         border-radius: 4px;
       }
     }
@@ -233,6 +252,13 @@ const SelectedCopyContainer = styled.div<{ brandName: string }>`
       justify-content: space-between;
       align-items: center;
       height: 4.6rem;
+      .linkBtnDiv {
+        display: flex;
+        gap: 1.5rem;
+        .linkBtn {
+          cursor: pointer;
+        }
+      }
     }
   }
 `;

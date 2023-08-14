@@ -7,6 +7,13 @@ export interface ICardData {
   text: string;
   brandName: string;
   scrapCnt: number;
+  cardLink?: string;
+  isScrap: number;
   createdAt: string;
   index?: number | undefined;
+}
+
+interface ISearchType {
+  searchKeyword: string;
+  searchFocus: boolean;
 }
