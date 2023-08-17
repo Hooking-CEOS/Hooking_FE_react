@@ -13,7 +13,6 @@ import "swiper/css/navigation";
 import BrandMoodButton from "@/components/BrandMoodButton";
 import { useNavigate } from "react-router-dom";
 import { removeAllSpace } from "@/utils/util";
-import { get } from "lodash";
 
 interface BrandIconProps {
   name: string;
