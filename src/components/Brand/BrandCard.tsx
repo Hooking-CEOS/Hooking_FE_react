@@ -73,15 +73,16 @@ const BrandCard = ({
   const setHoverActive = (time: number) => {
     // 강제로 true였다가 2초뒤에 false
     setForceHover(true);
-
+    // 요거머에여 @hyosin
     let test = 0;
     for (let i = 0; i < 100000; i++) {
       test += i;
     }
 
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       setForceHover(false);
     }, time);
+    return () => clearTimeout(timeout);
   };
 
   const handleCancelScrap = async () => {
@@ -120,9 +121,10 @@ const BrandCard = ({
   const handleMouseLeave = () => {
     // 북마크 방금 저장되었으면 2초뒤에 제거
     if (forceHover) {
-      setTimeout(() => {
+      const timeout = setTimeout(() => {
         setHover(false);
       }, 2000);
+      return () => clearTimeout(timeout);
     } else setHover(false);
   };
 
@@ -150,7 +152,7 @@ const BrandCard = ({
 
       <div className={`${saved ? "card-brand-bookmark" : "card-brand"}`}>
         <span className="brand-icon">
-          <img src={brandImg} alt="brand-image" />
+          <img src={brandImg} alt="brandImg" />
           <span className="component-small">{brandName}</span>
         </span>
 
