@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, useMemo } from "react";
+import { useRef, useEffect, useState } from "react";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import useOutSideClick from "@/hooks/useOutSideClick";
@@ -12,7 +12,6 @@ import { BRAND_TO_BRANDID, Z_INDEX_FILTER } from "@/utils/constants";
 import BrandLogoCard from "./Brand/BrandLogoCard";
 import { useLocation } from "react-router-dom";
 import { isBigWindow } from "@/utils/atom";
-import { debounce } from "lodash";
 
 const SearchBar = () => {
   const navigate = useNavigate();

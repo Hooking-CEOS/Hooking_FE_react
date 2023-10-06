@@ -13,7 +13,6 @@ import "swiper/css/navigation";
 import BrandMoodButton from "@/components/BrandMoodButton";
 import { useNavigate } from "react-router-dom";
 import { removeAllSpace } from "@/utils/util";
-import { get } from "lodash";
 
 interface BrandIconProps {
   name: string;
@@ -36,7 +35,7 @@ const Carousel = () => {
   const navigate = useNavigate();
   const swiperRef = useRef<SwiperRef>(null);
   const [currentSlide, setCurrentSlide] = useState<number>(0);
-  const [randNum, setRandNum] = useState(Math.floor(Math.random() * 3));
+  const [randNum, _] = useState(Math.floor(Math.random() * 3));
   const [carouselRdy, setCarouselRdy] = useState(false);
 
   // 브랜드 내에 descText중 몇번째 출력할지 나타내는 변수
@@ -105,7 +104,6 @@ const Carousel = () => {
         modules={[Autoplay, EffectCoverflow, Navigation]}
         className="mySwiper"
       >
-        {/* {CarouselData.map((data, index) => { */}
         {imgData.map((data, index) => {
           const slideId = Number(index);
           const dataLength = 28;
@@ -136,10 +134,7 @@ const Carousel = () => {
                   {currentSlide === slideId && (
                     <>
                       <CarouselIconDiv>
-                        <CarouselBrandIcon
-                          name={data.name_kr}
-                          // name={"피지오겔"}
-                        />
+                        <CarouselBrandIcon name={data.name_kr} />
                         <CarouselIconText>{data.name_kr}</CarouselIconText>
                       </CarouselIconDiv>
                       <CarouselBrandMoodDiv>

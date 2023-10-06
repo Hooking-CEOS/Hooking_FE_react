@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import BrandIcon from "@/components/Brand/BrandIcon";
 import BrandMoodButton from "@/components/BrandMoodButton";
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer } from "react";
 
 import leftArrow from "@/assets/images/icon-arrow-left-light.svg";
 import rightArrow from "@/assets/images/icon-arrow-right-light.svg";
@@ -23,7 +23,6 @@ const BrandBanner = ({ name, link }: BrandBannerProps) => {
   let targetData = getBrandByName(name);
 
   const RenderCarousel = () => {
-    // const [randomNum, setRandomNum] = useState(Math.floor(Math.random() * 3));
     const reducer = (state: number, action: { type: string }) => {
       switch (action.type) {
         case "next":
@@ -189,7 +188,6 @@ const BrandBannerInsideDiv = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  /* width: calc(100% - 12.5rem); */
   width: 100%;
   height: 100%;
   display: flex;
@@ -269,7 +267,6 @@ const BrandCarouselContainer = styled.div`
   }
   .pagination {
     position: absolute;
-    /* background-color: yellow; */
     top: 40.8rem;
     left: 17.6rem;
     width: 5.4rem;

@@ -25,18 +25,31 @@ const Toast = () => {
   const recentCopy = useRecoilValue(recentDeleteCopy);
 
   const handleTimer = () => {
-    setTimeout(() => {
+    const timer1 = setTimeout(() => {
       setClose(true);
     }, 2000);
-    setTimeout(() => {
+
+    const timer2 = setTimeout(() => {
       setToast(false);
       if (saved) {
         setDeleteToast(false); // 삭제 -> 원래대로 변경
       }
     }, 2500);
+
+    // unload시 timer 제거
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+    };
   };
+
   useEffect(() => {
-    handleTimer();
+    // unload시 timer 제거
+    const clearTimers = handleTimer();
+
+    return () => {
+      clearTimers();
+    };
   }, []);
 
   const handleRestore = async () => {
