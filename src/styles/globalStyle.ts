@@ -24,6 +24,17 @@ body {
  
    -webkit-font-smoothing: antialiased;
    -moz-osx-font-smoothing: grayscale;
+   @keyframes skeleton-gradient {
+    0% {
+      background-color: #e5e6eb;
+    }
+    50% {
+      background-color: #e5e6eb;
+    }
+    100% {
+      background-color: #e5e6eb;
+    }
+  }
  }
  
  code {
