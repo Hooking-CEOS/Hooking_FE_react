@@ -60,13 +60,10 @@ const Home = () => {
     });
 
     const data = await getCopyFilter(params, num);
-    console.log(data);
 
-    if (data.response?.status === 400) {
-      setEmptyResult(true);
-      return;
-    } else if (data.response?.status === 500) {
-      setNomoreData(true);
+    if (data.response?.data.code === "RUNTIME_EXCEPTION") {
+      if (num === 0) setEmptyResult(true);
+      else setNomoreData(true);
       return;
     }
     if (num === 0) {
@@ -83,7 +80,7 @@ const Home = () => {
 
   const getMoreCopy = async (num: number) => {
     const data = await getAllCopy(num);
-    if (data.response?.data.code === "RUNTIME_EXCEPTION") {
+    if (num !== 0 && data.response?.data.code === "RUNTIME_EXCEPTION") {
       setNomoreData(true);
       return;
     }

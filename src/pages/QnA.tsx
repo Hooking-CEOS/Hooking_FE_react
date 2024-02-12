@@ -23,7 +23,7 @@ const QnA = ({
   const setSimilarCopy = useSetRecoilState(similarCopyList);
 
   const getRandomCopy = async () => {
-    const { data } = await getAllCopy(1);
+    const data = await getAllCopy(0);
     setCardData(data);
   };
 
@@ -64,7 +64,7 @@ const QnA = ({
         <div className="qna-copy__wrap">
           <h1 className="text-heading-2">다른 카피 살펴보기</h1>
           <BrandCards>
-            {cardData.length > 0
+            {cardData?.length > 0
               ? cardData.map((card) => (
                   <BrandCard
                     key={card.id}
