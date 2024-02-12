@@ -5,7 +5,8 @@ const fetchWrapper = async ({ method, url, body, params }: any) => {
     baseURL: process.env.REACT_APP_API_URL,
     //withCredentials: true,
     headers: {
-      "X-AUTH-TOKEN": getCookie("userToken"),
+      // "X-AUTH-TOKEN": getCookie("userToken"),
+      Authorization: getCookie("userToken"),
     },
     ...params,
   };

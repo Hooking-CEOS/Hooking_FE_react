@@ -99,7 +99,7 @@ const BrandCard = ({
 
     setRecentDelete(deleteCopy);
     const data = await cancelScrap({ cardId: brandId });
-    if (data.code === 200) setToast(true);
+    if (data) setToast(true);
   };
 
   const handleCopyScrap = async () => {
@@ -109,12 +109,12 @@ const BrandCard = ({
       return;
     }
     const data = await scrapCopy({ cardId: brandId });
-    if (data.code === 200) {
+    if (data.response?.status === 400) {
+      alert(data.response.message);
+    } else {
       setHoverActive(2500);
       setToast(true);
       setSaveIdList(brandId as any);
-    } else if (data.code === 400) {
-      alert(data.message);
     }
   };
 
@@ -152,7 +152,10 @@ const BrandCard = ({
 
       <div className={`${saved ? "card-brand-bookmark" : "card-brand"}`}>
         <span className="brand-icon">
-          <img src={brandImg} alt="brandImg" />
+          <img
+            src={brandImg}
+            alt="brandImg"
+          />
           <span className="component-small">{brandName}</span>
         </span>
 

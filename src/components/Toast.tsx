@@ -54,11 +54,10 @@ const Toast = () => {
 
   const handleRestore = async () => {
     const data = await scrapCopy({ cardId: recentCopy.id });
-
-    if (data.code === 200) {
-    } else if (data.code === 400) {
-      alert(data.message);
+    if (data.response?.status === 400) {
+      alert(data.response.message);
     }
+
     // 북마크에 다시 추가해주기
     setRestoreCopy(true);
   };

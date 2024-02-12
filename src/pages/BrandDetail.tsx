@@ -74,16 +74,17 @@ const BrandDetail = () => {
 
   const getBrandCard = async (pageNum: number) => {
     const res = await getBrandDetail(targetData.api_id, pageNum);
-    if (res.code === 200) {
-      setCardData((prev) => [...prev, ...res.data.card]);
+    console.log(res);
+    if (res.response?.status === 400) {
+      setNomoreData(true);
+    } else {
+      setCardData((prev) => [...prev, ...res.card]);
       setBrandData({
-        brandId: res.data.brandId,
-        brandLink: res.data.brandLink,
-        brandName: res.data.brandName,
+        brandId: res.brandId,
+        brandLink: res.brandLink,
+        brandName: res.brandName,
       });
       setRenderSkeleton(false);
-    } else {
-      setNomoreData(true);
     }
   };
 
@@ -107,7 +108,10 @@ const BrandDetail = () => {
   return targetData ? (
     brandData ? (
       <>
-        <BrandBanner name={targetData.name_kr} link={brandData.brandLink} />
+        <BrandBanner
+          name={targetData.name_kr}
+          link={brandData.brandLink}
+        />
         <section className="main">
           <BrandCards>
             {brandData && cardData.length > 0
@@ -135,14 +139,20 @@ const BrandDetail = () => {
                   (el, idx) => <SkeletonCard key={idx} />
                 )
               ) : (
-                <div className="observedDiv" ref={ref} />
+                <div
+                  className="observedDiv"
+                  ref={ref}
+                />
               ))}
           </BrandCards>
         </section>
       </>
     ) : (
       <>
-        <BrandBanner name={targetData.name_kr} link="" />
+        <BrandBanner
+          name={targetData.name_kr}
+          link=""
+        />
         <section className="main">
           <BrandCards>
             {Array.from({ length: 12 }, () => Array(0).fill(0)).map(
@@ -156,7 +166,10 @@ const BrandDetail = () => {
     )
   ) : (
     <>
-      <BrandBanner name="skeleton" link="" />
+      <BrandBanner
+        name="skeleton"
+        link=""
+      />
       <section className="main">
         <BrandCards>
           {Array.from({ length: 12 }, () => Array(0).fill(0)).map((el, idx) => (

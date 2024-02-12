@@ -46,7 +46,7 @@ const Home = () => {
   });
 
   const getHomecopy = async () => {
-    const { data } = await getAllCopy();
+    const data = await getAllCopy();
     setCardData(data);
   };
 
@@ -60,6 +60,7 @@ const Home = () => {
     });
 
     const data = await getCopyFilter(params, num);
+    console.log(data);
 
     if (data.response?.status === 400) {
       setEmptyResult(true);
@@ -81,9 +82,8 @@ const Home = () => {
   };
 
   const getMoreCopy = async (num: number) => {
-    const { data } = await getAllCopy(num);
-
-    if (!data) {
+    const data = await getAllCopy(num);
+    if (data.response?.data.code === "RUNTIME_EXCEPTION") {
       setNomoreData(true);
       return;
     }
@@ -226,7 +226,10 @@ const Home = () => {
                 (el, idx) => <SkeletonCard key={idx} />
               )
             ) : (
-              <div className="observedDiv" ref={ref} />
+              <div
+                className="observedDiv"
+                ref={ref}
+              />
             ))}
         </BrandCards>
       </section>
