@@ -10,7 +10,7 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { activeMenu, activeChildMenu, isLogined } from "@/utils/atom";
 import { PROFILE_DATA } from "@/utils/constants";
 import { openKaKaoPlus } from "@/utils/util";
-import { getUserProfile } from "@/api/user";
+import { getInformation } from "@/api/user";
 
 interface ProfilePropType {
   className?: string;
@@ -40,24 +40,42 @@ const ProfileDropDown = ({ className }: ProfilePropType) => {
   useOutSideClick(dropdonwRef, () => setHover(false), hover);
 
   useEffect(() => {
-    getUserProfile()
-      .then((res) => {
-        if (res.code === "ERR_NETWORK") {
-          setIsLogin(false);
-          removeCookie("userToken");
-          localStorage.clear();
-          Navigate("/");
-        } else if (res.nickname || res.picture) {
-          setUser(res);
-          setIsLogin(true);
-        } else {
-          removeCookie("userToken");
-          localStorage.clear();
-          setIsLogin(false);
-          Navigate("/");
-        }
-      })
-      .catch((err) => {});
+    // v1 code
+    // getUserProfile()
+    //   .then((res) => {
+    //     if (res.code === "ERR_NETWORK") {
+    //       setIsLogin(false);
+    //       removeCookie("userToken");
+    //       localStorage.clear();
+    //       Navigate("/");
+    //     } else if (res.nickname || res.picture) {
+    //       setUser(res);
+    //       setIsLogin(true);
+    //     } else {
+    //       removeCookie("userToken");
+    //       localStorage.clear();
+    //       setIsLogin(false);
+    //       Navigate("/");
+    //     }
+    //   })
+    //   .catch((err) => {});
+    // v2 code
+    getInformation().then((res) => {
+      if (res.code === "ERR_NETWORK") {
+        setIsLogin(false);
+        removeCookie("userToken");
+        localStorage.clear();
+        Navigate("/");
+      } else if (res.nickname || res.email) {
+        setUser(res);
+        setIsLogin(true);
+      } else {
+        removeCookie("userToken");
+        localStorage.clear();
+        setIsLogin(false);
+        Navigate("/");
+      }
+    });
   }, [location]);
 
   const getIconClassName = () =>

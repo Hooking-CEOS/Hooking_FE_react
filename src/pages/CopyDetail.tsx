@@ -61,11 +61,12 @@ const CopyDetail = ({ onClose }: CopyDetailProps) => {
       return;
     }
     const data = await scrapCopy({ cardId: selectedCopyData.id });
-    if (data.code === 200) {
+    console.log(data);
+    if (data.response?.status === 400) {
+      alert(data.message);
+    } else {
       setToast(true);
       setSaveIdList(selectedCopyData.id as any);
-    } else if (data.code === 400) {
-      alert(data.message);
     }
   };
 
@@ -93,7 +94,10 @@ const CopyDetail = ({ onClose }: CopyDetailProps) => {
               )
             }
           >
-            <BrandIcon name={selectedCopyData.brandName} size="small" />
+            <BrandIcon
+              name={selectedCopyData.brandName}
+              size="small"
+            />
             <span className="component-large brandText">
               {selectedCopyData.brandName}
             </span>

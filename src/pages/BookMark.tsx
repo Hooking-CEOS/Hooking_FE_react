@@ -37,12 +37,20 @@ const BookMark = () => {
   const navigate = useNavigate();
   const getScrap = async () => {
     const data = await getScrapCopy();
-    if (data.code === 200) {
-      setCard(data.data);
-      if (!data.data.length) {
-        setNoResult(true); // 검색결과 없음
-      } else setNoResult(false);
+    if (data.response?.status === 400) {
+      alert(data.response.message);
+    } else {
+      setCard(data);
+      if (data.length === 0) setNoResult(true);
+      else setNoResult(false);
     }
+    // if (data) {
+    //   setCard(data);
+    // } else {
+    //   if (!data) {
+    //     setNoResult(true); // 검색결과 없음
+    //   } else setNoResult(false);
+    // }
   };
 
   useEffect(() => {
