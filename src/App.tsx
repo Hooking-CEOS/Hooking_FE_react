@@ -14,6 +14,7 @@ const App = () => {
   const copyMounted = useRecoilValue(brandModalOverlay);
   const searchFocus = useRecoilValue(searchModalOverlay);
 
+  // window resize tracking
   useWindowResize();
 
   return (
