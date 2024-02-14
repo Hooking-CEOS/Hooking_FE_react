@@ -137,13 +137,14 @@ const Search = () => {
   const getMoreSearchResult = async () => {
     const data = await getCopySearch(keyword, pageNum.current);
     if (data.code === 200) {
-      const uniqueData = Array.from(
-        new Set(
-          [...card, ...data.data[0].data].map((item) => JSON.stringify(item))
-        )
-      ).map((item) => JSON.parse(item));
+      // const uniqueData = Array.from(
+      //   new Set(
+      //     [...card, ...data.data[0].data].map((item) => JSON.stringify(item))
+      //   )
+      // ).map((item) => JSON.parse(item));
+      const _tmp = [...card, ...data.data[0].data];
 
-      setCard(uniqueData);
+      setCard(_tmp);
       setRenderSkeleton(false);
     } else if (data.response.status === 500) {
       setNomoreData(true);
@@ -257,7 +258,10 @@ const Search = () => {
                       )}.png`),
                     }}
                   />
-                  <hr className="hr" style={{ marginBottom: "3rem" }} />
+                  <hr
+                    className="hr"
+                    style={{ marginBottom: "3rem" }}
+                  />
                 </>
               )}
 
@@ -284,7 +288,10 @@ const Search = () => {
                       (el, idx) => <SkeletonCard key={idx} />
                     )
                   ) : (
-                    <div className="observedDiv" ref={ref} />
+                    <div
+                      className="observedDiv"
+                      ref={ref}
+                    />
                   ))}
               </BrandCards>
             </div>
