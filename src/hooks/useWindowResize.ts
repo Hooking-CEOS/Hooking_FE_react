@@ -14,12 +14,12 @@ const useWindowResize = () => {
   const setWindowSize = useSetRecoilState(isBigWindow);
 
   const BIG_WINDOW_SIZE = 1360;
-  const DESKTOP_WINDOW_SIZE = 1280;
+  const DESKTOP_WINDOW_SIZE = 1200;
 
   const handleResize = () => {
-    window.innerWidth > BIG_WINDOW_SIZE
+    window.innerWidth >= BIG_WINDOW_SIZE
       ? setWindowSize(0)
-      : window.innerWidth > DESKTOP_WINDOW_SIZE
+      : window.innerWidth >= DESKTOP_WINDOW_SIZE
       ? setWindowSize(1)
       : setWindowSize(2);
   };
