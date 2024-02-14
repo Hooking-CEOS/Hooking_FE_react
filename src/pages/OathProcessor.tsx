@@ -3,6 +3,7 @@ import { useSetRecoilState } from "recoil";
 import { activeMenu, isLogined } from "@/utils/atom";
 import { useNavigate } from "react-router-dom";
 import { setCookie } from "@/hooks/cookies";
+import HomeSkeleton from "./Skeleton/HomeSkeleton";
 
 const OathProcessor = () => {
   const Navigate = useNavigate();
@@ -25,14 +26,14 @@ const OathProcessor = () => {
       setActiveMenuIdx(0);
       setCookie("userToken", token);
       setIsLogin(true);
-      Navigate("/home");
+      Navigate("/");
     } else {
       alert("로그인에 실패했습니다.");
       Navigate("/");
     }
   };
 
-  return <>Loading...</>;
+  return <HomeSkeleton />;
 };
 
 export default OathProcessor;

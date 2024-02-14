@@ -94,7 +94,7 @@ export const FILTER_DATA = [
 export const HEADER_LEFT_MENU = [
   {
     idx: 0,
-    path: "/home",
+    path: "/",
     name: "홈",
   },
 
@@ -120,7 +120,7 @@ export const PROFILE_DATA = [
   {
     idx: 2,
     text: "문의",
-    link: "/home",
+    link: "/",
   },
   {
     idx: 3,

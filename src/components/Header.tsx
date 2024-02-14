@@ -29,12 +29,13 @@ const Header = () => {
   const handleLogin = () => setLoginModal(true);
 
   const MENU = {
-    landing: { name: "landing", path: "/", idx: -1 },
-    home: { name: "home", path: "/home", idx: 0 },
+    // landing: { name: "landing", path: "/", idx: -1 },
+    home: { name: "home", path: "/", idx: 0 },
   };
 
   return (
     <HeaderWrapper>
+      {/* want to add divider to determine if the width is bigger than 1024px or not */}
       <div className="header__wrap">
         <div className="header__content--left">
           <Button
@@ -42,7 +43,7 @@ const Header = () => {
             text=""
             onClick={() => {
               setActiveChildMenuIdx(-1);
-              let curMenu = !isLogin ? MENU.landing : MENU.home;
+              let curMenu = MENU.home;
               setActiveMenuIdx(curMenu.idx);
               navigate(curMenu.path);
             }}
@@ -90,7 +91,7 @@ export default Header;
 const HeaderWrapper = styled.header`
   position: fixed;
   top: 0;
-  width: 100%;
+  width: 100vw;
   height: ${HEADER_HEIGHT_MO};
   z-index: ${Z_INDEX_HEADER};
   background-color: ${(props) => props.theme.colors.white};

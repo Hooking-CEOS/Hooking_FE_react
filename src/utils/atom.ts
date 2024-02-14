@@ -165,7 +165,7 @@ export const activeMenu = atom({
 
 export const activeChildMenu = atom({
   key: "activeChildMenu",
-  default: -1,
+  default: 0,
   effects_UNSTABLE: [persistAtom],
 });
 
