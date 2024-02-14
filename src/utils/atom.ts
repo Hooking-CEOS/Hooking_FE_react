@@ -1,6 +1,5 @@
 import { atom, selectorFamily, selector } from "recoil";
 import { recoilPersist } from "recoil-persist";
-import { getCopySearch, getCopyFilter } from "@/api/copywriting";
 import { ICardData } from "./type";
 import { removeAllSpace } from "./util";
 
@@ -103,12 +102,15 @@ export const search = atom<ISearchType>({
   effects_UNSTABLE: [persistAtom],
 });
 
-export const searchResult = selectorFamily({
-  key: "searchResult",
-  get: (keyword: string | null) => async () => {
-    return await getCopySearch(keyword);
-  },
-});
+// export const searchResult = selectorFamily({
+//   key: "searchResult",
+//   get: (keyword: string | null) => async () => {
+//     let _result: ICardData[] = [];
+//     const data = await getCopySearchByBrandName(keyword, 0);
+//     _result.push(...data.data[0].data);
+//     return _result;
+//   },
+// });
 
 export const selectedCopy = atom<ICardData>({
   key: "selectedCopy",

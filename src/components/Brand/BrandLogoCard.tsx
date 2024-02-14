@@ -21,8 +21,9 @@ const BrandLogoCard = ({ brand, onClick }: IBLCProps) => {
     Navigate("/brand/" + targetData.id);
   };
   return (
-    <BrandCard className="brand-card" onClick={handleCardClick}>
+    <BrandCard className="brand-card">
       <img
+        onClick={handleCardClick}
         width="96px"
         height="96px"
         className="brand-img"
@@ -30,7 +31,10 @@ const BrandLogoCard = ({ brand, onClick }: IBLCProps) => {
         alt="brand-img"
         loading="lazy"
       />
-      <div className="brand-name">
+      <div
+        className="brand-name"
+        onClick={handleCardClick}
+      >
         <span className="text-subtitle-1">{brand.name}</span>
       </div>
     </BrandCard>
@@ -41,7 +45,7 @@ export default BrandLogoCard;
 
 const BrandCard = styled.div`
   display: inline-flex;
-  cursor: pointer;
+
   width: 100%;
 
   & + .brand-card {
@@ -53,6 +57,7 @@ const BrandCard = styled.div`
     border-top-left-radius: 1.6rem;
     border-bottom-left-radius: 1.6rem;
     background-color: ${(props) => props.theme.colors.black5};
+    cursor: pointer;
   }
 
   .brand-name {
@@ -67,6 +72,7 @@ const BrandCard = styled.div`
     display: flex;
     align-items: center;
 
+    cursor: pointer;
     .text-subtitle-1 {
       padding: 2.2rem;
     }

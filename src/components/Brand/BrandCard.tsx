@@ -4,6 +4,7 @@ import {
   recentDeleteCopy,
   savedIdLists,
   setSaveId,
+  staticKeyword,
 } from "@/utils/atom";
 
 import { useState, useRef, SetStateAction } from "react";
@@ -58,8 +59,6 @@ const BrandCard = ({
   const [forceHover, setForceHover] = useState(false);
   const setDeleteToast = useSetRecoilState(deleteToastPopup);
 
-  //const keyword = useRecoilValue(search);
-
   // set
   const setSaveIdList = useSetRecoilState(setSaveId);
   const setRecentDelete = useSetRecoilState(recentDeleteCopy);
@@ -73,11 +72,10 @@ const BrandCard = ({
   const setHoverActive = (time: number) => {
     // 강제로 true였다가 2초뒤에 false
     setForceHover(true);
-    // 요거머에여 @hyosin
-    let test = 0;
-    for (let i = 0; i < 100000; i++) {
-      test += i;
-    }
+    // let test = 0;
+    // for (let i = 0; i < 100000; i++) {
+    //   test += i;
+    // }
 
     const timeout = setTimeout(() => {
       setForceHover(false);

@@ -110,7 +110,7 @@ const SearchBar = () => {
 
   useEffect(() => {
     // 큰 화면 (1320) 이상에서는 3개 브랜드 생성, 작은 화면은 2개 생성
-    getRandNumBrand(bigWindow ? 3 : 2);
+    getRandNumBrand(bigWindow ? 2 : 3);
   }, [bigWindow]);
 
   return (

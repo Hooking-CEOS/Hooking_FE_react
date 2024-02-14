@@ -1,11 +1,12 @@
 import { useSearchParams } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useTransition, useRef } from "react";
 
 import styled from "styled-components";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
   activeMenu,
   brandModalOverlay,
+  // searchResult,
   selectedCopy,
   similarCopyList,
   staticKeyword,
@@ -18,11 +19,7 @@ import { removeAllSpace } from "@/utils/util";
 import React from "react";
 import { Card as SkeletonCard } from "@/components/Skeleton/Card";
 import { useInView } from "react-intersection-observer";
-import {
-  getCopySearchByBrandName,
-  getCopySearchByCopyText,
-  getCopySearchByMoodText,
-} from "@/api/copywriting";
+import { getCopySearch } from "@/api/copywriting";
 
 const BrandLogoCard = React.lazy(
   () => import("@/components/Brand/BrandLogoCard")
@@ -36,22 +33,26 @@ const INITIAL_SEARCH_CNT: SearchCnt = { copy: 0, brand: 0, mood: 0 };
 
 const Search = () => {
   const [searchParams, _] = useSearchParams();
-  const keyword = searchParams.get("keyword");
-  const setKeyword = useSetRecoilState(staticKeyword);
 
   const [searchCnt, setSearchCnt] = useState(INITIAL_SEARCH_CNT);
-  const [noResult, setNoResult] = useState(true);
+  const [isPending, startTransition] = useTransition(); // 낮은 우선순위
+  const [noResult, setNoResult] = useState(false);
+  const [resCnt, setResCnt] = useState<number>();
   const [type, setType] = useState("copy");
+  const [card, setCard] = useState<ICardData[]>([]);
+  const [keywordData, setKeywordData] = useState<string>();
   const [nomoreData, setNomoreData] = useState<boolean>(false);
   const [renderSkeleton, setRenderSkeleton] = useState<boolean>(false);
+  const [searchData, setSearchData] = useState<any[]>([]);
 
-  const [cardData, setCardData] = useState<ICardData[]>([]);
   const [copyData, setCopyData] = useState<ICardData[]>([]);
   const [brandData, setBrandData] = useState<ICardData[]>([]);
   const [moodData, setMoodData] = useState<ICardData[]>([]);
 
+  const setKeyword = useSetRecoilState(staticKeyword);
+  const keyword = searchParams.get("keyword");
+
   // const getSearch = useRecoilValue(searchResult(keyword));
-  const [resCnt, setResCnt] = useState<number>();
   const [totalLen, setTotalLen] = useState(0);
   const setSelectedCopy = useSetRecoilState(selectedCopy);
   const setSimilarCopy = useSetRecoilState(similarCopyList);
@@ -61,71 +62,167 @@ const Search = () => {
   const [ref, inView] = useInView();
   const pageNum = useRef<number>(0);
 
+  const getTotalLen = (keywordObj: SearchCnt) => {
+    const totalLen = Object.keys(keywordObj)
+      .map((keyword) => keywordObj[keyword])
+      .reduce((acc, val) => acc + val, 0);
+
+    setTotalLen(totalLen);
+  };
+
+  // curType을 설정하는 함수
   const onSetType = (cur: any) => {
     const { copy, brand, mood } = cur;
-    let _type = "copy";
-    if (brand > 0) {
-      _type = "brand";
-    } else if (mood > 0) {
-      _type = "mood";
-    }
-    setType(_type);
+    let type = "copy"; // default
+    if (brand > 0) type = "brand";
+    else if (mood > 0) type = "mood";
+    setType(type);
+    return type;
   };
 
-  const updateSearchCnt = (type: string, cnt: number) => {
-    setSearchCnt((prev) => ({ ...prev, [type]: cnt }));
-    onSetType({ ...searchCnt, [type]: cnt });
+  // 각 타입별 결과 데이터 개수를 반환하는 함수
+  const getTypeSearchCnt = (data: any): string => {
+    const cur: any = { ...INITIAL_SEARCH_CNT };
+    console.log("getTypeSearchCnt", data);
+
+    data.forEach((obj: any) => {
+      cur[obj.type === "text" ? "copy" : obj.type] = obj.data.length;
+    });
+    setSearchCnt(cur);
+    getTotalLen(cur); // 총 개수 설정
+
+    return onSetType(cur);
   };
 
-  const getInitialData = async () => {
-    setKeyword(keyword!);
-    // if brand fetch, no more api fetch needed
-    const _brandApiData = await getCopySearchByBrandName(keyword, 0);
+  interface commonAPIResponseType {
+    code: number | string;
+    messages: string;
+  }
 
-    if (_brandApiData.response?.data.code === "RUNTIME_EXCEPTION") {
-      const _moodApiData = await getCopySearchByMoodText(keyword, 0);
-      const _copyApiData = await getCopySearchByCopyText(keyword, 0);
-      if (_moodApiData.response?.data.code === "RUNTIME_EXCEPTION") {
-        if (_copyApiData.response?.data.code === "RUNTIME_EXCEPTION") {
-          setNoResult(true);
-          return;
-        } else {
-          // copy만 있을 때
-          setCopyData(_copyApiData.data);
-          setTotalLen(_copyApiData.totalNum);
-          setResCnt(_copyApiData.totalNum);
-          updateSearchCnt("copy", _copyApiData.totalNum);
-          setType("copy");
-        }
-      } else {
-        setMoodData(_moodApiData.data);
-        setTotalLen(_moodApiData.totalNum);
-        setResCnt(_moodApiData.totalNum);
-        updateSearchCnt("mood", _moodApiData.totalNum);
-        setType(_moodApiData.type);
-      }
+  interface KeywordType {
+    type: string;
+    data: ICardData[];
+    keyword: string;
+    totalNum: number;
+  }
+
+  interface searchAPIResponseType extends commonAPIResponseType {
+    data: KeywordType[];
+  }
+
+  const getSearchResult = async () => {
+    const data = await getCopySearch(keyword, 0);
+    console.log("--------------------------------");
+    console.log(data);
+    if (!data) {
+      setNoResult(true);
+      return;
     } else {
-      // brand data exists
       setNoResult(false);
-      console.log("brand data", _brandApiData);
-      setBrandData(_brandApiData.data);
-      setCardData(_brandApiData.data);
-      setType(_brandApiData.type);
-
-      setTotalLen(_brandApiData.totalNum);
-      updateSearchCnt(_brandApiData.type, _brandApiData.totalNum);
+      const type = getTypeSearchCnt(data);
+      console.log("type: ", type);
+      const keyword = data[0].keyword === "text" ? "copy" : data[0].keyword;
+      setType(type);
+      setKeywordData(keyword);
+      setKeyword(keyword);
+      setResCnt(data[0].totalNum);
+      setSearchData(data);
     }
+
+    /* v1
+    const data: searchAPIResponseType = getSearch;
+    // 400: no search result
+    if (data.code === 200) {
+      setNoResult(false);
+      const type = getTypeSearchCnt(data);
+
+      if (data.data && data.data.length > 0) {
+        const keyword = data.data[0].keyword;
+        setType(type);
+        setKeywordData(keyword);
+        setKeyword(keyword);
+        type === "mood"
+          ? setResCnt(data.data.find((el) => el.type === "copy")!.totalNum)
+          : setResCnt(data.data[0].totalNum);
+      }
+
+      getTypeData(data, type); // 데이터들의 대표 타입을 통해 카드 데이터 렌더링
+    } else if (data.code === 400 || data.code === "ERR_BAD_REQUEST")
+      setNoResult(true);
+      */
   };
 
-  useEffect(() => {
-    getInitialData();
-  }, []);
-
-  const handleCardClick = (card: any) => {
-    setSelectedCopy(card);
-    setSimilarCopy(cardData.filter((el) => el.id !== card.id));
+  const handleBrandOpen = (cardData: any) => {
+    setSelectedCopy(cardData); // 여기서 선택된 데이터
+    setSimilarCopy(card.filter((el) => el.id !== cardData.id));
     setBrandModal(true);
   };
+
+  const getMoreSearchResult = async () => {
+    // const data = await getCopySearch(keyword, pageNum.current);
+    // if (data.code === 200) {
+    //   const _tmp = [...card, ...data.data[0].data];
+    //   setCard(_tmp);
+    //   setRenderSkeleton(false);
+    // } else if (data.response.status === 500) {
+    //   setNomoreData(true);
+    // }
+  };
+  useEffect(() => {
+    getTypeData(searchData, type);
+  }, [searchData, type]);
+
+  useEffect(() => {
+    getSearchResult();
+  }, [keyword]);
+
+  useEffect(() => {
+    if (inView) {
+      setRenderSkeleton(true);
+      pageNum.current += 1;
+      if (pageNum.current >= 2) {
+        if (pageNum.current * 30 >= resCnt! * 1.5) {
+          setNomoreData(true);
+        }
+      }
+      getMoreSearchResult();
+    }
+  }, [inView]);
+
+  // useEffect(() => {
+  //   getTypeData(getSearch, type);
+  // }, [type]);
+
+  useEffect(() => {
+    console.log(searchCnt, "searchCnt");
+  }, [searchCnt]);
+  useEffect(() => {
+    setActiveMenuIdx(-1);
+  }, []);
+
+  // v2
+  // 탭이 여러 개일 경우 현재 누른 탭에 따라 카드 데이터 갈아끼움
+  const getTypeData = (data: any, findType: string) => {
+    data?.map((obj: any) => {
+      const type = obj.type === "text" ? "copy" : obj.type;
+      console.log(obj.data, "obj.data", findType, type);
+      if (type === findType) {
+        setCard(obj.data);
+      }
+    });
+  };
+
+  /* v1
+  // 탭이 여러 개일 경우 현재 누른 탭에 따라 카드 데이터 갈아끼움
+  const getTypeData = ({ data }: any, findType: string) => {
+    data?.map((obj: any) => {
+      const { type } = obj;
+      if (type === findType) {
+        setCard(obj.data);
+      }
+    });
+  };
+  */
 
   return (
     <>
@@ -181,7 +278,7 @@ const Search = () => {
                           type === "mood" ? "orange" : "grey"
                         } component-small`}
                       >
-                        #{keyword}
+                        #{keywordData}
                       </span>
                     </div>
                   )}
@@ -193,9 +290,9 @@ const Search = () => {
                   <BrandLogoCard
                     brand={{
                       idx: 0,
-                      name: keyword,
+                      name: keywordData,
                       img: require(`../assets/images/brandSearch/brand-search-${removeAllSpace(
-                        keyword!
+                        keywordData
                       )}.png`),
                     }}
                   />
@@ -207,7 +304,7 @@ const Search = () => {
               )}
 
               <BrandCards>
-                {cardData.map((card) => (
+                {card.map((card) => (
                   <BrandCard
                     key={`brand-text-card-${card.id}`}
                     srcIdx={card.index ?? 0}
@@ -215,12 +312,12 @@ const Search = () => {
                     text={card.text}
                     scrapCnt={card.scrapCnt}
                     isScrap={card.isScrap}
-                    keyword={keyword!}
+                    keyword={keywordData}
                     brandImg={require(`../assets/images/brandIcon/brand-${removeAllSpace(
                       card.brandName
                     )}.png`)}
                     brandName={card.brandName}
-                    onClick={() => handleCardClick(card)}
+                    onClick={() => handleBrandOpen(card)}
                   />
                 ))}
                 {!nomoreData &&
@@ -230,11 +327,6 @@ const Search = () => {
                     )
                   ) : (
                     <div
-                      style={{
-                        width: "100%",
-                        height: "1px",
-                        backgroundColor: "red",
-                      }}
                       className="observedDiv"
                       ref={ref}
                     />
@@ -248,7 +340,7 @@ const Search = () => {
   );
 };
 
-export default Search;
+// export default Search;
 
 const BrandCards = styled.div`
   display: grid;
