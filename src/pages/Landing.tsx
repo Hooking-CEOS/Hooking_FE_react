@@ -59,8 +59,16 @@ const Landing = () => {
           </div>
           <div className="cardArea">
             {/* <div className="card2"></div> */}
-            <img src={card2} alt="imgcard" className="card2" />
-            <img src={card1} alt="imgcard" className="card1" />
+            <img
+              src={card2}
+              alt="imgcard"
+              className="card2"
+            />
+            <img
+              src={card1}
+              alt="imgcard"
+              className="card1"
+            />
           </div>
         </div>
         <div className="bottomArea">
@@ -68,28 +76,40 @@ const Landing = () => {
             <div className="filterBtn">
               <div className="filtertop">
                 무드 키워드
-                <img src={iconfold} alt="foldIcon" />
+                <img
+                  src={iconfold}
+                  alt="foldIcon"
+                />
               </div>
               <div className="filterBtm">브랜드를 설명하는 키워드</div>
             </div>
             <div className="filterBtn">
               <div className="filtertop">
                 산업군
-                <img src={iconfold} alt="foldIcon" />
+                <img
+                  src={iconfold}
+                  alt="foldIcon"
+                />
               </div>
               <div className="filterBtm">브랜드가 속한 산업군</div>
             </div>
             <div className="filterBtn">
               <div className="filtertop">
                 타겟 나이대
-                <img src={iconfold} alt="foldIcon" />
+                <img
+                  src={iconfold}
+                  alt="foldIcon"
+                />
               </div>
               <div className="filterBtm">중점적으로 목표한 나이대</div>
             </div>
             <div className="filterBtn">
               <div className="filtertop">
                 가격대
-                <img src={iconfold} alt="foldIcon" />
+                <img
+                  src={iconfold}
+                  alt="foldIcon"
+                />
               </div>
               <div className="filterBtm">형성되어 있는 가격</div>
             </div>
@@ -99,7 +119,7 @@ const Landing = () => {
             text="바로 살펴보기"
             className="button-landing-orange text-landing "
             onClick={() => {
-              navigate("/home");
+              navigate("/");
               setActiveMenuIdx(0);
             }}
           />
@@ -124,11 +144,19 @@ const Landing = () => {
             내가 원하는 브랜드 카피를 바로 볼 수 있어요.
           </span>
         </div>
-        <img src={landing2} alt="landingpage" className="page2Img" />
+        <img
+          src={landing2}
+          alt="landingpage"
+          className="page2Img"
+        />
       </LandingPage2>
       <div ref={ref}>
         <LandingPage3>
-          <img src={landing3} alt="landingpage" className="page3Img" />
+          <img
+            src={landing3}
+            alt="landingpage"
+            className="page3Img"
+          />
           <div className="textDiv">
             <span className="mainText">
               다양한 브랜드의
@@ -143,7 +171,11 @@ const Landing = () => {
           </div>
         </LandingPage3>
         <LandingPage4 ref={newRef}>
-          <img src={landing4} alt="landingpage" className="page4Img" />
+          <img
+            src={landing4}
+            alt="landingpage"
+            className="page4Img"
+          />
         </LandingPage4>
       </div>
       {(inView || newInView) && (

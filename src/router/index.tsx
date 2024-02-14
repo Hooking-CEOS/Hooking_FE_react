@@ -41,13 +41,13 @@ const HookingRouter = () => {
   const handleCopyClose = () => setBrandModal(false);
 
   const routes = [
+    // {
+    //   path: "/",
+    //   name: "Landing",
+    //   component: <Landing />,
+    // },
     {
       path: "/",
-      name: "Landing",
-      component: <Landing />,
-    },
-    {
-      path: "/home",
       name: "Home",
       component: (
         <Suspense fallback={<HomeSkeleton />}>
@@ -67,7 +67,7 @@ const HookingRouter = () => {
     {
       path: "/bookmark",
       name: "BookMark",
-      component: isLogin ? <BookMark /> : <Navigate to="/home" />,
+      component: isLogin ? <BookMark /> : <Navigate to="/" />,
     },
     {
       path: "/qna",

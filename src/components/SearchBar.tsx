@@ -70,7 +70,7 @@ const SearchBar = () => {
   };
 
   useEffect(() => {
-    if (location.pathname === "/" || location.pathname === "/home") {
+    if (location.pathname === "/") {
       setSearchState({ ...searchState, searchKeyword: "" });
       setKeyword("");
     }
@@ -115,7 +115,10 @@ const SearchBar = () => {
 
   return (
     <>
-      <SearchBarWrapper ref={searchWrap} onClick={handleFocusOn}>
+      <SearchBarWrapper
+        ref={searchWrap}
+        onClick={handleFocusOn}
+      >
         <form
           onSubmit={onSearchSubmit}
           className={`${

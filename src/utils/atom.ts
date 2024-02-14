@@ -165,7 +165,7 @@ export const activeMenu = atom({
 
 export const activeChildMenu = atom({
   key: "activeChildMenu",
-  default: -1,
+  default: 0,
   effects_UNSTABLE: [persistAtom],
 });
 
@@ -177,7 +177,8 @@ export const isLogined = atom({
 
 export const isBigWindow = atom({
   key: "bigWindow",
-  default: false, // 1320 화면 기준, 초깃값은 false
+  default: 0, // 1320 화면보다 크면 0, 1024 ~ 1320 화면이면 1, ~ 1024 화면이면 2
+  // default: false, // 1320 화면 기준, 초깃값은 false -> v1
 });
 
 // 프론트에서 저장된 카드 id 저장
