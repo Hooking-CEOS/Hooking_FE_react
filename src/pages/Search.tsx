@@ -426,7 +426,7 @@ const Search = () => {
                 </>
               </div>
 
-              {type === "brand" && (
+              {!isLoading && type === "brand" && (
                 <>
                   <BrandLogoCard
                     brand={{
