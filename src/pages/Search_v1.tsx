@@ -1,3 +1,6 @@
+/* preserve for archive
+
+
 import { useSearchParams } from "react-router-dom";
 import { useState, useEffect, useTransition, useRef } from "react";
 
@@ -129,27 +132,27 @@ const Search = () => {
       setSearchData(data);
     }
 
-    /* v1
-    const data: searchAPIResponseType = getSearch;
-    // 400: no search result
-    if (data.code === 200) {
-      setNoResult(false);
-      const type = getTypeSearchCnt(data);
+    // v1
+    // const data: searchAPIResponseType = getSearch;
+    // // 400: no search result
+    // if (data.code === 200) {
+    //   setNoResult(false);
+    //   const type = getTypeSearchCnt(data);
 
-      if (data.data && data.data.length > 0) {
-        const keyword = data.data[0].keyword;
-        setType(type);
-        setKeywordData(keyword);
-        setKeyword(keyword);
-        type === "mood"
-          ? setResCnt(data.data.find((el) => el.type === "copy")!.totalNum)
-          : setResCnt(data.data[0].totalNum);
-      }
+    //   if (data.data && data.data.length > 0) {
+    //     const keyword = data.data[0].keyword;
+    //     setType(type);
+    //     setKeywordData(keyword);
+    //     setKeyword(keyword);
+    //     type === "mood"
+    //       ? setResCnt(data.data.find((el) => el.type === "copy")!.totalNum)
+    //       : setResCnt(data.data[0].totalNum);
+    //   }
 
-      getTypeData(data, type); // 데이터들의 대표 타입을 통해 카드 데이터 렌더링
-    } else if (data.code === 400 || data.code === "ERR_BAD_REQUEST")
-      setNoResult(true);
-      */
+    //   getTypeData(data, type); // 데이터들의 대표 타입을 통해 카드 데이터 렌더링
+    // } else if (data.code === 400 || data.code === "ERR_BAD_REQUEST")
+    //   setNoResult(true);
+    
   };
 
   const handleBrandOpen = (cardData: any) => {
@@ -196,6 +199,7 @@ const Search = () => {
   useEffect(() => {
     console.log(searchCnt, "searchCnt");
   }, [searchCnt]);
+
   useEffect(() => {
     setActiveMenuIdx(-1);
   }, []);
@@ -212,21 +216,21 @@ const Search = () => {
     });
   };
 
-  /* v1
+  // v1
   // 탭이 여러 개일 경우 현재 누른 탭에 따라 카드 데이터 갈아끼움
-  const getTypeData = ({ data }: any, findType: string) => {
-    data?.map((obj: any) => {
-      const { type } = obj;
-      if (type === findType) {
-        setCard(obj.data);
-      }
-    });
-  };
-  */
+  // const getTypeData = ({ data }: any, findType: string) => {
+  //   data?.map((obj: any) => {
+  //     const { type } = obj;
+  //     if (type === findType) {
+  //       setCard(obj.data);
+  //     }
+  //   });
+  // };
+  
 
   return (
     <>
-      {/* || totalLen === 0  */}
+
       {noResult || !totalLen ? (
         <QnA keyword={keyword} />
       ) : (
@@ -250,7 +254,7 @@ const Search = () => {
                         type === "copy" || type === "brand" ? "orange" : "grey"
                       } component-small`}
                     >
-                      {/* {searchCnt.copy || searchCnt.brand} */}
+
                       {resCnt}
                     </span>
                   </div>
@@ -350,3 +354,4 @@ const BrandCards = styled.div`
   grid-gap: 3rem;
   place-items: center;
 `;
+ */

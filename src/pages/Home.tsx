@@ -69,11 +69,12 @@ const Home = () => {
     if (num === 0) {
       setCardData(data);
     } else {
-      // const uniqueData = Array.from(
-      //   new Set([...cardData, ...data].map((item) => JSON.stringify(item)))
-      // ).map((item) => JSON.parse(item));
-      const _tmp = [...cardData, ...data];
-      setCardData(_tmp);
+      const uniqueData = Array.from(
+        new Map(
+          [...cardData, ...data].map((item) => [JSON.stringify(item), item])
+        ).values()
+      );
+      setCardData(uniqueData);
     }
     setRenderSkeleton(false);
   };
@@ -87,16 +88,15 @@ const Home = () => {
     if (num === 0) {
       setCardData(data);
     } else {
-      // const uniqueData = Array.from(
-      //   new Set([...cardData, ...data].map((item) => JSON.stringify(item)))
-      //   // Parse each item in the set back to an object
-      // ).map((item) => JSON.parse(item));
-      const _tmp = [...cardData, ...data];
-      console.log(_tmp.length, "tmp");
-      setCardData(_tmp);
+      const uniqueData = Array.from(
+        new Map(
+          [...cardData, ...data].map((item) => [JSON.stringify(item), item])
+        ).values()
+      );
+      console.log(uniqueData.length, "uniqueData length");
+      setCardData(uniqueData);
     }
     setRenderSkeleton(false);
-    // setHomeCards(data); // 리코일에 저장
   };
 
   // recoil state에 변화가 생길 때마다 스크롤 카드 시작부분으로 이동
