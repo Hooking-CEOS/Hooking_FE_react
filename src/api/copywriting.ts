@@ -24,12 +24,54 @@ export const getAllCopy = async (pageNum: number = 0) => {
 //   return await GET(`/copy/${pageNum}`);
 // };
 
-// 카피라이팅 검색 조회
+// 카피라이팅 검색 조회 - brandName
+export const getCopySearchByBrandName = async (
+  keyword: string | null,
+  pageNum: number = 0
+) => {
+  return await GET(`/api/v2/copy/search/brand/${pageNum}?keyword=${keyword}`);
+};
+
+// 카피라이팅 검색 조회 - moodText
+export const getCopySearchByMoodText = async (
+  keyword: string | null,
+  pageNum: number = 0
+) => {
+  return await GET(`/api/v2/copy/search/mood/${pageNum}?keyword=${keyword}`);
+};
+
+// 카피라이팅 검색 조회 - copyText
+export const getCopySearchByCopyText = async (
+  keyword: string | null,
+  pageNum: number = 0
+) => {
+  return await GET(`/api/v2/copy/search/text/${pageNum}?keyword=${keyword}`);
+};
+
 export const getCopySearch = async (
   keyword: string | null,
   pageNum: number = 0
 ) => {
-  return await GET(`/api/v2/copy/search/${pageNum}?keyword=${keyword}`);
+  let _result: any = [];
+  const brandData = await getCopySearchByBrandName(keyword, pageNum);
+  if (brandData.response?.data.code === "RUNTIME_EXCEPTION") {
+  } else {
+    _result.push(brandData);
+  }
+  const moodData = await getCopySearchByMoodText(keyword, pageNum);
+  if (moodData.response?.data.code === "RUNTIME_EXCEPTION") {
+  } else {
+    _result.push(moodData);
+  }
+  const copyData = await getCopySearchByCopyText(keyword, pageNum);
+  if (copyData.response?.data.code === "RUNTIME_EXCEPTION") {
+  } else {
+    _result.push(copyData);
+  }
+  if (_result.length === 0) {
+    return null;
+  }
+  return _result;
 };
 
 // 카피라이팅 검색 조회 v1

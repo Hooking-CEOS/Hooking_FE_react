@@ -74,7 +74,7 @@ const BrandDetail = () => {
 
   const getBrandCard = async (pageNum: number) => {
     const res = await getBrandDetail(targetData.api_id, pageNum);
-    console.log(res);
+    // console.log(res);
     if (res.response?.status === 400) {
       setNomoreData(true);
     } else {
