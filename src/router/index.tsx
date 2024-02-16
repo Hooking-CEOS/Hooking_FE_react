@@ -25,15 +25,18 @@ import {
   toastPopup,
   loginModalOverlay,
   brandModalOverlay,
+  isBigWindow,
 } from "@/utils/atom";
 import { useRecoilValue, useRecoilState } from "recoil";
 import HomeSkeleton from "@/pages/Skeleton/HomeSkeleton";
 import SearchSkeleton from "@/pages/Skeleton/SearchSkeleton";
 import WIP from "@/pages/WIP";
+import MobileViewHome from "@/pages/MobileView/Home";
 
 const HookingRouter = () => {
   const toastOpen = useRecoilValue(toastPopup);
   const isLogin = useRecoilValue(isLogined);
+  const windowState = useRecoilValue(isBigWindow);
   const [loginModal, setLoginModal] = useRecoilState(loginModalOverlay);
   const [brandModal, setBrandModal] = useRecoilState(brandModalOverlay);
 
@@ -49,11 +52,14 @@ const HookingRouter = () => {
     {
       path: "/",
       name: "Home",
-      component: (
-        <Suspense fallback={<HomeSkeleton />}>
-          <Home />
-        </Suspense>
-      ),
+      component:
+        windowState === 2 ? (
+          <MobileViewHome />
+        ) : (
+          <Suspense fallback={<HomeSkeleton />}>
+            <Home />
+          </Suspense>
+        ),
     },
     {
       path: "/search",
@@ -100,7 +106,7 @@ const HookingRouter = () => {
     <>
       <Router>
         <ScrollToTop />
-        <Header />
+        {windowState === 2 ? <>HEADER</> : <Header />}
         <Routes>
           {routes.map((route, key) => (
             <Route
