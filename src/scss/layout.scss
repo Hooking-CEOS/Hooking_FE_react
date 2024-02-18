@@ -14,6 +14,7 @@ body {
 
   #root {
     width: 100%;
+    height: 100%;
   }
 
   // 라우팅되는 모든 페이지가 들어감
@@ -24,6 +25,13 @@ body {
     font-family: NotoSansKRRegular;
     user-select: none;
     overflow: auto;
+    &-mobile {
+      height: 100%;
+      width: 100%;
+      font-family: NotoSansKRRegular;
+      user-select: none;
+      overflow: auto;
+    }
 
     .main {
       content-visibility: auto;
