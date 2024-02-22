@@ -27,25 +27,49 @@ export const getAllCopy = async (pageNum: number = 0) => {
 // 카피라이팅 검색 조회 - brandName
 export const getCopySearchByBrandName = async (
   keyword: string | null,
-  pageNum: number = 0
+  pageNum: number = 0,
+  randomSeed?: number
 ) => {
-  return await GET(`/api/v2/copy/search/brand/${pageNum}?keyword=${keyword}`);
+  return await POST(
+    `/api/v2/copy/search/brand/${pageNum}?keyword=${keyword}`,
+    randomSeed !== 0
+      ? {
+          randomSeed: randomSeed,
+        }
+      : {}
+  );
 };
 
 // 카피라이팅 검색 조회 - moodText
 export const getCopySearchByMoodText = async (
   keyword: string | null,
-  pageNum: number = 0
+  pageNum: number = 0,
+  randomSeed?: number
 ) => {
-  return await GET(`/api/v2/copy/search/mood/${pageNum}?keyword=${keyword}`);
+  return await POST(
+    `/api/v2/copy/search/mood/${pageNum}?keyword=${keyword}`,
+    randomSeed !== 0
+      ? {
+          randomSeed: randomSeed,
+        }
+      : {}
+  );
 };
 
 // 카피라이팅 검색 조회 - copyText
 export const getCopySearchByCopyText = async (
   keyword: string | null,
-  pageNum: number = 0
+  pageNum: number = 0,
+  randomSeed?: number
 ) => {
-  return await GET(`/api/v2/copy/search/text/${pageNum}?keyword=${keyword}`);
+  return await POST(
+    `/api/v2/copy/search/text/${pageNum}?keyword=${keyword}`,
+    randomSeed !== 0
+      ? {
+          randomSeed: randomSeed,
+        }
+      : {}
+  );
 };
 
 export const getCopySearch = async (
