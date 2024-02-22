@@ -115,6 +115,10 @@ const HookingRouter = () => {
               element={route.component}
             />
           ))}
+          <Route
+            path="/*"
+            element={<>NOTFOUND</>} // TODO: 404 페이지 작업 후 교체
+          />
         </Routes>
         {loginModal && (
           <Portal selector="#portal">
