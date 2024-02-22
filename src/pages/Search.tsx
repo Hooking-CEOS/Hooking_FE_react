@@ -1,3 +1,6 @@
+// TODO: Cannot read properties of undefined (reading 'length') 에러 해결하기
+// api 호출시에 더이상 없으면 나오는듯?
+
 import { useSearchParams } from "react-router-dom";
 import { useState, useEffect, useRef, lazy } from "react";
 
