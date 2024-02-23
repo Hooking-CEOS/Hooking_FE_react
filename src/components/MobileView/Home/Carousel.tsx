@@ -17,8 +17,8 @@ const MobileCarousel = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setRandIdx(Math.floor(Math.random() * 26));
-    }, 5000);
+      setRandIdx((prev) => (prev + 1) % imgData.length);
+    }, 7500);
     return () => clearInterval(interval);
   }, []);
 
