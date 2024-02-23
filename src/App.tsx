@@ -7,18 +7,19 @@ import {
 import { RecoilState, useRecoilValue } from "recoil";
 import { Z_INDEX_MODAL } from "@/utils/constants";
 import styled from "styled-components";
+import { isBigWindow } from "@/utils/atom";
 import useWindowResize from "./hooks/useWindowResize";
 
 const App = () => {
   const mounted = useRecoilValue(loginModalOverlay);
   const copyMounted = useRecoilValue(brandModalOverlay);
   const searchFocus = useRecoilValue(searchModalOverlay);
-
+  const windowState = useRecoilValue(isBigWindow);
   // window resize tracking
   useWindowResize();
 
   return (
-    <main className="app">
+    <main className={`${windowState === 2 ? "app-mobile" : "app"}`}>
       {(mounted || copyMounted) && <div className="hovered" />}
       {searchFocus && <Overlay />}
       <HookingRouter />

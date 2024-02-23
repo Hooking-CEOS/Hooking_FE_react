@@ -22,6 +22,7 @@ import {
 import BrandCard from "@/components/Brand/BrandCard";
 import { getBrandByName, removeAllSpace } from "@/utils/util";
 import { useNavigate } from "react-router-dom";
+import { GetHighlight } from "@/utils/util";
 
 interface CopyDetailProps {
   onClose: () => void;
@@ -105,7 +106,7 @@ const CopyDetail = ({ onClose }: CopyDetailProps) => {
         </div>
         <div className="textDiv inArea">
           <div className="textArea text-body-1 inArea">
-            {selectedCopyData.text}
+            {GetHighlight(selectedCopyData.text, keyword)}
             {/* {selectedCopyData.text} */}
           </div>
           <div className="bottomArea">
@@ -152,9 +153,8 @@ const CopyDetail = ({ onClose }: CopyDetailProps) => {
                 brandId={card.id}
                 brandName={card.brandName}
                 keyword={keyword}
-                brandImg={require(`../assets/images/brandIcon/brand-${card.brandName.replace(
-                  / /g,
-                  ""
+                brandImg={require(`../assets/images/brandIcon/brand-${removeAllSpace(
+                  card.brandName
                 )}.png`)}
                 onClick={() => {
                   handleCopyClick(card);
