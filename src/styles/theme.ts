@@ -5,6 +5,7 @@ export const theme: DefaultTheme = {
     white: "#ffffff",
     white25: "#FFFFFF40",
     white40: "#FFFFFF66",
+    white70: "#FFFFFFB3",
     white80: "#FFFFFFCC",
     black100: "#000235",
     black30: "#0002354D",
