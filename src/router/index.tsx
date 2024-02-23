@@ -12,7 +12,7 @@ import ScrollToTop from "@/hooks/scrollToTop";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import QnA from "@/pages/QnA";
-import Landing from "@/pages/Landing";
+// import Landing from "@/pages/Landing";
 import OathProcessor from "@/pages/OathProcessor";
 import CopyDetail from "@/pages/CopyDetail";
 import Login from "@/pages/Login";
@@ -106,7 +106,7 @@ const HookingRouter = () => {
     <>
       <Router>
         <ScrollToTop />
-        {windowState === 2 ? <>HEADER</> : <Header />}
+        {windowState !== 2 && <Header />}
         <Routes>
           {routes.map((route, key) => (
             <Route
@@ -115,6 +115,10 @@ const HookingRouter = () => {
               element={route.component}
             />
           ))}
+          <Route
+            path="/*"
+            element={<>NOTFOUND</>} // TODO: 404 페이지 작업 후 교체
+          />
         </Routes>
         {loginModal && (
           <Portal selector="#portal">
@@ -127,7 +131,7 @@ const HookingRouter = () => {
           </Portal>
         )}
         {toastOpen && <Toast />}
-        <Footer />
+        {windowState === 2 ? <>MOBILEFOOTER</> : <Footer />}
       </Router>
     </>
   );
