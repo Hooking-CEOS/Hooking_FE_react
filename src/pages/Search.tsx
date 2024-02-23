@@ -1,6 +1,3 @@
-// TODO: Cannot read properties of undefined (reading 'length') 에러 해결하기
-// api 호출시에 더이상 없으면 나오는듯?
-
 import { useSearchParams } from "react-router-dom";
 import { useState, useEffect, useRef, lazy } from "react";
 
@@ -115,7 +112,8 @@ const Search = () => {
 
     // Fetch data based on the current type and keyword
     const data = await fetchData(keyword || "", type);
-    if (!data || data.data.length === 0) {
+    console.log("data", data);
+    if (!data || !data.totalNum) {
       setNomoreData(true);
       setRenderSkeleton(false);
       return;
