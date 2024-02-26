@@ -26,6 +26,7 @@ import {
   loginModalOverlay,
   brandModalOverlay,
   isBigWindow,
+  mobileFilterModalOverlay,
 } from "@/utils/atom";
 import { useRecoilValue, useRecoilState } from "recoil";
 import HomeSkeleton from "@/pages/Skeleton/HomeSkeleton";
@@ -33,6 +34,7 @@ import SearchSkeleton from "@/pages/Skeleton/SearchSkeleton";
 import WIP from "@/pages/WIP";
 import MobileViewHome from "@/pages/MobileView/Home";
 import MobileFooter from "@/components/MobileView/Footer";
+import FilterModal from "@/pages/MobileView/FilterModal";
 
 const HookingRouter = () => {
   const toastOpen = useRecoilValue(toastPopup);
@@ -40,6 +42,9 @@ const HookingRouter = () => {
   const windowState = useRecoilValue(isBigWindow);
   const [loginModal, setLoginModal] = useRecoilState(loginModalOverlay);
   const [brandModal, setBrandModal] = useRecoilState(brandModalOverlay);
+  const [mobileFilterModal, setMobileFilterModal] = useRecoilState(
+    mobileFilterModalOverlay
+  );
 
   const handleClose = () => setLoginModal(false);
   const handleCopyClose = () => setBrandModal(false);
@@ -141,17 +146,29 @@ const HookingRouter = () => {
                 />
               ))}
         </Routes>
-        {loginModal && (
-          <Portal selector="#portal">
-            <Login onClose={handleClose} />
-          </Portal>
+        {windowState === 2 ? (
+          <>
+            {mobileFilterModal && (
+              <Portal selector="#portal">
+                <FilterModal />
+              </Portal>
+            )}
+          </>
+        ) : (
+          <>
+            {loginModal && (
+              <Portal selector="#portal">
+                <Login onClose={handleClose} />
+              </Portal>
+            )}
+            {brandModal && (
+              <Portal selector="#portal">
+                <CopyDetail onClose={handleCopyClose} />
+              </Portal>
+            )}
+            {toastOpen && <Toast />}
+          </>
         )}
-        {brandModal && (
-          <Portal selector="#portal">
-            <CopyDetail onClose={handleCopyClose} />
-          </Portal>
-        )}
-        {toastOpen && <Toast />}
         {windowState === 2 ? <MobileFooter /> : <Footer />}
       </Router>
     </>

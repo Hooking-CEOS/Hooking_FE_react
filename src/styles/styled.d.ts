@@ -12,6 +12,7 @@ declare module "styled-components" {
       black30: "#0002354D";
       black40: "#00023566";
       black15: "rgba(0, 2, 53, 1)";
+      black10: "#0002351a";
       black5: "#0002350D";
       black3: "#00023508";
       point: "#FF7145";

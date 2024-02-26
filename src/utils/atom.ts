@@ -228,3 +228,8 @@ export const setSaveId = selector({
     }
   },
 });
+
+export const mobileFilterModalOverlay = atom({
+  key: "MobileFilterModalOverlay",
+  default: false,
+});
