@@ -10,7 +10,7 @@ interface BrandIconProps {
 }
 
 const BrandIcon = ({ name, size, clickRef }: BrandIconProps) => {
-  let targetData = getBrandByName(name);
+  let targetData = getBrandByName(removeAllSpace(name)!);
   const Navigation = useNavigate();
   const handleClickIcon = (e: React.MouseEvent<HTMLDivElement>) => {
     if (clickRef) {

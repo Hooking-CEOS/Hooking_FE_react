@@ -15,7 +15,7 @@ export const removeAllSpace = (text: string | undefined) => {
 };
 
 export const getBrandByName = (name: string) => {
-  return imgData.find((item) => item.name_kr === name)!;
+  return imgData.find((item) => removeAllSpace(item.name_kr) === name)!;
 };
 
 export const getBrandById = (id: number) => {

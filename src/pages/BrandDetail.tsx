@@ -40,6 +40,7 @@ const BrandDetail = () => {
   const setDetailOverlay = useSetRecoilState(brandModalOverlay);
   const [searchState, setSearchState] = useRecoilState(search);
   let targetData = getBrandById(Number(brandId));
+  console.log("target", targetData);
   const [ref, inView] = useInView();
   const pageNum = useRef(0);
   const handleBrandOpen = (card: any) => {
