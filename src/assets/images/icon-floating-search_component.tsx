@@ -16,9 +16,9 @@ const FloatingSearchIcon = ({
       <path
         d="M10.421 10.4209L22 21.9998"
         stroke={fill}
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <circle
         cx="10.5"
@@ -26,13 +26,13 @@ const FloatingSearchIcon = ({
         r="7.5"
         fill={fill}
         stroke="#000235"
-        stroke-width="2"
+        strokeWidth="2"
       />
       <path
         d="M5 10.5C5 7.46243 7.46243 5 10.5 5"
         stroke="white"
-        stroke-width="1.5"
-        stroke-linecap="round"
+        strokeWidth="1.5"
+        strokeLinecap="round"
       />
     </svg>
   );

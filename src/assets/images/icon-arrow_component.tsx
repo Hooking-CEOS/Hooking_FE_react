@@ -43,9 +43,9 @@ const ArrowIcon = ({
           id="Vector 1808"
           d="M1 1.5L6 6.5L11 1.5"
           stroke={fill}
-          stroke-opacity="0.4"
-          stroke-width="2"
-          stroke-linecap="round"
+          strokeOpacity="0.4"
+          strokeWidth="2"
+          strokeLinecap="round"
         />
       </g>
     </svg>

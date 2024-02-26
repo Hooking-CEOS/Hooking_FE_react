@@ -27,8 +27,8 @@ const FrameIcon = ({
             width="4.5"
             height="4.5"
             stroke={fill}
-            stroke-width={strokeWidth}
-            stroke-linejoin="round"
+            strokeWidth={strokeWidth}
+            strokeLinejoin="round"
           />
           <rect
             id="Rectangle 2861691"
@@ -37,8 +37,8 @@ const FrameIcon = ({
             width="4.5"
             height="4.5"
             stroke={fill}
-            stroke-width={strokeWidth}
-            stroke-linejoin="round"
+            strokeWidth={strokeWidth}
+            strokeLinejoin="round"
           />
           <rect
             id="Rectangle 2861693"
@@ -47,8 +47,8 @@ const FrameIcon = ({
             width="4.5"
             height="4.5"
             stroke={fill}
-            stroke-width={strokeWidth}
-            stroke-linejoin="round"
+            strokeWidth={strokeWidth}
+            strokeLinejoin="round"
           />
           <rect
             id="Rectangle 2861692"
@@ -57,8 +57,8 @@ const FrameIcon = ({
             width="4.5"
             height="4.5"
             stroke={fill}
-            stroke-width={strokeWidth}
-            stroke-linejoin="round"
+            strokeWidth={strokeWidth}
+            strokeLinejoin="round"
           />
         </g>
       </g>
