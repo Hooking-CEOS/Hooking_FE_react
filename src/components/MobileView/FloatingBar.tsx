@@ -2,22 +2,41 @@ import FloatingBrandIcon from "@/assets/images/icon-floating-brand_component";
 import FloatingMypageIcon from "@/assets/images/icon-floating-mypage_component";
 import FloatingSearchIcon from "@/assets/images/icon-floating-search_component";
 import FloatingWriteIcon from "@/assets/images/icon-floating-write_component";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useRecoilValue } from "recoil";
+import { isLogined } from "@/utils/atom";
 
 const MobileFloatingBar = () => {
+  const navigate = useNavigate();
+  const isLogin = useRecoilValue(isLogined);
   return (
     <MobileFloatingBarWrapper>
       <FloatingBarContent>
-        <span className="iconArea">
+        <span
+          className="iconArea"
+          onClick={() => navigate("/")}
+        >
           <FloatingSearchIcon />
         </span>
-        <span className="iconArea">
+        <span
+          className="iconArea"
+          onClick={() => navigate("/mobile/brand")}
+        >
           <FloatingBrandIcon />
         </span>
-        <span className="iconArea">
+        <span
+          className="iconArea"
+          onClick={() => navigate("/article")}
+        >
           <FloatingWriteIcon />
         </span>
-        <span className="iconArea">
+        <span
+          className="iconArea"
+          onClick={() => {
+            isLogin ? navigate("/mypage") : navigate("/login");
+          }}
+        >
           <FloatingMypageIcon />
         </span>
       </FloatingBarContent>
