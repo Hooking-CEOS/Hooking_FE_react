@@ -35,6 +35,7 @@ import WIP from "@/pages/WIP";
 import MobileViewHome from "@/pages/MobileView/Home";
 import MobileFooter from "@/components/MobileView/Footer";
 import FilterModal from "@/pages/MobileView/FilterModal";
+import MobileFloatingBar from "@/components/MobileView/FloatingBar";
 
 const HookingRouter = () => {
   const toastOpen = useRecoilValue(toastPopup);
@@ -153,6 +154,9 @@ const HookingRouter = () => {
                 <FilterModal />
               </Portal>
             )}
+
+            <MobileFooter />
+            <MobileFloatingBar />
           </>
         ) : (
           <>
@@ -167,9 +171,9 @@ const HookingRouter = () => {
               </Portal>
             )}
             {toastOpen && <Toast />}
+            <Footer />
           </>
         )}
-        {windowState === 2 ? <MobileFooter /> : <Footer />}
       </Router>
     </>
   );

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import MobileCardArea from "@/components/MobileView/Home/CardArea";
 import MobileCarousel from "@/components/MobileView/Home/Carousel";
 import MobileFilter from "@/components/MobileView/Home/Filter";
@@ -12,7 +13,7 @@ const mockCardData: ICardData[] = [
     brandName: "미샤",
     scrapCnt: 0,
     cardLink: "https://www.missha.com/kr/KR/Item/Detail/2010000000001",
-    isScrap: 0,
+    isScrap: 1,
     createdAt: "2021-08-31T14:00:00",
     index: 0,
   },
@@ -49,11 +50,14 @@ const mockCardData: ICardData[] = [
 ];
 
 const MobileViewHome = () => {
+  const [isSearch, setIsSearch] = useState(false);
   return (
     <MobileViewWrapper>
       <MobileSearchBar />
       <MobileCarousel />
-      <MobileFilter />
+      <MobileStickyArea>
+        <MobileFilter />
+      </MobileStickyArea>
       <MobileCardArea card={mockCardData} />
     </MobileViewWrapper>
   );
@@ -65,4 +69,11 @@ const MobileViewWrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+`;
+
+const MobileStickyArea = styled.div`
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: white;
 `;

@@ -230,6 +230,11 @@ export const setSaveId = selector({
 });
 
 export const mobileFilterModalOverlay = atom({
-  key: "MobileFilterModalOverlay",
+  key: "mobileFilterModalOverlay",
   default: false,
+});
+
+export const mobileCardLayout = atom<"small" | "big">({
+  key: "mobileCardLayout",
+  default: "small",
 });
