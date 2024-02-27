@@ -25,4 +25,5 @@ const CardAreaWrapper = styled.div`
   flex-wrap: wrap;
   flex-direction: row;
   gap: 0.8rem;
+  padding-bottom: 1.6rem;
 `;
