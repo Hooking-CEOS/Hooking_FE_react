@@ -36,6 +36,7 @@ import MobileViewHome from "@/pages/MobileView/Home";
 import MobileFooter from "@/components/MobileView/Footer";
 import FilterModal from "@/pages/MobileView/FilterModal";
 import MobileFloatingBar from "@/components/MobileView/FloatingBar";
+import MobileLogin from "@/pages/MobileView/Login";
 
 const HookingRouter = () => {
   const toastOpen = useRecoilValue(toastPopup);
@@ -56,7 +57,10 @@ const HookingRouter = () => {
       name: "Home",
       component: <MobileViewHome />,
     },
-
+    {
+      path: "/login",
+      component: <MobileLogin />,
+    },
     {
       path: "/*",
       name: "NOTFOUND",
@@ -154,9 +158,6 @@ const HookingRouter = () => {
                 <FilterModal />
               </Portal>
             )}
-
-            <MobileFooter />
-            <MobileFloatingBar />
           </>
         ) : (
           <>
