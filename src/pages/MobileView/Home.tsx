@@ -5,6 +5,8 @@ import MobileFilter from "@/components/MobileView/Home/Filter";
 import MobileSearchBar from "@/components/MobileView/Home/SearchBar";
 import { ICardData } from "@/utils/type";
 import styled from "styled-components";
+import MobileFooter from "@/components/MobileView/Footer";
+import MobileFloatingBar from "@/components/MobileView/FloatingBar";
 
 const mockCardData: ICardData[] = [
   {
@@ -50,16 +52,19 @@ const mockCardData: ICardData[] = [
 ];
 
 const MobileViewHome = () => {
-  const [isSearch, setIsSearch] = useState(false);
   return (
-    <MobileViewWrapper>
-      <MobileSearchBar />
-      <MobileCarousel />
-      <MobileStickyArea>
-        <MobileFilter />
-      </MobileStickyArea>
-      <MobileCardArea card={mockCardData} />
-    </MobileViewWrapper>
+    <>
+      <MobileViewWrapper>
+        <MobileSearchBar />
+        <MobileCarousel />
+        <MobileStickyArea>
+          <MobileFilter />
+        </MobileStickyArea>
+        <MobileCardArea card={mockCardData} />
+      </MobileViewWrapper>
+      <MobileFooter />
+      <MobileFloatingBar />
+    </>
   );
 };
 
