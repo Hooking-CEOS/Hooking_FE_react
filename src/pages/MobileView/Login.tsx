@@ -94,7 +94,11 @@ const MobileLogin = () => {
         <LoginBtmTextArea onClick={handleNoLoginClick}>
           <div className="contentArea">
             로그인 없이 둘러보기
-            <ArrowIcon direction="right" />
+            <ArrowIcon
+              direction="right"
+              width={8}
+              height={8}
+            />
           </div>
         </LoginBtmTextArea>
       </div>
