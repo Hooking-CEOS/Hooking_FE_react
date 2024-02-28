@@ -21,6 +21,7 @@ export default MobileCardArea;
 const CardAreaWrapper = styled.div`
   width: 100%;
   padding: 0 0.8rem;
+  margin-top: 0.2rem;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;

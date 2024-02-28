@@ -5,12 +5,18 @@ import SavedIcon from "@/assets/images/icon-saved_component";
 import { useRecoilValue } from "recoil";
 import { mobileCardLayout } from "@/utils/atom";
 
-const MobileCard = ({ data }: { data: ICardData }) => {
+const MobileCard = ({
+  data,
+  big,
+}: {
+  data: ICardData;
+  big?: "small" | "big";
+}) => {
   const cardLayout = useRecoilValue(mobileCardLayout);
   return (
     <MobileCardWrapper
-      big={cardLayout}
-      saved={data.isScrap ? true : false}
+      big={big ?? cardLayout}
+      saved={big ? false : data.isScrap ? true : false}
     >
       <CardTextArea>
         {data.text}
@@ -20,7 +26,7 @@ const MobileCard = ({ data }: { data: ICardData }) => {
       <CardBottomArea>
         <CardBrandArea>
           <img
-            src={require(`../../../assets/images/brandSearch/brand-search-${removeAllSpace(
+            src={require(`../../../assets/images/brandIcon/brand-${removeAllSpace(
               data.brandName
             )}.png`)}
             alt="brand"
@@ -42,7 +48,7 @@ interface MCWProps {
 
 const MobileCardWrapper = styled.div<MCWProps>`
   width: ${({ big }) =>
-    big !== "small" ? "calc((100% - 0.8rem) / 2)" : "100%"};
+    big === "small" ? "calc((100% - 0.8rem) / 2)" : "100%"};
   padding: 2.2rem 2.4rem;
   display: flex;
   flex-direction: column;
@@ -50,6 +56,7 @@ const MobileCardWrapper = styled.div<MCWProps>`
   border: 1px solid
     ${(props) => (props.saved ? props.theme.colors.black40 : "#0002351a")};
   border-radius: 2rem;
+  background-color: white;
 `;
 const CardTextArea = styled.div`
   width: 100%;

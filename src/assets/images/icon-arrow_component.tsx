@@ -12,13 +12,13 @@ const ArrowIcon = ({
   let rotationAngle = 0; // Default to 'up'
   switch (direction) {
     case "right":
-      rotationAngle = 90;
+      rotationAngle = 270;
       break;
     case "down":
       rotationAngle = 180;
       break;
     case "left":
-      rotationAngle = 270; // or -90
+      rotationAngle = 90; // or -90
       break;
     // 'up' case is the default, no need to explicitly handle it
   }
