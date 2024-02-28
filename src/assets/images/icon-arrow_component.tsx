@@ -1,4 +1,4 @@
-import { IIconProps } from "@/interfaces";
+import { IIconProps } from "@/utils/type";
 
 interface ArrowIconProps extends IIconProps {
   direction?: "up" | "right" | "down" | "left";

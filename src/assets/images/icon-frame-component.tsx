@@ -1,4 +1,4 @@
-import { IIconProps } from "@/interfaces";
+import { IIconProps } from "@/utils/type";
 import { mobileCardLayout } from "@/utils/atom";
 import { useRecoilValue } from "recoil";
 

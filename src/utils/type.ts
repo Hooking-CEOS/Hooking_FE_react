@@ -17,3 +17,9 @@ interface ISearchType {
   searchKeyword: string;
   searchFocus: boolean;
 }
+
+export interface IIconProps {
+  width?: number;
+  height?: number;
+  fill?: string;
+}
