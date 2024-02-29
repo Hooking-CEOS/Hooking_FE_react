@@ -40,7 +40,6 @@ export const GetHighlight = (text: string, keyword: string | undefined) => {
 
   if (location.pathname.includes("search")) {
     if (keyword) {
-      let find = keyword;
       let regex = new RegExp(keyword, "gi"); // 'gi' stands for "global, ignore case"
       text = text.replace(regex, (match) => {
         return `<span class='highlight text-subtitle-2'>${match}</span>`;
