@@ -41,11 +41,10 @@ export const GetHighlight = (text: string, keyword: string | undefined) => {
   if (location.pathname.includes("search")) {
     if (keyword) {
       let find = keyword;
-      let regex = new RegExp(find, "g");
-      text = text.replace(
-        regex,
-        `<span class='highlight text-subtitle-2'>${find}</span>`
-      );
+      let regex = new RegExp(keyword, "gi"); // 'gi' stands for "global, ignore case"
+      text = text.replace(regex, (match) => {
+        return `<span class='highlight text-subtitle-2'>${match}</span>`;
+      });
       const parsedHtml = React.createElement("div", {
         dangerouslySetInnerHTML: { __html: text },
       });
