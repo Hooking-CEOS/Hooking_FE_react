@@ -5,7 +5,7 @@ import { useEffect, useReducer } from "react";
 
 import leftArrow from "@/assets/images/icon-arrow-left-light.svg";
 import rightArrow from "@/assets/images/icon-arrow-right-light.svg";
-import { getBrandByName } from "@/utils/util";
+import { getBrandByName, removeAllSpace } from "@/utils/util";
 
 interface BrandBannerProps {
   name: string;
@@ -20,7 +20,7 @@ const BrandBanner = ({ name, link }: BrandBannerProps) => {
       </BrandBannerWrapper>
     );
   }
-  let targetData = getBrandByName(name);
+  let targetData = getBrandByName(removeAllSpace(name || "")!);
 
   const RenderCarousel = () => {
     const reducer = (state: number, action: { type: string }) => {
@@ -43,12 +43,12 @@ const BrandBanner = ({ name, link }: BrandBannerProps) => {
       reducer,
       Math.floor(Math.random() * 3)
     );
-    useEffect(() => {
-      const timeOut = setTimeout(() => {
-        dispatch({ type: "next" });
-      }, 10000);
-      return () => clearTimeout(timeOut);
-    }, [randomNum]);
+    // useEffect(() => {
+    //   const timeOut = setTimeout(() => {
+    //     dispatch({ type: "next" });
+    //   }, 10000);
+    //   return () => clearTimeout(timeOut);
+    // }, [randomNum]);
 
     return (
       <BrandCarouselContainer>
@@ -60,7 +60,7 @@ const BrandBanner = ({ name, link }: BrandBannerProps) => {
         />
         <div className="mainTextDiv text-heading-2">
           "
-          <div className="mainText ">
+          <div className="mainText">
             <div className="subTextDiv">
               {targetData.descText[randomNum].main} "
               <div className="subText text-subtitle-2">
@@ -99,21 +99,27 @@ const BrandBanner = ({ name, link }: BrandBannerProps) => {
   return (
     <BrandBannerWrapper>
       <BrandBannerDiv
-        src={require(`../../assets/images/brandBanner/${targetData.name_kr.replace(
-          / /g,
-          ""
+        src={require(`../../assets/images/brandBanner/${removeAllSpace(
+          targetData.name_kr
         )}.png`)}
         alt="brandBanner"
       />
       <BrandBannerInsideDiv>
         <div className="brandDescSection">
           <div className="brandDescTop">
-            <BrandIcon name={targetData.name_kr} size="big" clickRef={link} />
+            <BrandIcon
+              name={targetData.name_kr}
+              size="big"
+              clickRef={link}
+            />
             <div className="brandDescTextDiv">
               <span className="text-heading-1">{targetData.name_kr}</span>
               <div className="brandMoodDiv">
                 {targetData.mood.map((item: string, idx) => (
-                  <BrandMoodButton key={`targetData-${idx}`} name={item} />
+                  <BrandMoodButton
+                    key={`targetData-${idx}`}
+                    name={item}
+                  />
                 ))}
               </div>
             </div>
@@ -236,6 +242,9 @@ const BrandCarouselContainer = styled.div`
     flex-direction: row;
     white-space: pre-wrap;
     color: ${(props) => props.theme.colors.black100};
+    .mainText {
+      white-space: pre;
+    }
   }
   .subTextDiv {
     display: flex;

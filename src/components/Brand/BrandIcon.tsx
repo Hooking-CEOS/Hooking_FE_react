@@ -10,7 +10,7 @@ interface BrandIconProps {
 }
 
 const BrandIcon = ({ name, size, clickRef }: BrandIconProps) => {
-  let targetData = getBrandByName(name);
+  let targetData = getBrandByName(removeAllSpace(name)!);
   const Navigation = useNavigate();
   const handleClickIcon = (e: React.MouseEvent<HTMLDivElement>) => {
     if (clickRef) {
@@ -23,7 +23,9 @@ const BrandIcon = ({ name, size, clickRef }: BrandIconProps) => {
 
   return (
     <BrandIconWrapper
-      big={size === "big" ? 1 : size === "small" ? 2 : 0}
+      big={
+        size === "big" ? 1 : size === "small" ? 2 : size !== "mobile" ? 0 : -1
+      }
       onClick={handleClickIcon}
     >
       <BrandIconDiv
@@ -46,9 +48,14 @@ export default BrandIcon;
 
 const BrandIconWrapper = styled.div<{ big: number }>`
   width: ${(props) =>
-    props.big === 1 ? "5vw" : props.big === 2 ? "3.6rem" : "2.6vw"};
-  height: ${(props) =>
-    props.big === 1 ? "5vw" : props.big === 2 ? "3.6rem" : "2.6vw"};
+    props.big === 1
+      ? "5vw"
+      : props.big === 2
+      ? "3.6rem"
+      : props.big === 0
+      ? "2.6vw"
+      : "100%"};
+  aspect-ratio: 1/1;
   overflow: hidden;
   display: flex;
   flex-direction: column;
