@@ -11,10 +11,11 @@ html {
    font-size: 10px;
    box-sizing: border-box;
    font-family: 'SUIT Variable', sans-serif;
+   height: 100%;
 }
 
 body {
-   height: 100vh;
+   height: 100%;
    display: flex;
    -webkit-box-align: center;
    align-items: center;

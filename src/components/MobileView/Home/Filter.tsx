@@ -16,7 +16,11 @@ const INITIAL_FILTER_STATE = {
 
 type FilterStatus = keyof typeof INITIAL_FILTER_STATE;
 
-const MobileFilter = () => {
+interface IMobileFilterProps {
+  isBrandPage?: boolean;
+}
+
+const MobileFilter = ({ isBrandPage = false }: IMobileFilterProps) => {
   const [filterStatus, setFilterStatus] = useState(INITIAL_FILTER_STATE);
   const [openFilterDropdown, setOpenFilterDropdown] =
     useState<FilterStatus | null>(null);
@@ -36,74 +40,78 @@ const MobileFilter = () => {
   };
 
   return (
-    <FilterContainer>
-      <ScrollContainer>
-        <FilterArea>
-          {filterStatus.brand.length === 0 &&
-          filterStatus.industry.length === 0 &&
-          filterStatus.age.length === 0 &&
-          filterStatus.price.length === 0 ? (
-            <>
-              <MobileButton
-                fill="#F7F7F9"
-                borderColor="#DFE0E6"
-                onClick={handleFilterBtnClick("brand")}
-              >
-                <>
-                  브랜드 무드
-                  <ArrowIcon
-                    direction={openFilterDropdown === "brand" ? "down" : "up"}
-                  />
-                </>
-              </MobileButton>
-              <MobileButton
-                fill="#F7F7F9"
-                borderColor="#DFE0E6"
-                onClick={handleFilterBtnClick("industry")}
-              >
-                <>
-                  산업군
-                  <ArrowIcon
-                    direction={
-                      openFilterDropdown === "industry" ? "down" : "up"
-                    }
-                  />
-                </>
-              </MobileButton>
-              <MobileButton
-                fill="#F7F7F9"
-                borderColor="#DFE0E6"
-                onClick={handleFilterBtnClick("age")}
-              >
-                <>
-                  타겟 나이대
-                  <ArrowIcon
-                    direction={openFilterDropdown === "age" ? "down" : "up"}
-                  />
-                </>
-              </MobileButton>
-              <MobileButton
-                fill="#F7F7F9"
-                borderColor="#DFE0E6"
-                onClick={handleFilterBtnClick("price")}
-              >
-                <>
-                  가격대
-                  <ArrowIcon
-                    direction={openFilterDropdown === "price" ? "down" : "up"}
-                  />
-                </>
-              </MobileButton>
-            </>
-          ) : (
-            <></>
-          )}
-        </FilterArea>
-      </ScrollContainer>
+    <FilterContainer isBrandPage={isBrandPage}>
+      {!isBrandPage && (
+        <ScrollContainer>
+          <FilterArea>
+            {filterStatus.brand.length === 0 &&
+            filterStatus.industry.length === 0 &&
+            filterStatus.age.length === 0 &&
+            filterStatus.price.length === 0 ? (
+              <>
+                <MobileButton
+                  fill="#F7F7F9"
+                  borderColor="#DFE0E6"
+                  onClick={handleFilterBtnClick("brand")}
+                >
+                  <>
+                    브랜드 무드
+                    <ArrowIcon
+                      direction={openFilterDropdown === "brand" ? "down" : "up"}
+                    />
+                  </>
+                </MobileButton>
+                <MobileButton
+                  fill="#F7F7F9"
+                  borderColor="#DFE0E6"
+                  onClick={handleFilterBtnClick("industry")}
+                >
+                  <>
+                    산업군
+                    <ArrowIcon
+                      direction={
+                        openFilterDropdown === "industry" ? "down" : "up"
+                      }
+                    />
+                  </>
+                </MobileButton>
+                <MobileButton
+                  fill="#F7F7F9"
+                  borderColor="#DFE0E6"
+                  onClick={handleFilterBtnClick("age")}
+                >
+                  <>
+                    타겟 나이대
+                    <ArrowIcon
+                      direction={openFilterDropdown === "age" ? "down" : "up"}
+                    />
+                  </>
+                </MobileButton>
+                <MobileButton
+                  fill="#F7F7F9"
+                  borderColor="#DFE0E6"
+                  onClick={handleFilterBtnClick("price")}
+                >
+                  <>
+                    가격대
+                    <ArrowIcon
+                      direction={openFilterDropdown === "price" ? "down" : "up"}
+                    />
+                  </>
+                </MobileButton>
+              </>
+            ) : (
+              <></>
+            )}
+          </FilterArea>
+        </ScrollContainer>
+      )}
       <div className="buttonArea">
-        <MobileButton onClick={handleFilterIconClick}>
-          <FilterIcon fill={"#00023566"} />
-        </MobileButton>
+        {!isBrandPage && (
+          <MobileButton onClick={handleFilterIconClick}>
+            <FilterIcon fill={"#00023566"} />
+          </MobileButton>
+        )}
         <MobileButton onClick={handleChangeMobileLayout}>
           <FrameIcon
             fill={"#00023566"}
@@ -117,11 +125,11 @@ const MobileFilter = () => {
 
 export default MobileFilter;
 
-const FilterContainer = styled.div`
+const FilterContainer = styled.div<{ isBrandPage?: boolean }>`
   padding: 1.6rem 0.8rem;
   height: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: ${({ isBrandPage }) => (isBrandPage ? "row-reverse" : "row")};
   gap: 2rem;
 
   .buttonArea {

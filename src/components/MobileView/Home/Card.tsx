@@ -53,8 +53,7 @@ const MobileCardWrapper = styled.div<MCWProps>`
   display: flex;
   flex-direction: column;
   gap: 2.2rem;
-  border: 1px solid
-    ${(props) => (props.saved ? props.theme.colors.black40 : "#0002351a")};
+  border: 1px solid ${({ theme }) => theme.colors.black10};
   border-radius: 2rem;
   background-color: white;
 `;
