@@ -17,6 +17,7 @@ import OathProcessor from "@/pages/OathProcessor";
 import CopyDetail from "@/pages/CopyDetail";
 import Login from "@/pages/Login";
 import Toast from "@/components/Toast";
+import { BrowserView, MobileView } from "react-device-detect";
 
 import { Suspense } from "react";
 import Portal from "@/utils/portal";
@@ -25,7 +26,6 @@ import {
   toastPopup,
   loginModalOverlay,
   brandModalOverlay,
-  isBigWindow,
   mobileFilterModalOverlay,
 } from "@/utils/atom";
 import { useRecoilValue, useRecoilState } from "recoil";
@@ -33,16 +33,16 @@ import HomeSkeleton from "@/pages/Skeleton/HomeSkeleton";
 import SearchSkeleton from "@/pages/Skeleton/SearchSkeleton";
 import WIP from "@/pages/WIP";
 import MobileViewHome from "@/pages/MobileView/Home";
-import MobileFooter from "@/components/MobileView/Footer";
 import FilterModal from "@/pages/MobileView/FilterModal";
-import MobileFloatingBar from "@/components/MobileView/FloatingBar";
 import MobileLogin from "@/pages/MobileView/Login";
 import MobileBrandList from "@/pages/MobileView/BrandList";
+import MobileBrandDetail from "@/pages/MobileView/BrandDetail";
+// import MobileFooter from "@/components/MobileView/Footer";
+// import MobileFloatingBar from "@/components/MobileView/FloatingBar";
 
 const HookingRouter = () => {
   const toastOpen = useRecoilValue(toastPopup);
   const isLogin = useRecoilValue(isLogined);
-  const windowState = useRecoilValue(isBigWindow);
   const [loginModal, setLoginModal] = useRecoilState(loginModalOverlay);
   const [brandModal, setBrandModal] = useRecoilState(brandModalOverlay);
   const [mobileFilterModal, setMobileFilterModal] = useRecoilState(
@@ -60,11 +60,18 @@ const HookingRouter = () => {
     },
     {
       path: "/login",
+      name: "Login",
       component: <MobileLogin />,
     },
     {
       path: "/mobile/brand",
+      name: "BrandList",
       component: <MobileBrandList />,
+    },
+    {
+      path: "/brand/:brandId",
+      name: "BrandDetail",
+      component: <MobileBrandDetail />,
     },
     {
       path: "/*",
@@ -136,27 +143,45 @@ const HookingRouter = () => {
 
   return (
     <>
-      <Router>
-        <ScrollToTop />
-        {windowState !== 2 && <Header />}
-        <Routes>
-          {windowState === 2
-            ? mobileRoutes.map((route, key) => (
-                <Route
-                  key={`router-${key}`}
-                  path={route.path}
-                  element={route.component}
-                />
-              ))
-            : routes.map((route, key) => (
-                <Route
-                  key={`router-${key}`}
-                  path={route.path}
-                  element={route.component}
-                />
-              ))}
-        </Routes>
-        {windowState === 2 ? (
+      <BrowserView>
+        <Router>
+          <ScrollToTop />
+          <Header />
+          <Routes>
+            {routes.map((route, key) => (
+              <Route
+                key={`router-${key}`}
+                path={route.path}
+                element={route.component}
+              />
+            ))}
+          </Routes>
+
+          {loginModal && (
+            <Portal selector="#portal">
+              <Login onClose={handleClose} />
+            </Portal>
+          )}
+          {brandModal && (
+            <Portal selector="#portal">
+              <CopyDetail onClose={handleCopyClose} />
+            </Portal>
+          )}
+          {toastOpen && <Toast />}
+          <Footer />
+        </Router>
+      </BrowserView>
+      <MobileView style={{ height: "100%" }}>
+        <Router>
+          <Routes>
+            {mobileRoutes.map((route, key) => (
+              <Route
+                key={`router-${key}`}
+                path={route.path}
+                element={route.component}
+              />
+            ))}
+          </Routes>
           <>
             {mobileFilterModal && (
               <Portal selector="#portal">
@@ -164,23 +189,8 @@ const HookingRouter = () => {
               </Portal>
             )}
           </>
-        ) : (
-          <>
-            {loginModal && (
-              <Portal selector="#portal">
-                <Login onClose={handleClose} />
-              </Portal>
-            )}
-            {brandModal && (
-              <Portal selector="#portal">
-                <CopyDetail onClose={handleCopyClose} />
-              </Portal>
-            )}
-            {toastOpen && <Toast />}
-            <Footer />
-          </>
-        )}
-      </Router>
+        </Router>
+      </MobileView>
     </>
   );
 };

@@ -1,4 +1,4 @@
-import { IIconProps } from "@/interfaces";
+import { IIconProps } from "@/utils/type";
 
 const FloatingBrandIcon = ({
   width = 26,

@@ -1,4 +1,4 @@
-import { IIconProps } from "@/interfaces";
+import { IIconProps } from "@/utils/type";
 
 const SavedIcon = ({
   width = 26,

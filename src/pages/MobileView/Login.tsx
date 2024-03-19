@@ -108,7 +108,7 @@ const MobileLogin = () => {
 export default MobileLogin;
 
 const MobileLoginWrapper = styled.div`
-  padding: 14.1rem 0 6.4rem;
+  padding: 33.2% 0 6.4rem;
   display: flex;
   height: 100%;
   flex-direction: column;

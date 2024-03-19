@@ -17,7 +17,7 @@ import {
   similarCopyList,
 } from "@/utils/atom";
 import { ICardData } from "@/utils/type";
-import { getBrandById } from "@/utils/util";
+import { getBrandById, removeAllSpace } from "@/utils/util";
 import { useInView } from "react-intersection-observer";
 
 interface IBrandData {
@@ -123,9 +123,8 @@ const BrandDetail = () => {
                     text={card.text}
                     scrapCnt={card.scrapCnt}
                     isScrap={card.isScrap}
-                    brandImg={require(`../assets/images/brandIcon/brand-${brandData.brandName.replace(
-                      / /g,
-                      ""
+                    brandImg={require(`../assets/images/brandIcon/brand-${removeAllSpace(
+                      brandData.brandName
                     )}.png`)}
                     brandName={brandData.brandName}
                     onClick={() => handleBrandOpen(card)}

@@ -1,4 +1,4 @@
-import { IIconProps } from "@/interfaces";
+import { IIconProps } from "@/utils/type";
 
 const HookingLogoIcon = ({ width = 113, height = 36 }: IIconProps) => {
   return (

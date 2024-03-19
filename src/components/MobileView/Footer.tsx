@@ -65,6 +65,7 @@ const FooterContent = styled.div`
     justify-content: center;
     align-items: center;
     color: ${({ theme }) => theme.colors.black40};
+    font-size: 3.59vw;
   }
 `;
 
